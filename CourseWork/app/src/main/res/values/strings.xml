@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CourseWork</string>
+    <string name="default_text">😄 2</string>
 </resources>
