@@ -2,4 +2,6 @@
 <resources>
     <dimen name="emoji_width">45dp</dimen>
     <dimen name="emoji_height">30dp</dimen>
+    <dimen name="emoji_margin_top">7dp</dimen>
+    <dimen name="emoji_margin_end">10dp</dimen>
 </resources>

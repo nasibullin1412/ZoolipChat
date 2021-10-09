@@ -24,9 +24,11 @@ class CustomEmojiView @JvmOverloads constructor(
             requestLayout()
         }
 
+
     private var _text: String
 
-    private val textPaint by lazy {
+
+    val textPaint by lazy {
         Paint(Paint.ANTI_ALIAS_FLAG).apply {
             textAlign = Paint.Align.CENTER
         }
@@ -60,15 +62,11 @@ class CustomEmojiView @JvmOverloads constructor(
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         textPaint.getTextBounds(_text, 0, _text.length, textBounds)
-
         textPaint.getTextBounds(_text, 0, _text.length, textBounds)
-
         val textHeight = textBounds.height()
         val textWidth = textBounds.width()
-
         val totalWidth = textWidth + paddingRight + paddingLeft
         val totalHeight = textHeight + paddingTop + paddingBottom
-
         val resultWidth = resolveSize(totalWidth, widthMeasureSpec)
         val resultHeight = resolveSize(totalHeight, heightMeasureSpec)
         setMeasuredDimension(resultWidth, resultHeight)
@@ -81,7 +79,9 @@ class CustomEmojiView @JvmOverloads constructor(
     }
 
     override fun onCreateDrawableState(extraSpace: Int): IntArray {
-        val drawableState = super.onCreateDrawableState(extraSpace + SUPPORTED_DRAWABLE_STATE.size)
+        val drawableState = super.onCreateDrawableState(
+            extraSpace + SUPPORTED_DRAWABLE_STATE.size
+        )
         if (isSelected) {
             mergeDrawableStates(drawableState, SUPPORTED_DRAWABLE_STATE)
         }

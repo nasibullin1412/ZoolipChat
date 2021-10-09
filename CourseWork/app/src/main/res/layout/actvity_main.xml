@@ -1,28 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/custom_back">
+    android:background="@color/custom_back"
+    android:id="@+id/clMAin">
 
-    <FrameLayout
-        android:layout_width="wrap_content"
+    <com.homework.coursework.customview.CustomFlexboxLayout
+        android:id="@+id/fblEmoji"
+        android:layout_width="268dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         >
-
+<!--
         <com.homework.coursework.customview.CustomEmojiView
             android:id="@+id/customEmojiView"
             android:layout_width="@dimen/emoji_width"
             android:layout_height="@dimen/emoji_height"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="7dp"
             android:background="@drawable/bg_custom_emoji_view"
-            app:customTextSize="@dimen/emoji_number_size"
-            app:customTextColor="@color/white"
             app:customText="@string/default_text"
+            app:customTextColor="@color/white"
+            app:customTextSize="@dimen/emoji_number_size"
+            />
+-->
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imgPlus"
+            android:layout_width="@dimen/emoji_width"
+            android:layout_height="@dimen/emoji_height"
+            android:layout_marginTop="7dp"
+            app:contentPadding="8dp"
+            android:src="@drawable/ic_plus"
+            android:background="@drawable/bg_custom_emoji_view"
             />
 
-    </FrameLayout>
-
+    </com.homework.coursework.customview.CustomFlexboxLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
