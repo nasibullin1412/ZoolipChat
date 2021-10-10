@@ -1,5 +1,7 @@
 package com.homework.coursework
 
+import android.icu.text.CompactDecimalFormat
+import android.os.Build
 import android.os.Bundle
 import android.view.ViewGroup
 import androidx.activity.viewModels
@@ -10,6 +12,7 @@ import com.homework.coursework.customview.CustomEmojiView
 import com.homework.coursework.customview.CustomFlexboxLayout
 import com.homework.coursework.utils.setMargins
 import com.homework.coursework.viewmodel.MainViewModel
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var imgPlus: ShapeableImageView
@@ -30,20 +33,21 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun initEmojiPlus() {
-
         imgPlus.setOnClickListener {
             addNewEmoji(
                 getString(R.string.default_emoji),
-                getString(R.string.emoji_number).toInt()
+                getString(R.string.emoji_number)
             )
         }
     }
 
-    private fun addNewEmoji(emoji: String, number: Int) {
+    private fun addNewEmoji(emoji: String, number: String) {
+        val validNumber = checkEmojiNumber(number)
         val emojiView = CustomEmojiView(this).apply {
-            text = "$emoji $number"
+            text = "$emoji $validNumber"
+            minimumWidth = resources.getDimension(R.dimen.emoji_width).toInt()
             layoutParams = ViewGroup.MarginLayoutParams(
-                resources.getDimension(R.dimen.emoji_width).toInt(),
+                ViewGroup.LayoutParams.WRAP_CONTENT,
                 resources.getDimension(R.dimen.emoji_height).toInt()
             )
             setMargins(
@@ -64,11 +68,21 @@ class MainActivity : AppCompatActivity() {
                 R.color.white,
                 theme
             )
-            setOnClickListener{
+            setOnClickListener {
                 it.isSelected = it.isSelected.not()
             }
         }
         flexboxLayout.addView(emojiView, 0)
         viewModel.customEmojiViews.add(emojiView)
+    }
+
+    private fun checkEmojiNumber(number: String): String {
+        val compactDecimalFormat: CompactDecimalFormat =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                CompactDecimalFormat.getInstance(Locale.US, CompactDecimalFormat.CompactStyle.SHORT)
+            } else {
+                return number
+            }
+        return compactDecimalFormat.format(number.toInt())
     }
 }

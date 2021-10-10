@@ -21,9 +21,10 @@ class CustomFlexboxLayout @JvmOverloads constructor(
         for (i in 0 until childCount) {
             val child = getChildAt(i)
             measureChildWithMargins(child, widthMeasureSpec, 0, heightMeasureSpec, totalHeight)
-            tempWidth += child.measuredWidth + child.marginRight
+            val widthNeed = getWidth(child.minimumWidth, child.measuredWidth)
+            tempWidth += widthNeed + child.marginRight
             if (tempWidth > widthSizeMax) {
-                tempWidth = 0
+                tempWidth = widthNeed
                 totalHeight += child.measuredHeight + child.marginTop
             }
             totalHeight = maxOf(totalHeight, child.measuredHeight)
@@ -31,6 +32,12 @@ class CustomFlexboxLayout @JvmOverloads constructor(
         val resultWidth = resolveSize(widthSizeMax, widthMeasureSpec)
         val resultHeight = resolveSize(totalHeight, heightMeasureSpec)
         setMeasuredDimension(resultWidth, resultHeight)
+    }
+
+    private fun getWidth(min: Int, measure: Int): Int = if (min < measure) {
+        measure
+    } else {
+        min
     }
 
 
@@ -41,10 +48,11 @@ class CustomFlexboxLayout @JvmOverloads constructor(
         var currentTop = 0
         for (i in 0 until childCount) {
             val child = getChildAt(i)
-            currentRight = currentLeft + child.measuredWidth
+            val widthNeed = getWidth(child.minimumWidth, child.measuredWidth)
+            currentRight = currentLeft + widthNeed
             if (currentRight > width) {
                 currentLeft = 0
-                currentRight = child.measuredWidth
+                currentRight = widthNeed
                 currentTop += child.measuredHeight + child.marginTop
             }
             currentBottom = currentTop + child.measuredHeight

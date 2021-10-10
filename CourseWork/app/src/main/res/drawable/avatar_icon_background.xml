@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@color/custom_bar_color"/>
+        </shape>
+    </item>
+    <item
+        android:drawable="@drawable/ic_avatar"
+        android:bottom="@dimen/avatar_icn_bottom"
+        android:left="@dimen/avatar_icn_left"
+        android:right="@dimen/avatar_icn_right"
+        android:top="@dimen/avatar_icn_top"/>
+</layer-list>

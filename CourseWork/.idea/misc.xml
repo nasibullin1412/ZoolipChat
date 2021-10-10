@@ -3,16 +3,21 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/drawable/avatar_icon_background.xml" value="0.16296296296296298" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/drawable/bg_custom_emoji_view.xml" value="0.1527777777777778" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/drawable/bg_custom_emoji_view_selected.xml" value="0.1527777777777778" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/drawable/bg_custom_emoji_view_unselected.xml" value="0.1527777777777778" />
+        <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/drawable/bg_custom_message.xml" value="0.2546875" />
+        <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/drawable/bg_custom_message_view.xml" value="0.2546875" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/drawable/bg_custom_text_view.xml" value="0.125" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/drawable/bg_custom_text_view_selected.xml" value="0.125" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/drawable/bg_custom_text_view_unselected.xml" value="0.125" />
+        <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/drawable/ic_avatar.xml" value="0.16296296296296298" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/drawable/ic_plus.xml" value="0.1648148148148148" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/font/number_of_reaction.xml" value="0.12962962962962962" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/activity_main.xml" value="0.536" />
-        <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/actvity_main.xml" value="0.152" />
+        <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/actvity_main.xml" value="0.4" />
+        <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/custom_message_view_group.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>
