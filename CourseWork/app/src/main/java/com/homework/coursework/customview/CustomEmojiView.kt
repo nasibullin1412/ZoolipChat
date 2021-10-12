@@ -2,13 +2,15 @@ package com.homework.coursework.customview
 
 import android.content.Context
 import android.content.res.TypedArray
-import android.graphics.*
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.PointF
+import android.graphics.Rect
+import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.View
-import com.homework.coursework.R
-import android.graphics.Typeface
 import androidx.core.content.res.ResourcesCompat
-
+import com.homework.coursework.R
 
 class CustomEmojiView @JvmOverloads constructor(
     context: Context,
@@ -24,16 +26,13 @@ class CustomEmojiView @JvmOverloads constructor(
             requestLayout()
         }
 
-
-    private var _text: String
-
-
     val textPaint by lazy {
         Paint(Paint.ANTI_ALIAS_FLAG).apply {
             textAlign = Paint.Align.CENTER
         }
     }
 
+    private var _text: String
     private val textBounds = Rect()
     private val textCoordinate = PointF()
     private val tempFontMetrics = Paint.FontMetrics()
@@ -45,18 +44,13 @@ class CustomEmojiView @JvmOverloads constructor(
             defStyleAttr,
             defStyleRes
         )
-
         _text = typedArray.getString(R.styleable.CustomEmojiView_customText).orEmpty()
-
         textPaint.color =
             typedArray.getColor(R.styleable.CustomEmojiView_customTextColor, Color.BLACK)
-
         val customTypeface = ResourcesCompat.getFont(context, R.font.inter_light)
         textPaint.typeface = customTypeface
-
         textPaint.textSize =
             typedArray.getDimension(R.styleable.CustomEmojiView_customTextSize, DEFAULT_VALUE)
-
         typedArray.recycle()
     }
 
@@ -96,5 +90,4 @@ class CustomEmojiView @JvmOverloads constructor(
         private const val DEFAULT_VALUE = 76f
         private val SUPPORTED_DRAWABLE_STATE = intArrayOf(android.R.attr.state_selected)
     }
-
 }

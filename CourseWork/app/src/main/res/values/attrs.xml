@@ -5,5 +5,4 @@
         <attr name="customText" format="string" />
         <attr name="customTextSize" format="dimension" />
     </declare-styleable>
-
 </resources>

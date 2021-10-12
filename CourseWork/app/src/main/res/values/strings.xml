@@ -2,5 +2,7 @@
     <string name="app_name">CourseWork</string>
     <string name="default_emoji">😄</string>
     <string name="emoji_number">2</string>
-
+    <string name="demonstration_name">Павел Дуров</string>
+    <string name="demonstration_message_content">1. Маму люби\n2. Суп посоли\n3. Ковёр оттряхни\n4. Мухамед Али</string>
+    <string name="demonstration_url">https://theblueprint.ru/upload/20783m/vms/d4fed1456ec5ffb35ee1f64f99ec442f.jpg</string>
 </resources>

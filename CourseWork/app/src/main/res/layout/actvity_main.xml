@@ -6,17 +6,16 @@
     android:layout_height="match_parent"
     android:background="@color/custom_back">
 
-
     <ScrollView
+        android:id="@+id/scvMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="12dp"
+        android:padding="@dimen/scv_message_padding"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.homework.coursework.customview.CustomMessageViewGroup
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="wrap_content" />
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

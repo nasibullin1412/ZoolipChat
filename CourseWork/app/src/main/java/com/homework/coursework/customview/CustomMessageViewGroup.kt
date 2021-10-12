@@ -2,10 +2,12 @@ package com.homework.coursework.customview
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import android.view.ViewGroup
-import androidx.cardview.widget.CardView
+import androidx.core.view.marginStart
 import androidx.core.view.marginTop
 import com.homework.coursework.R
+import com.homework.coursework.utils.layoutChildren
 
 class CustomMessageViewGroup @JvmOverloads constructor(
     context: Context,
@@ -18,98 +20,82 @@ class CustomMessageViewGroup @JvmOverloads constructor(
         inflate(context, R.layout.custom_message_view_group, this)
     }
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val imageView = getChildAt(0)
-        val messageViewCard = getChildAt(1)
-        val customFlexboxLayout = getChildAt(2)
-        messageViewCard.setBackgroundResource(R.drawable.bg_custom_message)
-        var totalWidth = 0
-        var totalHeight = 0
+    private var widthMeasureSpec: Int = 0
+    private var heightMeasureSpec: Int = 0
+
+    /**
+     * Calculating the size that the view brings to the total size
+     * @param view is child view
+     * @param currentWidth is current calculated width
+     * @param currentHeight is current calculated height
+     */
+    private fun calculateSize(
+        view: View,
+        currentWidth: Int,
+        currentHeight: Int,
+        isRight: Boolean
+    ): Pair<Int, Int> {
+        val margin = view.layoutParams as MarginLayoutParams
         measureChildWithMargins(
-            imageView,
+            view,
             widthMeasureSpec,
             0,
             heightMeasureSpec,
             0
         )
-        val imageMargin = imageView.layoutParams as MarginLayoutParams
-        totalWidth += imageView.measuredWidth + imageMargin.marginStart + imageMargin.marginStart
-        totalHeight = maxOf(totalHeight, imageView.measuredHeight)
-        measureChildWithMargins(
-            messageViewCard,
-            widthMeasureSpec,
-            imageView.measuredWidth,
-            heightMeasureSpec,
-            0
-        )
-        val viewCardMessage = messageViewCard.layoutParams as MarginLayoutParams
-        totalWidth += messageViewCard.measuredWidth + viewCardMessage.marginStart +
-                viewCardMessage.marginEnd
-        totalHeight = maxOf(totalHeight, messageViewCard.measuredHeight)
-        measureChildWithMargins(
-            customFlexboxLayout,
-            widthMeasureSpec,
-            messageViewCard.measuredWidth,
-            heightMeasureSpec,
-            messageViewCard.measuredHeight
-        )
-        val flexboxMargin = customFlexboxLayout.layoutParams as MarginLayoutParams
-        totalWidth = maxOf(
-            totalWidth,
-            customFlexboxLayout.measuredWidth + flexboxMargin.marginStart +
-                    imageView.measuredWidth
-        )
-        totalHeight += customFlexboxLayout.marginTop + customFlexboxLayout.measuredHeight
+        val width: Int
+        val height: Int
+        if (isRight) {
+            width = view.measuredWidth + margin.marginStart +
+                    margin.marginEnd + currentWidth
+            height = maxOf(currentHeight, view.measuredHeight)
+        } else {
+            height = margin.topMargin + view.measuredHeight +
+                    currentHeight
+            width = maxOf(
+                currentWidth,
+                view.measuredWidth + margin.marginStart
+            )
+        }
+        return Pair(width, height)
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        this.widthMeasureSpec = widthMeasureSpec
+        this.heightMeasureSpec = heightMeasureSpec
+        var totalWidth = 0
+        var totalHeight = 0
+        for (i in 0 until childCount) {
+            val sizes = calculateSize(
+                view = getChildAt(i),
+                currentWidth = totalWidth,
+                currentHeight = totalHeight,
+                isRight = i != DEFAULT_BOTTOM
+            )
+            totalWidth = sizes.first
+            totalHeight = sizes.second
+        }
         val resultWidth = resolveSize(totalWidth + paddingRight + paddingLeft, widthMeasureSpec)
         val resultHeight = resolveSize(totalHeight + paddingTop + paddingBottom, heightMeasureSpec)
         setMeasuredDimension(resultWidth, resultHeight)
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        val imageView = getChildAt(0)
-        val textView = getChildAt(1)
-        val customFlexboxLayout = getChildAt(2)
-
-        val marginImage = (imageView.layoutParams as MarginLayoutParams)
-
-        var left = paddingLeft + marginImage.marginStart
-        var top = paddingTop + marginImage.topMargin
-        var right = left + imageView.measuredWidth
-        var bottom = top + imageView.measuredHeight
-
-        imageView.layout(
-            left,
-            top,
-            right,
-            bottom
-        )
-
-
-        val marginText = (textView.layoutParams as MarginLayoutParams)
-        left = imageView.right + marginText.marginStart
-        top = paddingTop + marginText.topMargin
-        right = left + textView.measuredWidth
-        bottom = top + textView.measuredHeight
-
-        textView.layout(
-            left,
-            top,
-            right,
-            bottom
-        )
-
-        val flexboxMargin = (customFlexboxLayout.layoutParams as MarginLayoutParams)
-        left = imageView.right + flexboxMargin.marginStart
-        top = textView.bottom + flexboxMargin.topMargin
-        right = left + customFlexboxLayout.measuredWidth
-        bottom = top + customFlexboxLayout.measuredHeight
-
-        customFlexboxLayout.layout(
-            left,
-            top,
-            right,
-            bottom
-        )
+        var prevChild: View? = null
+        val viewGroupPaddingLeft = paddingLeft
+        val viewGroupPaddingTop = paddingTop
+        for (i in 0 until DEFAULT_BOTTOM){
+            prevChild = getChildAt(i).apply {
+                val left = marginStart + (prevChild?.right ?: viewGroupPaddingLeft)
+                val top = marginTop + viewGroupPaddingTop
+                layoutChildren(left, top)
+            }
+        }
+        getChildAt(DEFAULT_BOTTOM).apply {
+            val left = marginStart
+            val top =  marginTop + (prevChild?.bottom ?: viewGroupPaddingTop)
+            layoutChildren(left, top)
+        }
     }
 
     override fun generateLayoutParams(attrs: AttributeSet?): LayoutParams {
@@ -122,5 +108,9 @@ class CustomMessageViewGroup @JvmOverloads constructor(
 
     override fun generateLayoutParams(p: LayoutParams): LayoutParams {
         return MarginLayoutParams(p)
+    }
+
+    companion object {
+        const val DEFAULT_BOTTOM = 2
     }
 }

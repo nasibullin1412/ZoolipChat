@@ -13,14 +13,16 @@ class CustomFlexboxLayout @JvmOverloads constructor(
     defStyleRes: Int = 0
 ) : ViewGroup(context, attrs, defStyleAttr, defStyleRes) {
 
-
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val widthSizeMax = MeasureSpec.getSize(widthMeasureSpec)
         var tempWidth = 0
         var totalHeight = 0
         for (i in 0 until childCount) {
             val child = getChildAt(i)
-            measureChildWithMargins(child, widthMeasureSpec, 0, heightMeasureSpec, totalHeight)
+            measureChildWithMargins(
+                child, widthMeasureSpec,
+                0, heightMeasureSpec, totalHeight
+            )
             val widthNeed = getWidth(child.minimumWidth, child.measuredWidth)
             tempWidth += widthNeed + child.marginRight
             if (tempWidth > widthSizeMax) {
@@ -34,12 +36,17 @@ class CustomFlexboxLayout @JvmOverloads constructor(
         setMeasuredDimension(resultWidth, resultHeight)
     }
 
-    private fun getWidth(min: Int, measure: Int): Int = if (min < measure) {
-        measure
-    } else {
-        min
-    }
-
+    /**
+     * @param min is minWidth attr value
+     * @param measure is view measure width
+     * @return minWidth attribute value if min < measure
+     */
+    private fun getWidth(min: Int, measure: Int): Int =
+        if (min < measure) {
+            measure
+        } else {
+            min
+        }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         var currentBottom: Int
