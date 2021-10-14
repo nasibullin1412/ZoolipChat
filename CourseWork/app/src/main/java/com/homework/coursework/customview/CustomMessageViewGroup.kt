@@ -46,12 +46,10 @@ class CustomMessageViewGroup @JvmOverloads constructor(
         val width: Int
         val height: Int
         if (isRight) {
-            width = view.measuredWidth + margin.marginStart +
-                    margin.marginEnd + currentWidth
+            width = view.measuredWidth + margin.marginStart + margin.marginEnd + currentWidth
             height = maxOf(currentHeight, view.measuredHeight)
         } else {
-            height = margin.topMargin + view.measuredHeight +
-                    currentHeight
+            height = margin.topMargin + view.measuredHeight + currentHeight
             width = maxOf(
                 currentWidth,
                 view.measuredWidth + margin.marginStart
@@ -84,7 +82,7 @@ class CustomMessageViewGroup @JvmOverloads constructor(
         var prevChild: View? = null
         val viewGroupPaddingLeft = paddingLeft
         val viewGroupPaddingTop = paddingTop
-        for (i in 0 until DEFAULT_BOTTOM){
+        for (i in 0 until DEFAULT_BOTTOM) {
             prevChild = getChildAt(i).apply {
                 val left = marginStart + (prevChild?.right ?: viewGroupPaddingLeft)
                 val top = marginTop + viewGroupPaddingTop
@@ -93,7 +91,7 @@ class CustomMessageViewGroup @JvmOverloads constructor(
         }
         getChildAt(DEFAULT_BOTTOM).apply {
             val left = marginStart
-            val top =  marginTop + (prevChild?.bottom ?: viewGroupPaddingTop)
+            val top = marginTop + (prevChild?.bottom ?: viewGroupPaddingTop)
             layoutChildren(left, top)
         }
     }

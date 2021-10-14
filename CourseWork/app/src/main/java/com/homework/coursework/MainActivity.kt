@@ -1,20 +1,17 @@
 package com.homework.coursework
 
 import android.os.Bundle
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
-import androidx.core.content.res.ResourcesCompat
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.google.android.material.imageview.ShapeableImageView
 import com.homework.coursework.customview.CustomEmojiView
 import com.homework.coursework.customview.CustomFlexboxLayout
 import com.homework.coursework.utils.checkEmojiNumber
-import com.homework.coursework.utils.setMargins
 import com.homework.coursework.viewmodel.MainViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -67,28 +64,6 @@ class MainActivity : AppCompatActivity() {
         val validNumber = number.checkEmojiNumber()
         val emojiView = CustomEmojiView(this).apply {
             text = "$emoji $validNumber"
-            minimumWidth = resources.getDimension(R.dimen.emoji_width).toInt()
-            layoutParams = ViewGroup.MarginLayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                resources.getDimension(R.dimen.emoji_height).toInt()
-            )
-            setMargins(
-                left = 0,
-                right = resources.getDimension(R.dimen.emoji_margin_end).toInt(),
-                top = resources.getDimension(R.dimen.emoji_margin_top).toInt(),
-                bottom = 0
-            )
-            background = ResourcesCompat.getDrawable(
-                resources,
-                R.drawable.bg_custom_emoji_view,
-                theme
-            )
-            textPaint.textSize = resources.getDimension(R.dimen.emoji_number_size)
-            textPaint.color = ResourcesCompat.getColor(
-                resources,
-                R.color.white,
-                theme
-            )
             setOnClickListener {
                 it.isSelected = it.isSelected.not()
             }

@@ -45,7 +45,6 @@
 
     </androidx.cardview.widget.CardView>
 
-
     <com.homework.coursework.customview.CustomFlexboxLayout
         android:id="@+id/fblEmoji"
         android:layout_width="@dimen/flb_emoji_width"

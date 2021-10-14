@@ -1,7 +1,6 @@
 package com.homework.coursework.customview
 
 import android.content.Context
-import android.content.res.TypedArray
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.PointF
@@ -9,8 +8,10 @@ import android.graphics.Rect
 import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import com.homework.coursework.R
+import com.homework.coursework.utils.setMargins
 
 class CustomEmojiView @JvmOverloads constructor(
     context: Context,
@@ -38,20 +39,37 @@ class CustomEmojiView @JvmOverloads constructor(
     private val tempFontMetrics = Paint.FontMetrics()
 
     init {
-        val typedArray: TypedArray = context.obtainStyledAttributes(
-            attrs,
-            R.styleable.CustomEmojiView,
-            defStyleAttr,
-            defStyleRes
+        minimumWidth = if (minimumWidth == 0) {
+            resources.getDimension(R.dimen.emoji_width).toInt()
+        } else {
+            minimumWidth
+        }
+        layoutParams = layoutParams ?: ViewGroup.MarginLayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            resources.getDimension(R.dimen.emoji_height).toInt()
         )
-        _text = typedArray.getString(R.styleable.CustomEmojiView_customText).orEmpty()
-        textPaint.color =
-            typedArray.getColor(R.styleable.CustomEmojiView_customTextColor, Color.BLACK)
-        val customTypeface = ResourcesCompat.getFont(context, R.font.inter_light)
-        textPaint.typeface = customTypeface
-        textPaint.textSize =
-            typedArray.getDimension(R.styleable.CustomEmojiView_customTextSize, DEFAULT_VALUE)
-        typedArray.recycle()
+        setMargins(
+            left = 0,
+            right = resources.getDimension(R.dimen.emoji_margin_end).toInt(),
+            top = resources.getDimension(R.dimen.emoji_margin_top).toInt(),
+            bottom = 0
+        )
+        background = background ?: ResourcesCompat.getDrawable(
+            resources,
+            R.drawable.bg_custom_emoji_view,
+            context.theme
+        )
+        textPaint.typeface = ResourcesCompat.getFont(context, R.font.inter_light)
+        with(context.obtainStyledAttributes(attrs, R.styleable.CustomEmojiView)) {
+            _text = getString(R.styleable.CustomEmojiView_customText).orEmpty()
+            textPaint.color = getColor(R.styleable.CustomEmojiView_customTextColor, Color.WHITE)
+            textPaint.textSize = getDimension(
+                R.styleable.CustomEmojiView_customTextSize,
+                resources.getDimension(R.dimen.emoji_number_size)
+            )
+            recycle()
+        }
+
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -87,7 +105,6 @@ class CustomEmojiView @JvmOverloads constructor(
     }
 
     companion object {
-        private const val DEFAULT_VALUE = 76f
         private val SUPPORTED_DRAWABLE_STATE = intArrayOf(android.R.attr.state_selected)
     }
 }
