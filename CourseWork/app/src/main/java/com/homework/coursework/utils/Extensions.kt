@@ -8,7 +8,11 @@ import androidx.core.view.marginBottom
 import androidx.core.view.marginLeft
 import androidx.core.view.marginRight
 import androidx.core.view.marginTop
+import com.homework.coursework.data.MessageData
 import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
+import kotlin.collections.HashSet
 
 /**
  * set margin to view with layout length
@@ -56,4 +60,12 @@ fun View.layoutChildren(left: Int, top: Int) {
         right,
         bottom
     )
+}
+
+fun List<MessageData>.toDateMap(): Map<String, Int> {
+    return this.map{
+        it.date
+    }.toSet().mapIndexed {index, date ->
+        date to index + 1
+    }.toMap()
 }

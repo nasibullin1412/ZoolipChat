@@ -1,74 +1,96 @@
 package com.homework.coursework
 
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.cardview.widget.CardView
-import coil.load
-import coil.transform.CircleCropTransformation
-import com.google.android.material.imageview.ShapeableImageView
-import com.homework.coursework.customview.CustomEmojiView
-import com.homework.coursework.customview.CustomFlexboxLayout
-import com.homework.coursework.utils.checkEmojiNumber
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.homework.coursework.adapters.MessageAdapter
+import com.homework.coursework.data.MessageData
+import com.homework.coursework.data.UserData
+import com.homework.coursework.databinding.ActvityMainBinding
+import com.homework.coursework.utils.toDateMap
 import com.homework.coursework.viewmodel.MainViewModel
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var imgPlus: ShapeableImageView
-    private lateinit var flexboxLayout: CustomFlexboxLayout
-    private lateinit var tvUserName: TextView
-    private lateinit var tvMessageContent: TextView
-    private lateinit var imgAvatar: ImageView
-    private lateinit var cvMessage: CardView
+    private lateinit var binding: ActvityMainBinding
+    private lateinit var messageAdapter: MessageAdapter
     private val viewModel: MainViewModel by viewModels()
+    private val listMessage = listOf(
+        MessageData(
+            messageId = 0,
+            userData = UserData(1, "Марк Цукерберг", "https://clck.ru/YDyYU"),
+            messageContent = "Лол, видел как всё положил",
+            emojis = arrayListOf(),
+            date = "1 Фев"
+        ),
+        MessageData(
+            messageId = 1,
+            userData = UserData(1, "Марк Цукерберг", "https://clck.ru/YDyYU"),
+            messageContent = "Лови гостей, дурик",
+            emojis = arrayListOf(),
+            date = "1 Фев"
+        ),
+        MessageData(
+            messageId = 2,
+            userData = UserData(
+                0, "Павел Дуров",
+                "https://clck.ru/YEN9d"
+            ),
+            messageContent = "Маму люби",
+            emojis = arrayListOf(),
+            date = "1 Фев"
+        ),
+        MessageData(
+            messageId = 3,
+            userData = UserData(1, "Марк Цукерберг", "https://clck.ru/YDyYU"),
+            messageContent = "Даю тебе фору",
+            emojis = arrayListOf(),
+            date = "2 Фев"
+        ),
+        MessageData(
+            messageId = 4,
+            userData = UserData(
+                0, "Павел Дуров",
+                "https://clck.ru/YEN9d"
+            ),
+            messageContent = "Суп посоли",
+            emojis = arrayListOf(),
+            date = "2 Фев"
+        ),
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.actvity_main)
-        initViewBlock()
-        initEmojiPlus()
+        binding = ActvityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        initRecycleView()
     }
 
-    private fun initViewBlock() {
-        imgPlus = findViewById(R.id.imgPlus)
-        flexboxLayout = findViewById(R.id.fblEmoji)
-        tvUserName = findViewById(R.id.tvUserName)
-        tvMessageContent = findViewById(R.id.tvMessageContent)
-        imgAvatar = findViewById(R.id.imgUserAvatar)
-        cvMessage = findViewById(R.id.cvMessage)
-        imgAvatar.load(getString(R.string.demonstration_url)) {
-            crossfade(true)
-            transformations(CircleCropTransformation())
+    private fun initRecycleView() {
+        with(binding.rvMessage) {
+            messageAdapter = MessageAdapter(1)
+            adapter = messageAdapter
+            layoutManager = LinearLayoutManager(this@MainActivity)
         }
-        tvUserName.text = getString(R.string.demonstration_name)
-        tvMessageContent.text = getString(R.string.demonstration_message_content)
-        cvMessage.setBackgroundResource(R.drawable.bg_custom_message)
+        messageAdapter.dates = listMessage.toDateMap()
+        messageAdapter.submitList(listMessage.toList())
     }
 
-    private fun initEmojiPlus() {
-        imgPlus.setOnClickListener {
-            addNewEmoji(
-                getString(R.string.default_emoji),
-                getString(R.string.emoji_number)
-            )
-        }
-    }
 
     /**
      *  The function creates and adds emoji to the layout
      *  @param emoji emoji code of reaction
      *  @param number is number of reaction
-     */
+
     private fun addNewEmoji(emoji: String, number: String) {
-        val validNumber = number.checkEmojiNumber()
-        val emojiView = CustomEmojiView(this).apply {
-            text = "$emoji $validNumber"
-            setOnClickListener {
-                it.isSelected = it.isSelected.not()
-            }
-        }
-        flexboxLayout.addView(emojiView, 0)
-        viewModel.customEmojiViews.add(emojiView)
+    val validNumber = number.checkEmojiNumber()
+    val emojiView = CustomEmojiView(this).apply {
+    text = "$emoji $validNumber"
+    setOnClickListener {
+    it.isSelected = it.isSelected.not()
     }
+    }
+    flexboxLayout.addView(emojiView, 0)
+    viewModel.customEmojiViews.add(emojiView)
+    }*/
 }
