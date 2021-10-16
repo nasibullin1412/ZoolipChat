@@ -1,9 +1,13 @@
 package com.homework.coursework.utils
 
+import android.app.Application
 import android.icu.text.CompactDecimalFormat
 import android.os.Build
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.marginBottom
 import androidx.core.view.marginLeft
 import androidx.core.view.marginRight
@@ -68,4 +72,14 @@ fun List<MessageData>.toDateMap(): Map<String, Int> {
     }.toSet().mapIndexed {index, date ->
         date to index + 1
     }.toMap()
+}
+
+fun AppCompatActivity.showToast(message: String?) {
+    Log.e("Toast", message ?: "")
+    when {
+        message.isNullOrEmpty() -> {
+            showToast("Error")
+        }
+        else -> Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
 }

@@ -4,6 +4,7 @@
     <dimen name="emoji_height">30dp</dimen>
     <dimen name="emoji_margin_top">7dp</dimen>
     <dimen name="emoji_margin_end">10dp</dimen>
+    <dimen name="emoji_margin_bottom_end">12dp</dimen>
 
     <dimen name="avatar_icn_bottom">10dp</dimen>
     <dimen name="avatar_icn_left">10dp</dimen>

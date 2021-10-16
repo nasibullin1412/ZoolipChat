@@ -7,30 +7,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.homework.coursework.R
 import com.homework.coursework.callbacks.MessageCallback
 import com.homework.coursework.data.MessageData
-import com.homework.coursework.utils.LazyMutable
+import com.homework.coursework.interfaces.MessageItemCallback
 import com.homework.coursework.viewholders.DateViewHolder
 import com.homework.coursework.viewholders.MessageFromViewHolder
 import com.homework.coursework.viewholders.MessageToViewHolder
-import java.lang.IllegalArgumentException
-import java.lang.StringBuilder
-
-typealias CheckZero<T> = (T) -> T
 
 class MessageAdapter(private val curId: Int) :
     ListAdapter<MessageData, RecyclerView.ViewHolder>(MessageCallback()) {
 
     var dates: Map<String, Int> = HashMap()
-
-    val p: CheckZero<Int> by lazy {
-        {
-            if (it < 0) {
-                0
-            } else {
-                it
-            }
-        }
-    }
-
+    private lateinit var listener: MessageItemCallback
     private var currentDate = ""
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -52,7 +38,13 @@ class MessageAdapter(private val curId: Int) :
         when (holder) {
             is MessageToViewHolder -> holder.bind(getItem(position))
             is MessageFromViewHolder -> holder.bind(getItem(position))
-            is DateViewHolder -> holder.bind(currentDate)
+            is DateViewHolder -> {
+                holder.bind(currentDate)
+                return
+            }
+        }
+        holder.itemView.setOnLongClickListener{
+            listener.getBottomSheet()
         }
     }
 
@@ -72,9 +64,16 @@ class MessageAdapter(private val curId: Int) :
     }
 
     override fun getItem(position: Int): MessageData {
-
-        val currentOffset = if (position == 0){ 0 }else{dates[currentDate] ?: 0}
+        val currentOffset = if (position == 0) {
+            0
+        } else {
+            dates[currentDate] ?: 0
+        }
         return super.getItem(position - currentOffset)
+    }
+
+    fun initListener(listener: MessageItemCallback) {
+        this.listener = listener
     }
 
     companion object {
