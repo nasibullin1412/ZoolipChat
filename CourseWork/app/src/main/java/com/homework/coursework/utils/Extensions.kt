@@ -1,22 +1,29 @@
 package com.homework.coursework.utils
 
-import android.app.Application
+import android.content.Context
 import android.icu.text.CompactDecimalFormat
 import android.os.Build
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.marginBottom
 import androidx.core.view.marginLeft
 import androidx.core.view.marginRight
 import androidx.core.view.marginTop
+import com.google.android.material.imageview.ShapeableImageView
+import com.homework.coursework.MainActivity
+import com.homework.coursework.R
+import com.homework.coursework.customview.CustomEmojiView
+import com.homework.coursework.customview.CustomFlexboxLayout
+import com.homework.coursework.data.EmojiData
 import com.homework.coursework.data.MessageData
+import com.homework.coursework.data.UserData
+import com.homework.coursework.interfaces.MessageItemCallback
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
-import kotlin.collections.HashSet
 
 /**
  * set margin to view with layout length
@@ -81,5 +88,137 @@ fun AppCompatActivity.showToast(message: String?) {
             showToast("Error")
         }
         else -> Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+}
+
+fun TextView.initEmojiToBottomSheet(emojiCode: String){
+    text = emojiCode
+    layoutParams = ViewGroup.MarginLayoutParams(
+        ViewGroup.LayoutParams.WRAP_CONTENT,
+        ViewGroup.LayoutParams.WRAP_CONTENT
+    )
+    setMargins(
+        left = 0,
+        right = resources.getDimension(R.dimen.emoji_margin_bottom_end).toInt(),
+        top = resources.getDimension(R.dimen.emoji_margin_top).toInt(),
+        bottom = 0
+    )
+    textSize = resources.getDimension(R.dimen.emoji_text_size)
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        setTextColor(resources.getColor(R.color.white, context.theme))
+    }else{
+        setTextColor(resources.getColor(R.color.white))
+    }
+    textAlignment = View.TEXT_ALIGNMENT_CENTER
+}
+
+fun ArrayList<EmojiData>.checkExistedEmoji(idx: Int){
+    if (this[idx].isCurrUserReacted){
+        this[idx].isCurrUserReacted = false
+        if (this[idx].emojiNumber > 1){
+            this[idx].emojiNumber -= 1
+            return
+        }
+        this.removeAt(idx)
+    }else{
+        this[idx].emojiNumber += 1
+        this[idx].isCurrUserReacted = true
+    }
+}
+
+
+fun ArrayList<MessageData>.addMessageData(messageContent: String){
+    this.add(
+        MessageData(
+            messageId = size,
+            userData = UserData(
+                id = MainActivity.CURR_USER_ID,
+                name = MainActivity.CURR_USER_NAME,
+                avatarUrl = MainActivity.CURR_USER_AVATAR_URL
+            ),
+            messageContent = messageContent,
+            emojis = arrayListOf(),
+            date = "3 фев"
+        )
+    )
+}
+
+fun CustomFlexboxLayout.addEmoji(emoji: EmojiData, idx: Int, listener: MessageItemCallback){
+    val validNumber = emoji.emojiNumber.toString().checkEmojiNumber()
+    val emojiView = CustomEmojiView(context).apply {
+        text = "${emoji.emojiCode} $validNumber"
+        isSelected = true
+        setOnClickListener {
+            it.isSelected = it.isSelected.not()
+            listener.onEmojiClick(emoji.emojiCode, idx)
+        }
+    }
+    addView(emojiView, 0)
+}
+
+
+fun CustomFlexboxLayout.addPlusImgView(idx: Int, listener: MessageItemCallback){
+    val plusImgView = ShapeableImageView(context).apply {
+        layoutParams = ViewGroup.MarginLayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            resources.getDimension(R.dimen.emoji_height).toInt()
+        )
+        setMargins(
+            left = 0,
+            right = 0,
+            top = resources.getDimension(R.dimen.img_margin_top).toInt(),
+            bottom = 0
+        )
+        background = ResourcesCompat.getDrawable(
+            resources,
+            R.drawable.bg_custom_emoji_view,
+            context.theme
+        )
+        minimumWidth = resources.getDimension(R.dimen.img_min_width).toInt()
+        setImageResource(R.drawable.ic_plus)
+        val padding = resources.getDimension(R.dimen.img_min_content_padding).toInt()
+        post {
+            setContentPadding(
+                padding,
+                padding,
+                padding,
+                padding
+            )
+        }
+        setOnClickListener{
+            listener.getBottomSheet(idx)
+        }
+    }
+    addView(
+        plusImgView
+    )
+}
+
+fun CustomFlexboxLayout.emojiLogic(
+    messageData: MessageData,
+    idx: Int,
+    listener: MessageItemCallback
+){
+    if (messageData.emojis.isEmpty()) {
+        removeAllViews()
+        return
+    }
+    if (childCount == 0) {
+        addPlusImgView(idx, listener)
+    }
+    val delta = messageData.emojis.size - childCount + 1
+    when (delta) {
+        1 -> addEmoji(
+            emoji = messageData.emojis.last(),
+            idx = idx,
+            listener = listener
+        )
+        else -> {
+            removeAllViews()
+            addPlusImgView(idx, listener)
+            for (emoji in messageData.emojis) {
+                addEmoji(emoji, idx = idx, listener = listener)
+            }
+        }
     }
 }

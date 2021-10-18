@@ -38,5 +38,17 @@
         android:layout_marginStart="@dimen/flb_emoji_margin_start"
         android:layout_marginTop="@dimen/flb_emoji_margin_top"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cvMessageTo"/>
+        app:layout_constraintTop_toBottomOf="@+id/cvMessageTo">
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imgPlus"
+            android:layout_width="wrap_content"
+            android:visibility="gone"
+            android:layout_height="@dimen/emoji_height"
+            android:layout_marginTop="@dimen/img_margin_top"
+            android:background="@drawable/bg_custom_emoji_view"
+            android:minWidth="@dimen/img_min_width"
+            android:src="@drawable/ic_plus"
+            app:contentPadding="@dimen/img_min_content_padding" />
+
+    </com.homework.coursework.customview.CustomFlexboxLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

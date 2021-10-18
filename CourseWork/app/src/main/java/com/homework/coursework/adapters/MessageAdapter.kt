@@ -23,9 +23,11 @@ class MessageAdapter(private val curId: Int) :
         val inflater: LayoutInflater = LayoutInflater.from(parent.context)
         return when (viewType) {
             MESSAGE_TO -> MessageToViewHolder(
+                listener,
                 inflater.inflate(R.layout.message_to_item, parent, false)
             )
             MESSAGE_FROM -> MessageFromViewHolder(
+                listener,
                 inflater.inflate(R.layout.message_from_item, parent, false)
             )
             else -> DateViewHolder(
@@ -36,40 +38,23 @@ class MessageAdapter(private val curId: Int) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is MessageToViewHolder -> holder.bind(getItem(position))
-            is MessageFromViewHolder -> holder.bind(getItem(position))
+            is MessageToViewHolder -> holder.bind(getItem(position), position)
+            is MessageFromViewHolder -> holder.bind(getItem(position), position)
             is DateViewHolder -> {
                 holder.bind(currentDate)
                 return
             }
         }
-        holder.itemView.setOnLongClickListener{
-            listener.getBottomSheet()
+        holder.itemView.setOnLongClickListener {
+            listener.getBottomSheet(getItem(position).messageId)
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        if (position == 0 || currentDate != getItem(position).date) {
-            currentDate = getItem(position).date
-            return DATE
-        }
         return when (getItem(position).userData.id) {
             curId -> MESSAGE_TO
             else -> MESSAGE_FROM
         }
-    }
-
-    override fun getItemCount(): Int {
-        return super.getItemCount() + dates.size
-    }
-
-    override fun getItem(position: Int): MessageData {
-        val currentOffset = if (position == 0) {
-            0
-        } else {
-            dates[currentDate] ?: 0
-        }
-        return super.getItem(position - currentOffset)
     }
 
     fun initListener(listener: MessageItemCallback) {

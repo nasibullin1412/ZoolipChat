@@ -1,85 +1,80 @@
 package com.homework.coursework
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.TextureView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.homework.coursework.adapters.MessageAdapter
 import com.homework.coursework.customview.CustomFlexboxLayout
+import com.homework.coursework.data.EmojiData
 import com.homework.coursework.data.MessageData
 import com.homework.coursework.data.UserData
 import com.homework.coursework.databinding.ActvityMainBinding
-import com.homework.coursework.databinding.BottomSheetBinding
 import com.homework.coursework.interfaces.MessageItemCallback
-import com.homework.coursework.utils.setMargins
-import com.homework.coursework.utils.toDateMap
+import com.homework.coursework.utils.*
 import com.homework.coursework.viewmodel.MainViewModel
-import java.lang.StringBuilder
 
 class MainActivity : AppCompatActivity(), MessageItemCallback {
     private lateinit var binding: ActvityMainBinding
     private lateinit var messageAdapter: MessageAdapter
     private lateinit var bottomSheetDialog: BottomSheetDialog
-    private val viewModel: MainViewModel by viewModels()
-    private val listMessage = listOf(
-        MessageData(
-            messageId = 0,
-            userData = UserData(1, "Марк Цукерберг", "https://clck.ru/YDyYU"),
-            messageContent = "Лол, видел как всё положил",
-            emojis = arrayListOf(),
-            date = "1 Фев"
-        ),
-        MessageData(
-            messageId = 1,
-            userData = UserData(1, "Марк Цукерберг", "https://clck.ru/YDyYU"),
-            messageContent = "Лови гостей, дурик",
-            emojis = arrayListOf(),
-            date = "1 Фев"
-        ),
-        MessageData(
-            messageId = 2,
-            userData = UserData(
-                0, "Павел Дуров",
-                "https://clck.ru/YEN9d"
-            ),
-            messageContent = "Маму люби",
-            emojis = arrayListOf(),
-            date = "1 Фев"
-        ),
-        MessageData(
-            messageId = 3,
-            userData = UserData(1, "Марк Цукерберг", "https://clck.ru/YDyYU"),
-            messageContent = "Даю тебе фору",
-            emojis = arrayListOf(),
-            date = "2 Фев"
-        ),
-        MessageData(
-            messageId = 4,
-            userData = UserData(
-                0, "Павел Дуров",
-                "https://clck.ru/YEN9d"
-            ),
-            messageContent = "Суп посоли",
-            emojis = arrayListOf(),
-            date = "2 Фев"
-        ),
-    )
+    private var listMessage: ArrayList<MessageData> = testList
+    private var selectedMessageId = DEFAULT_MESSAGE_ID
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActvityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        initViews()
+    }
+
+    private fun initViews() {
         initRecycleView()
         initBottomDialog()
+        initButtonListener()
+        initEditText()
+    }
+
+    private fun initButtonListener() {
+        binding.imgSend.setOnClickListener {
+            updateMessageRecycler(binding.etMessage.text.toString())
+        }
+    }
+
+    private fun updateMessageRecycler(messageContent: String) {
+        listMessage.addMessageData(messageContent)
+        messageAdapter.submitList(listMessage)
+    }
+
+    private fun initEditText() {
+        binding.imgSend.background = ResourcesCompat.getDrawable(
+            resources,
+            R.drawable.ic_vector,
+            theme
+        )
+        binding.etMessage.apply {
+            addTextChangedListener {
+                binding.imgSend.background = ResourcesCompat.getDrawable(
+                    resources,
+                    selectIcon(text.toString()),
+                    theme
+                )
+            }
+        }
+    }
+
+    private fun selectIcon(text: String): Int = if (text.isEmpty()) {
+        R.drawable.ic_vector
+    } else {
+        R.drawable.ic_vector_send
     }
 
     private fun initBottomDialog() {
@@ -99,22 +94,33 @@ class MainActivity : AppCompatActivity(), MessageItemCallback {
         for (emoji in emojiCodes) {
             flbLayout?.addView(
                 TextView(this).apply {
-                    text = emoji.toString()
-                    layoutParams = ViewGroup.MarginLayoutParams(
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT
-                    )
-                    setMargins(
-                        left = 0,
-                        right = resources.getDimension(R.dimen.emoji_margin_bottom_end).toInt(),
-                        top = resources.getDimension(R.dimen.emoji_margin_top).toInt(),
-                        bottom = 0
-                    )
-                    textSize = resources.getDimension(R.dimen.emoji_text_size)
-                    textAlignment = View.TEXT_ALIGNMENT_CENTER
+                    initEmojiToBottomSheet(emoji.toString())
+                    setOnClickListener { onEmojiClicked(text.toString()) }
                 }
             )
         }
+    }
+
+    private fun onEmojiClicked(emojiCode: String) {
+        if (selectedMessageId == DEFAULT_MESSAGE_ID) {
+            throw IllegalArgumentException("selectedMessageId required")
+        }
+        val idx = listMessage[selectedMessageId].emojis.indexOfFirst { it.emojiCode == emojiCode }
+        if (idx == DEFAULT_MESSAGE_ID) {
+            listMessage[selectedMessageId].emojis.add(
+                EmojiData(
+                    emojiCode = emojiCode,
+                    emojiNumber = 1,
+                    isCurrUserReacted = true
+                )
+            )
+        }
+        else{
+            listMessage[selectedMessageId].emojis.checkExistedEmoji(idx)
+        }
+        messageAdapter.notifyItemChanged(selectedMessageId)
+        selectedMessageId = DEFAULT_MESSAGE_ID
+        bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
 
@@ -126,29 +132,25 @@ class MainActivity : AppCompatActivity(), MessageItemCallback {
         }
         messageAdapter.initListener(this)
         messageAdapter.dates = listMessage.toDateMap()
-        messageAdapter.submitList(listMessage.toList())
+        messageAdapter.submitList(listMessage.toMutableList())
     }
 
-    override fun getBottomSheet(): Boolean {
+    override fun getBottomSheet(messageId: Int): Boolean {
+        selectedMessageId = messageId
         bottomSheetDialog.show()
         return true
     }
 
-
-    /**
-     *  The function creates and adds emoji to the layout
-     *  @param emoji emoji code of reaction
-     *  @param number is number of reaction
-
-    private fun addNewEmoji(emoji: String, number: String) {
-    val validNumber = number.checkEmojiNumber()
-    val emojiView = CustomEmojiView(this).apply {
-    text = "$emoji $validNumber"
-    setOnClickListener {
-    it.isSelected = it.isSelected.not()
+    override fun onEmojiClick(emojiCode: String, idx: Int): Boolean {
+        selectedMessageId = idx
+        onEmojiClicked(emojiCode)
+        return true
     }
+
+    companion object {
+        const val DEFAULT_MESSAGE_ID = -1
+        const val CURR_USER_ID = 1
+        const val CURR_USER_NAME = "Марк Цукерберг"
+        const val CURR_USER_AVATAR_URL = "https://clck.ru/YDyYU"
     }
-    flexboxLayout.addView(emojiView, 0)
-    viewModel.customEmojiViews.add(emojiView)
-    }*/
 }

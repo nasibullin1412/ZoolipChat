@@ -11,4 +11,7 @@
     <color name="selected">#3A3A3A</color>
     <color name="custom_back">#121212</color>
     <color name="custom_bar_color">#2A9D8F</color>
+    <color name="send_box_color">#1E1E1E</color>
+    <color name="send_edit_text">#282828</color>
+    <color name="decor_color">#555555</color>
 </resources>

@@ -8,6 +8,7 @@
     <com.homework.coursework.customview.CustomMessageViewGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/cv_message_margin_start"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
