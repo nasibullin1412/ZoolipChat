@@ -6,18 +6,19 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.homework.coursework.R
 import com.homework.coursework.callbacks.MessageCallback
+import com.homework.coursework.data.BaseItem
 import com.homework.coursework.data.MessageData
 import com.homework.coursework.interfaces.MessageItemCallback
 import com.homework.coursework.viewholders.DateViewHolder
 import com.homework.coursework.viewholders.MessageFromViewHolder
 import com.homework.coursework.viewholders.MessageToViewHolder
+import java.lang.IllegalArgumentException
 
 class MessageAdapter(private val curId: Int) :
-    ListAdapter<MessageData, RecyclerView.ViewHolder>(MessageCallback()) {
+    ListAdapter<BaseItem, RecyclerView.ViewHolder>(MessageCallback()) {
 
     var dates: Map<String, Int> = HashMap()
     private lateinit var listener: MessageItemCallback
-    private var currentDate = ""
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater: LayoutInflater = LayoutInflater.from(parent.context)
@@ -38,20 +39,32 @@ class MessageAdapter(private val curId: Int) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is MessageToViewHolder -> holder.bind(getItem(position), position)
-            is MessageFromViewHolder -> holder.bind(getItem(position), position)
+            is MessageToViewHolder -> holder.bind(
+                getItem(position).messageData
+                    ?: throw IllegalArgumentException("messageData required"),
+                position
+            )
+            is MessageFromViewHolder -> holder.bind(
+                getItem(position).messageData
+                    ?: throw IllegalArgumentException("messageData required"),
+                position)
             is DateViewHolder -> {
-                holder.bind(currentDate)
+                holder.bind(
+                    getItem(position).date
+                        ?: throw IllegalArgumentException("date required"))
                 return
             }
         }
         holder.itemView.setOnLongClickListener {
-            listener.getBottomSheet(getItem(position).messageId)
+            listener.getBottomSheet(position)
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return when (getItem(position).userData.id) {
+        if (getItem(position).messageData == null) {
+            return DATE
+        }
+        return when (getItem(position).messageData?.userData?.id) {
             curId -> MESSAGE_TO
             else -> MESSAGE_FROM
         }

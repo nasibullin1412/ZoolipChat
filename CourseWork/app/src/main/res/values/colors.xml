@@ -14,4 +14,5 @@
     <color name="send_box_color">#1E1E1E</color>
     <color name="send_edit_text">#282828</color>
     <color name="decor_color">#555555</color>
+    <color name="hint_color">#CCCCCC</color>
 </resources>

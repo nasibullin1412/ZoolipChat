@@ -1,10 +1,7 @@
 package com.homework.coursework
 
 import android.os.Bundle
-import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.content.res.ResourcesCompat
@@ -14,26 +11,41 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.homework.coursework.adapters.MessageAdapter
 import com.homework.coursework.customview.CustomFlexboxLayout
+import com.homework.coursework.data.BaseItem
 import com.homework.coursework.data.EmojiData
 import com.homework.coursework.data.MessageData
 import com.homework.coursework.data.UserData
 import com.homework.coursework.databinding.ActvityMainBinding
 import com.homework.coursework.interfaces.MessageItemCallback
 import com.homework.coursework.utils.*
-import com.homework.coursework.viewmodel.MainViewModel
 
 class MainActivity : AppCompatActivity(), MessageItemCallback {
     private lateinit var binding: ActvityMainBinding
     private lateinit var messageAdapter: MessageAdapter
     private lateinit var bottomSheetDialog: BottomSheetDialog
     private var listMessage: ArrayList<MessageData> = testList
-    private var selectedMessageId = DEFAULT_MESSAGE_ID
+    private var listRecyclerView: ArrayList<BaseItem> = arrayListOf()
+    private var messageIdx = DEFAULT_MESSAGE_ID
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActvityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        updateMessage(testList)
         initViews()
+    }
+
+    private fun updateMessage(newList: ArrayList<MessageData>) {
+        val groupedMessage = newList.groupBy { it.date }
+        with(groupedMessage) {
+            for (date in keys) {
+                listRecyclerView.addDate(date)
+                listRecyclerView.addMessageData(
+                    this[date]
+                        ?: throw IllegalArgumentException("message required")
+                )
+            }
+        }
     }
 
     private fun initViews() {
@@ -46,12 +58,28 @@ class MainActivity : AppCompatActivity(), MessageItemCallback {
     private fun initButtonListener() {
         binding.imgSend.setOnClickListener {
             updateMessageRecycler(binding.etMessage.text.toString())
+            binding.etMessage.setText("")
         }
     }
 
     private fun updateMessageRecycler(messageContent: String) {
-        listMessage.addMessageData(messageContent)
-        messageAdapter.submitList(listMessage)
+        updateMessage(
+            arrayListOf(
+                MessageData(
+                    messageId = listRecyclerView.last().messageData?.messageId
+                        ?: throw IllegalArgumentException("messageData required"),
+                    userData = UserData(
+                        id = CURR_USER_ID,
+                        name = CURR_USER_NAME,
+                        avatarUrl = CURR_USER_AVATAR_URL
+                    ),
+                    messageContent = messageContent,
+                    emojis = arrayListOf(),
+                    date = "3 фев"
+                )
+            )
+        )
+        messageAdapter.submitList(listRecyclerView)
     }
 
     private fun initEditText() {
@@ -102,24 +130,30 @@ class MainActivity : AppCompatActivity(), MessageItemCallback {
     }
 
     private fun onEmojiClicked(emojiCode: String) {
-        if (selectedMessageId == DEFAULT_MESSAGE_ID) {
+        if (messageIdx == DEFAULT_MESSAGE_ID) {
             throw IllegalArgumentException("selectedMessageId required")
         }
-        val idx = listMessage[selectedMessageId].emojis.indexOfFirst { it.emojiCode == emojiCode }
-        if (idx == DEFAULT_MESSAGE_ID) {
-            listMessage[selectedMessageId].emojis.add(
-                EmojiData(
-                    emojiCode = emojiCode,
-                    emojiNumber = 1,
-                    isCurrUserReacted = true
+        with(listRecyclerView[messageIdx].messageData) {
+            val idx = this?.emojis?.indexOfFirst { it.emojiCode == emojiCode }
+            if (idx == DEFAULT_MESSAGE_ID) {
+                this?.emojis?.add(
+                    EmojiData(
+                        emojiCode = emojiCode,
+                        emojiNumber = 1,
+                        isCurrUserReacted = true
+                    )
                 )
-            )
+            } else {
+                this?.emojis?.checkExistedEmoji(
+                    idx
+                        ?: throw IllegalArgumentException(
+                            "idx required"
+                        )
+                )
+            }
         }
-        else{
-            listMessage[selectedMessageId].emojis.checkExistedEmoji(idx)
-        }
-        messageAdapter.notifyItemChanged(selectedMessageId)
-        selectedMessageId = DEFAULT_MESSAGE_ID
+        messageAdapter.notifyItemChanged(messageIdx)
+        messageIdx = DEFAULT_MESSAGE_ID
         bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
@@ -132,17 +166,17 @@ class MainActivity : AppCompatActivity(), MessageItemCallback {
         }
         messageAdapter.initListener(this)
         messageAdapter.dates = listMessage.toDateMap()
-        messageAdapter.submitList(listMessage.toMutableList())
+        messageAdapter.submitList(listRecyclerView)
     }
 
     override fun getBottomSheet(messageId: Int): Boolean {
-        selectedMessageId = messageId
+        messageIdx = messageId
         bottomSheetDialog.show()
         return true
     }
 
     override fun onEmojiClick(emojiCode: String, idx: Int): Boolean {
-        selectedMessageId = idx
+        messageIdx = idx
         onEmojiClicked(emojiCode)
         return true
     }

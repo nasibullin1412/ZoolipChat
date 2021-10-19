@@ -65,4 +65,5 @@
         <item>😜</item>
         <item>😗</item>
     </string-array>
+    <string name="write_hint">Написать…</string>
 </resources>

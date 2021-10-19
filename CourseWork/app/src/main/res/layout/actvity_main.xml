@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/clMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,8 +11,8 @@
         android:id="@+id/rvMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:paddingTop="60dp"
+        android:layout_marginBottom="@dimen/rv_margin_bottom"
+        android:paddingTop="@dimen/rv_margin_top"
         app:layout_constraintBottom_toTopOf="@id/clSendBox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -20,9 +21,9 @@
         android:id="@+id/clSendBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="62dp"
-        android:maxHeight="102dp"
-        android:padding="4dp"
+        android:minHeight="@dimen/cl_send_box_min_height"
+        android:maxHeight="@dimen/cl_send_box_max_height"
+        android:padding="@dimen/cl_send_padding"
         android:background="@color/send_box_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,24 +33,29 @@
             android:id="@+id/etMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minWidth="320dp"
-            android:minHeight="50dp"
-            android:maxHeight="100dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="68dp"
+            android:minWidth="@dimen/message_min_width"
+            android:minHeight="@dimen/message_min_height"
+            android:maxHeight="@dimen/message_max_height"
+            android:layout_marginStart="@dimen/message_margin_start"
+            android:layout_marginEnd="@dimen/message_margin_end"
             android:background="@drawable/sh_message"
+            android:hint="@string/write_hint"
+            android:textColor="@color/white"
+            android:textColorHint="@color/hint_color"
+            android:fontFamily="@font/inter_regular"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
         
         <ImageView
             android:id="@+id/imgSend"
-            android:layout_width="39dp"
-            android:layout_height="39dp"
-            android:layout_marginStart="12dp"
+            android:layout_width="@dimen/send_img_width"
+            android:layout_height="@dimen/send_img_height"
+            android:layout_marginStart="@dimen/send_margin_start"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/etMessage"/>
+            app:layout_constraintStart_toEndOf="@+id/etMessage"
+            tools:ignore="ContentDescription" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

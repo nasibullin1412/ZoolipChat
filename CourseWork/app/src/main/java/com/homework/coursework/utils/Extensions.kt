@@ -1,6 +1,5 @@
 package com.homework.coursework.utils
 
-import android.content.Context
 import android.icu.text.CompactDecimalFormat
 import android.os.Build
 import android.util.Log
@@ -19,6 +18,7 @@ import com.homework.coursework.MainActivity
 import com.homework.coursework.R
 import com.homework.coursework.customview.CustomEmojiView
 import com.homework.coursework.customview.CustomFlexboxLayout
+import com.homework.coursework.data.BaseItem
 import com.homework.coursework.data.EmojiData
 import com.homework.coursework.data.MessageData
 import com.homework.coursework.data.UserData
@@ -74,9 +74,9 @@ fun View.layoutChildren(left: Int, top: Int) {
 }
 
 fun List<MessageData>.toDateMap(): Map<String, Int> {
-    return this.map{
+    return this.map {
         it.date
-    }.toSet().mapIndexed {index, date ->
+    }.toSet().mapIndexed { index, date ->
         date to index + 1
     }.toMap()
 }
@@ -91,7 +91,7 @@ fun AppCompatActivity.showToast(message: String?) {
     }
 }
 
-fun TextView.initEmojiToBottomSheet(emojiCode: String){
+fun TextView.initEmojiToBottomSheet(emojiCode: String) {
     text = emojiCode
     layoutParams = ViewGroup.MarginLayoutParams(
         ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -106,44 +106,27 @@ fun TextView.initEmojiToBottomSheet(emojiCode: String){
     textSize = resources.getDimension(R.dimen.emoji_text_size)
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         setTextColor(resources.getColor(R.color.white, context.theme))
-    }else{
+    } else {
         setTextColor(resources.getColor(R.color.white))
     }
     textAlignment = View.TEXT_ALIGNMENT_CENTER
 }
 
-fun ArrayList<EmojiData>.checkExistedEmoji(idx: Int){
-    if (this[idx].isCurrUserReacted){
+fun ArrayList<EmojiData>.checkExistedEmoji(idx: Int) {
+    if (this[idx].isCurrUserReacted) {
         this[idx].isCurrUserReacted = false
-        if (this[idx].emojiNumber > 1){
+        if (this[idx].emojiNumber > 1) {
             this[idx].emojiNumber -= 1
             return
         }
-        this.removeAt(idx)
-    }else{
+        removeAt(idx)
+    } else {
         this[idx].emojiNumber += 1
         this[idx].isCurrUserReacted = true
     }
 }
 
-
-fun ArrayList<MessageData>.addMessageData(messageContent: String){
-    this.add(
-        MessageData(
-            messageId = size,
-            userData = UserData(
-                id = MainActivity.CURR_USER_ID,
-                name = MainActivity.CURR_USER_NAME,
-                avatarUrl = MainActivity.CURR_USER_AVATAR_URL
-            ),
-            messageContent = messageContent,
-            emojis = arrayListOf(),
-            date = "3 фев"
-        )
-    )
-}
-
-fun CustomFlexboxLayout.addEmoji(emoji: EmojiData, idx: Int, listener: MessageItemCallback){
+fun CustomFlexboxLayout.addEmoji(emoji: EmojiData, idx: Int, listener: MessageItemCallback) {
     val validNumber = emoji.emojiNumber.toString().checkEmojiNumber()
     val emojiView = CustomEmojiView(context).apply {
         text = "${emoji.emojiCode} $validNumber"
@@ -157,7 +140,7 @@ fun CustomFlexboxLayout.addEmoji(emoji: EmojiData, idx: Int, listener: MessageIt
 }
 
 
-fun CustomFlexboxLayout.addPlusImgView(idx: Int, listener: MessageItemCallback){
+fun CustomFlexboxLayout.addPlusImgView(idx: Int, listener: MessageItemCallback) {
     val plusImgView = ShapeableImageView(context).apply {
         layoutParams = ViewGroup.MarginLayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -185,7 +168,7 @@ fun CustomFlexboxLayout.addPlusImgView(idx: Int, listener: MessageItemCallback){
                 padding
             )
         }
-        setOnClickListener{
+        setOnClickListener {
             listener.getBottomSheet(idx)
         }
     }
@@ -198,7 +181,7 @@ fun CustomFlexboxLayout.emojiLogic(
     messageData: MessageData,
     idx: Int,
     listener: MessageItemCallback
-){
+) {
     if (messageData.emojis.isEmpty()) {
         removeAllViews()
         return
@@ -221,4 +204,31 @@ fun CustomFlexboxLayout.emojiLogic(
             }
         }
     }
+}
+
+fun ArrayList<BaseItem>.addDate(date: String) {
+    if (lastIndex != -1 && this[lastIndex].messageData?.date == date) {
+        return
+    }
+    val curIdx = lastIndex + 1
+    this.add(
+        BaseItem(
+            id = curIdx,
+            messageData = null,
+            date = date
+        )
+    )
+}
+
+fun ArrayList<BaseItem>.addMessageData(messageDataList: List<MessageData>) {
+    val idx = lastIndex
+    this.addAll(
+        messageDataList.mapIndexed { index, messageData ->
+            BaseItem(
+                id = idx + index,
+                messageData = messageData,
+                date = null
+            )
+        }
+    )
 }
