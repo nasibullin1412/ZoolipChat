@@ -7,8 +7,8 @@
 
     <TextView
         android:id="@+id/tvDate"
-        android:layout_width="76dp"
-        android:layout_height="22dp"
+        android:layout_width="@dimen/date_item_width"
+        android:layout_height="@dimen/date_item_height"
         android:background="@drawable/sh_date"
         android:textAlignment="center"
         android:textColor="@color/white"

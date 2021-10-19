@@ -4,23 +4,23 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginTop="22dp">
+    android:layout_marginTop="@dimen/mes_to_item_margin_top">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvMessageTo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/cv_message_margin_start"
-        app:contentPaddingBottom="10dp"
-        app:contentPaddingLeft="16dp"
-        app:contentPaddingRight="16dp"
-        app:contentPaddingTop="10dp"
+        app:contentPaddingBottom="@dimen/mes_to_cv_padding_top"
+        app:contentPaddingLeft="@dimen/mes_to_cv_padding_left"
+        app:contentPaddingRight="@dimen/mes_to_cv_padding_left"
+        app:contentPaddingTop="@dimen/mes_to_cv_padding_top"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
     <TextView
         android:id="@+id/tvMessageContentTo"
-        tools:text = "lolkrkekekekekeke"
+        tools:text="lol"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter_regular"

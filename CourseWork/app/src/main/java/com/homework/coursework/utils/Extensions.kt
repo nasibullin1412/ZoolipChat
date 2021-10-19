@@ -14,14 +14,12 @@ import androidx.core.view.marginLeft
 import androidx.core.view.marginRight
 import androidx.core.view.marginTop
 import com.google.android.material.imageview.ShapeableImageView
-import com.homework.coursework.MainActivity
 import com.homework.coursework.R
 import com.homework.coursework.customview.CustomEmojiView
 import com.homework.coursework.customview.CustomFlexboxLayout
 import com.homework.coursework.data.BaseItem
 import com.homework.coursework.data.EmojiData
 import com.homework.coursework.data.MessageData
-import com.homework.coursework.data.UserData
 import com.homework.coursework.interfaces.MessageItemCallback
 import java.util.*
 
@@ -73,14 +71,6 @@ fun View.layoutChildren(left: Int, top: Int) {
     )
 }
 
-fun List<MessageData>.toDateMap(): Map<String, Int> {
-    return this.map {
-        it.date
-    }.toSet().mapIndexed { index, date ->
-        date to index + 1
-    }.toMap()
-}
-
 fun AppCompatActivity.showToast(message: String?) {
     Log.e("Toast", message ?: "")
     when {
@@ -91,6 +81,10 @@ fun AppCompatActivity.showToast(message: String?) {
     }
 }
 
+/**
+ * init textview, which add in customFlexbox layout in bottom sheet
+ * @param emojiCode is emoji code, which need to add
+ */
 fun TextView.initEmojiToBottomSheet(emojiCode: String) {
     text = emojiCode
     layoutParams = ViewGroup.MarginLayoutParams(
@@ -112,6 +106,10 @@ fun TextView.initEmojiToBottomSheet(emojiCode: String) {
     textAlignment = View.TEXT_ALIGNMENT_CENTER
 }
 
+/**
+ * On existed emoji check logic. Increase or decrease emoji number
+ * @param idx is index of emoji in emoji list
+ */
 fun ArrayList<EmojiData>.checkExistedEmoji(idx: Int) {
     if (this[idx].isCurrUserReacted) {
         this[idx].isCurrUserReacted = false
@@ -126,6 +124,12 @@ fun ArrayList<EmojiData>.checkExistedEmoji(idx: Int) {
     }
 }
 
+/**
+ * Add CustomEmojiView to CustomFlexboxLayout
+ * @param emoji is emoji, which was added
+ * @param idx is idx of emoji, need for listenner
+ * @param listener is listener for callback
+ */
 fun CustomFlexboxLayout.addEmoji(emoji: EmojiData, idx: Int, listener: MessageItemCallback) {
     val validNumber = emoji.emojiNumber.toString().checkEmojiNumber()
     val emojiView = CustomEmojiView(context).apply {
@@ -139,7 +143,11 @@ fun CustomFlexboxLayout.addEmoji(emoji: EmojiData, idx: Int, listener: MessageIt
     addView(emojiView, 0)
 }
 
-
+/**
+ * Add PlusImgView to CustomFlexboxLayout
+ * @param idx is idx of plus, need to listener
+ * @param listener is listener for callback
+ */
 fun CustomFlexboxLayout.addPlusImgView(idx: Int, listener: MessageItemCallback) {
     val plusImgView = ShapeableImageView(context).apply {
         layoutParams = ViewGroup.MarginLayoutParams(
@@ -177,6 +185,12 @@ fun CustomFlexboxLayout.addPlusImgView(idx: Int, listener: MessageItemCallback) 
     )
 }
 
+/**
+ * add emoji to CustomFlexboxLayout logic
+ * @param messageData is message model
+ * @param idx is idx for emoji callback listener
+ * @param listener is listener for callback
+ */
 fun CustomFlexboxLayout.emojiLogic(
     messageData: MessageData,
     idx: Int,
@@ -206,6 +220,10 @@ fun CustomFlexboxLayout.emojiLogic(
     }
 }
 
+/**
+ * add date to recycler list
+ * @param date is string with date
+ */
 fun ArrayList<BaseItem>.addDate(date: String) {
     if (lastIndex != -1 && this[lastIndex].messageData?.date == date) {
         return
@@ -220,6 +238,10 @@ fun ArrayList<BaseItem>.addDate(date: String) {
     )
 }
 
+/**
+ * add message to recycler list
+ * @param messageDataList is list with new messages
+ */
 fun ArrayList<BaseItem>.addMessageData(messageDataList: List<MessageData>) {
     val idx = lastIndex
     this.addAll(

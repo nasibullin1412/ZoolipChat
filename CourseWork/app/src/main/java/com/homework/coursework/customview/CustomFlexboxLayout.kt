@@ -5,9 +5,6 @@ import android.util.AttributeSet
 import android.view.ViewGroup
 import androidx.core.view.marginRight
 import androidx.core.view.marginTop
-import com.homework.coursework.data.EmojiData
-import com.homework.coursework.interfaces.MessageItemCallback
-import com.homework.coursework.utils.checkEmojiNumber
 
 class CustomFlexboxLayout @JvmOverloads constructor(
     context: Context,
@@ -86,24 +83,5 @@ class CustomFlexboxLayout @JvmOverloads constructor(
 
     override fun generateLayoutParams(p: LayoutParams): LayoutParams {
         return MarginLayoutParams(p)
-    }
-
-    companion object {
-        private fun addEmoji(
-            emoji: EmojiData,
-            idx: Int,
-            context: Context,
-            listener: MessageItemCallback
-        ): CustomEmojiView {
-            val validNumber = emoji.emojiNumber.toString().checkEmojiNumber()
-            return CustomEmojiView(context).apply {
-                text = "${emoji.emojiCode} $validNumber"
-                isSelected = true
-                setOnClickListener {
-                    it.isSelected = it.isSelected.not()
-                    listener.onEmojiClick(emoji.emojiCode, idx)
-                }
-            }
-        }
     }
 }

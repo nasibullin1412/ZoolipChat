@@ -7,12 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.homework.coursework.R
 import com.homework.coursework.callbacks.MessageCallback
 import com.homework.coursework.data.BaseItem
-import com.homework.coursework.data.MessageData
 import com.homework.coursework.interfaces.MessageItemCallback
 import com.homework.coursework.viewholders.DateViewHolder
 import com.homework.coursework.viewholders.MessageFromViewHolder
 import com.homework.coursework.viewholders.MessageToViewHolder
-import java.lang.IllegalArgumentException
 
 class MessageAdapter(private val curId: Int) :
     ListAdapter<BaseItem, RecyclerView.ViewHolder>(MessageCallback()) {
@@ -47,11 +45,13 @@ class MessageAdapter(private val curId: Int) :
             is MessageFromViewHolder -> holder.bind(
                 getItem(position).messageData
                     ?: throw IllegalArgumentException("messageData required"),
-                position)
+                position
+            )
             is DateViewHolder -> {
                 holder.bind(
                     getItem(position).date
-                        ?: throw IllegalArgumentException("date required"))
+                        ?: throw IllegalArgumentException("date required")
+                )
                 return
             }
         }

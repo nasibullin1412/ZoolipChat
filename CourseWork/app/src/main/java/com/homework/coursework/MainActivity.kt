@@ -35,6 +35,10 @@ class MainActivity : AppCompatActivity(), MessageItemCallback {
         initViews()
     }
 
+    /**
+     * update recycler view with new message
+     * @param newList is list with new MessageData
+     */
     private fun updateMessage(newList: ArrayList<MessageData>) {
         val groupedMessage = newList.groupBy { it.date }
         with(groupedMessage) {
@@ -75,7 +79,7 @@ class MainActivity : AppCompatActivity(), MessageItemCallback {
                     ),
                     messageContent = messageContent,
                     emojis = arrayListOf(),
-                    date = "3 фев"
+                    date = CURR_USER_DATE
                 )
             )
         )
@@ -115,7 +119,6 @@ class MainActivity : AppCompatActivity(), MessageItemCallback {
                     theme
                 )
             }
-
         }
         val emojiCodes = resources.getStringArray(R.array.emoji_codes)
         val flbLayout = bottomSheetDialog.findViewById<CustomFlexboxLayout>(R.id.fblBottomSheet)
@@ -129,6 +132,11 @@ class MainActivity : AppCompatActivity(), MessageItemCallback {
         }
     }
 
+    /**
+     * In Emoji click callback, which add new emoji or increase and decrease existed
+     * emoji number
+     * @param emojiCode is clicked emoji code
+     */
     private fun onEmojiClicked(emojiCode: String) {
         if (messageIdx == DEFAULT_MESSAGE_ID) {
             throw IllegalArgumentException("selectedMessageId required")
@@ -164,9 +172,10 @@ class MainActivity : AppCompatActivity(), MessageItemCallback {
             adapter = messageAdapter
             layoutManager = LinearLayoutManager(this@MainActivity)
         }
-        messageAdapter.initListener(this)
-        messageAdapter.dates = listMessage.toDateMap()
-        messageAdapter.submitList(listRecyclerView)
+        with(messageAdapter) {
+            initListener(this@MainActivity)
+            submitList(listRecyclerView)
+        }
     }
 
     override fun getBottomSheet(messageId: Int): Boolean {
@@ -186,5 +195,6 @@ class MainActivity : AppCompatActivity(), MessageItemCallback {
         const val CURR_USER_ID = 1
         const val CURR_USER_NAME = "Марк Цукерберг"
         const val CURR_USER_AVATAR_URL = "https://clck.ru/YDyYU"
+        const val CURR_USER_DATE = "3 фев"
     }
 }

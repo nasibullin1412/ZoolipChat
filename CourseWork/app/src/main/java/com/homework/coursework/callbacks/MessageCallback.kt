@@ -2,7 +2,6 @@ package com.homework.coursework.callbacks
 
 import androidx.recyclerview.widget.DiffUtil
 import com.homework.coursework.data.BaseItem
-import com.homework.coursework.data.MessageData
 
 class MessageCallback : DiffUtil.ItemCallback<BaseItem>() {
     override fun areItemsTheSame(oldItem: BaseItem, newItem: BaseItem): Boolean {

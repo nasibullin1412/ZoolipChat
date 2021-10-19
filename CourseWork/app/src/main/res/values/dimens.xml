@@ -51,4 +51,22 @@
     <dimen name="send_img_width">39dp</dimen>
     <dimen name="send_img_height">39dp</dimen>
     <dimen name="send_margin_start">12dp</dimen>
+
+    <dimen name="bottom_sheet_layout_height">346dp</dimen>
+    <dimen name="cv_padding_left">16dp</dimen>
+    <dimen name="cv_padding_right">16dp</dimen>
+
+    <dimen name="bot_sh_img_width">62dp</dimen>
+    <dimen name="bot_sh_img_height">7dp</dimen>
+    <dimen name="bot_sh_img_margin_top">8dp</dimen>
+
+    <dimen name="bot_sh_flb_margin_top">25dp</dimen>
+
+    <dimen name="date_item_width">76dp</dimen>
+    <dimen name="date_item_height">22dp</dimen>
+
+    <dimen name="mes_to_item_margin_top">22dp</dimen>
+    <dimen name="mes_to_cv_padding_top">10dp</dimen>
+    <dimen name="mes_to_cv_padding_left">16dp</dimen>
+
 </resources>

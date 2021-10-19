@@ -1,22 +1,17 @@
 package com.homework.coursework.viewholders
 
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
-import com.google.android.material.imageview.ShapeableImageView
 import com.homework.coursework.R
-import com.homework.coursework.customview.CustomEmojiView
 import com.homework.coursework.customview.CustomFlexboxLayout
-import com.homework.coursework.data.EmojiData
 import com.homework.coursework.data.MessageData
 import com.homework.coursework.interfaces.MessageItemCallback
-import com.homework.coursework.utils.*
+import com.homework.coursework.utils.emojiLogic
 
 class MessageFromViewHolder(private val listener: MessageItemCallback, view: View) :
     RecyclerView.ViewHolder(view) {

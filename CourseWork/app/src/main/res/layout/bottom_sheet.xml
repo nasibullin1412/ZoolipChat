@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/flBottomSheet"
     android:layout_width="match_parent"
-    android:layout_height="346dp"
+    android:layout_height="@dimen/bottom_sheet_layout_height"
     android:background="@color/black">
 
 
@@ -16,27 +17,27 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:cardBackgroundColor="@color/custom_back"
-            app:contentPaddingLeft="16dp"
-            app:contentPaddingRight="16dp">
+            app:contentPaddingLeft="@dimen/cv_padding_left"
+            app:contentPaddingRight="@dimen/cv_padding_right">
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <ImageView
                     android:id="@+id/imgRectangle"
-                    android:layout_width="62dp"
-                    android:layout_height="7dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_width="@dimen/bot_sh_img_width"
+                    android:layout_height="@dimen/bot_sh_img_height"
+                    android:layout_marginTop="@dimen/bot_sh_img_margin_top"
                     android:background="@drawable/sh_style"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    />
+                    tools:ignore="ContentDescription" />
 
             <com.homework.coursework.customview.CustomFlexboxLayout
                 android:id="@+id/fblBottomSheet"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="@dimen/bot_sh_flb_margin_top"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/imgRectangle"/>
