@@ -38,6 +38,7 @@
             android:maxHeight="@dimen/message_max_height"
             android:layout_marginStart="@dimen/message_margin_start"
             android:layout_marginEnd="@dimen/message_margin_end"
+            android:inputType="text"
             android:background="@drawable/sh_message"
             android:hint="@string/write_hint"
             android:textColor="@color/white"
@@ -45,7 +46,8 @@
             android:fontFamily="@font/inter_regular"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            android:importantForAutofill="no" />
         
         <ImageView
             android:id="@+id/imgSend"
