@@ -1,8 +1,6 @@
 package com.homework.coursework
 
-import com.homework.coursework.data.EmojiData
-import com.homework.coursework.data.MessageData
-import com.homework.coursework.data.UserData
+import com.homework.coursework.data.*
 
 val testList = arrayListOf(
     MessageData(
@@ -52,5 +50,50 @@ val testList = arrayListOf(
         messageContent = "Мухамед Али",
         emojis = arrayListOf(),
         date = "2 Фев"
+    )
+)
+
+val channelListData = arrayListOf(
+    ChannelData(
+        id = 0,
+        channelName = "#general",
+        topicList = arrayListOf(
+            ChannelTopic(
+                id = 0,
+                topicName = "#Testing"
+            ),
+            ChannelTopic(
+                id = 1,
+                topicName = "#Bruh"
+            )
+        )
+    ),
+    ChannelData(
+        id = 1,
+        channelName = "#Development",
+        topicList = arrayListOf(
+            ChannelTopic(
+                id = 0,
+                topicName = "#Testing"
+            ),
+            ChannelTopic(
+                id = 1,
+                topicName = "#Bruh"
+            )
+        )
+    ),
+    ChannelData(
+        id = 2,
+        channelName = "#Design",
+        topicList = arrayListOf(
+            ChannelTopic(
+                id = 0,
+                topicName = "#Testing"
+            ),
+            ChannelTopic(
+                id = 1,
+                topicName = "#Bruh"
+            )
+        )
     )
 )

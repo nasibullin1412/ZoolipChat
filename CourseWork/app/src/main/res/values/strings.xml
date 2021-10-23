@@ -66,4 +66,8 @@
         <item>😗</item>
     </string-array>
     <string name="write_hint">Написать…</string>
+    <string name="channels_string">Channels</string>
+    <string name="people_string">People</string>
+    <string name="profile_string">Profile</string>
+    <string name="search_hint">Search…</string>
 </resources>

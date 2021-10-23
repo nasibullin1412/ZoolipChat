@@ -15,4 +15,10 @@
     <color name="send_edit_text">#282828</color>
     <color name="decor_color">#555555</color>
     <color name="hint_color">#CCCCCC</color>
+    <color name="tab_indicator_color">#219653</color>
+    <color name="tab_selected_color">#FAFAFA</color>
+    <color name="tab_unselected_color">#919191</color>
+    <color name="search_border_color">#323232</color>
+    <color name="item_border_color">#282828</color>
+    <color name="indicator_color">#219653</color>
 </resources>

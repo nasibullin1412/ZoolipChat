@@ -1,40 +1,56 @@
-package com.homework.coursework
+package com.homework.coursework.views
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.homework.coursework.R
 import com.homework.coursework.adapters.MessageAdapter
 import com.homework.coursework.customview.CustomFlexboxLayout
 import com.homework.coursework.data.BaseItem
 import com.homework.coursework.data.EmojiData
 import com.homework.coursework.data.MessageData
 import com.homework.coursework.data.UserData
-import com.homework.coursework.databinding.ActvityMainBinding
+import com.homework.coursework.databinding.TopicDiscussionFragmentBinding
 import com.homework.coursework.interfaces.MessageItemCallback
-import com.homework.coursework.utils.*
+import com.homework.coursework.testList
+import com.homework.coursework.utils.addDate
+import com.homework.coursework.utils.addMessageData
+import com.homework.coursework.utils.checkExistedEmoji
+import com.homework.coursework.utils.initEmojiToBottomSheet
 
-class MainActivity : AppCompatActivity(), MessageItemCallback {
-    private lateinit var binding: ActvityMainBinding
+class TopicDiscussionFragment: Fragment(), MessageItemCallback {
+
+    private var _binding: TopicDiscussionFragmentBinding? = null
+    private val binding get() = _binding!!
     private lateinit var messageAdapter: MessageAdapter
     private lateinit var bottomSheetDialog: BottomSheetDialog
-    private var listMessage: ArrayList<MessageData> = testList
     private var listRecyclerView: ArrayList<BaseItem> = arrayListOf()
     private var messageIdx = DEFAULT_MESSAGE_ID
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActvityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = TopicDiscussionFragmentBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         updateMessage(testList)
         initViews()
     }
-
     /**
      * update recycler view with new message
      * @param newList is list with new MessageData
@@ -90,14 +106,14 @@ class MainActivity : AppCompatActivity(), MessageItemCallback {
         binding.imgSend.background = ResourcesCompat.getDrawable(
             resources,
             R.drawable.ic_vector,
-            theme
+            context?.theme
         )
         binding.etMessage.apply {
             addTextChangedListener {
                 binding.imgSend.background = ResourcesCompat.getDrawable(
                     resources,
                     selectIcon(text.toString()),
-                    theme
+                    context.theme
                 )
             }
         }
@@ -110,13 +126,15 @@ class MainActivity : AppCompatActivity(), MessageItemCallback {
     }
 
     private fun initBottomDialog() {
-        bottomSheetDialog = BottomSheetDialog(this).apply {
+        bottomSheetDialog = BottomSheetDialog(
+            context ?: throw IllegalArgumentException("Context required")
+        ).apply {
             setContentView(R.layout.bottom_sheet)
             findViewById<CardView>(R.id.cvEmojiBottom)?.apply {
                 background = ResourcesCompat.getDrawable(
                     resources,
                     R.drawable.sh_bottom_sheet,
-                    theme
+                    context.theme
                 )
             }
         }
@@ -124,7 +142,7 @@ class MainActivity : AppCompatActivity(), MessageItemCallback {
         val flbLayout = bottomSheetDialog.findViewById<CustomFlexboxLayout>(R.id.fblBottomSheet)
         for (emoji in emojiCodes) {
             flbLayout?.addView(
-                TextView(this).apply {
+                TextView(context).apply {
                     initEmojiToBottomSheet(emoji.toString())
                     setOnClickListener { onEmojiClicked(text.toString()) }
                 }
@@ -170,10 +188,10 @@ class MainActivity : AppCompatActivity(), MessageItemCallback {
         with(binding.rvMessage) {
             messageAdapter = MessageAdapter(1)
             adapter = messageAdapter
-            layoutManager = LinearLayoutManager(this@MainActivity)
+            layoutManager = LinearLayoutManager(context)
         }
         with(messageAdapter) {
-            initListener(this@MainActivity)
+            initListener(this@TopicDiscussionFragment)
             submitList(listRecyclerView)
         }
     }
@@ -198,3 +216,4 @@ class MainActivity : AppCompatActivity(), MessageItemCallback {
         const val CURR_USER_DATE = "3 фев"
     }
 }
+
