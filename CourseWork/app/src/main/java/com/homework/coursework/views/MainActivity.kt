@@ -11,8 +11,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
         supportFragmentManager.beginTransaction()
-            .add(R.id.nav_host_fragment, ChannelFragment(), "Disc")
+            .add(R.id.nav_host_fragment, ProfileFragment(), "Disc")
             .commit()
     }
 
+    companion object {
+        const val DEFAULT_MESSAGE_ID = -1
+        const val CURR_USER_ID = 1
+        const val CURR_USER_NAME = "Марк Цукерберг"
+        const val CURR_USER_AVATAR_URL = "https://clck.ru/YDyYU"
+        const val CURR_USER_DATE = "3 фев"
+        const val CURR_USER_STATUS = "In a meeting"
+        const val CURR_USER_STATE = "online"
+    }
 }

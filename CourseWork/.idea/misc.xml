@@ -17,11 +17,15 @@
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/drawable/ic_spinner.xml" value="0.20625" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/drawable/ic_vector.xml" value="0.25" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/drawable/ic_vector_send.xml" value="0.25" />
+        <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/drawable/logout_button_selector.xml" value="0.20208333333333334" />
+        <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/drawable/logout_button_shape.xml" value="0.20208333333333334" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/drawable/sh_bottom_sheet.xml" value="0.24307692307692308" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/drawable/sh_date.xml" value="0.25076923076923074" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/drawable/sh_message.xml" value="0.25" />
+        <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/drawable/sh_profile_avatar.xml" value="0.20208333333333334" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/drawable/sh_style.xml" value="0.25" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/drawable/underline.xml" value="0.20625" />
+        <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/font/roboto.xml" value="0.15677083333333333" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/actvity_main.xml" value="0.264" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/bootom_sheet.xml" value="0.23072916666666668" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/bottom_sheet.xml" value="0.2171875" />
@@ -33,6 +37,7 @@
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/message_from_item.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/message_item.xml" value="0.1" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/message_to_item.xml" value="0.176" />
+        <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/profile_fragment.xml" value="0.1859375" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/spinner.xml" value="0.2140625" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/spinner_item.xml" value="0.264" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/topic_discussion_fragment.xml" value="0.165625" />

@@ -21,4 +21,6 @@
     <color name="search_border_color">#323232</color>
     <color name="item_border_color">#282828</color>
     <color name="indicator_color">#219653</color>
+    <color name="status_color">#BCBCBC</color>
+    <color name="state_color">#4AB54D</color>
 </resources>

@@ -26,8 +26,13 @@ import com.homework.coursework.utils.addDate
 import com.homework.coursework.utils.addMessageData
 import com.homework.coursework.utils.checkExistedEmoji
 import com.homework.coursework.utils.initEmojiToBottomSheet
+import com.homework.coursework.views.MainActivity.Companion.CURR_USER_AVATAR_URL
+import com.homework.coursework.views.MainActivity.Companion.CURR_USER_DATE
+import com.homework.coursework.views.MainActivity.Companion.CURR_USER_ID
+import com.homework.coursework.views.MainActivity.Companion.CURR_USER_NAME
+import com.homework.coursework.views.MainActivity.Companion.DEFAULT_MESSAGE_ID
 
-class TopicDiscussionFragment: Fragment(), MessageItemCallback {
+class TopicDiscussionFragment : Fragment(), MessageItemCallback {
 
     private var _binding: TopicDiscussionFragmentBinding? = null
     private val binding get() = _binding!!
@@ -35,7 +40,6 @@ class TopicDiscussionFragment: Fragment(), MessageItemCallback {
     private lateinit var bottomSheetDialog: BottomSheetDialog
     private var listRecyclerView: ArrayList<BaseItem> = arrayListOf()
     private var messageIdx = DEFAULT_MESSAGE_ID
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,6 +55,7 @@ class TopicDiscussionFragment: Fragment(), MessageItemCallback {
         updateMessage(testList)
         initViews()
     }
+
     /**
      * update recycler view with new message
      * @param newList is list with new MessageData
@@ -207,13 +212,4 @@ class TopicDiscussionFragment: Fragment(), MessageItemCallback {
         onEmojiClicked(emojiCode)
         return true
     }
-
-    companion object {
-        const val DEFAULT_MESSAGE_ID = -1
-        const val CURR_USER_ID = 1
-        const val CURR_USER_NAME = "Марк Цукерберг"
-        const val CURR_USER_AVATAR_URL = "https://clck.ru/YDyYU"
-        const val CURR_USER_DATE = "3 фев"
-    }
 }
-
