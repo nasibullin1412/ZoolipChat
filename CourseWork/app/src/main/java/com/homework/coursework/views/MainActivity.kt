@@ -11,7 +11,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
         supportFragmentManager.beginTransaction()
-            .add(R.id.nav_host_fragment, ProfileFragment(), "Disc")
+            .add(R.id.nav_host_fragment, ChannelFragment(), "Disc")
             .commit()
     }
 

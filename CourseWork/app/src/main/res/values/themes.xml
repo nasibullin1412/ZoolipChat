@@ -31,11 +31,6 @@
         <item name="fontFamily">@font/roboto</item>
     </style>
 
-    <style name="SpinnerTheme" parent="android:Widget.Spinner">
-        <item name="android:background">@drawable/bg_spinner</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-    </style>
     <style name="TabText" parent="@android:style/TextAppearance.Widget.TabWidget">
         <item name="android:fontFamily">@font/inter_regular</item>
         <item name="android:textSize">22sp</item>

@@ -57,42 +57,51 @@ val channelListData = arrayListOf(
     ChannelData(
         id = 0,
         channelName = "#general",
+        isTouched = false,
         topicList = arrayListOf(
             ChannelTopic(
                 id = 0,
-                topicName = "#Testing"
+                topicName = "#Testing",
+                numberOfMess = 1024
             ),
             ChannelTopic(
                 id = 1,
-                topicName = "#Bruh"
+                topicName = "#Bruh",
+                numberOfMess = 512
             )
         )
     ),
     ChannelData(
         id = 1,
         channelName = "#Development",
+        isTouched = false,
         topicList = arrayListOf(
             ChannelTopic(
                 id = 0,
-                topicName = "#Testing"
+                topicName = "#Testing",
+                numberOfMess = 1024
             ),
             ChannelTopic(
                 id = 1,
-                topicName = "#Bruh"
+                topicName = "#Bruh",
+                numberOfMess = 512
             )
         )
     ),
     ChannelData(
         id = 2,
         channelName = "#Design",
+        isTouched = false,
         topicList = arrayListOf(
             ChannelTopic(
                 id = 0,
-                topicName = "#Testing"
+                topicName = "#Testing",
+                numberOfMess = 1024
             ),
             ChannelTopic(
                 id = 1,
-                topicName = "#Bruh"
+                topicName = "#Bruh",
+                numberOfMess = 512
             )
         )
     )

@@ -10,16 +10,15 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.homework.coursework.R
-import com.homework.coursework.adapters.ChannelSpinnerAdapter
+import com.homework.coursework.adapters.ChannelNameAdapter
 import com.homework.coursework.channelListData
 import com.homework.coursework.data.ChannelData
 import com.homework.coursework.databinding.ChannelViewPageFragmentBinding
-import com.homework.coursework.testList
 import com.homework.coursework.viewmodel.ChannelViewModel
 
 class ChannelListFragment : Fragment() {
     private lateinit var recycleList: ArrayList<ChannelData>
-    private lateinit var channelAdapter: ChannelSpinnerAdapter
+    private lateinit var channelAdapter: ChannelNameAdapter
     private var _binding: ChannelViewPageFragmentBinding? = null
     private val binding
         get() = _binding
@@ -61,7 +60,7 @@ class ChannelListFragment : Fragment() {
     }
 
     private fun initRecycler() {
-        channelAdapter = ChannelSpinnerAdapter()
+        channelAdapter = ChannelNameAdapter()
         with(binding.rvSpinner) {
             val itemDecorator = DividerItemDecoration(
                 binding.rvSpinner.context,
