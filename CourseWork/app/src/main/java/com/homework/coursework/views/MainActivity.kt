@@ -36,6 +36,10 @@ class MainActivity : AppCompatActivity(), AddTopicDiscussion, BottomNavigationCo
         }
     }
 
+    /**
+     * Bottom navigation listener action
+     * @param item new selected item
+     */
     private fun actionBottom(item: MenuItem): Boolean {
         val tag = when (item.itemId) {
             R.id.channelFragment -> FragmentTag.CHANNEL_FRAGMENT_TAG
@@ -52,6 +56,9 @@ class MainActivity : AppCompatActivity(), AddTopicDiscussion, BottomNavigationCo
         super.onBackPressed()
     }
 
+    /**
+     * set correct checked item for bottom navigation after back press
+     */
     private fun setPreviousItem() {
         if (supportFragmentManager.backStackEntryCount <= 1) {
             bottomNavigationView.menu.getItem(MenuItemIdx.CHANNEL_IDX.value).isChecked = true

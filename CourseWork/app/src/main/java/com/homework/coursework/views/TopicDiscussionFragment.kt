@@ -1,5 +1,6 @@
 package com.homework.coursework.views
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -102,6 +103,7 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initNames() {
         val idChannel = arguments?.getInt(CHANNEL_KEY)
             ?: throw IllegalArgumentException("Title required")
@@ -226,7 +228,9 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
         with(binding.rvMessage) {
             messageAdapter = MessageAdapter(1)
             adapter = messageAdapter
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = LinearLayoutManager(context).apply {
+                stackFromEnd = true
+            }
         }
         with(messageAdapter) {
             initListener(this@TopicDiscussionFragment)

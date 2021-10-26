@@ -15,7 +15,6 @@ import com.homework.coursework.viewholders.MessageToViewHolder
 class MessageAdapter(private val curId: Int) :
     ListAdapter<BaseItem, RecyclerView.ViewHolder>(MessageCallback()) {
 
-    var dates: Map<String, Int> = HashMap()
     private lateinit var listener: MessageItemCallback
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

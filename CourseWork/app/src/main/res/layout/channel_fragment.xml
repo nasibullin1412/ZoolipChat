@@ -12,8 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:clipToPadding="false"
         android:background="@color/send_box_color"
+        android:clipToPadding="false"
         android:elevation="10dp"
         android:outlineProvider="paddedBounds"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,25 +25,24 @@
             android:layout_height="68dp"
             android:background="@color/send_box_color"
             android:contentInsetStart="20dp"
-            app:contentInsetEnd="20dp"
-            >
+            app:contentInsetEnd="20dp">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etSearch"
+                style="@style/HelperTextAppearance"
                 android:layout_width="300dp"
                 android:layout_height="66dp"
                 android:backgroundTint="@color/search_border_color"
-                android:textColorHint="@color/white"
                 android:hint="@string/search_hint"
-                style="@style/HelperTextAppearance"
                 android:paddingStart="25dp"
                 android:paddingEnd="25dp"
-            />
+                android:textColorHint="@color/white" />
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_search"
                 android:layout_marginStart="40dp"
+                android:src="@drawable/ic_search"
                 tools:ignore="ContentDescription" />
         </androidx.appcompat.widget.Toolbar>
 
@@ -56,9 +55,9 @@
             android:paddingTop="14dp"
             android:paddingBottom="28dp"
             app:tabIndicator="@drawable/underline"
-            app:tabTextAppearance="@style/TabText"
             app:tabIndicatorColor="@color/tab_indicator_color"
             app:tabSelectedTextColor="@color/white"
+            app:tabTextAppearance="@style/TabText"
             app:tabTextColor="@color/white" />
 
     </com.google.android.material.appbar.AppBarLayout>

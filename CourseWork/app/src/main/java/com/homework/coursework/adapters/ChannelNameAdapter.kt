@@ -37,6 +37,11 @@ class ChannelNameAdapter : ListAdapter<ChannelData,
         holder.bind(getItem(position))
     }
 
+    /**
+     * Init child recycleView with topics
+     * @param holder is where recycle init
+     * @param position is position need for listener onTopicClick
+     */
     private fun initChildRecycle(holder: ChannelNameViewHolder, position: Int) {
         with(holder) {
             adapterTopicName = TopicAdapter(position).apply { setListener(listener) }

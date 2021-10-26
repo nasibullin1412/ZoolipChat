@@ -25,7 +25,6 @@ class TopicViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         view.resources.getColor(R.color.odd_color)
     }
 
-
     @SuppressLint("SetTextI18n")
     fun bind(channelTopic: ChannelTopic, position: Int) {
         cvTopic.setBackgroundColor(getNeedColor(position))

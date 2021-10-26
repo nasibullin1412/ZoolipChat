@@ -14,20 +14,21 @@ class TopicAdapter(private val idChannel: Int) : ListAdapter<ChannelTopic,
 
     private lateinit var listener: TopicItemCallback
 
-    fun setListener(listener: TopicItemCallback){
+    fun setListener(listener: TopicItemCallback) {
         this.listener = listener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopicViewHolder {
         val inflater: LayoutInflater = LayoutInflater.from(parent.context)
         return TopicViewHolder(
-            inflater.inflate(R.layout.topic_item, parent, false
+            inflater.inflate(
+                R.layout.topic_item, parent, false
             )
         )
     }
 
     override fun onBindViewHolder(holder: TopicViewHolder, position: Int) {
-        holder.itemView.setOnClickListener{
+        holder.itemView.setOnClickListener {
             listener.onTopicItemClick(getItem(position).id, idChannel)
         }
         holder.bind(getItem(position), position)

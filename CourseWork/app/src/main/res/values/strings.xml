@@ -70,4 +70,9 @@
     <string name="people_string">People</string>
     <string name="profile_string">Profile</string>
     <string name="search_hint">Search…</string>
+    <string name="log_out">Log out</string>
+    <string-array name="view_pager_items">
+        <item>Subscribed</item>
+        <item>All streams</item>
+    </string-array>
 </resources>

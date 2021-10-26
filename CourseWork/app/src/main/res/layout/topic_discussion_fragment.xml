@@ -39,11 +39,11 @@
                 android:id="@+id/tvChannelNameBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textSize="24sp"
                 android:layout_marginStart="44dp"
                 android:fontFamily="@font/inter_regular"
-                tools:text="#general"/>
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                tools:text="#general" />
 
 
         </androidx.appcompat.widget.Toolbar>
@@ -54,24 +54,25 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@color/send_box_color"
-        android:textSize="18sp"
         android:fontFamily="@font/inter_regular"
-        android:textColor="@color/topic_name_color"
         android:gravity="center"
+        android:textColor="@color/topic_name_color"
+        android:textSize="18sp"
         app:layout_constraintTop_toBottomOf="@+id/appBar"
-        tools:text="Topic: #testing"
-        />
+        tools:text="Topic: #testing" />
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvMessage"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginBottom="@dimen/rv_margin_bottom"
-        android:paddingTop="@dimen/rv_margin_top"
+        android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/clSendBox"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTopicName"
+        app:layout_constraintVertical_bias="1" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clSendBox"

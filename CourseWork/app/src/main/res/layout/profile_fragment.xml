@@ -12,10 +12,10 @@
         android:layout_height="185dp"
         android:layout_marginTop="126dp"
         android:scaleType="centerCrop"
-        app:shapeAppearanceOverlay="@style/RoundImage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/RoundImage" />
 
     <TextView
         android:id="@+id/tvName"
@@ -23,11 +23,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:ellipsize="end"
+        android:fontFamily="@font/inter_regular"
         android:maxWidth="300dp"
         android:maxLines="2"
         android:textColor="@color/white"
         android:textSize="32sp"
-        android:fontFamily="@font/inter_regular"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgProfile"
@@ -38,16 +38,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ellipsize="end"
+        android:fontFamily="@font/inter_regular"
         android:maxWidth="200dp"
         android:maxLines="1"
-        android:textSize="20sp"
-        android:fontFamily="@font/inter_regular"
         android:textColor="@color/status_color"
-        app:layout_constraintHorizontal_bias="0.35"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.35"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvName"
-        tools:text="In a meeting"/>
+        tools:text="In a meeting" />
 
     <TextView
         android:id="@+id/tvState"
@@ -55,29 +55,28 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="22dp"
         android:ellipsize="end"
+        android:fontFamily="@font/inter_regular"
         android:maxWidth="200dp"
         android:maxLines="1"
-        android:textSize="20sp"
-        android:fontFamily="@font/inter_regular"
         android:textColor="@color/state_color"
+        android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/tvStatus"
         app:layout_constraintTop_toBottomOf="@+id/tvName"
-        tools:text="online"/>
+        tools:text="online" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnLogout"
         android:layout_width="184dp"
         android:layout_height="52dp"
         android:layout_marginTop="20dp"
-        app:layout_constraintVertical_bias="0.6"
-        app:backgroundTint="@color/send_box_color"
-        android:text="Log out"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:background="@drawable/logout_button_selector"
-        app:layout_constraintTop_toBottomOf="@id/tvState"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/log_out"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:backgroundTint="@color/send_box_color"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvState"
+        app:layout_constraintVertical_bias="0.6" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

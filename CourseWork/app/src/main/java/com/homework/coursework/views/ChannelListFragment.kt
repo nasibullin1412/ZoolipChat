@@ -55,6 +55,10 @@ class ChannelListFragment : Fragment(), TopicItemCallback {
         )
     }
 
+    /**
+     * update channels recycle view
+     * @param listChannels is new list of channels for recycle
+     */
     private fun dataUpdate(listChannels: ArrayList<ChannelData>) {
         binding.rvSpinner.visibility = View.VISIBLE
         recycleList = listChannels

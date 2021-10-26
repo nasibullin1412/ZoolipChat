@@ -25,13 +25,10 @@ class ChannelNameViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         if (channelData.isTouched) {
             imgDropDown.setImageResource(R.drawable.ic_spinner_drop)
             tvTopicName.setTextColor(whiteColor)
-        } else {
-            imgDropDown.setImageResource(R.drawable.ic_spinner)
-        }
-        if (channelData.isTouched) {
             adapterTopicName.submitList(channelData.topicList)
-        } else {
-            adapterTopicName.submitList(null)
+            return
         }
+        imgDropDown.setImageResource(R.drawable.ic_spinner)
+        adapterTopicName.submitList(null)
     }
 }
