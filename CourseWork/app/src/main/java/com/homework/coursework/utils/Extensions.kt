@@ -13,14 +13,20 @@ import androidx.core.view.marginBottom
 import androidx.core.view.marginLeft
 import androidx.core.view.marginRight
 import androidx.core.view.marginTop
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.google.android.material.imageview.ShapeableImageView
 import com.homework.coursework.R
 import com.homework.coursework.customview.CustomEmojiView
 import com.homework.coursework.customview.CustomFlexboxLayout
 import com.homework.coursework.data.BaseItem
 import com.homework.coursework.data.EmojiData
+import com.homework.coursework.data.FragmentTag
 import com.homework.coursework.data.MessageData
 import com.homework.coursework.interfaces.MessageItemCallback
+import com.homework.coursework.views.ChannelFragment
+import com.homework.coursework.views.ProfileFragment
+import com.homework.coursework.views.TopicDiscussionFragment
 import java.util.*
 
 /**
@@ -253,4 +259,39 @@ fun ArrayList<BaseItem>.addMessageData(messageDataList: List<MessageData>) {
             )
         }
     )
+}
+
+fun FragmentTag.fragmentByTag(idTopic: Int? = null, idChannel: Int? = null): Fragment =
+    when (this) {
+        FragmentTag.CHANNEL_FRAGMENT_TAG -> ChannelFragment()
+        FragmentTag.PROFILE_FRAGMENT_TAG -> ProfileFragment()
+        FragmentTag.PEOPLE_FRAGMENT_TAG -> ProfileFragment()
+        FragmentTag.TOPIC_DISCUSSION_FRAGMENT_TAG -> {
+            if (idTopic != null && idChannel != null) {
+                TopicDiscussionFragment.newInstance(idTopic, idChannel)
+            } else {
+                throw IllegalArgumentException("idTopic and idChannel required")
+            }
+        }
+    }
+
+fun AppCompatActivity.addFragment(fragment: Fragment, tag: FragmentTag) {
+    if (tag == FragmentTag.CHANNEL_FRAGMENT_TAG) {
+        if (supportFragmentManager.backStackEntryCount != 0) {
+            supportFragmentManager.popBackStack(
+                null,
+                FragmentManager.POP_BACK_STACK_INCLUSIVE
+            )
+        } else {
+            supportFragmentManager.beginTransaction()
+                .add(R.id.nav_host_fragment, fragment, tag.value)
+                .commit()
+        }
+        return
+    }
+    supportFragmentManager.popBackStack(tag.value, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+    supportFragmentManager.beginTransaction()
+        .replace(R.id.nav_host_fragment, fragment, tag.value)
+        .addToBackStack(tag.value)
+        .commit()
 }

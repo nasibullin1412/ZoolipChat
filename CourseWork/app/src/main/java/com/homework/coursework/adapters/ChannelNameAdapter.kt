@@ -8,12 +8,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.homework.coursework.R
 import com.homework.coursework.callbacks.ChannelCallback
 import com.homework.coursework.data.ChannelData
+import com.homework.coursework.interfaces.TopicItemCallback
 import com.homework.coursework.viewholders.ChannelNameViewHolder
 
 class ChannelNameAdapter : ListAdapter<ChannelData,
         ChannelNameViewHolder>(ChannelCallback()) {
 
     private val viewPool = RecyclerView.RecycledViewPool()
+    private lateinit var listener: TopicItemCallback
+
+    fun setListener(listener: TopicItemCallback) {
+        this.listener = listener
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChannelNameViewHolder {
         val inflater: LayoutInflater = LayoutInflater.from(parent.context)
@@ -23,7 +29,7 @@ class ChannelNameAdapter : ListAdapter<ChannelData,
     }
 
     override fun onBindViewHolder(holder: ChannelNameViewHolder, position: Int) {
-        initChildRecycle(holder)
+        initChildRecycle(holder, position)
         holder.itemView.setOnClickListener {
             getItem(position).isTouched = getItem(position).isTouched.not()
             notifyItemChanged(position)
@@ -31,9 +37,9 @@ class ChannelNameAdapter : ListAdapter<ChannelData,
         holder.bind(getItem(position))
     }
 
-    private fun initChildRecycle(holder: ChannelNameViewHolder) {
+    private fun initChildRecycle(holder: ChannelNameViewHolder, position: Int) {
         with(holder) {
-            adapterTopicName = TopicAdapter()
+            adapterTopicName = TopicAdapter(position).apply { setListener(listener) }
             with(rvTopicName) {
                 layoutManager = LinearLayoutManager(context)
                 adapter = adapterTopicName

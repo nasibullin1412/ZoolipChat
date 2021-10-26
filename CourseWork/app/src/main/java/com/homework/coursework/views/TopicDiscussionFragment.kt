@@ -1,5 +1,6 @@
 package com.homework.coursework.views
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,18 +15,22 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.homework.coursework.R
 import com.homework.coursework.adapters.MessageAdapter
+import com.homework.coursework.channelListData
 import com.homework.coursework.customview.CustomFlexboxLayout
 import com.homework.coursework.data.BaseItem
 import com.homework.coursework.data.EmojiData
 import com.homework.coursework.data.MessageData
 import com.homework.coursework.data.UserData
 import com.homework.coursework.databinding.TopicDiscussionFragmentBinding
+import com.homework.coursework.interfaces.BottomNavigationController
 import com.homework.coursework.interfaces.MessageItemCallback
 import com.homework.coursework.testList
 import com.homework.coursework.utils.addDate
 import com.homework.coursework.utils.addMessageData
 import com.homework.coursework.utils.checkExistedEmoji
 import com.homework.coursework.utils.initEmojiToBottomSheet
+import com.homework.coursework.views.ChannelListFragment.Companion.CHANNEL_KEY
+import com.homework.coursework.views.ChannelListFragment.Companion.TOPIC_KEY
 import com.homework.coursework.views.MainActivity.Companion.CURR_USER_AVATAR_URL
 import com.homework.coursework.views.MainActivity.Companion.CURR_USER_DATE
 import com.homework.coursework.views.MainActivity.Companion.CURR_USER_ID
@@ -40,6 +45,14 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
     private lateinit var bottomSheetDialog: BottomSheetDialog
     private var listRecyclerView: ArrayList<BaseItem> = arrayListOf()
     private var messageIdx = DEFAULT_MESSAGE_ID
+    private var bottomNavigationController: BottomNavigationController? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is BottomNavigationController) {
+            bottomNavigationController = context
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,6 +65,7 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        bottomNavigationController?.goneBottomNavigation()
         updateMessage(testList)
         initViews()
     }
@@ -78,6 +92,25 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
         initBottomDialog()
         initButtonListener()
         initEditText()
+        initNames()
+        initBackButton()
+    }
+
+    private fun initBackButton() {
+        binding.imgBack.setOnClickListener {
+            activity?.onBackPressed()
+        }
+    }
+
+    private fun initNames() {
+        val idChannel = arguments?.getInt(CHANNEL_KEY)
+            ?: throw IllegalArgumentException("Title required")
+        val idTopic = arguments?.getInt(TOPIC_KEY)
+            ?: throw IllegalArgumentException("Topic required")
+        val needChannelData = channelListData.first{it.id == idChannel}
+        binding.tvChannelNameBar.text = needChannelData.channelName
+        val topicName = needChannelData.topicList.first{it.id == idTopic}.topicName
+        binding.tvTopicName.text = "Topic: $topicName"
     }
 
     private fun initButtonListener() {
@@ -211,5 +244,21 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
         messageIdx = idx
         onEmojiClicked(emojiCode)
         return true
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        bottomNavigationController = null
+    }
+
+    companion object {
+        fun newInstance(idTopic: Int, idChannel: Int): TopicDiscussionFragment {
+            val args = Bundle()
+            args.putInt(TOPIC_KEY, idTopic)
+            args.putInt(CHANNEL_KEY, idChannel)
+            val fragment = TopicDiscussionFragment()
+            fragment.arguments = args
+            return fragment
+        }
     }
 }

@@ -7,6 +7,62 @@
     android:layout_height="match_parent"
     android:background="@color/custom_back">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="@color/send_box_color"
+        android:clipToPadding="false"
+        android:elevation="10dp"
+        android:outlineProvider="paddedBounds"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="68dp"
+            android:background="@color/custom_toolbar_color"
+            android:contentInsetStart="20dp"
+            app:contentInsetEnd="20dp">
+
+            <ImageView
+                android:id="@+id/imgBack"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="4dp"
+                android:src="@drawable/ic_back"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/tvChannelNameBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:layout_marginStart="44dp"
+                android:fontFamily="@font/inter_regular"
+                tools:text="#general"/>
+
+
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <TextView
+        android:id="@+id/tvTopicName"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/send_box_color"
+        android:textSize="18sp"
+        android:fontFamily="@font/inter_regular"
+        android:textColor="@color/topic_name_color"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/appBar"
+        tools:text="Topic: #testing"
+        />
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvMessage"
         android:layout_width="match_parent"
@@ -21,10 +77,10 @@
         android:id="@+id/clSendBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/cl_send_box_min_height"
-        android:maxHeight="@dimen/cl_send_box_max_height"
-        android:padding="@dimen/cl_send_padding"
         android:background="@color/send_box_color"
+        android:maxHeight="@dimen/cl_send_box_max_height"
+        android:minHeight="@dimen/cl_send_box_min_height"
+        android:padding="@dimen/cl_send_padding"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -33,30 +89,30 @@
             android:id="@+id/etMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minWidth="@dimen/message_min_width"
-            android:minHeight="@dimen/message_min_height"
-            android:maxHeight="@dimen/message_max_height"
             android:layout_marginStart="@dimen/message_margin_start"
             android:layout_marginEnd="@dimen/message_margin_end"
-            android:inputType="text"
             android:background="@drawable/sh_message"
+            android:fontFamily="@font/inter_regular"
             android:hint="@string/write_hint"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:maxHeight="@dimen/message_max_height"
+            android:minWidth="@dimen/message_min_width"
+            android:minHeight="@dimen/message_min_height"
             android:textColor="@color/white"
             android:textColorHint="@color/hint_color"
-            android:fontFamily="@font/inter_regular"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:importantForAutofill="no" />
-        
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
             android:id="@+id/imgSend"
             android:layout_width="@dimen/send_img_width"
             android:layout_height="@dimen/send_img_height"
             android:layout_marginStart="@dimen/send_margin_start"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/etMessage"
+            app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

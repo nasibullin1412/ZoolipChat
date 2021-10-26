@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResult
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.homework.coursework.R
@@ -14,9 +15,10 @@ import com.homework.coursework.adapters.ChannelNameAdapter
 import com.homework.coursework.channelListData
 import com.homework.coursework.data.ChannelData
 import com.homework.coursework.databinding.ChannelViewPageFragmentBinding
+import com.homework.coursework.interfaces.TopicItemCallback
 import com.homework.coursework.viewmodel.ChannelViewModel
 
-class ChannelListFragment : Fragment() {
+class ChannelListFragment : Fragment(), TopicItemCallback {
     private lateinit var recycleList: ArrayList<ChannelData>
     private lateinit var channelAdapter: ChannelNameAdapter
     private var _binding: ChannelViewPageFragmentBinding? = null
@@ -60,7 +62,9 @@ class ChannelListFragment : Fragment() {
     }
 
     private fun initRecycler() {
-        channelAdapter = ChannelNameAdapter()
+        channelAdapter = ChannelNameAdapter().apply {
+            setListener(this@ChannelListFragment)
+        }
         with(binding.rvSpinner) {
             val itemDecorator = DividerItemDecoration(
                 binding.rvSpinner.context,
@@ -85,8 +89,18 @@ class ChannelListFragment : Fragment() {
         }
     }
 
+    override fun onTopicItemClick(idTopic: Int, idChannel: Int) {
+        val bundle = Bundle()
+        bundle.putInt(CHANNEL_KEY, idChannel)
+        bundle.putInt(TOPIC_KEY, idTopic)
+        setFragmentResult(REQUEST_KEY, bundle)
+    }
+
     companion object {
         const val ARG_OBJECT = "object"
         const val SEARCH_IN_ACTION = 0
+        const val REQUEST_KEY = "requestKey"
+        const val CHANNEL_KEY = "channelId"
+        const val TOPIC_KEY = "topicId"
     }
 }

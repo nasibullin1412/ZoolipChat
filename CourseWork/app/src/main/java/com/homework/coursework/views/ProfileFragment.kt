@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import coil.load
-import coil.transform.CircleCropTransformation
 import com.homework.coursework.databinding.ProfileFragmentBinding
 import com.homework.coursework.views.MainActivity.Companion.CURR_USER_AVATAR_URL
 import com.homework.coursework.views.MainActivity.Companion.CURR_USER_NAME

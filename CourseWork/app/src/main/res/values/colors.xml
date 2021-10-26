@@ -26,4 +26,5 @@
     <color name="state_color">#4AB54D</color>
     <color name="custom_toolbar_color">#2A9D8F</color>
     <color name="odd_color">#E9C46A</color>
+    <color name="topic_name_color">#CCCCCC</color>
 </resources>
