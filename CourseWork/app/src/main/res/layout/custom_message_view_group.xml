@@ -46,7 +46,7 @@
 
     </androidx.cardview.widget.CardView>
 
-    <com.homework.coursework.customview.CustomFlexboxLayout
+    <com.homework.coursework.presentation.customview.CustomFlexboxLayout
         android:id="@+id/fblEmoji"
         android:layout_width="@dimen/flb_emoji_width"
         android:layout_height="wrap_content"
@@ -55,5 +55,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    </com.homework.coursework.customview.CustomFlexboxLayout>
+    </com.homework.coursework.presentation.customview.CustomFlexboxLayout>
 </merge>

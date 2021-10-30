@@ -1,6 +1,6 @@
 package com.homework.coursework
 
-import com.homework.coursework.data.*
+import com.homework.coursework.domain.entity.*
 
 val testList = arrayListOf(
     MessageData(
@@ -54,51 +54,54 @@ val testList = arrayListOf(
 )
 
 val channelListData = arrayListOf(
-    ChannelData(
+    StreamData(
         id = 0,
-        channelName = "#general",
-        isTouched = false,
-        topicList = arrayListOf(
-            ChannelTopic(
+        streamName = "#general",
+        description = "general stream",
+        dateCreated = 100,
+        topicDataList = arrayListOf(
+            TopicData(
                 id = 0,
                 topicName = "#Testing",
                 numberOfMess = 1024
             ),
-            ChannelTopic(
+            TopicData(
                 id = 1,
                 topicName = "#Bruh",
                 numberOfMess = 512
             )
         )
     ),
-    ChannelData(
+    StreamData(
         id = 1,
-        channelName = "#Development",
-        isTouched = false,
-        topicList = arrayListOf(
-            ChannelTopic(
+        streamName = "#Development",
+        description = "testing stream",
+        dateCreated = 100,
+        topicDataList = arrayListOf(
+            TopicData(
                 id = 0,
                 topicName = "#Testing",
                 numberOfMess = 1024
             ),
-            ChannelTopic(
+            TopicData(
                 id = 1,
                 topicName = "#Bruh",
                 numberOfMess = 512
             )
         )
     ),
-    ChannelData(
+    StreamData(
         id = 2,
-        channelName = "#Design",
-        isTouched = false,
-        topicList = arrayListOf(
-            ChannelTopic(
+        streamName = "#Design",
+        description = "general stream",
+        dateCreated = 100,
+        topicDataList = arrayListOf(
+            TopicData(
                 id = 0,
                 topicName = "#Testing",
                 numberOfMess = 1024
             ),
-            ChannelTopic(
+            TopicData(
                 id = 1,
                 topicName = "#Bruh",
                 numberOfMess = 512
