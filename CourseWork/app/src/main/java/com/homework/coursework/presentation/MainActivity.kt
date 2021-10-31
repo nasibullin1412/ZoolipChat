@@ -6,6 +6,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.homework.coursework.R
+import com.homework.coursework.domain.entity.UserData
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
 import com.homework.coursework.presentation.utils.MenuItemIdx
@@ -92,5 +93,11 @@ class MainActivity : AppCompatActivity(), AddTopicDiscussion, BottomNavigationCo
         const val CURR_USER_DATE = "3 фев"
         const val CURR_USER_STATUS = "In a meeting"
         const val CURR_USER_STATE = "online"
+
+        fun getCurrentUser(): UserData = UserData(
+            id = CURR_USER_ID,
+            name = CURR_USER_NAME,
+            avatarUrl = CURR_USER_AVATAR_URL
+        )
     }
 }

@@ -71,7 +71,7 @@ class StreamListFragment : Fragment(), StreamItemCallback, TopicItemCallback {
 
             }
             is StreamScreenState.Result -> {
-                dataStreamUpdate(stateStream.data, )
+                dataStreamUpdate(stateStream.data)
             }
         }
     }

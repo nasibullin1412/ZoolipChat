@@ -236,7 +236,7 @@ fun ArrayList<MessageItem>.addDate(date: String) {
         return
     }
     val curIdx = lastIndex + 1
-    this.add(
+    add(
         MessageItem(
             id = curIdx,
             messageData = null,
@@ -251,7 +251,7 @@ fun ArrayList<MessageItem>.addDate(date: String) {
  */
 fun ArrayList<MessageItem>.addMessageData(messageDataList: List<MessageData>) {
     val idx = lastIndex
-    this.addAll(
+    addAll(
         messageDataList.mapIndexed { index, messageData ->
             MessageItem(
                 id = idx + index,

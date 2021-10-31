@@ -11,34 +11,26 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.homework.coursework.R
-import com.homework.coursework.presentation.adapter.MessageAdapter
-import com.homework.coursework.channelListData
-import com.homework.coursework.presentation.customview.CustomFlexboxLayout
-import com.homework.coursework.presentation.adapter.data.MessageItem
-import com.homework.coursework.domain.entity.EmojiData
-import com.homework.coursework.domain.entity.MessageData
-import com.homework.coursework.domain.entity.UserData
 import com.homework.coursework.databinding.TopicDiscussionFragmentBinding
-import com.homework.coursework.presentation.interfaces.BottomNavigationController
-import com.homework.coursework.presentation.interfaces.MessageItemCallback
-import com.homework.coursework.testList
-import com.homework.coursework.presentation.utils.addDate
-import com.homework.coursework.presentation.utils.addMessageData
-import com.homework.coursework.presentation.utils.checkExistedEmoji
-import com.homework.coursework.presentation.utils.initEmojiToBottomSheet
-import com.homework.coursework.presentation.stream.StreamListFragment.Companion.STREAM_KEY
-import com.homework.coursework.presentation.stream.StreamListFragment.Companion.TOPIC_KEY
-import com.homework.coursework.presentation.MainActivity.Companion.CURR_USER_AVATAR_URL
+import com.homework.coursework.domain.entity.EmojiData
 import com.homework.coursework.presentation.MainActivity.Companion.CURR_USER_DATE
-import com.homework.coursework.presentation.MainActivity.Companion.CURR_USER_ID
-import com.homework.coursework.presentation.MainActivity.Companion.CURR_USER_NAME
 import com.homework.coursework.presentation.MainActivity.Companion.DEFAULT_MESSAGE_ID
+import com.homework.coursework.presentation.adapter.MessageAdapter
+import com.homework.coursework.presentation.adapter.data.MessageItem
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
+import com.homework.coursework.presentation.customview.CustomFlexboxLayout
+import com.homework.coursework.presentation.interfaces.BottomNavigationController
+import com.homework.coursework.presentation.interfaces.MessageItemCallback
+import com.homework.coursework.presentation.stream.StreamListFragment.Companion.STREAM_KEY
+import com.homework.coursework.presentation.stream.StreamListFragment.Companion.TOPIC_KEY
+import com.homework.coursework.presentation.utils.checkExistedEmoji
+import com.homework.coursework.presentation.utils.initEmojiToBottomSheet
 
 class TopicDiscussionFragment : Fragment(), MessageItemCallback {
 
@@ -46,11 +38,11 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
     private val binding get() = _binding!!
     private lateinit var messageAdapter: MessageAdapter
     private lateinit var bottomSheetDialog: BottomSheetDialog
-    private var listRecyclerView: ArrayList<MessageItem> = arrayListOf()
     private var messageIdx = DEFAULT_MESSAGE_ID
     private var bottomNavigationController: BottomNavigationController? = null
     private lateinit var currentTopic: TopicItem
     private lateinit var currentStream: StreamItem
+    private val viewModel: TopicDiscussionViewModel by viewModels()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -71,34 +63,44 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bottomNavigationController?.goneBottomNavigation()
-        updateMessage(testList)
         initViews()
+    }
+
+    private fun initViews() {
+        initRecycleView()
+        initObservers()
+        initBottomDialog()
+        initButtonListener()
+        initEditText()
+        initNames()
+        initBackButton()
+        viewModel.getMessages(currentStream.id, currentStream.id)
+    }
+
+    private fun initObservers() {
+        viewModel.topicDiscScreenState.observe(viewLifecycleOwner, { processTopicScreenState(it) })
+    }
+
+    private fun processTopicScreenState(stateStream: TopicDiscussionState) {
+        when (stateStream) {
+            is TopicDiscussionState.Error -> {
+
+            }
+            is TopicDiscussionState.Loading -> {
+
+            }
+            is TopicDiscussionState.Result -> {
+                updateMessage(stateStream.data)
+            }
+        }
     }
 
     /**
      * update recycler view with new message
      * @param newList is list with new MessageData
      */
-    private fun updateMessage(newList: ArrayList<MessageData>) {
-        val groupedMessage = newList.groupBy { it.date }
-        with(groupedMessage) {
-            for (date in keys) {
-                listRecyclerView.addDate(date)
-                listRecyclerView.addMessageData(
-                    this[date]
-                        ?: throw IllegalArgumentException("message required")
-                )
-            }
-        }
-    }
-
-    private fun initViews() {
-        initRecycleView()
-        initBottomDialog()
-        initButtonListener()
-        initEditText()
-        initNames()
-        initBackButton()
+    private fun updateMessage(newList: List<MessageItem>) {
+        messageAdapter.submitList(newList)
     }
 
     private fun initBackButton() {
@@ -112,7 +114,7 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
         currentTopic = requireArguments().getParcelable(TOPIC_KEY)
             ?: throw IllegalArgumentException("topic required")
         currentStream = requireArguments().getParcelable(STREAM_KEY)
-            ?:throw IllegalArgumentException("stream required")
+            ?: throw IllegalArgumentException("stream required")
         binding.tvStreamNameBar.text = currentStream.streamName
         binding.tvTopicName.text = "Topic: ${currentTopic.topicName}"
     }
@@ -125,24 +127,13 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
     }
 
     private fun updateMessageRecycler(messageContent: String) {
-        updateMessage(
-            arrayListOf(
-                MessageData(
-                    messageId = listRecyclerView.last().messageData?.messageId
-                        ?: throw IllegalArgumentException("messageData required"),
-                    userData = UserData(
-                        id = CURR_USER_ID,
-                        name = CURR_USER_NAME,
-                        avatarUrl = CURR_USER_AVATAR_URL,
-
-                    ),
-                    messageContent = messageContent,
-                    emojis = arrayListOf(),
-                    date = CURR_USER_DATE
-                )
-            )
+        viewModel.addMessage(
+            currentStream.id,
+            currentTopic.id,
+            messageContent,
+            messageAdapter.currentList.size,
+            CURR_USER_DATE
         )
-        messageAdapter.submitList(listRecyclerView)
     }
 
     private fun initEditText() {
@@ -202,7 +193,7 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
         if (messageIdx == DEFAULT_MESSAGE_ID) {
             throw IllegalArgumentException("selectedMessageId required")
         }
-        with(listRecyclerView[messageIdx].messageData) {
+        with(messageAdapter.currentList[messageIdx].messageData) {
             val idx = this?.emojis?.indexOfFirst { it.emojiCode == emojiCode }
             if (idx == DEFAULT_MESSAGE_ID) {
                 this?.emojis?.add(
@@ -229,15 +220,13 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
 
     private fun initRecycleView() {
         with(binding.rvMessage) {
-            messageAdapter = MessageAdapter(1)
+            messageAdapter = MessageAdapter(1).apply {
+                initListener(this@TopicDiscussionFragment)
+            }
             adapter = messageAdapter
             layoutManager = LinearLayoutManager(context).apply {
                 stackFromEnd = true
             }
-        }
-        with(messageAdapter) {
-            initListener(this@TopicDiscussionFragment)
-            submitList(listRecyclerView)
         }
     }
 

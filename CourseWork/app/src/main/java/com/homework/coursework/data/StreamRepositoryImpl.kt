@@ -26,13 +26,13 @@ class StreamRepositoryImpl : StreamRepository {
             StreamData(
                 id = 1,
                 streamName = "#Development",
-                description = "testing stream",
+                description = "development stream",
                 dateCreated = 100,
             ),
             StreamData(
                 id = 2,
                 streamName = "#Design",
-                description = "general stream",
+                description = "design stream",
                 dateCreated = 100,
             )
         )

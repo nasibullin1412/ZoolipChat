@@ -1,5 +1,6 @@
 package com.homework.coursework.data
 
+import androidx.annotation.WorkerThread
 import com.homework.coursework.domain.entity.TopicData
 import com.homework.coursework.domain.repository.TopicRepository
 
@@ -8,6 +9,7 @@ class TopicRepositoryImpl : TopicRepository {
         return generateTopicList(idStream)
     }
 
+    @WorkerThread
     private fun generateTopicList(idStream: Int): List<TopicData> {
         return when (idStream) {
             0 -> {
