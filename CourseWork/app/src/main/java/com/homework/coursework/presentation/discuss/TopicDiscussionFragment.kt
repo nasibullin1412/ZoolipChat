@@ -30,13 +30,15 @@ import com.homework.coursework.presentation.utils.addDate
 import com.homework.coursework.presentation.utils.addMessageData
 import com.homework.coursework.presentation.utils.checkExistedEmoji
 import com.homework.coursework.presentation.utils.initEmojiToBottomSheet
-import com.homework.coursework.presentation.stream.StreamListFragment.Companion.CHANNEL_KEY
+import com.homework.coursework.presentation.stream.StreamListFragment.Companion.STREAM_KEY
 import com.homework.coursework.presentation.stream.StreamListFragment.Companion.TOPIC_KEY
 import com.homework.coursework.presentation.MainActivity.Companion.CURR_USER_AVATAR_URL
 import com.homework.coursework.presentation.MainActivity.Companion.CURR_USER_DATE
 import com.homework.coursework.presentation.MainActivity.Companion.CURR_USER_ID
 import com.homework.coursework.presentation.MainActivity.Companion.CURR_USER_NAME
 import com.homework.coursework.presentation.MainActivity.Companion.DEFAULT_MESSAGE_ID
+import com.homework.coursework.presentation.adapter.data.StreamItem
+import com.homework.coursework.presentation.adapter.data.TopicItem
 
 class TopicDiscussionFragment : Fragment(), MessageItemCallback {
 
@@ -47,6 +49,8 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
     private var listRecyclerView: ArrayList<MessageItem> = arrayListOf()
     private var messageIdx = DEFAULT_MESSAGE_ID
     private var bottomNavigationController: BottomNavigationController? = null
+    private lateinit var currentTopic: TopicItem
+    private lateinit var currentStream: StreamItem
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -105,14 +109,12 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
 
     @SuppressLint("SetTextI18n")
     private fun initNames() {
-        val idChannel = arguments?.getInt(CHANNEL_KEY)
-            ?: throw IllegalArgumentException("Title required")
-        val idTopic = arguments?.getInt(TOPIC_KEY)
-            ?: throw IllegalArgumentException("Topic required")
-        val needChannelData = channelListData.first{it.id == idChannel}
-        binding.tvChannelNameBar.text = needChannelData.streamName
-        val topicName = needChannelData.topicDataList.first{it.id == idTopic}.topicName
-        binding.tvTopicName.text = "Topic: $topicName"
+        currentTopic = requireArguments().getParcelable(TOPIC_KEY)
+            ?: throw IllegalArgumentException("topic required")
+        currentStream = requireArguments().getParcelable(STREAM_KEY)
+            ?:throw IllegalArgumentException("stream required")
+        binding.tvStreamNameBar.text = currentStream.streamName
+        binding.tvTopicName.text = "Topic: ${currentTopic.topicName}"
     }
 
     private fun initButtonListener() {
@@ -257,10 +259,10 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
     }
 
     companion object {
-        fun newInstance(idTopic: Int, idChannel: Int): TopicDiscussionFragment {
+        fun newInstance(topic: TopicItem, stream: StreamItem): TopicDiscussionFragment {
             val args = Bundle()
-            args.putInt(TOPIC_KEY, idTopic)
-            args.putInt(CHANNEL_KEY, idChannel)
+            args.putParcelable(TOPIC_KEY, topic)
+            args.putParcelable(STREAM_KEY, stream)
             val fragment = TopicDiscussionFragment()
             fragment.arguments = args
             return fragment

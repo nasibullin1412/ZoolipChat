@@ -6,6 +6,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.homework.coursework.R
+import com.homework.coursework.presentation.adapter.data.StreamItem
+import com.homework.coursework.presentation.adapter.data.TopicItem
 import com.homework.coursework.presentation.utils.MenuItemIdx
 import com.homework.coursework.presentation.interfaces.AddTopicDiscussion
 import com.homework.coursework.presentation.interfaces.BottomNavigationController
@@ -69,9 +71,9 @@ class MainActivity : AppCompatActivity(), AddTopicDiscussion, BottomNavigationCo
         bottomNavigationView.menu.getItem(MenuItemIdx.PROFILE_IDX.value).isChecked = true
     }
 
-    override fun addTopicDiscussion(idTopic: Int, idChannel: Int) {
+    override fun addTopicDiscussion(topic: TopicItem?, stream: StreamItem?) {
         val tag = FragmentTag.TOPIC_DISCUSSION_FRAGMENT_TAG
-        addFragment(tag.fragmentByTag(idTopic = idTopic, idChannel = idChannel), tag)
+        addFragment(tag.fragmentByTag(topic = topic, stream = stream), tag)
     }
 
     override fun goneBottomNavigation() {

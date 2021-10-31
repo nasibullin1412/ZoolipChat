@@ -14,10 +14,12 @@ import com.homework.coursework.R
 import com.homework.coursework.databinding.ChannelViewPageFragmentBinding
 import com.homework.coursework.presentation.adapter.StreamNameAdapter
 import com.homework.coursework.presentation.adapter.data.StreamItem
+import com.homework.coursework.presentation.adapter.data.TopicItem
+import com.homework.coursework.presentation.interfaces.StreamItemCallback
 import com.homework.coursework.presentation.interfaces.TopicItemCallback
 
-class StreamListFragment : Fragment(), TopicItemCallback {
-    private lateinit var channelAdapter: StreamNameAdapter
+class StreamListFragment : Fragment(), StreamItemCallback, TopicItemCallback {
+    private lateinit var streamAdapter: StreamNameAdapter
     private val viewModel: StreamViewModel by viewModels()
     private var _binding: ChannelViewPageFragmentBinding? = null
     private val binding
@@ -25,7 +27,6 @@ class StreamListFragment : Fragment(), TopicItemCallback {
             ?: throw IllegalStateException(
                 "Cannot access view in after view destroyed and before view creation"
             )
-
     private var isInAction = false
 
     override fun onCreateView(
@@ -41,7 +42,7 @@ class StreamListFragment : Fragment(), TopicItemCallback {
         super.onViewCreated(view, savedInstanceState)
         getArgument()
         initRecycler()
-        initObserver()
+        initObservers()
         getStreamData()
     }
 
@@ -56,12 +57,13 @@ class StreamListFragment : Fragment(), TopicItemCallback {
         }
     }
 
-    private fun initObserver() {
-        viewModel.streamScreenState.observe(viewLifecycleOwner) { processMainScreenState(it) }
+    private fun initObservers() {
+        viewModel.streamScreenState.observe(viewLifecycleOwner) { processStreamScreenState(it) }
+        viewModel.topicScreenState.observe(viewLifecycleOwner) { processTopicScreenState(it) }
     }
 
-    private fun processMainScreenState(state: StreamScreenState?) {
-        when (state) {
+    private fun processStreamScreenState(stateStream: StreamScreenState) {
+        when (stateStream) {
             is StreamScreenState.Error -> {
 
             }
@@ -69,23 +71,43 @@ class StreamListFragment : Fragment(), TopicItemCallback {
 
             }
             is StreamScreenState.Result -> {
-                dataUpdate(state.items)
+                dataStreamUpdate(stateStream.data, )
             }
         }
+    }
+
+    private fun processTopicScreenState(stateStream: TopicScreenState) {
+        when (stateStream) {
+            is TopicScreenState.Error -> {
+
+            }
+            is TopicScreenState.Loading -> {
+
+            }
+            is TopicScreenState.Result -> {
+                dataTopicUpdate(stateStream.data, stateStream.position)
+            }
+        }
+    }
+
+    private fun dataTopicUpdate(topics: List<TopicItem>, position: Int) {
+        streamAdapter.currentList[position].topicItemList = ArrayList(topics)
+        streamAdapter.notifyItemChanged(position)
     }
 
     /**
      * update channels recycle view
      * @param listStreams is new list of channels for recycle
      */
-    private fun dataUpdate(listStreams: List<StreamItem>) {
+    private fun dataStreamUpdate(listStreams: List<StreamItem>) {
         binding.rvSpinner.visibility = View.VISIBLE
-        channelAdapter.submitList(listStreams)
+        streamAdapter.submitList(listStreams)
     }
 
     private fun initRecycler() {
-        channelAdapter = StreamNameAdapter().apply {
-            setListener(this@StreamListFragment)
+        streamAdapter = StreamNameAdapter().apply {
+            setTopicListener(this@StreamListFragment)
+            setStreamListener(this@StreamListFragment)
         }
         with(binding.rvSpinner) {
             val itemDecorator = DividerItemDecoration(
@@ -99,7 +121,7 @@ class StreamListFragment : Fragment(), TopicItemCallback {
                 )?.let { setDrawable(it) }
             }
             addItemDecoration(itemDecorator)
-            adapter = channelAdapter
+            adapter = streamAdapter
             layoutManager = LinearLayoutManager(context)
         }
     }
@@ -110,18 +132,23 @@ class StreamListFragment : Fragment(), TopicItemCallback {
         }
     }
 
-    override fun onTopicItemClick(idTopic: Int, idChannel: Int) {
-        val bundle = Bundle()
-        bundle.putInt(CHANNEL_KEY, idChannel)
-        bundle.putInt(TOPIC_KEY, idTopic)
+    override fun onTopicItemClick(topic: TopicItem, stream: StreamItem) {
+        val bundle = Bundle().apply {
+            putParcelable(STREAM_KEY, stream)
+            putParcelable(TOPIC_KEY, topic)
+        }
         setFragmentResult(REQUEST_KEY, bundle)
+    }
+
+    override fun onStreamItemCallback(position: Int) {
+        viewModel.getTopics(position)
     }
 
     companion object {
         const val ARG_OBJECT = "object"
         const val SEARCH_IN_ACTION = 0
         const val REQUEST_KEY = "requestKey"
-        const val CHANNEL_KEY = "channelId"
-        const val TOPIC_KEY = "topicId"
+        const val STREAM_KEY = "stream"
+        const val TOPIC_KEY = "topic"
     }
 }

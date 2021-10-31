@@ -13,7 +13,7 @@ class StreamItemMapper : (List<StreamData>) -> (List<StreamItem>) {
                     streamName = streamName,
                     description = description,
                     dateCreated = dateCreated,
-                    topicDataList = topicDataList,
+                    topicItemList = null,
                     isTouched = false
                 )
             }

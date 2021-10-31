@@ -11,9 +11,11 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.homework.coursework.R
 import com.homework.coursework.presentation.adapter.StreamAdapter
 import com.homework.coursework.databinding.ChannelFragmentBinding
+import com.homework.coursework.presentation.adapter.data.StreamItem
+import com.homework.coursework.presentation.adapter.data.TopicItem
 import com.homework.coursework.presentation.interfaces.AddTopicDiscussion
 import com.homework.coursework.presentation.interfaces.BottomNavigationController
-import com.homework.coursework.presentation.stream.StreamListFragment.Companion.CHANNEL_KEY
+import com.homework.coursework.presentation.stream.StreamListFragment.Companion.STREAM_KEY
 import com.homework.coursework.presentation.stream.StreamListFragment.Companion.REQUEST_KEY
 import com.homework.coursework.presentation.stream.StreamListFragment.Companion.TOPIC_KEY
 
@@ -42,11 +44,11 @@ class StreamFragment : Fragment() {
             REQUEST_KEY,
             this
         ) { _, bundle ->
-            val channelId = bundle.getInt(CHANNEL_KEY)
-            val topicId = bundle.getInt(TOPIC_KEY)
+            val stream = bundle.getParcelable<StreamItem>(STREAM_KEY)
+            val topic = bundle.getParcelable<TopicItem>(TOPIC_KEY)
             topicItemCallback?.addTopicDiscussion(
-                idTopic = topicId,
-                idChannel = channelId
+                topic = topic,
+                stream = stream
             )
         }
     }

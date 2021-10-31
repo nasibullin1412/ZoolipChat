@@ -22,13 +22,13 @@ class StreamNameViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
     fun bind(streamData: StreamItem) {
         tvTopicName.text = streamData.streamName
-        if (streamData.isTouched) {
-            imgDropDown.setImageResource(R.drawable.ic_spinner_drop)
-            tvTopicName.setTextColor(whiteColor)
-            adapterTopicName.submitList(streamData.topicDataList)
+        if (streamData.isTouched.not()) {
+            imgDropDown.setImageResource(R.drawable.ic_spinner)
+            adapterTopicName.submitList(null)
             return
         }
-        imgDropDown.setImageResource(R.drawable.ic_spinner)
-        adapterTopicName.submitList(null)
+        imgDropDown.setImageResource(R.drawable.ic_spinner_drop)
+        tvTopicName.setTextColor(whiteColor)
+        adapterTopicName.submitList(streamData.topicItemList)
     }
 }

@@ -22,6 +22,8 @@ import com.homework.coursework.presentation.customview.CustomFlexboxLayout
 import com.homework.coursework.presentation.adapter.data.MessageItem
 import com.homework.coursework.domain.entity.EmojiData
 import com.homework.coursework.domain.entity.MessageData
+import com.homework.coursework.presentation.adapter.data.StreamItem
+import com.homework.coursework.presentation.adapter.data.TopicItem
 import com.homework.coursework.presentation.interfaces.MessageItemCallback
 import com.homework.coursework.presentation.stream.StreamFragment
 import com.homework.coursework.presentation.profile.ProfileFragment
@@ -260,16 +262,16 @@ fun ArrayList<MessageItem>.addMessageData(messageDataList: List<MessageData>) {
     )
 }
 
-fun FragmentTag.fragmentByTag(idTopic: Int? = null, idChannel: Int? = null): Fragment =
+fun FragmentTag.fragmentByTag(topic: TopicItem? = null, stream: StreamItem? = null): Fragment =
     when (this) {
         FragmentTag.CHANNEL_FRAGMENT_TAG -> StreamFragment()
         FragmentTag.PROFILE_FRAGMENT_TAG -> ProfileFragment()
         FragmentTag.PEOPLE_FRAGMENT_TAG -> ProfileFragment()
         FragmentTag.TOPIC_DISCUSSION_FRAGMENT_TAG -> {
-            if (idTopic != null && idChannel != null) {
-                TopicDiscussionFragment.newInstance(idTopic, idChannel)
+            if (topic != null && stream != null) {
+                TopicDiscussionFragment.newInstance(topic, stream)
             } else {
-                throw IllegalArgumentException("idTopic and idChannel required")
+                throw IllegalArgumentException("topic and stream required")
             }
         }
     }

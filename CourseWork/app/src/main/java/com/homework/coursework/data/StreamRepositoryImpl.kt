@@ -22,54 +22,18 @@ class StreamRepositoryImpl : StreamRepository {
                 streamName = "#general",
                 description = "general stream",
                 dateCreated = 100,
-                topicDataList = arrayListOf(
-                    TopicData(
-                        id = 0,
-                        topicName = "#Testing",
-                        numberOfMess = 1024
-                    ),
-                    TopicData(
-                        id = 1,
-                        topicName = "#Bruh",
-                        numberOfMess = 512
-                    )
-                )
             ),
             StreamData(
                 id = 1,
                 streamName = "#Development",
                 description = "testing stream",
                 dateCreated = 100,
-                topicDataList = arrayListOf(
-                    TopicData(
-                        id = 0,
-                        topicName = "#Testing",
-                        numberOfMess = 1024
-                    ),
-                    TopicData(
-                        id = 1,
-                        topicName = "#Bruh",
-                        numberOfMess = 512
-                    )
-                )
             ),
             StreamData(
                 id = 2,
                 streamName = "#Design",
                 description = "general stream",
                 dateCreated = 100,
-                topicDataList = arrayListOf(
-                    TopicData(
-                        id = 0,
-                        topicName = "#Testing",
-                        numberOfMess = 1024
-                    ),
-                    TopicData(
-                        id = 1,
-                        topicName = "#Bruh",
-                        numberOfMess = 512
-                    )
-                )
             )
         )
     }
@@ -83,36 +47,12 @@ class StreamRepositoryImpl : StreamRepository {
                 streamName = "#general",
                 description = "general stream",
                 dateCreated = 100,
-                topicDataList = arrayListOf(
-                    TopicData(
-                        id = 0,
-                        topicName = "#Testing",
-                        numberOfMess = 1024
-                    ),
-                    TopicData(
-                        id = 1,
-                        topicName = "#Bruh",
-                        numberOfMess = 512
-                    )
-                )
             ),
             StreamData(
                 id = 1,
                 streamName = "#Development",
                 description = "testing stream",
                 dateCreated = 100,
-                topicDataList = arrayListOf(
-                    TopicData(
-                        id = 0,
-                        topicName = "#Testing",
-                        numberOfMess = 1024
-                    ),
-                    TopicData(
-                        id = 1,
-                        topicName = "#Bruh",
-                        numberOfMess = 512
-                    )
-                )
             )
         )
     }

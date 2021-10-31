@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.homework.coursework.R
-import com.homework.coursework.presentation.callbacks.StreamCallback
-import com.homework.coursework.domain.entity.StreamData
 import com.homework.coursework.presentation.adapter.data.StreamItem
+import com.homework.coursework.presentation.callbacks.StreamCallback
+import com.homework.coursework.presentation.interfaces.StreamItemCallback
 import com.homework.coursework.presentation.interfaces.TopicItemCallback
 import com.homework.coursework.presentation.viewholder.StreamNameViewHolder
 
@@ -16,10 +16,15 @@ class StreamNameAdapter : ListAdapter<StreamItem,
         StreamNameViewHolder>(StreamCallback()) {
 
     private val viewPool = RecyclerView.RecycledViewPool()
-    private lateinit var listener: TopicItemCallback
+    private lateinit var listenerTopic: TopicItemCallback
+    private lateinit var listenerStream: StreamItemCallback
 
-    fun setListener(listener: TopicItemCallback) {
-        this.listener = listener
+    fun setTopicListener(listener: TopicItemCallback) {
+        this.listenerTopic = listener
+    }
+
+    fun setStreamListener(listener: StreamItemCallback) {
+        this.listenerStream = listener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StreamNameViewHolder {
@@ -33,7 +38,7 @@ class StreamNameAdapter : ListAdapter<StreamItem,
         initChildRecycle(holder, position)
         holder.itemView.setOnClickListener {
             getItem(position).isTouched = getItem(position).isTouched.not()
-            notifyItemChanged(position)
+            listenerStream.onStreamItemCallback(position)
         }
         holder.bind(getItem(position))
     }
@@ -45,7 +50,7 @@ class StreamNameAdapter : ListAdapter<StreamItem,
      */
     private fun initChildRecycle(holder: StreamNameViewHolder, position: Int) {
         with(holder) {
-            adapterTopicName = TopicAdapter(position).apply { setListener(listener) }
+            adapterTopicName = TopicAdapter(getItem(position)).apply { setListener(listenerTopic) }
             with(rvTopicName) {
                 layoutManager = LinearLayoutManager(context)
                 adapter = adapterTopicName

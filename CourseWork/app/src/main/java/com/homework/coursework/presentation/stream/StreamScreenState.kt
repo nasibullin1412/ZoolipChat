@@ -4,7 +4,7 @@ import com.homework.coursework.presentation.adapter.data.StreamItem
 
 sealed class StreamScreenState {
 
-    class Result(val items: List<StreamItem>) : StreamScreenState()
+    class Result(val data: List<StreamItem>) : StreamScreenState()
 
     object Loading : StreamScreenState()
 
