@@ -49,10 +49,10 @@ class StreamListFragment : Fragment(), StreamItemCallback, TopicItemCallback {
     private fun getStreamData() {
         when (requireArguments().getInt(ARG_OBJECT)) {
             GetStreamType.ALL_STREAMS.value -> {
-                viewModel.getAllStreams()
+                viewModel.getStreams(true)
             }
             GetStreamType.SUBSCRIBED_STREAMS.value -> {
-                viewModel.getSubscribedStream()
+                viewModel.getStreams(false)
             }
         }
     }

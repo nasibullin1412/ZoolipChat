@@ -1,18 +1,23 @@
 package com.homework.coursework.data
 
+import android.util.Log
 import androidx.annotation.WorkerThread
 import com.homework.coursework.domain.entity.EmojiData
 import com.homework.coursework.domain.entity.MessageData
 import com.homework.coursework.domain.entity.UserData
 import com.homework.coursework.domain.repository.MessageRepository
+import io.reactivex.Observable
+import java.util.concurrent.TimeUnit
 
 class MessageRepositoryImpl : MessageRepository {
-    override fun loadMessages(idStream: Int, idTopic: Int): List<MessageData> {
-        return generateAllStreamList(idStream, idTopic)
+    override fun loadMessages(idStream: Int, idTopic: Int): Observable<List<MessageData>> {
+        return Observable.fromCallable { generateMessagesList(idStream, idTopic) }
+            .delay(1000L, TimeUnit.MILLISECONDS)
     }
 
     @WorkerThread
-    private fun generateAllStreamList(idStream: Int, idTopic: Int): List<MessageData> {
+    private fun generateMessagesList(idStream: Int, idTopic: Int): List<MessageData> {
+        Log.d("Message Moc", Thread.currentThread().name)
         return when (idStream) {
             0 -> {
                 generalStream(idTopic)

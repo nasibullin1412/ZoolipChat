@@ -1,21 +1,26 @@
 package com.homework.coursework.data
 
+import android.util.Log
 import androidx.annotation.WorkerThread
 import com.homework.coursework.domain.entity.StreamData
-import com.homework.coursework.domain.entity.TopicData
 import com.homework.coursework.domain.repository.StreamRepository
+import io.reactivex.Observable
+import java.util.concurrent.TimeUnit
 
 class StreamRepositoryImpl : StreamRepository {
-    override fun loadStreams(): List<StreamData> {
-        return generateAllStreamList()
+    override fun loadStreams(): Observable<List<StreamData>> {
+        return Observable.fromCallable { generateAllStreamList() }
+            .delay(1000L, TimeUnit.MILLISECONDS)
     }
 
-    override fun loadSubscribedStreams(): List<StreamData> {
-        return generateSubscribedStreamList()
+    override fun loadSubscribedStreams(): Observable<List<StreamData>> {
+        return Observable.fromCallable { generateSubscribedStreamList() }
+            .delay(1000L, TimeUnit.MILLISECONDS)
     }
 
     @WorkerThread
     private fun generateAllStreamList(): List<StreamData> {
+        Log.d("All Stream Moc", Thread.currentThread().name)
         return listOf(
             StreamData(
                 id = 0,
@@ -41,6 +46,7 @@ class StreamRepositoryImpl : StreamRepository {
 
     @WorkerThread
     private fun generateSubscribedStreamList(): List<StreamData> {
+        Log.d("Subscribed Stream Moc", Thread.currentThread().name)
         return listOf(
             StreamData(
                 id = 0,
