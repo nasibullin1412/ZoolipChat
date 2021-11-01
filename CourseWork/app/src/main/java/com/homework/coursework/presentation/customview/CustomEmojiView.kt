@@ -27,7 +27,7 @@ class CustomEmojiView @JvmOverloads constructor(
             requestLayout()
         }
 
-    val textPaint by lazy {
+    private val textPaint by lazy {
         Paint(Paint.ANTI_ALIAS_FLAG).apply {
             textAlign = Paint.Align.CENTER
         }

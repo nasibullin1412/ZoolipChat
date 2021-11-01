@@ -17,17 +17,19 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.imageview.ShapeableImageView
 import com.homework.coursework.R
-import com.homework.coursework.presentation.customview.CustomEmojiView
-import com.homework.coursework.presentation.customview.CustomFlexboxLayout
-import com.homework.coursework.presentation.adapter.data.MessageItem
 import com.homework.coursework.domain.entity.EmojiData
 import com.homework.coursework.domain.entity.MessageData
+import com.homework.coursework.presentation.adapter.data.MessageItem
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
-import com.homework.coursework.presentation.interfaces.MessageItemCallback
-import com.homework.coursework.presentation.stream.StreamFragment
-import com.homework.coursework.presentation.profile.ProfileFragment
+import com.homework.coursework.presentation.customview.CustomEmojiView
+import com.homework.coursework.presentation.customview.CustomFlexboxLayout
 import com.homework.coursework.presentation.discuss.TopicDiscussionFragment
+import com.homework.coursework.presentation.interfaces.MessageItemCallback
+import com.homework.coursework.presentation.profile.ProfileFragment
+import com.homework.coursework.presentation.stream.StreamFragment
+import com.homework.coursework.presentation.stream.TabState
+import com.homework.coursework.presentation.stream.UseCaseType
 import java.util.*
 
 /**
@@ -295,4 +297,27 @@ fun AppCompatActivity.addFragment(fragment: Fragment, tag: FragmentTag) {
         .replace(R.id.nav_host_fragment, fragment, tag.value)
         .addToBackStack(tag.value)
         .commit()
+}
+
+fun Int.getStreamFragmentUseCase(query: String?): UseCaseType {
+    if (query == null) {
+        return when (this) {
+            TabState.SUBSCRIBED_STREAMS.value -> {
+                UseCaseType.GET_SUBSCRIBED_STREAM_USE_CASE
+            }
+            TabState.ALL_STREAMS.value -> {
+                UseCaseType.GET_ALL_STREAMS_USE_CASE
+            }
+            else -> throw IllegalArgumentException("Unexpected TabState")
+        }
+    }
+    return when (this) {
+        TabState.SUBSCRIBED_STREAMS.value -> {
+            UseCaseType.SEARCH_SUBSCRIBED_USE_CASE
+        }
+        TabState.ALL_STREAMS.value -> {
+            UseCaseType.SEARCH_ALL_STREAM_USE_CASE
+        }
+        else -> throw IllegalArgumentException("Unexpected TabState")
+    }
 }

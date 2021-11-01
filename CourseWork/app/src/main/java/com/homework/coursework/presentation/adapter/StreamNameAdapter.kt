@@ -37,10 +37,20 @@ class StreamNameAdapter : ListAdapter<StreamItem,
     override fun onBindViewHolder(holder: StreamNameViewHolder, position: Int) {
         initChildRecycle(holder, position)
         holder.itemView.setOnClickListener {
-            getItem(position).isTouched = getItem(position).isTouched.not()
-            listenerStream.onStreamItemCallback(position)
+            changeState(position)
         }
         holder.bind(getItem(position))
+    }
+
+    private fun changeState(position: Int) {
+        with(getItem(position)) {
+            isTouched = isTouched.not()
+            if (isTouched.not()){
+                notifyItemChanged(position)
+                return
+            }
+            listenerStream.onStreamItemCallback(id)
+        }
     }
 
     /**

@@ -1,12 +1,14 @@
 package com.homework.coursework.presentation.stream
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,10 +19,14 @@ import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
 import com.homework.coursework.presentation.interfaces.StreamItemCallback
 import com.homework.coursework.presentation.interfaces.TopicItemCallback
+import com.homework.coursework.presentation.stream.StreamFragment.Companion.KEY_CURRENT_POSITION
+import com.homework.coursework.presentation.stream.StreamFragment.Companion.KEY_QUERY_DATA
+import com.homework.coursework.presentation.stream.StreamFragment.Companion.KEY_QUERY_REQUEST
 
 class StreamListFragment : Fragment(), StreamItemCallback, TopicItemCallback {
     private lateinit var streamAdapter: StreamNameAdapter
     private val viewModel: StreamViewModel by viewModels()
+    private var tabState: Int = INIT_VALUE
     private var _binding: ChannelViewPageFragmentBinding? = null
     private val binding
         get() = _binding
@@ -34,27 +40,30 @@ class StreamListFragment : Fragment(), StreamItemCallback, TopicItemCallback {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Log.d("CallbackCheck", "onCreateView")
         _binding = ChannelViewPageFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getArgument()
-        initRecycler()
         initObservers()
         getStreamData()
+        getArgument()
+        initRecycler()
+        Log.d("CallbackCheck", "onViewCreated")
+        setFragmentResultListener(
+            KEY_QUERY_REQUEST
+        ) { _, bundle ->
+            val query = bundle.getString(KEY_QUERY_DATA) ?: ""
+            tabState = bundle.getInt(KEY_CURRENT_POSITION)
+            viewModel.searchStreams(tabState, query)
+        }
     }
 
     private fun getStreamData() {
-        when (requireArguments().getInt(ARG_OBJECT)) {
-            GetStreamType.ALL_STREAMS.value -> {
-                viewModel.getStreams(true)
-            }
-            GetStreamType.SUBSCRIBED_STREAMS.value -> {
-                viewModel.getStreams(false)
-            }
-        }
+        tabState = requireArguments().getInt(ARG_OBJECT)
+        viewModel.getStreams(tabState)
     }
 
     private fun initObservers() {
@@ -90,7 +99,10 @@ class StreamListFragment : Fragment(), StreamItemCallback, TopicItemCallback {
         }
     }
 
-    private fun dataTopicUpdate(topics: List<TopicItem>, position: Int) {
+
+
+    private fun dataTopicUpdate(topics: List<TopicItem>, id: Int) {
+        val position = streamAdapter.currentList.indexOfFirst { it.id == id}
         streamAdapter.currentList[position].topicItemList = ArrayList(topics)
         streamAdapter.notifyItemChanged(position)
     }
@@ -137,7 +149,7 @@ class StreamListFragment : Fragment(), StreamItemCallback, TopicItemCallback {
             putParcelable(STREAM_KEY, stream)
             putParcelable(TOPIC_KEY, topic)
         }
-        setFragmentResult(REQUEST_KEY, bundle)
+        setFragmentResult(REQUEST_KEY_CHOICE, bundle)
     }
 
     override fun onStreamItemCallback(position: Int) {
@@ -147,8 +159,9 @@ class StreamListFragment : Fragment(), StreamItemCallback, TopicItemCallback {
     companion object {
         const val ARG_OBJECT = "object"
         const val SEARCH_IN_ACTION = 0
-        const val REQUEST_KEY = "requestKey"
+        const val REQUEST_KEY_CHOICE = "requestKeyChoice"
         const val STREAM_KEY = "stream"
         const val TOPIC_KEY = "topic"
+        const val INIT_VALUE = -1
     }
 }

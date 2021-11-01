@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
@@ -16,7 +18,7 @@ import com.homework.coursework.presentation.adapter.data.TopicItem
 import com.homework.coursework.presentation.interfaces.AddTopicDiscussion
 import com.homework.coursework.presentation.interfaces.BottomNavigationController
 import com.homework.coursework.presentation.stream.StreamListFragment.Companion.STREAM_KEY
-import com.homework.coursework.presentation.stream.StreamListFragment.Companion.REQUEST_KEY
+import com.homework.coursework.presentation.stream.StreamListFragment.Companion.REQUEST_KEY_CHOICE
 import com.homework.coursework.presentation.stream.StreamListFragment.Companion.TOPIC_KEY
 
 class StreamFragment : Fragment() {
@@ -41,7 +43,7 @@ class StreamFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         childFragmentManager.setFragmentResultListener(
-            REQUEST_KEY,
+            REQUEST_KEY_CHOICE,
             this
         ) { _, bundle ->
             val stream = bundle.getParcelable<StreamItem>(STREAM_KEY)
@@ -72,10 +74,27 @@ class StreamFragment : Fragment() {
             tab.text = itemTextList[position]
         }.attach()
         bottomNavigationController?.visibleBottomNavigation()
+        initSearchEditText()
+    }
+
+    private fun initSearchEditText() {
+        binding.etSearch.doAfterTextChanged {
+            val position = binding.pager.currentItem
+            childFragmentManager.setFragmentResult(
+                KEY_QUERY_REQUEST,
+                bundleOf(KEY_QUERY_DATA to it.toString(), KEY_CURRENT_POSITION to position)
+            )
+        }
     }
 
     override fun onDetach() {
         super.onDetach()
         topicItemCallback = null
+    }
+
+    companion object{
+        const val KEY_QUERY_REQUEST = "queryRequest"
+        const val KEY_QUERY_DATA = "queryData"
+        const val KEY_CURRENT_POSITION = "position"
     }
 }
