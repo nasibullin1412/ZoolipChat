@@ -11,14 +11,14 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.homework.coursework.R
-import com.homework.coursework.presentation.adapter.StreamAdapter
 import com.homework.coursework.databinding.ChannelFragmentBinding
+import com.homework.coursework.presentation.adapter.StreamAdapter
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
 import com.homework.coursework.presentation.interfaces.AddTopicDiscussion
 import com.homework.coursework.presentation.interfaces.BottomNavigationController
-import com.homework.coursework.presentation.stream.StreamListFragment.Companion.STREAM_KEY
 import com.homework.coursework.presentation.stream.StreamListFragment.Companion.REQUEST_KEY_CHOICE
+import com.homework.coursework.presentation.stream.StreamListFragment.Companion.STREAM_KEY
 import com.homework.coursework.presentation.stream.StreamListFragment.Companion.TOPIC_KEY
 
 class StreamFragment : Fragment() {
@@ -81,8 +81,8 @@ class StreamFragment : Fragment() {
         binding.etSearch.doAfterTextChanged {
             val position = binding.pager.currentItem
             childFragmentManager.setFragmentResult(
-                KEY_QUERY_REQUEST,
-                bundleOf(KEY_QUERY_DATA to it.toString(), KEY_CURRENT_POSITION to position)
+                "$KEY_QUERY_REQUEST$position",
+                bundleOf(KEY_QUERY_DATA to it.toString())
             )
         }
     }
@@ -92,9 +92,8 @@ class StreamFragment : Fragment() {
         topicItemCallback = null
     }
 
-    companion object{
+    companion object {
         const val KEY_QUERY_REQUEST = "queryRequest"
         const val KEY_QUERY_DATA = "queryData"
-        const val KEY_CURRENT_POSITION = "position"
     }
 }

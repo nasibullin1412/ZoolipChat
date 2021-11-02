@@ -30,6 +30,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etSearch"
                 style="@style/HelperTextAppearance"
+                android:saveEnabled="false"
                 android:layout_width="300dp"
                 android:layout_height="66dp"
                 android:backgroundTint="@color/search_border_color"

@@ -51,7 +51,7 @@ class StreamViewModel : ViewModel() {
         var id = 0
         topicSubject
             .subscribeOn(Schedulers.io())
-            .doOnNext { _streamScreenState.postValue(StreamScreenState.Loading) }
+            .doOnNext { _topicScreenState.postValue(TopicScreenState.Loading) }
             .debounce(500, TimeUnit.MILLISECONDS, Schedulers.io())
             .switchMap { idStream ->
                 id = idStream

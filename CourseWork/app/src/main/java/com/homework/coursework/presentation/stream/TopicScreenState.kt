@@ -4,7 +4,7 @@ import com.homework.coursework.presentation.adapter.data.TopicItem
 
 sealed class TopicScreenState {
 
-    class Result(val data: List<TopicItem>, val position: Int) : TopicScreenState()
+    class Result(val data: List<TopicItem>, val id: Int) : TopicScreenState()
 
     object Loading : TopicScreenState()
 

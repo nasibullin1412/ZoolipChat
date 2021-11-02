@@ -33,7 +33,6 @@ class StreamListFragment : Fragment(), StreamItemCallback, TopicItemCallback {
             ?: throw IllegalStateException(
                 "Cannot access view in after view destroyed and before view creation"
             )
-    private var isInAction = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,18 +46,17 @@ class StreamListFragment : Fragment(), StreamItemCallback, TopicItemCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initObservers()
-        getStreamData()
         getArgument()
-        initRecycler()
-        Log.d("CallbackCheck", "onViewCreated")
         setFragmentResultListener(
-            KEY_QUERY_REQUEST
+            "$KEY_QUERY_REQUEST$tabState"
         ) { _, bundle ->
             val query = bundle.getString(KEY_QUERY_DATA) ?: ""
-            tabState = bundle.getInt(KEY_CURRENT_POSITION)
             viewModel.searchStreams(tabState, query)
         }
+        initObservers()
+        getStreamData()
+        initRecycler()
+        Log.d("CallbackCheck", "onViewCreated")
     }
 
     private fun getStreamData() {
@@ -94,15 +92,16 @@ class StreamListFragment : Fragment(), StreamItemCallback, TopicItemCallback {
 
             }
             is TopicScreenState.Result -> {
-                dataTopicUpdate(stateStream.data, stateStream.position)
+                dataTopicUpdate(stateStream.data, stateStream.id)
             }
         }
     }
 
-
-
     private fun dataTopicUpdate(topics: List<TopicItem>, id: Int) {
-        val position = streamAdapter.currentList.indexOfFirst { it.id == id}
+        if (streamAdapter.currentList.isNullOrEmpty()) {
+            return
+        }
+        val position = streamAdapter.currentList.indexOfFirst { it.id == id }
         streamAdapter.currentList[position].topicItemList = ArrayList(topics)
         streamAdapter.notifyItemChanged(position)
     }
@@ -140,7 +139,7 @@ class StreamListFragment : Fragment(), StreamItemCallback, TopicItemCallback {
 
     private fun getArgument() {
         arguments?.takeIf { it.containsKey(ARG_OBJECT) }?.apply {
-            isInAction = getInt(ARG_OBJECT) == SEARCH_IN_ACTION
+            tabState = getInt(ARG_OBJECT)
         }
     }
 
