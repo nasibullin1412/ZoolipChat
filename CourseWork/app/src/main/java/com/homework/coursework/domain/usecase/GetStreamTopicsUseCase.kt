@@ -5,6 +5,9 @@ import com.homework.coursework.domain.entity.TopicData
 import com.homework.coursework.domain.repository.TopicRepository
 import io.reactivex.Observable
 
+/**
+ * Used when user want see all topics of stream
+ */
 interface GetStreamTopicsUseCase : (Int) -> Observable<List<TopicData>> {
     override fun invoke(idStream: Int): Observable<List<TopicData>>
 }

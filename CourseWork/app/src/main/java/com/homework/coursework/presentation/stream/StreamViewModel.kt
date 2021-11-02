@@ -62,7 +62,11 @@ class StreamViewModel : ViewModel() {
             .map(topicToItemMapper)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
-                onNext = { _topicScreenState.value = TopicScreenState.Result(it, id) }
+                onNext = { _topicScreenState.value = TopicScreenState.Result(it, id) },
+                onError = {
+                    _topicScreenState.value = TopicScreenState.Error(it)
+                    subscribeToGetTopics()
+                }
             )
             .addTo(compositeDisposable)
     }
@@ -87,7 +91,10 @@ class StreamViewModel : ViewModel() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
                 onNext = { _streamScreenState.value = StreamScreenState.Result(it) },
-                onError = { _streamScreenState.value = StreamScreenState.Error(it) }
+                onError = {
+                    _streamScreenState.value = StreamScreenState.Error(it)
+                    subscribeToSearchStreams()
+                }
             )
             .addTo(compositeDisposable)
     }

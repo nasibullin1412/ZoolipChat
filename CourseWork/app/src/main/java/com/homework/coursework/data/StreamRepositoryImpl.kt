@@ -11,12 +11,12 @@ import kotlin.random.Random
 class StreamRepositoryImpl : StreamRepository {
     override fun loadStreams(): Observable<List<StreamData>> {
         return Observable.fromCallable { generateAllStreamList() }
-            .delay(2000L, TimeUnit.MILLISECONDS)
+            .delay(1000L, TimeUnit.MILLISECONDS)
     }
 
     override fun loadSubscribedStreams(): Observable<List<StreamData>> {
         return Observable.fromCallable { generateSubscribedStreamList() }
-            .delay(2000L, TimeUnit.MILLISECONDS)
+            .delay(1000L, TimeUnit.MILLISECONDS)
     }
 
     @WorkerThread

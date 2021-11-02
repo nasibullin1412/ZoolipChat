@@ -13,13 +13,13 @@ import kotlin.random.Random
 class MessageRepositoryImpl : MessageRepository {
     override fun loadMessages(idStream: Int, idTopic: Int): Observable<List<MessageData>> {
         return Observable.fromCallable { generateMessagesList(idStream, idTopic) }
-            .delay(2000L, TimeUnit.MILLISECONDS)
+            .delay(1000L, TimeUnit.MILLISECONDS)
     }
 
     @WorkerThread
     private fun generateMessagesList(idStream: Int, idTopic: Int): List<MessageData> {
         Log.d("Message Moc", Thread.currentThread().name)
-        if (Random.nextBoolean()) {
+        if (Random.nextInt() % 3 == 1) {
             throw IllegalArgumentException("Unexpected idStream")
         }
         return when (idStream) {
@@ -209,7 +209,7 @@ class MessageRepositoryImpl : MessageRepository {
                             0, "Павел Дуров",
                             "https://clck.ru/YEN9d"
                         ),
-                        messageContent = "Маму люби",
+                        messageContent = "Колобок повесился",
                         emojis = arrayListOf(
                             EmojiData(
                                 emojiCode = "😗",
@@ -225,7 +225,7 @@ class MessageRepositoryImpl : MessageRepository {
                             0, "Павел Дуров",
                             "https://clck.ru/YEN9d"
                         ),
-                        messageContent = "Суп посоли",
+                        messageContent = "Буратино утонул",
                         emojis = arrayListOf(),
                         date = "2 Фев"
                     ),
@@ -236,18 +236,7 @@ class MessageRepositoryImpl : MessageRepository {
                             0, "Павел Дуров",
                             "https://clck.ru/YEN9d"
                         ),
-                        messageContent = "Ковёр оттряни",
-                        emojis = arrayListOf(),
-                        date = "2 Фев"
-                    ),
-
-                    MessageData(
-                        messageId = 3,
-                        userData = UserData(
-                            0, "Павел Дуров",
-                            "https://clck.ru/YEN9d"
-                        ),
-                        messageContent = "Мухамед Али",
+                        messageContent = "Русалка села на шпагат",
                         emojis = arrayListOf(),
                         date = "2 Фев"
                     )

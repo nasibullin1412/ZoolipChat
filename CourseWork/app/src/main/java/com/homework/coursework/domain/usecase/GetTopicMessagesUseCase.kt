@@ -5,6 +5,9 @@ import com.homework.coursework.domain.entity.MessageData
 import com.homework.coursework.domain.repository.MessageRepository
 import io.reactivex.Observable
 
+/**
+ * Used when user want see messages of topic
+ */
 interface GetTopicMessagesUseCase : (Int, Int) -> Observable<List<MessageData>> {
     override fun invoke(idStream: Int, idTopic: Int): Observable<List<MessageData>>
 }

@@ -76,15 +76,14 @@ class StreamListFragment : Fragment(), StreamItemCallback, TopicItemCallback {
     private fun processStreamScreenState(stateStream: StreamScreenState) {
         when (stateStream) {
             is StreamScreenState.Error -> {
-                binding.rvStreams.isVisible = false
+                binding.rvStreams.visibility = View.GONE
                 binding.shStreams.stopShimmer()
                 binding.shStreams.hideShimmer()
                 binding.shStreams.visibility = View.GONE
-                binding.nsvErrorConnection.isVisible = true
+                binding.nsvErrorConnection.visibility = View.VISIBLE
             }
             is StreamScreenState.Loading -> {
-                binding.rvStreams.isVisible = false
-                binding.nsvErrorConnection.isVisible = false
+                binding.nsvErrorConnection.visibility = View.GONE
                 binding.shStreams.startShimmer()
             }
             is StreamScreenState.Result -> {
@@ -92,7 +91,7 @@ class StreamListFragment : Fragment(), StreamItemCallback, TopicItemCallback {
                 binding.shStreams.stopShimmer()
                 binding.shStreams.hideShimmer()
                 binding.shStreams.visibility = View.GONE
-                binding.rvStreams.isVisible = true
+                binding.rvStreams.visibility = View.VISIBLE
                 dataStreamUpdate(stateStream.data)
             }
         }
