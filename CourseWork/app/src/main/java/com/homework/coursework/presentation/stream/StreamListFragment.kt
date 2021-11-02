@@ -13,13 +13,12 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.homework.coursework.R
-import com.homework.coursework.databinding.ChannelViewPageFragmentBinding
+import com.homework.coursework.databinding.StreamViewPageFragmentBinding
 import com.homework.coursework.presentation.adapter.StreamNameAdapter
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
 import com.homework.coursework.presentation.interfaces.StreamItemCallback
 import com.homework.coursework.presentation.interfaces.TopicItemCallback
-import com.homework.coursework.presentation.stream.StreamFragment.Companion.KEY_CURRENT_POSITION
 import com.homework.coursework.presentation.stream.StreamFragment.Companion.KEY_QUERY_DATA
 import com.homework.coursework.presentation.stream.StreamFragment.Companion.KEY_QUERY_REQUEST
 
@@ -27,7 +26,7 @@ class StreamListFragment : Fragment(), StreamItemCallback, TopicItemCallback {
     private lateinit var streamAdapter: StreamNameAdapter
     private val viewModel: StreamViewModel by viewModels()
     private var tabState: Int = INIT_VALUE
-    private var _binding: ChannelViewPageFragmentBinding? = null
+    private var _binding: StreamViewPageFragmentBinding? = null
     private val binding
         get() = _binding
             ?: throw IllegalStateException(
@@ -40,7 +39,7 @@ class StreamListFragment : Fragment(), StreamItemCallback, TopicItemCallback {
         savedInstanceState: Bundle?
     ): View {
         Log.d("CallbackCheck", "onCreateView")
-        _binding = ChannelViewPageFragmentBinding.inflate(inflater, container, false)
+        _binding = StreamViewPageFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -75,9 +74,12 @@ class StreamListFragment : Fragment(), StreamItemCallback, TopicItemCallback {
 
             }
             is StreamScreenState.Loading -> {
-
+                binding.shStreams.startShimmer()
             }
             is StreamScreenState.Result -> {
+                binding.shStreams.stopShimmer()
+                binding.shStreams.hideShimmer()
+                binding.shStreams.visibility = View.GONE
                 dataStreamUpdate(stateStream.data)
             }
         }
@@ -111,7 +113,7 @@ class StreamListFragment : Fragment(), StreamItemCallback, TopicItemCallback {
      * @param listStreams is new list of channels for recycle
      */
     private fun dataStreamUpdate(listStreams: List<StreamItem>) {
-        binding.rvSpinner.visibility = View.VISIBLE
+        binding.rvStreams.visibility = View.VISIBLE
         streamAdapter.submitList(listStreams)
     }
 
@@ -120,9 +122,9 @@ class StreamListFragment : Fragment(), StreamItemCallback, TopicItemCallback {
             setTopicListener(this@StreamListFragment)
             setStreamListener(this@StreamListFragment)
         }
-        with(binding.rvSpinner) {
+        with(binding.rvStreams) {
             val itemDecorator = DividerItemDecoration(
-                binding.rvSpinner.context,
+                context,
                 DividerItemDecoration.VERTICAL
             ).apply {
                 ResourcesCompat.getDrawable(
@@ -157,7 +159,6 @@ class StreamListFragment : Fragment(), StreamItemCallback, TopicItemCallback {
 
     companion object {
         const val ARG_OBJECT = "object"
-        const val SEARCH_IN_ACTION = 0
         const val REQUEST_KEY_CHOICE = "requestKeyChoice"
         const val STREAM_KEY = "stream"
         const val TOPIC_KEY = "topic"

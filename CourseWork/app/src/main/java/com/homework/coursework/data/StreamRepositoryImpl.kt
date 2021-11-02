@@ -10,12 +10,12 @@ import java.util.concurrent.TimeUnit
 class StreamRepositoryImpl : StreamRepository {
     override fun loadStreams(): Observable<List<StreamData>> {
         return Observable.fromCallable { generateAllStreamList() }
-            .delay(1000L, TimeUnit.MILLISECONDS)
+            .delay(2000L, TimeUnit.MILLISECONDS)
     }
 
     override fun loadSubscribedStreams(): Observable<List<StreamData>> {
         return Observable.fromCallable { generateSubscribedStreamList() }
-            .delay(1000L, TimeUnit.MILLISECONDS)
+            .delay(2000L, TimeUnit.MILLISECONDS)
     }
 
     @WorkerThread

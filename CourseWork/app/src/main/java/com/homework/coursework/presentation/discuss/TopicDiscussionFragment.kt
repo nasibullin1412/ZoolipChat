@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -87,9 +88,10 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
 
             }
             is TopicDiscussionState.Loading -> {
-
+                binding.progressBar.isVisible = true
             }
             is TopicDiscussionState.Result -> {
+                binding.progressBar.isVisible = false
                 updateMessage(stateStream.data)
             }
         }

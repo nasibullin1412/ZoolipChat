@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.homework.coursework.R
-import com.homework.coursework.databinding.ChannelFragmentBinding
+import com.homework.coursework.databinding.StreamFragmentBinding
 import com.homework.coursework.presentation.adapter.StreamAdapter
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
@@ -23,7 +23,7 @@ import com.homework.coursework.presentation.stream.StreamListFragment.Companion.
 
 class StreamFragment : Fragment() {
 
-    private var _binding: ChannelFragmentBinding? = null
+    private var _binding: StreamFragmentBinding? = null
     private val binding get() = _binding!!
     private lateinit var streamAdapter: StreamAdapter
     private lateinit var viewPager: ViewPager2
@@ -60,7 +60,7 @@ class StreamFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = ChannelFragmentBinding.inflate(inflater, container, false)
+        _binding = StreamFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 

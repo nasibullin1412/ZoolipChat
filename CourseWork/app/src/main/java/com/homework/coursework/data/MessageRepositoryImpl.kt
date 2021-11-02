@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit
 class MessageRepositoryImpl : MessageRepository {
     override fun loadMessages(idStream: Int, idTopic: Int): Observable<List<MessageData>> {
         return Observable.fromCallable { generateMessagesList(idStream, idTopic) }
-            .delay(1000L, TimeUnit.MILLISECONDS)
+            .delay(2000L, TimeUnit.MILLISECONDS)
     }
 
     @WorkerThread

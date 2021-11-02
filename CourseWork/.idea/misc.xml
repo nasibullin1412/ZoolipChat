@@ -40,9 +40,13 @@
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/message_item.xml" value="0.1" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/message_to_item.xml" value="0.176" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/profile_fragment.xml" value="0.1859375" />
+        <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/shimmer_layout.xml" value="0.146875" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/spinner.xml" value="0.2140625" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/spinner_item.xml" value="0.264" />
-        <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/topic_discussion_fragment.xml" value="0.264" />
+        <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/stream_fragment.xml" value="0.146875" />
+        <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/stream_item.xml" value="0.165625" />
+        <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/stream_view_page_fragment.xml" value="0.165625" />
+        <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/topic_discussion_fragment.xml" value="0.12" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/topic_item.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/menu/bottom_bar_menu.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/menu/search_menu.xml" value="0.3140625" />

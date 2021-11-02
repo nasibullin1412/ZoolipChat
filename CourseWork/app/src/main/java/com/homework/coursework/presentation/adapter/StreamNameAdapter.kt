@@ -30,7 +30,7 @@ class StreamNameAdapter : ListAdapter<StreamItem,
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StreamNameViewHolder {
         val inflater: LayoutInflater = LayoutInflater.from(parent.context)
         return StreamNameViewHolder(
-            inflater.inflate(R.layout.channel_item, parent, false)
+            inflater.inflate(R.layout.stream_item, parent, false)
         )
     }
 
