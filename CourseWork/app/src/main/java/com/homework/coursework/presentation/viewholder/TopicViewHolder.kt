@@ -7,11 +7,14 @@ import com.homework.coursework.R
 import com.homework.coursework.databinding.TopicItemBinding
 import com.homework.coursework.presentation.adapter.data.TopicItem
 
-class TopicViewHolder(private val viewBinding: TopicItemBinding)
-    : RecyclerView.ViewHolder(viewBinding.root) {
+class TopicViewHolder(private val viewBinding: TopicItemBinding) :
+    RecyclerView.ViewHolder(viewBinding.root) {
 
     private val evenColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        viewBinding.root.resources.getColor(R.color.custom_bar_color, viewBinding.root.context.theme)
+        viewBinding.root.resources.getColor(
+            R.color.custom_bar_color,
+            viewBinding.root.context.theme
+        )
     } else {
         viewBinding.root.resources.getColor(R.color.custom_bar_color)
     }

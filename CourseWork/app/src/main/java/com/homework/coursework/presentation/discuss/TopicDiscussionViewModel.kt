@@ -39,7 +39,7 @@ class TopicDiscussionViewModel : ViewModel() {
                 onNext = {
                     _topicDiscScreenState.value = TopicDiscussionState.Result(it + sentMessages)
                 },
-                onError ={
+                onError = {
                     _topicDiscScreenState.value = TopicDiscussionState.Error(it)
                 }
             )

@@ -1,6 +1,5 @@
 package com.homework.coursework.presentation.adapter.data
 
-
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 

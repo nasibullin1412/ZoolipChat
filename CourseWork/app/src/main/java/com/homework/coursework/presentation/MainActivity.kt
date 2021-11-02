@@ -9,10 +9,10 @@ import com.homework.coursework.R
 import com.homework.coursework.domain.entity.UserData
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
-import com.homework.coursework.presentation.utils.MenuItemIdx
 import com.homework.coursework.presentation.interfaces.AddTopicDiscussion
 import com.homework.coursework.presentation.interfaces.BottomNavigationController
 import com.homework.coursework.presentation.utils.FragmentTag
+import com.homework.coursework.presentation.utils.MenuItemIdx
 import com.homework.coursework.presentation.utils.addFragment
 import com.homework.coursework.presentation.utils.fragmentByTag
 
@@ -86,8 +86,8 @@ class MainActivity : AppCompatActivity(), AddTopicDiscussion, BottomNavigationCo
     }
 
     companion object {
+        private const val CURR_USER_ID = 1
         const val DEFAULT_MESSAGE_ID = -1
-        const val CURR_USER_ID = 1
         const val CURR_USER_NAME = "Марк Цукерберг"
         const val CURR_USER_AVATAR_URL = "https://clck.ru/YDyYU"
         const val CURR_USER_DATE = "3 фев"

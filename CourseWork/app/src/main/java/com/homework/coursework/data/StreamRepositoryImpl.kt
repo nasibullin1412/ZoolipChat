@@ -21,7 +21,7 @@ class StreamRepositoryImpl : StreamRepository {
 
     @WorkerThread
     private fun generateAllStreamList(): List<StreamData> {
-        if (Random.nextInt() % 3 == 1){
+        if (Random.nextInt() % 3 == 1) {
             throw IllegalArgumentException("500: Internal sever error")
         }
         Log.d("All Stream Moc", Thread.currentThread().name)
@@ -50,7 +50,7 @@ class StreamRepositoryImpl : StreamRepository {
 
     @WorkerThread
     private fun generateSubscribedStreamList(): List<StreamData> {
-        if (Random.nextInt() % 3 == 1){
+        if (Random.nextInt() % 3 == 1) {
             throw IllegalArgumentException("500: Internal sever error")
         }
         Log.d("Subscribed Stream Moc", Thread.currentThread().name)

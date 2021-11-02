@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.homework.coursework.R
-import com.homework.coursework.presentation.customview.CustomFlexboxLayout
 import com.homework.coursework.domain.entity.MessageData
+import com.homework.coursework.presentation.customview.CustomFlexboxLayout
 import com.homework.coursework.presentation.interfaces.MessageItemCallback
 import com.homework.coursework.presentation.utils.emojiLogic
 

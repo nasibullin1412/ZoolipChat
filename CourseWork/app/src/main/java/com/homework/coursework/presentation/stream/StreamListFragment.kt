@@ -83,6 +83,7 @@ class StreamListFragment : Fragment(), StreamItemCallback, TopicItemCallback {
                 binding.nsvErrorConnection.isVisible = true
             }
             is StreamScreenState.Loading -> {
+                binding.rvStreams.isVisible = false
                 binding.nsvErrorConnection.isVisible = false
                 binding.shStreams.startShimmer()
             }

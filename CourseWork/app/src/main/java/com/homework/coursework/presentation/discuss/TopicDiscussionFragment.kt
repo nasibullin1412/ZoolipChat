@@ -91,16 +91,19 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
     private fun processTopicScreenState(stateStream: TopicDiscussionState) {
         when (stateStream) {
             is TopicDiscussionState.Error -> {
-                binding.nsvErrorConnection.isVisible = true
+                binding.rvMessage.isVisible = false
                 binding.progressBar.isVisible = false
+                binding.nsvErrorConnection.isVisible = true
             }
             is TopicDiscussionState.Loading -> {
                 binding.nsvErrorConnection.isVisible = false
+                binding.rvMessage.isVisible = false
                 binding.progressBar.isVisible = true
             }
             is TopicDiscussionState.Result -> {
                 binding.nsvErrorConnection.isVisible = false
                 binding.progressBar.isVisible = false
+                binding.rvMessage.isVisible = true
                 updateMessage(stateStream.data)
             }
         }

@@ -45,7 +45,7 @@ class StreamNameAdapter : ListAdapter<StreamItem,
     private fun changeState(position: Int) {
         with(getItem(position)) {
             isTouched = isTouched.not()
-            if (isTouched.not()){
+            if (isTouched.not()) {
                 notifyItemChanged(position)
                 return
             }

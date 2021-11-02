@@ -2,7 +2,6 @@ package com.homework.coursework.domain.usecase
 
 import com.homework.coursework.data.MessageRepositoryImpl
 import com.homework.coursework.domain.entity.MessageData
-import com.homework.coursework.domain.entity.StreamData
 import com.homework.coursework.domain.repository.MessageRepository
 import io.reactivex.Observable
 

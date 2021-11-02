@@ -5,8 +5,8 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.homework.coursework.R
-import com.homework.coursework.presentation.customview.CustomFlexboxLayout
 import com.homework.coursework.domain.entity.MessageData
+import com.homework.coursework.presentation.customview.CustomFlexboxLayout
 import com.homework.coursework.presentation.interfaces.MessageItemCallback
 import com.homework.coursework.presentation.utils.emojiLogic
 

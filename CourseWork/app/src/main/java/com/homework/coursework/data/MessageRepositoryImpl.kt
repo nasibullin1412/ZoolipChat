@@ -19,7 +19,7 @@ class MessageRepositoryImpl : MessageRepository {
     @WorkerThread
     private fun generateMessagesList(idStream: Int, idTopic: Int): List<MessageData> {
         Log.d("Message Moc", Thread.currentThread().name)
-        if (Random.nextBoolean()){
+        if (Random.nextBoolean()) {
             throw IllegalArgumentException("Unexpected idStream")
         }
         return when (idStream) {
