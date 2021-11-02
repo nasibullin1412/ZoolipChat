@@ -8,6 +8,7 @@ import com.homework.coursework.domain.entity.UserData
 import com.homework.coursework.domain.repository.MessageRepository
 import io.reactivex.Observable
 import java.util.concurrent.TimeUnit
+import kotlin.random.Random
 
 class MessageRepositoryImpl : MessageRepository {
     override fun loadMessages(idStream: Int, idTopic: Int): Observable<List<MessageData>> {
@@ -18,6 +19,9 @@ class MessageRepositoryImpl : MessageRepository {
     @WorkerThread
     private fun generateMessagesList(idStream: Int, idTopic: Int): List<MessageData> {
         Log.d("Message Moc", Thread.currentThread().name)
+        if (Random.nextBoolean()){
+            throw IllegalArgumentException("Unexpected idStream")
+        }
         return when (idStream) {
             0 -> {
                 generalStream(idTopic)
@@ -138,6 +142,59 @@ class MessageRepositoryImpl : MessageRepository {
                     )
                 )
             }
+            2 -> {
+                arrayListOf(
+                    MessageData(
+                        messageId = 0,
+                        userData = UserData(
+                            0, "Павел Дуров",
+                            "https://clck.ru/YEN9d"
+                        ),
+                        messageContent = "Маму люби",
+                        emojis = arrayListOf(
+                            EmojiData(
+                                emojiCode = "😗",
+                                emojiNumber = 1,
+                                isCurrUserReacted = false
+                            )
+                        ),
+                        date = "1 Фев"
+                    ),
+                    MessageData(
+                        messageId = 1,
+                        userData = UserData(
+                            0, "Павел Дуров",
+                            "https://clck.ru/YEN9d"
+                        ),
+                        messageContent = "Суп посоли",
+                        emojis = arrayListOf(),
+                        date = "2 Фев"
+                    ),
+
+                    MessageData(
+                        messageId = 2,
+                        userData = UserData(
+                            0, "Павел Дуров",
+                            "https://clck.ru/YEN9d"
+                        ),
+                        messageContent = "Ковёр оттряни",
+                        emojis = arrayListOf(),
+                        date = "2 Фев"
+                    ),
+
+                    MessageData(
+                        messageId = 3,
+                        userData = UserData(
+                            0, "Павел Дуров",
+                            "https://clck.ru/YEN9d"
+                        ),
+                        messageContent = "Мухамед Али",
+                        emojis = arrayListOf(),
+                        date = "2 Фев"
+                    )
+                )
+            }
+
             else -> throw IllegalArgumentException("Unexpected idStream")
         }
     }

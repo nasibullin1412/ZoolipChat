@@ -80,17 +80,26 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
 
     private fun initObservers() {
         viewModel.topicDiscScreenState.observe(viewLifecycleOwner, { processTopicScreenState(it) })
+        binding.errorContent.tvRepeat.setOnClickListener {
+            viewModel.getMessages(
+                currentStream.id,
+                currentStream.id
+            )
+        }
     }
 
     private fun processTopicScreenState(stateStream: TopicDiscussionState) {
         when (stateStream) {
             is TopicDiscussionState.Error -> {
-
+                binding.nsvErrorConnection.isVisible = true
+                binding.progressBar.isVisible = false
             }
             is TopicDiscussionState.Loading -> {
+                binding.nsvErrorConnection.isVisible = false
                 binding.progressBar.isVisible = true
             }
             is TopicDiscussionState.Result -> {
+                binding.nsvErrorConnection.isVisible = false
                 binding.progressBar.isVisible = false
                 updateMessage(stateStream.data)
             }

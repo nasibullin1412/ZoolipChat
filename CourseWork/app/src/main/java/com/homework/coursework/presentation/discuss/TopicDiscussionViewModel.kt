@@ -38,6 +38,9 @@ class TopicDiscussionViewModel : ViewModel() {
             .subscribeBy(
                 onNext = {
                     _topicDiscScreenState.value = TopicDiscussionState.Result(it + sentMessages)
+                },
+                onError ={
+                    _topicDiscScreenState.value = TopicDiscussionState.Error(it)
                 }
             )
             .addTo(compositeDisposable)

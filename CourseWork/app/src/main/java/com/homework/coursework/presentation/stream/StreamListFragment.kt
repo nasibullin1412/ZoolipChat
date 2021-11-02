@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
@@ -27,6 +28,7 @@ class StreamListFragment : Fragment(), StreamItemCallback, TopicItemCallback {
     private val viewModel: StreamViewModel by viewModels()
     private var tabState: Int = INIT_VALUE
     private var _binding: StreamViewPageFragmentBinding? = null
+    private var currQuery: String = ""
     private val binding
         get() = _binding
             ?: throw IllegalStateException(
@@ -49,8 +51,8 @@ class StreamListFragment : Fragment(), StreamItemCallback, TopicItemCallback {
         setFragmentResultListener(
             "$KEY_QUERY_REQUEST$tabState"
         ) { _, bundle ->
-            val query = bundle.getString(KEY_QUERY_DATA) ?: ""
-            viewModel.searchStreams(tabState, query)
+            currQuery = bundle.getString(KEY_QUERY_DATA) ?: ""
+            viewModel.searchStreams(tabState, currQuery)
         }
         initObservers()
         getStreamData()
@@ -66,20 +68,30 @@ class StreamListFragment : Fragment(), StreamItemCallback, TopicItemCallback {
     private fun initObservers() {
         viewModel.streamScreenState.observe(viewLifecycleOwner) { processStreamScreenState(it) }
         viewModel.topicScreenState.observe(viewLifecycleOwner) { processTopicScreenState(it) }
+        binding.errorContent.tvRepeat.setOnClickListener {
+            viewModel.getStreams(tabState)
+        }
     }
 
     private fun processStreamScreenState(stateStream: StreamScreenState) {
         when (stateStream) {
             is StreamScreenState.Error -> {
-
-            }
-            is StreamScreenState.Loading -> {
-                binding.shStreams.startShimmer()
-            }
-            is StreamScreenState.Result -> {
+                binding.rvStreams.isVisible = false
                 binding.shStreams.stopShimmer()
                 binding.shStreams.hideShimmer()
                 binding.shStreams.visibility = View.GONE
+                binding.nsvErrorConnection.isVisible = true
+            }
+            is StreamScreenState.Loading -> {
+                binding.nsvErrorConnection.isVisible = false
+                binding.shStreams.startShimmer()
+            }
+            is StreamScreenState.Result -> {
+                binding.nsvErrorConnection.isVisible = false
+                binding.shStreams.stopShimmer()
+                binding.shStreams.hideShimmer()
+                binding.shStreams.visibility = View.GONE
+                binding.rvStreams.isVisible = true
                 dataStreamUpdate(stateStream.data)
             }
         }

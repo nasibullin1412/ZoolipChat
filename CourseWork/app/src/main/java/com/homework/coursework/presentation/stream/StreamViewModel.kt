@@ -101,7 +101,8 @@ class StreamViewModel : ViewModel() {
             .subscribeBy(
                 onNext = {
                     _streamScreenState.value = StreamScreenState.Result(it)
-                }
+                },
+                onError = { _streamScreenState.value = StreamScreenState.Error(it) }
             )
             .addTo(compositeDisposable)
     }

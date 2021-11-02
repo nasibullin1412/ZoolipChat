@@ -6,6 +6,7 @@ import com.homework.coursework.domain.entity.StreamData
 import com.homework.coursework.domain.repository.StreamRepository
 import io.reactivex.Observable
 import java.util.concurrent.TimeUnit
+import kotlin.random.Random
 
 class StreamRepositoryImpl : StreamRepository {
     override fun loadStreams(): Observable<List<StreamData>> {
@@ -20,6 +21,9 @@ class StreamRepositoryImpl : StreamRepository {
 
     @WorkerThread
     private fun generateAllStreamList(): List<StreamData> {
+        if (Random.nextInt() % 3 == 1){
+            throw IllegalArgumentException("500: Internal sever error")
+        }
         Log.d("All Stream Moc", Thread.currentThread().name)
         return listOf(
             StreamData(
@@ -46,6 +50,9 @@ class StreamRepositoryImpl : StreamRepository {
 
     @WorkerThread
     private fun generateSubscribedStreamList(): List<StreamData> {
+        if (Random.nextInt() % 3 == 1){
+            throw IllegalArgumentException("500: Internal sever error")
+        }
         Log.d("Subscribed Stream Moc", Thread.currentThread().name)
         return listOf(
             StreamData(

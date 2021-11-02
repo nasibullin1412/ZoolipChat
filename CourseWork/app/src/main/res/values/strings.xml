@@ -71,6 +71,8 @@
     <string name="profile_string">Profile</string>
     <string name="search_hint">Search…</string>
     <string name="log_out">Log out</string>
+    <string name="error_message">Произошла ошибка при загрузке данных. Проверьте подключение...</string>
+    <string name="repeat">Повторить</string>
     <string-array name="view_pager_items">
         <item>Subscribed</item>
         <item>All streams</item>
