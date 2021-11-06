@@ -10,7 +10,7 @@ class StreamItemMapper : (List<StreamData>) -> (List<StreamItem>) {
             with(stream) {
                 StreamItem(
                     id = id,
-                    streamName = streamName,
+                    streamName = "#$streamName",
                     description = description,
                     dateCreated = dateCreated,
                     topicItemList = null,

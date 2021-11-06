@@ -22,6 +22,7 @@ import com.homework.coursework.presentation.interfaces.StreamItemCallback
 import com.homework.coursework.presentation.interfaces.TopicItemCallback
 import com.homework.coursework.presentation.stream.StreamFragment.Companion.KEY_QUERY_DATA
 import com.homework.coursework.presentation.stream.StreamFragment.Companion.KEY_QUERY_REQUEST
+import com.homework.coursework.presentation.utils.showToast
 
 class StreamListFragment : Fragment(), StreamItemCallback, TopicItemCallback {
     private lateinit var streamAdapter: StreamNameAdapter
@@ -81,8 +82,9 @@ class StreamListFragment : Fragment(), StreamItemCallback, TopicItemCallback {
                 binding.shStreams.hideShimmer()
                 binding.shStreams.visibility = View.GONE
                 binding.nsvErrorConnection.visibility = View.VISIBLE
+                showToast(stateStream.error.message)
             }
-            is StreamScreenState.Loading -> {
+            StreamScreenState.Loading -> {
                 binding.nsvErrorConnection.visibility = View.GONE
                 binding.shStreams.startShimmer()
             }

@@ -80,13 +80,13 @@ fun View.layoutChildren(left: Int, top: Int) {
     )
 }
 
-fun AppCompatActivity.showToast(message: String?) {
+fun Fragment.showToast(message: String?) {
     Log.e("Toast", message ?: "")
     when {
         message.isNullOrEmpty() -> {
             showToast("Error")
         }
-        else -> Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        else -> Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 }
 

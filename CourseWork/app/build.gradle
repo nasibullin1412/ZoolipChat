@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-parcelize'
+    id 'org.jetbrains.kotlin.plugin.serialization' version "$kotlinVersion"
 }
 
 android {
@@ -30,7 +31,7 @@ android {
     kotlinOptions {
         jvmTarget = rootProject.jvmTargetVersion
     }
-    buildFeatures{
+    buildFeatures {
         viewBinding true
     }
 }
@@ -49,4 +50,10 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
     implementation "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion"
     implementation "com.facebook.shimmer:shimmer:$shimmerVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion"
+    implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:$retrofitKotlinxSerializationVersion"
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
 }
