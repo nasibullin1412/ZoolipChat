@@ -3,12 +3,13 @@ package com.homework.coursework.presentation.discuss
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.homework.coursework.domain.entity.MessageData
+import com.homework.coursework.domain.entity.StreamData
 import com.homework.coursework.domain.usecase.GetTopicMessagesUseCase
 import com.homework.coursework.domain.usecase.GetTopicMessagesUseCaseImpl
-import com.homework.coursework.presentation.MainActivity.Companion.getCurrentUser
-import com.homework.coursework.presentation.adapter.data.MessageItem
-import com.homework.coursework.presentation.adapter.mapper.MessageItemMapper
+import com.homework.coursework.presentation.adapter.data.DiscussItem
+import com.homework.coursework.presentation.adapter.data.StreamItem
+import com.homework.coursework.presentation.adapter.data.TopicItem
+import com.homework.coursework.presentation.adapter.mapper.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -21,23 +22,26 @@ class TopicDiscussionViewModel : ViewModel() {
         get() = _topicDiscScreenState
 
     private val getTopicMessagesUseCase: GetTopicMessagesUseCase = GetTopicMessagesUseCaseImpl()
-    private val messageToItemMapper: MessageItemMapper = MessageItemMapper()
+    private val discussToItemMapper: DiscussItemMapper = DiscussItemMapper()
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
+
+    private val streamDataMapper: StreamDataMapper = StreamDataMapper()
+    private val topicDataMapper: TopicDataMapper = TopicDataMapper()
 
     /**
      * it is emulate sent messages
      */
-    private val sentMessages: MutableList<MessageItem> = mutableListOf()
+    private val sentDiscusses: MutableList<DiscussItem> = mutableListOf()
 
-    fun getMessages(idStream: Int, idTopic: Int) {
-        getTopicMessagesUseCase(idStream, idTopic)
+    fun getMessages(stream: StreamItem, topic: TopicItem) {
+        getTopicMessagesUseCase(streamDataMapper(stream), topicDataMapper(topic))
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.computation())
-            .map(messageToItemMapper)
+            .map(discussToItemMapper)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
                 onNext = {
-                    _topicDiscScreenState.value = TopicDiscussionState.Result(it + sentMessages)
+                    _topicDiscScreenState.value = TopicDiscussionState.Result(it + sentDiscusses)
                 },
                 onError = {
                     _topicDiscScreenState.value = TopicDiscussionState.Error(it)
@@ -46,28 +50,11 @@ class TopicDiscussionViewModel : ViewModel() {
             .addTo(compositeDisposable)
     }
 
-    fun addMessage(
-        idStream: Int,
-        idTopic: Int,
-        content: String,
-        lastId: Int,
-        date: String
+    /*fun addMessage(
+
     ) {
-        sentMessages.add(
-            MessageItem(
-                id = lastId + 1,
-                date = null,
-                messageData = MessageData(
-                    messageId = lastId + 1,
-                    userData = getCurrentUser(),
-                    messageContent = content,
-                    emojis = arrayListOf(),
-                    date = date
-                )
-            )
-        )
         getMessages(idStream, idTopic)
-    }
+    }*/
 
     override fun onCleared() {
         super.onCleared()

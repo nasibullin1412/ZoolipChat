@@ -1,21 +1,38 @@
 package com.homework.coursework.data
 
-import android.util.Log
-import androidx.annotation.WorkerThread
-import com.homework.coursework.domain.entity.EmojiData
+import com.homework.coursework.data.mappers.MessageDtoMapper
 import com.homework.coursework.domain.entity.MessageData
-import com.homework.coursework.domain.entity.UserData
+import com.homework.coursework.domain.entity.StreamData
+import com.homework.coursework.domain.entity.TopicData
 import com.homework.coursework.domain.repository.MessageRepository
+import com.homework.coursework.presentation.App
+import com.homework.coursework.data.dto.Narrow
+import com.homework.coursework.presentation.frameworks.network.utils.NetworkConstants.ANCHOR
+import com.homework.coursework.presentation.frameworks.network.utils.NetworkConstants.NUM_AFTER
+import com.homework.coursework.presentation.frameworks.network.utils.NetworkConstants.NUM_BEFORE
 import io.reactivex.Observable
-import java.util.concurrent.TimeUnit
-import kotlin.random.Random
+import kotlinx.serialization.ExperimentalSerializationApi
 
+
+@ExperimentalSerializationApi
 class MessageRepositoryImpl : MessageRepository {
-    override fun loadMessages(idStream: Int, idTopic: Int): Observable<List<MessageData>> {
-        return Observable.fromCallable { generateMessagesList(idStream, idTopic) }
-            .delay(1000L, TimeUnit.MILLISECONDS)
-    }
 
+    private val messageDtoMapper: MessageDtoMapper = MessageDtoMapper()
+
+    override fun loadMessages(
+        streamData: StreamData,
+        topicData: TopicData
+    ): Observable<List<MessageData>> {
+        val narrow = Narrow.createNarrowForMessage(streamData, topicData)
+        return App.instance.apiService.getMessages(
+            anchor = ANCHOR,
+            numAfter = NUM_AFTER,
+            numBefore = NUM_BEFORE,
+            narrow = narrow
+        ).map(messageDtoMapper)
+    }
+}
+/*
     @WorkerThread
     private fun generateMessagesList(idStream: Int, idTopic: Int): List<MessageData> {
         Log.d("Message Moc", Thread.currentThread().name)
@@ -35,6 +52,7 @@ class MessageRepositoryImpl : MessageRepository {
             else -> throw IllegalArgumentException("Unexpected idStream")
         }
     }
+
 
     private fun designStream(idTopic: Int): List<MessageData> {
         return when (idTopic) {
@@ -407,4 +425,4 @@ class MessageRepositoryImpl : MessageRepository {
             else -> throw IllegalArgumentException("Unexpected idStream")
         }
     }
-}
+}*/

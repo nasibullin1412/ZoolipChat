@@ -1,13 +1,13 @@
-package com.homework.coursework.presentation.utils
+package com.homework.coursework.presentation.frameworks.network.utils
 
 import com.homework.coursework.BuildConfig
-import com.homework.coursework.presentation.utils.NetworkConstants.API_KEY
-import com.homework.coursework.presentation.utils.NetworkConstants.APPLICATION_JSON_TYPE
-import com.homework.coursework.presentation.utils.NetworkConstants.AUTHORIZATION
-import com.homework.coursework.presentation.utils.NetworkConstants.CONNECTION_TIMEOUT
-import com.homework.coursework.presentation.utils.NetworkConstants.EMAIL
-import com.homework.coursework.presentation.utils.NetworkConstants.READ_TIMEOUT
-import com.homework.coursework.presentation.utils.NetworkConstants.WRITE_TIMEOUT
+import com.homework.coursework.presentation.frameworks.network.utils.NetworkConstants.API_KEY
+import com.homework.coursework.presentation.frameworks.network.utils.NetworkConstants.APPLICATION_JSON_TYPE
+import com.homework.coursework.presentation.frameworks.network.utils.NetworkConstants.AUTHORIZATION
+import com.homework.coursework.presentation.frameworks.network.utils.NetworkConstants.CONNECTION_TIMEOUT
+import com.homework.coursework.presentation.frameworks.network.utils.NetworkConstants.EMAIL
+import com.homework.coursework.presentation.frameworks.network.utils.NetworkConstants.READ_TIMEOUT
+import com.homework.coursework.presentation.frameworks.network.utils.NetworkConstants.WRITE_TIMEOUT
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.Credentials

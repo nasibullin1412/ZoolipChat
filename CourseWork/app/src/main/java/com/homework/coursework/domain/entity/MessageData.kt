@@ -4,6 +4,7 @@ data class MessageData(
     val messageId: Int,
     val userData: UserData,
     val messageContent: String,
-    val emojis: ArrayList<EmojiData>,
-    val date: String
+    val emojis: List<EmojiData>,
+    val date: Long,
+    val isCurrentUserMessage: Boolean
 )

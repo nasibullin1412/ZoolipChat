@@ -1,9 +1,12 @@
 package com.homework.coursework.presentation.adapter.data
 
-import com.homework.coursework.domain.entity.MessageData
+import com.homework.coursework.domain.entity.UserData
 
 data class MessageItem(
-    val id: Int,
-    val date: String?,
-    val messageData: MessageData?
+    val messageId: Int,
+    val userData: UserData,
+    val messageContent: String,
+    val emojis: ArrayList<EmojiItem>,
+    val date: Long,
+    val isCurrentUserMessage: Boolean
 )

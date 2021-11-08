@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.homework.coursework.R
-import com.homework.coursework.presentation.adapter.data.MessageItem
+import com.homework.coursework.presentation.adapter.data.DiscussItem
 import com.homework.coursework.presentation.callbacks.MessageCallback
 import com.homework.coursework.presentation.interfaces.MessageItemCallback
 import com.homework.coursework.presentation.viewholder.DateViewHolder
@@ -13,7 +13,7 @@ import com.homework.coursework.presentation.viewholder.MessageFromViewHolder
 import com.homework.coursework.presentation.viewholder.MessageToViewHolder
 
 class MessageAdapter(private val curId: Int) :
-    ListAdapter<MessageItem, RecyclerView.ViewHolder>(MessageCallback()) {
+    ListAdapter<DiscussItem, RecyclerView.ViewHolder>(MessageCallback()) {
 
     private lateinit var listener: MessageItemCallback
 
@@ -37,12 +37,12 @@ class MessageAdapter(private val curId: Int) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is MessageToViewHolder -> holder.bind(
-                getItem(position).messageData
+                getItem(position).messageItem
                     ?: throw IllegalArgumentException("messageData required"),
                 position
             )
             is MessageFromViewHolder -> holder.bind(
-                getItem(position).messageData
+                getItem(position).messageItem
                     ?: throw IllegalArgumentException("messageData required"),
                 position
             )
@@ -60,10 +60,10 @@ class MessageAdapter(private val curId: Int) :
     }
 
     override fun getItemViewType(position: Int): Int {
-        if (getItem(position).messageData == null) {
+        if (getItem(position).messageItem == null) {
             return DATE
         }
-        return when (getItem(position).messageData?.userData?.id) {
+        return when (getItem(position).messageItem?.userData?.id) {
             curId -> MESSAGE_TO
             else -> MESSAGE_FROM
         }

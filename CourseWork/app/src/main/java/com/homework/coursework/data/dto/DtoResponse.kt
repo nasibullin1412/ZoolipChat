@@ -4,11 +4,13 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonNames
 
+
+
 @ExperimentalSerializationApi
 @Serializable
 data class DtoResponse<out T>(
     val result: String,
     val msg: String?,
-    @JsonNames("streams", "subscriptions")
-    val data: List<T>?
+    @JsonNames("streams", "subscriptions", "topics", "messages")
+    val data: T?
 )

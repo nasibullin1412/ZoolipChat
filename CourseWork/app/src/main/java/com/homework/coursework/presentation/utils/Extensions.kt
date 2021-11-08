@@ -18,10 +18,7 @@ import androidx.fragment.app.FragmentManager
 import com.google.android.material.imageview.ShapeableImageView
 import com.homework.coursework.R
 import com.homework.coursework.domain.entity.EmojiData
-import com.homework.coursework.domain.entity.MessageData
-import com.homework.coursework.presentation.adapter.data.MessageItem
-import com.homework.coursework.presentation.adapter.data.StreamItem
-import com.homework.coursework.presentation.adapter.data.TopicItem
+import com.homework.coursework.presentation.adapter.data.*
 import com.homework.coursework.presentation.customview.CustomEmojiView
 import com.homework.coursework.presentation.customview.CustomFlexboxLayout
 import com.homework.coursework.presentation.discuss.TopicDiscussionFragment
@@ -30,7 +27,13 @@ import com.homework.coursework.presentation.profile.ProfileFragment
 import com.homework.coursework.presentation.stream.StreamFragment
 import com.homework.coursework.presentation.stream.TabState
 import com.homework.coursework.presentation.stream.UseCaseType
+import org.threeten.bp.DateTimeUtils
+import org.threeten.bp.Instant
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.format.DateTimeFormatter
+import org.threeten.bp.format.TextStyle
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * set margin to view with layout length
@@ -119,7 +122,7 @@ fun TextView.initEmojiToBottomSheet(emojiCode: String) {
  * On existed emoji check logic. Increase or decrease emoji number
  * @param idx is index of emoji in emoji list
  */
-fun ArrayList<EmojiData>.checkExistedEmoji(idx: Int) {
+fun ArrayList<EmojiItem>.checkExistedEmoji(idx: Int) {
     if (this[idx].isCurrUserReacted) {
         this[idx].isCurrUserReacted = false
         if (this[idx].emojiNumber > 1) {
@@ -139,7 +142,7 @@ fun ArrayList<EmojiData>.checkExistedEmoji(idx: Int) {
  * @param idx is idx of emoji, need for listenner
  * @param listener is listener for callback
  */
-fun CustomFlexboxLayout.addEmoji(emoji: EmojiData, idx: Int, listener: MessageItemCallback) {
+fun CustomFlexboxLayout.addEmoji(emoji: EmojiItem, idx: Int, listener: MessageItemCallback) {
     val validNumber = emoji.emojiNumber.toString().checkEmojiNumber()
     val emojiView = CustomEmojiView(context).apply {
         text = "${emoji.emojiCode} $validNumber"
@@ -196,33 +199,33 @@ fun CustomFlexboxLayout.addPlusImgView(idx: Int, listener: MessageItemCallback) 
 
 /**
  * add emoji to CustomFlexboxLayout logic
- * @param messageData is message model
+ * @param messageItem is message model
  * @param idx is idx for emoji callback listener
  * @param listener is listener for callback
  */
 fun CustomFlexboxLayout.emojiLogic(
-    messageData: MessageData,
+    messageItem: MessageItem,
     idx: Int,
     listener: MessageItemCallback
 ) {
-    if (messageData.emojis.isEmpty()) {
+    if (messageItem.emojis.isEmpty()) {
         removeAllViews()
         return
     }
     if (childCount == 0) {
         addPlusImgView(idx, listener)
     }
-    val delta = messageData.emojis.size - childCount + 1
+    val delta = messageItem.emojis.size - childCount + 1
     when (delta) {
         1 -> addEmoji(
-            emoji = messageData.emojis.last(),
+            emoji = messageItem.emojis.last(),
             idx = idx,
             listener = listener
         )
         else -> {
             removeAllViews()
             addPlusImgView(idx, listener)
-            for (emoji in messageData.emojis) {
+            for (emoji in messageItem.emojis) {
                 addEmoji(emoji, idx = idx, listener = listener)
             }
         }
@@ -233,15 +236,15 @@ fun CustomFlexboxLayout.emojiLogic(
  * add date to recycler list
  * @param date is string with date
  */
-fun ArrayList<MessageItem>.addDate(date: String) {
-    if (lastIndex != -1 && this[lastIndex].messageData?.date == date) {
+fun ArrayList<DiscussItem>.addDate(date: String) {
+    if (lastIndex != -1 && this[lastIndex].messageItem?.date?.toStringDate() == date) {
         return
     }
     val curIdx = lastIndex + 1
     add(
-        MessageItem(
+        DiscussItem(
             id = curIdx,
-            messageData = null,
+            messageItem = null,
             date = date
         )
     )
@@ -249,15 +252,15 @@ fun ArrayList<MessageItem>.addDate(date: String) {
 
 /**
  * add message to recycler list
- * @param messageDataList is list with new messages
+ * @param messageItemList is list with new messages
  */
-fun ArrayList<MessageItem>.addMessageData(messageDataList: List<MessageData>) {
+fun ArrayList<DiscussItem>.addMessageItem(messageItemList: List<MessageItem>) {
     val idx = lastIndex
     addAll(
-        messageDataList.mapIndexed { index, messageData ->
-            MessageItem(
+        messageItemList.mapIndexed { index, messageItem ->
+            DiscussItem(
                 id = idx + index,
-                messageData = messageData,
+                messageItem = messageItem,
                 date = null
             )
         }
@@ -320,4 +323,13 @@ fun Int.getStreamFragmentUseCase(query: String?): UseCaseType {
         }
         else -> throw IllegalArgumentException("Unexpected TabState")
     }
+}
+
+fun Long.toStringDate(): String {
+    val date = LocalDateTime.ofInstant(
+        Instant.ofEpochSecond(this), DateTimeUtils.toZoneId(TimeZone.getDefault())
+    )
+    val day = date.format(DateTimeFormatter.ofPattern("dd"))
+    val month = date.month.getDisplayName(TextStyle.SHORT, Locale("ru"))
+    return "$day $month"
 }

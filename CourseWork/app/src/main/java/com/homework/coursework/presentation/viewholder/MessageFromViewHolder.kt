@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.homework.coursework.R
-import com.homework.coursework.domain.entity.MessageData
+import com.homework.coursework.presentation.adapter.data.MessageItem
 import com.homework.coursework.presentation.customview.CustomFlexboxLayout
 import com.homework.coursework.presentation.interfaces.MessageItemCallback
 import com.homework.coursework.presentation.utils.emojiLogic
@@ -21,16 +21,16 @@ class MessageFromViewHolder(private val listener: MessageItemCallback, view: Vie
     private val cvMessage: CardView = view.findViewById(R.id.cvMessageFrom)
     private val fblEmoji: CustomFlexboxLayout = view.findViewById(R.id.fblEmoji)
 
-    fun bind(messageData: MessageData, idx: Int) {
-        imgAvatar.load(messageData.userData.avatarUrl) {
+    fun bind(messageItem: MessageItem, idx: Int) {
+        imgAvatar.load(messageItem.userData.avatarUrl) {
             crossfade(true)
             transformations(CircleCropTransformation())
         }
         cvMessage.setBackgroundResource(R.drawable.bg_custom_message)
-        tvName.text = messageData.userData.name
-        tvMessageContent.text = messageData.messageContent
+        tvName.text = messageItem.userData.name
+        tvMessageContent.text = messageItem.messageContent
         fblEmoji.emojiLogic(
-            messageData = messageData,
+            messageItem = messageItem,
             idx = idx,
             listener = listener
         )

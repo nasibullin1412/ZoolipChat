@@ -18,11 +18,11 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.homework.coursework.R
 import com.homework.coursework.databinding.TopicDiscussionFragmentBinding
-import com.homework.coursework.domain.entity.EmojiData
 import com.homework.coursework.presentation.MainActivity.Companion.CURR_USER_DATE
 import com.homework.coursework.presentation.MainActivity.Companion.DEFAULT_MESSAGE_ID
 import com.homework.coursework.presentation.adapter.MessageAdapter
-import com.homework.coursework.presentation.adapter.data.MessageItem
+import com.homework.coursework.presentation.adapter.data.DiscussItem
+import com.homework.coursework.presentation.adapter.data.EmojiItem
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
 import com.homework.coursework.presentation.customview.CustomFlexboxLayout
@@ -75,15 +75,15 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
         initEditText()
         initNames()
         initBackButton()
-        viewModel.getMessages(currentStream.id, currentStream.id)
+        viewModel.getMessages(currentStream, currentTopic)
     }
 
     private fun initObservers() {
         viewModel.topicDiscScreenState.observe(viewLifecycleOwner, { processTopicScreenState(it) })
         binding.errorContent.tvRepeat.setOnClickListener {
             viewModel.getMessages(
-                currentStream.id,
-                currentStream.id
+                currentStream,
+                currentTopic
             )
         }
     }
@@ -113,7 +113,7 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
      * update recycler view with new message
      * @param newList is list with new MessageData
      */
-    private fun updateMessage(newList: List<MessageItem>) {
+    private fun updateMessage(newList: List<DiscussItem>) {
         messageAdapter.submitList(newList)
     }
 
@@ -141,13 +141,13 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
     }
 
     private fun updateMessageRecycler(messageContent: String) {
-        viewModel.addMessage(
+        /*viewModel.addMessage(
             currentStream.id,
             currentTopic.id,
             messageContent,
             messageAdapter.currentList.size,
             CURR_USER_DATE
-        )
+        )*/
     }
 
     private fun initEditText() {
@@ -207,11 +207,11 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
         if (messageIdx == DEFAULT_MESSAGE_ID) {
             throw IllegalArgumentException("selectedMessageId required")
         }
-        with(messageAdapter.currentList[messageIdx].messageData) {
+        with(messageAdapter.currentList[messageIdx].messageItem) {
             val idx = this?.emojis?.indexOfFirst { it.emojiCode == emojiCode }
             if (idx == DEFAULT_MESSAGE_ID) {
                 this?.emojis?.add(
-                    EmojiData(
+                    EmojiItem(
                         emojiCode = emojiCode,
                         emojiNumber = 1,
                         isCurrUserReacted = true
