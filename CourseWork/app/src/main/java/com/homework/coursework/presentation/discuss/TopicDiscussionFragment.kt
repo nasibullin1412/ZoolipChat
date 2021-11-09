@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -28,7 +27,9 @@ import com.homework.coursework.presentation.interfaces.BottomNavigationControlle
 import com.homework.coursework.presentation.interfaces.MessageItemCallback
 import com.homework.coursework.presentation.stream.StreamListFragment.Companion.STREAM_KEY
 import com.homework.coursework.presentation.stream.StreamListFragment.Companion.TOPIC_KEY
-import com.homework.coursework.presentation.utils.*
+import com.homework.coursework.presentation.utils.Emoji
+import com.homework.coursework.presentation.utils.initEmojiToBottomSheet
+import com.homework.coursework.presentation.utils.showToast
 import okhttp3.internal.toHexString
 
 class TopicDiscussionFragment : Fragment(), MessageItemCallback {
@@ -89,20 +90,14 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
     private fun processTopicScreenState(stateStream: TopicDiscussionState) {
         when (stateStream) {
             is TopicDiscussionState.Error -> {
-                binding.rvMessage.isVisible = false
-                binding.progressBar.isVisible = false
-                binding.nsvErrorConnection.isVisible = true
+                showErrorScreen()
                 showToast(stateStream.error.message)
             }
             is TopicDiscussionState.Loading -> {
-                binding.nsvErrorConnection.isVisible = false
-                binding.rvMessage.isVisible = false
-                binding.progressBar.isVisible = true
+                showLoadingScreen()
             }
             is TopicDiscussionState.ResultMessages -> {
-                binding.nsvErrorConnection.isVisible = false
-                binding.progressBar.isVisible = false
-                binding.rvMessage.isVisible = true
+                showResultScreen()
                 updateMessage(stateStream.data)
             }
             TopicDiscussionState.ResultUserChanges -> {
@@ -111,6 +106,39 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
             is TopicDiscussionState.ErrorUserChanges -> {
                 showToast(stateStream.error.message)
             }
+        }
+    }
+
+    /**
+     * show error layout
+     */
+    private fun showErrorScreen() {
+        with(binding) {
+            rvMessage.visibility = View.GONE
+            progressBar.visibility = View.GONE
+            nsvErrorConnection.visibility = View.VISIBLE
+        }
+    }
+
+    /**
+     * show loading layout
+     */
+    private fun showLoadingScreen() {
+        with(binding) {
+            nsvErrorConnection.visibility = View.GONE
+            rvMessage.visibility = View.GONE
+            progressBar.visibility = View.VISIBLE
+        }
+    }
+
+    /**
+     * show result screen
+     */
+    private fun showResultScreen() {
+        with(binding) {
+            nsvErrorConnection.visibility = View.GONE
+            progressBar.visibility = View.GONE
+            rvMessage.visibility = View.VISIBLE
         }
     }
 
@@ -204,7 +232,7 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
     /**
      * In Emoji click callback, which add new emoji or increase and decrease existed
      * emoji number
-     * @param emojiIdx is clicked emoji code
+     * @param emojiIdx is clicked emoji idx
      */
     private fun onEmojiClicked(emojiIdx: Int) {
         if (messageIdx == DEFAULT_MESSAGE_ID) {
@@ -252,7 +280,6 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
     } else {
         UseCaseTypeReaction.DELETE_REACTION
     }
-
 
     private fun initRecycleView() {
         with(binding.rvMessage) {

@@ -6,7 +6,5 @@ sealed class TopicScreenState {
 
     class Result(val data: List<TopicItem>, val id: Int) : TopicScreenState()
 
-    object Loading : TopicScreenState()
-
     class Error(val error: Throwable) : TopicScreenState()
 }

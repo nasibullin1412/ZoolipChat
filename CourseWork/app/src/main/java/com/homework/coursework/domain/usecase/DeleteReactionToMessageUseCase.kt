@@ -13,7 +13,7 @@ interface DeleteReactionToMessageUseCase : (MessageData, EmojiData) -> Completab
     override fun invoke(messageData: MessageData, emojiData: EmojiData): Completable
 }
 
-class DeleteReactionToMessageUseCaseImpl : AddReactionToMessageUseCase {
+class DeleteReactionToMessageUseCaseImpl : DeleteReactionToMessageUseCase {
 
     private val repositoryReaction: ReactionRepository = ReactionRepositoryImpl()
 

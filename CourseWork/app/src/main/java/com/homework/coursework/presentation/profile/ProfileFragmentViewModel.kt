@@ -53,4 +53,9 @@ class ProfileFragmentViewModel : ViewModel() {
             UseCaseType.GET_ME_PROFILE -> getMeUseCase()
             UseCaseType.GET_USER_PROFILE -> throw NotImplementedError()
         }
+
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.dispose()
+    }
 }

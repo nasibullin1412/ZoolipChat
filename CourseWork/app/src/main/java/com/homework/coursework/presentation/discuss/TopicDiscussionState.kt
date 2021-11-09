@@ -12,5 +12,5 @@ sealed class TopicDiscussionState {
 
     class Error(val error: Throwable) : TopicDiscussionState()
 
-    class ErrorUserChanges(val error: Throwable): TopicDiscussionState()
+    class ErrorUserChanges(val error: Throwable) : TopicDiscussionState()
 }

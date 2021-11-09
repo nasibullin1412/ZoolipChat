@@ -15,9 +15,10 @@
         android:id="@+id/shStreams"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <include
-            layout="@layout/shimmer_item"/>
+
+        <include layout="@layout/shimmer_item" />
     </com.facebook.shimmer.ShimmerFrameLayout>
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nsvErrorConnection"
         android:layout_width="wrap_content"
@@ -29,6 +30,6 @@
 
         <include
             android:id="@+id/errorContent"
-            layout="@layout/error_content"/>
+            layout="@layout/error_content" />
     </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

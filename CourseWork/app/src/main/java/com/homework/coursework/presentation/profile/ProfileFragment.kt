@@ -13,6 +13,7 @@ import com.homework.coursework.domain.entity.StatusEnum
 import com.homework.coursework.presentation.adapter.data.UserItem
 import com.homework.coursework.presentation.frameworks.network.utils.NetworkConstants.USER_ID
 import com.homework.coursework.presentation.utils.getColor
+import com.homework.coursework.presentation.utils.off
 import com.homework.coursework.presentation.utils.showToast
 
 class ProfileFragment : Fragment() {
@@ -52,26 +53,49 @@ class ProfileFragment : Fragment() {
     private fun processStreamScreenState(stateScreen: ProfileScreenState) {
         when (stateScreen) {
             is ProfileScreenState.Error -> {
-                binding.shStreams.stopShimmer()
-                binding.shStreams.hideShimmer()
-                binding.shStreams.visibility = View.GONE
-                binding.clResult.visibility = View.GONE
-                binding.nsvErrorConnection.visibility = View.VISIBLE
+                showErrorScreen()
                 showToast(stateScreen.error.message)
             }
             ProfileScreenState.Loading -> {
-                binding.clResult.visibility = View.GONE
-                binding.nsvErrorConnection.visibility = View.GONE
-                binding.shStreams.startShimmer()
+                showLoadingScreen()
             }
             is ProfileScreenState.Result -> {
-                binding.nsvErrorConnection.visibility = View.GONE
-                binding.shStreams.stopShimmer()
-                binding.shStreams.hideShimmer()
-                binding.shStreams.visibility = View.GONE
-                binding.clResult.visibility = View.VISIBLE
+                showResultScreen()
                 updateView(stateScreen.userItem)
             }
+        }
+    }
+
+    /**
+     * show error layout
+     */
+    private fun showErrorScreen() {
+        with(binding) {
+            shStreams.off()
+            clResult.visibility = View.GONE
+            nsvErrorConnection.visibility = View.VISIBLE
+        }
+    }
+
+    /**
+     * show loading layout
+     */
+    private fun showLoadingScreen() {
+        with(binding) {
+            clResult.visibility = View.GONE
+            nsvErrorConnection.visibility = View.GONE
+            shStreams.startShimmer()
+        }
+    }
+
+    /**
+     * show result screen
+     */
+    private fun showResultScreen() {
+        with(binding) {
+            nsvErrorConnection.visibility = View.GONE
+            shStreams.off()
+            clResult.visibility = View.VISIBLE
         }
     }
 

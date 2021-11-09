@@ -1,10 +1,6 @@
 package com.homework.coursework.presentation
 
 import android.app.Application
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.os.Build
 import com.homework.coursework.presentation.frameworks.network.ApiService
 import kotlinx.serialization.ExperimentalSerializationApi
 

@@ -51,7 +51,6 @@ class StreamViewModel : ViewModel() {
         var id = 0
         topicSubject
             .subscribeOn(Schedulers.io())
-            .doOnNext { _topicScreenState.postValue(TopicScreenState.Loading) }
             .debounce(500, TimeUnit.MILLISECONDS, Schedulers.io())
             .switchMap { idStream ->
                 id = idStream
@@ -120,7 +119,9 @@ class StreamViewModel : ViewModel() {
             UseCaseType.GET_ALL_STREAMS_USE_CASE -> getAllStreamsUseCase()
             UseCaseType.GET_SUBSCRIBED_STREAM_USE_CASE -> getSubscribedStreamsUseCase()
             UseCaseType.SEARCH_ALL_STREAM_USE_CASE -> searchAllStreamUseCase(query ?: "")
-            UseCaseType.SEARCH_SUBSCRIBED_USE_CASE -> searchSubscribedStreamsUseCase(query ?: "")
+            UseCaseType.SEARCH_SUBSCRIBED_USE_CASE -> searchSubscribedStreamsUseCase(
+                query ?: ""
+            )
         }
 
     override fun onCleared() {

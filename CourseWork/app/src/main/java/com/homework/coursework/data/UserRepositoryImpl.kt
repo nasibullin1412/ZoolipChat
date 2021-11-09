@@ -7,7 +7,6 @@ import com.homework.coursework.presentation.App
 import io.reactivex.Observable
 import kotlinx.serialization.ExperimentalSerializationApi
 
-
 @ExperimentalSerializationApi
 class UserRepositoryImpl : UserRepository {
 

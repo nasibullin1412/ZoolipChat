@@ -6,7 +6,6 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.homework.coursework.R
-import com.homework.coursework.domain.entity.UserData
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
 import com.homework.coursework.presentation.interfaces.AddTopicDiscussion

@@ -15,7 +15,6 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import kotlinx.serialization.ExperimentalSerializationApi
 
-
 @ExperimentalSerializationApi
 class MessageRepositoryImpl : MessageRepository {
 

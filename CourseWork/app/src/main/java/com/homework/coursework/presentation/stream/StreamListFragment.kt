@@ -22,6 +22,7 @@ import com.homework.coursework.presentation.interfaces.StreamItemCallback
 import com.homework.coursework.presentation.interfaces.TopicItemCallback
 import com.homework.coursework.presentation.stream.StreamFragment.Companion.KEY_QUERY_DATA
 import com.homework.coursework.presentation.stream.StreamFragment.Companion.KEY_QUERY_REQUEST
+import com.homework.coursework.presentation.utils.off
 import com.homework.coursework.presentation.utils.showToast
 
 class StreamListFragment : Fragment(), StreamItemCallback, TopicItemCallback {
@@ -78,9 +79,7 @@ class StreamListFragment : Fragment(), StreamItemCallback, TopicItemCallback {
         when (stateStream) {
             is StreamScreenState.Error -> {
                 binding.rvStreams.visibility = View.GONE
-                binding.shStreams.stopShimmer()
-                binding.shStreams.hideShimmer()
-                binding.shStreams.visibility = View.GONE
+                binding.shStreams.off()
                 binding.nsvErrorConnection.visibility = View.VISIBLE
                 showToast(stateStream.error.message)
             }
@@ -90,9 +89,7 @@ class StreamListFragment : Fragment(), StreamItemCallback, TopicItemCallback {
             }
             is StreamScreenState.Result -> {
                 binding.nsvErrorConnection.isVisible = false
-                binding.shStreams.stopShimmer()
-                binding.shStreams.hideShimmer()
-                binding.shStreams.visibility = View.GONE
+                binding.shStreams.off()
                 binding.rvStreams.visibility = View.VISIBLE
                 dataStreamUpdate(stateStream.data)
             }
@@ -102,10 +99,7 @@ class StreamListFragment : Fragment(), StreamItemCallback, TopicItemCallback {
     private fun processTopicScreenState(stateStream: TopicScreenState) {
         when (stateStream) {
             is TopicScreenState.Error -> {
-
-            }
-            is TopicScreenState.Loading -> {
-
+                showToast(stateStream.error.message)
             }
             is TopicScreenState.Result -> {
                 dataTopicUpdate(stateStream.data, stateStream.id)

@@ -12,8 +12,7 @@ import com.homework.coursework.presentation.viewholder.DateViewHolder
 import com.homework.coursework.presentation.viewholder.MessageFromViewHolder
 import com.homework.coursework.presentation.viewholder.MessageToViewHolder
 
-class MessageAdapter() :
-    ListAdapter<DiscussItem, RecyclerView.ViewHolder>(MessageCallback()) {
+class MessageAdapter : ListAdapter<DiscussItem, RecyclerView.ViewHolder>(MessageCallback()) {
 
     private lateinit var listener: MessageItemCallback
 

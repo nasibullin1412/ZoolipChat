@@ -4,13 +4,13 @@ import com.homework.coursework.domain.entity.MessageData
 import com.homework.coursework.presentation.adapter.data.MessageItem
 import com.homework.coursework.presentation.frameworks.network.utils.NetworkConstants.USER_ID
 
-class MessageItemMapper: (List<MessageData>) -> (List<MessageItem>){
+class MessageItemMapper : (List<MessageData>) -> (List<MessageItem>) {
 
     private val emojiItemMapper: EmojiItemMapper = EmojiItemMapper()
 
     override fun invoke(messagesData: List<MessageData>): List<MessageItem> {
         return messagesData.map { message ->
-            with(message){
+            with(message) {
                 MessageItem(
                     messageId = messageId,
                     userData = userData,

@@ -15,6 +15,7 @@ import androidx.core.view.marginRight
 import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.imageview.ShapeableImageView
 import com.homework.coursework.R
 import com.homework.coursework.presentation.adapter.data.*
@@ -336,4 +337,10 @@ fun Fragment.getColor(colorId: Int) = if (Build.VERSION.SDK_INT >= Build.VERSION
     resources.getColor(colorId, requireContext().theme)
 } else {
     resources.getColor(colorId)
+}
+
+fun ShimmerFrameLayout.off() {
+    stopShimmer()
+    hideShimmer()
+    visibility = View.GONE
 }

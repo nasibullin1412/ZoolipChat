@@ -12,11 +12,12 @@ data class StatusDto(
 data class Client(
     val status: String,
     val timestamp: Long
-){
+) {
     fun isActive() = status == STATUS_ACTIVE
     fun isIdle() = status == STATUS_IDLE
     fun isOffline() = status == STATUS_OFFLINE
-    companion object{
+
+    companion object {
         private const val STATUS_ACTIVE = "active"
         private const val STATUS_OFFLINE = "offline"
         private const val STATUS_IDLE = "idle"

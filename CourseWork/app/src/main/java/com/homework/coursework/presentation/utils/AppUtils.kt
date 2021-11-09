@@ -6,6 +6,9 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import com.homework.coursework.presentation.App
 
+/**
+ * It will be use in future
+ */
 val App.isNetworkAvailable: Boolean
     get() {
         val connectivityManager =
