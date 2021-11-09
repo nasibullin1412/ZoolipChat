@@ -18,7 +18,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.homework.coursework.R
 import com.homework.coursework.databinding.TopicDiscussionFragmentBinding
-import com.homework.coursework.presentation.MainActivity.Companion.CURR_USER_DATE
 import com.homework.coursework.presentation.MainActivity.Companion.DEFAULT_MESSAGE_ID
 import com.homework.coursework.presentation.adapter.MessageAdapter
 import com.homework.coursework.presentation.adapter.data.DiscussItem
@@ -30,8 +29,8 @@ import com.homework.coursework.presentation.interfaces.BottomNavigationControlle
 import com.homework.coursework.presentation.interfaces.MessageItemCallback
 import com.homework.coursework.presentation.stream.StreamListFragment.Companion.STREAM_KEY
 import com.homework.coursework.presentation.stream.StreamListFragment.Companion.TOPIC_KEY
-import com.homework.coursework.presentation.utils.checkExistedEmoji
-import com.homework.coursework.presentation.utils.initEmojiToBottomSheet
+import com.homework.coursework.presentation.utils.*
+import okhttp3.internal.toHexString
 
 class TopicDiscussionFragment : Fragment(), MessageItemCallback {
 
@@ -100,11 +99,14 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
                 binding.rvMessage.isVisible = false
                 binding.progressBar.isVisible = true
             }
-            is TopicDiscussionState.Result -> {
+            is TopicDiscussionState.ResultMessages -> {
                 binding.nsvErrorConnection.isVisible = false
                 binding.progressBar.isVisible = false
                 binding.rvMessage.isVisible = true
                 updateMessage(stateStream.data)
+            }
+            TopicDiscussionState.ResultUserChanges -> {
+                viewModel.getMessages(currentStream, currentTopic)
             }
         }
     }
@@ -186,13 +188,12 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
                 )
             }
         }
-        val emojiCodes = resources.getStringArray(R.array.emoji_codes)
         val flbLayout = bottomSheetDialog.findViewById<CustomFlexboxLayout>(R.id.fblBottomSheet)
-        for (emoji in emojiCodes) {
+        for ((idx, emoji) in Emoji.values().withIndex()) {
             flbLayout?.addView(
                 TextView(context).apply {
-                    initEmojiToBottomSheet(emoji.toString())
-                    setOnClickListener { onEmojiClicked(text.toString()) }
+                    initEmojiToBottomSheet(Emoji.toEmoji(emoji.unicodeCodePoint))
+                    setOnClickListener { onEmojiClicked(idx) }
                 }
             )
         }
@@ -201,34 +202,51 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
     /**
      * In Emoji click callback, which add new emoji or increase and decrease existed
      * emoji number
-     * @param emojiCode is clicked emoji code
+     * @param emojiIdx is clicked emoji code
      */
-    private fun onEmojiClicked(emojiCode: String) {
+    private fun onEmojiClicked(emojiIdx: Int) {
         if (messageIdx == DEFAULT_MESSAGE_ID) {
             throw IllegalArgumentException("selectedMessageId required")
         }
         with(messageAdapter.currentList[messageIdx].messageItem) {
-            val idx = this?.emojis?.indexOfFirst { it.emojiCode == emojiCode }
-            if (idx == DEFAULT_MESSAGE_ID) {
-                this?.emojis?.add(
-                    EmojiItem(
-                        emojiCode = emojiCode,
-                        emojiNumber = 1,
-                        isCurrUserReacted = true
-                    )
-                )
-            } else {
-                this?.emojis?.checkExistedEmoji(
-                    idx
-                        ?: throw IllegalArgumentException(
-                            "idx required"
-                        )
-                )
-            }
+            val idx = this?.emojis?.indexOfFirst {
+                it.emojiCode == Emoji.values()[emojiIdx].unicodeCodePoint.toHexString()
+            } ?: DEFAULT_MESSAGE_ID
+            val emojiForAction = EmojiItem(
+                emojiCode = Emoji.values()[emojiIdx].unicodeCodePoint.toHexString(),
+                emojiNumber = this?.emojis?.size ?: 0,
+                emojiName = Emoji.values()[emojiIdx].nameInZulip,
+                isCurrUserReacted = false
+            )
+            viewModel.doUserChanges(
+                useCaseType = addOrDelete(idx == DEFAULT_MESSAGE_ID),
+                messageItem = this ?: throw IllegalArgumentException("message required"),
+                emojiItem = emojiForAction
+            )
         }
         messageAdapter.notifyItemChanged(messageIdx)
         messageIdx = DEFAULT_MESSAGE_ID
         bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_HIDDEN
+    }
+
+    private fun onEmojiClicked(emojiItem: EmojiItem){
+        if (messageIdx == DEFAULT_MESSAGE_ID) {
+            throw IllegalArgumentException("selectedMessageId required")
+        }
+        with(messageAdapter.currentList[messageIdx].messageItem) {
+            this?.emojis?.indexOf(emojiItem)
+            viewModel.doUserChanges(
+                useCaseType = addOrDelete(emojiItem.isCurrUserReacted.not()),
+                messageItem = this ?: throw IllegalArgumentException("message required"),
+                emojiItem = emojiItem
+            )
+        }
+    }
+
+    private fun addOrDelete(isAdd: Boolean): UseCaseType = if (isAdd) {
+        UseCaseType.ADD_REACTION
+    } else {
+        UseCaseType.DELETE_REACTION
     }
 
 
@@ -250,9 +268,9 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
         return true
     }
 
-    override fun onEmojiClick(emojiCode: String, idx: Int): Boolean {
+    override fun onEmojiClick(emojiItem: EmojiItem, idx: Int): Boolean {
         messageIdx = idx
-        onEmojiClicked(emojiCode)
+        onEmojiClicked(emojiItem)
         return true
     }
 

@@ -32,6 +32,7 @@ import org.threeten.bp.Instant
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.TextStyle
+import java.nio.ByteBuffer
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -145,11 +146,11 @@ fun ArrayList<EmojiItem>.checkExistedEmoji(idx: Int) {
 fun CustomFlexboxLayout.addEmoji(emoji: EmojiItem, idx: Int, listener: MessageItemCallback) {
     val validNumber = emoji.emojiNumber.toString().checkEmojiNumber()
     val emojiView = CustomEmojiView(context).apply {
-        text = "${emoji.emojiCode} $validNumber"
+        text = "${Emoji.toEmoji(emoji.emojiCode.toInt(16))} $validNumber"
         isSelected = true
         setOnClickListener {
             it.isSelected = it.isSelected.not()
-            listener.onEmojiClick(emoji.emojiCode, idx)
+            listener.onEmojiClick(emoji, idx)
         }
     }
     addView(emojiView, 0)

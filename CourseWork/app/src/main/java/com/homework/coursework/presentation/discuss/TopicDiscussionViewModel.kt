@@ -3,12 +3,8 @@ package com.homework.coursework.presentation.discuss
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.homework.coursework.domain.entity.StreamData
-import com.homework.coursework.domain.usecase.GetTopicMessagesUseCase
-import com.homework.coursework.domain.usecase.GetTopicMessagesUseCaseImpl
-import com.homework.coursework.presentation.adapter.data.DiscussItem
-import com.homework.coursework.presentation.adapter.data.StreamItem
-import com.homework.coursework.presentation.adapter.data.TopicItem
+import com.homework.coursework.domain.usecase.*
+import com.homework.coursework.presentation.adapter.data.*
 import com.homework.coursework.presentation.adapter.mapper.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -22,11 +18,18 @@ class TopicDiscussionViewModel : ViewModel() {
         get() = _topicDiscScreenState
 
     private val getTopicMessagesUseCase: GetTopicMessagesUseCase = GetTopicMessagesUseCaseImpl()
+    private val addReactionToMessageUse: AddReactionToMessageUseCase =
+        AddReactionToMessageUseCaseImpl()
+    private val deleteReactionToMessageUseCase: DeleteReactionToMessageUseCaseImpl =
+        DeleteReactionToMessageUseCaseImpl()
+
     private val discussToItemMapper: DiscussItemMapper = DiscussItemMapper()
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     private val streamDataMapper: StreamDataMapper = StreamDataMapper()
     private val topicDataMapper: TopicDataMapper = TopicDataMapper()
+    private val messageDataMapper: MessageDataMapper = MessageDataMapper()
+    private val emojiDataMapper: EmojiDataMapper = EmojiDataMapper()
 
     /**
      * it is emulate sent messages
@@ -41,7 +44,8 @@ class TopicDiscussionViewModel : ViewModel() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
                 onNext = {
-                    _topicDiscScreenState.value = TopicDiscussionState.Result(it + sentDiscusses)
+                    _topicDiscScreenState.value =
+                        TopicDiscussionState.ResultMessages(it + sentDiscusses)
                 },
                 onError = {
                     _topicDiscScreenState.value = TopicDiscussionState.Error(it)
@@ -50,11 +54,42 @@ class TopicDiscussionViewModel : ViewModel() {
             .addTo(compositeDisposable)
     }
 
-    /*fun addMessage(
-
+    fun doUserChanges(
+        useCaseType: UseCaseType,
+        messageItem: MessageItem,
+        emojiItem: EmojiItem? = null
     ) {
-        getMessages(idStream, idTopic)
-    }*/
+        getNeedUseCase(
+            useCaseType = useCaseType,
+            messageItem = messageItem,
+            emojiItem = emojiItem
+        ).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeBy(
+                onComplete = {
+                    _topicDiscScreenState.value = TopicDiscussionState.ResultUserChanges
+                }
+            )
+            .addTo(compositeDisposable)
+    }
+
+    private fun getNeedUseCase(
+        useCaseType: UseCaseType,
+        messageItem: MessageItem,
+        emojiItem: EmojiItem? = null
+    ) = when (useCaseType) {
+        UseCaseType.ADD_REACTION -> addReactionToMessageUse(
+            messageData = messageDataMapper(messageItem),
+            emojiData = emojiDataMapper(emojiItem)
+        )
+        UseCaseType.DELETE_REACTION -> deleteReactionToMessageUseCase(
+            messageData = messageDataMapper(messageItem),
+            emojiData = emojiDataMapper(emojiItem)
+        )
+        UseCaseType.ADD_MESSAGE -> throw NotImplementedError()
+        UseCaseType.DELETE_MESSAGE -> throw NotImplementedError()
+    }
+
 
     override fun onCleared() {
         super.onCleared()

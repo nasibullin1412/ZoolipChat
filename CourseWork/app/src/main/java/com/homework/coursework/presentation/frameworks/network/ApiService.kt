@@ -1,21 +1,18 @@
 package com.homework.coursework.presentation.frameworks.network
 
-import android.net.Uri
-import com.homework.coursework.data.dto.*
+import com.homework.coursework.data.dto.MessagesResponse
+import com.homework.coursework.data.dto.StreamsResponse
+import com.homework.coursework.data.dto.TopicsResponse
 import com.homework.coursework.presentation.frameworks.network.utils.NetworkConstants.BASE_URL
 import com.homework.coursework.presentation.frameworks.network.utils.addJsonConverter
 import com.homework.coursework.presentation.frameworks.network.utils.setClient
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.json.JsonElement
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
-import retrofit2.http.Url
-import java.net.URL
+import retrofit2.http.*
 
 @ExperimentalSerializationApi
 interface ApiService {
@@ -36,6 +33,22 @@ interface ApiService {
         @Query("num_before") numBefore: Int,
         @Query("narrow") narrow: String,
     ): Observable<MessagesResponse>
+
+    @POST("messages/{message_id}/reactions")
+    fun addReaction(
+        @Path("message_id") messageId: Int,
+        @Query("emoji_name") emojiName: String,
+        @Query("emoji_code") emojiCode: String,
+        @Query("reaction_type") reactionType: String
+    ): Completable
+
+    @DELETE("messages/{message_id}/reactions")
+    fun deleteReaction(
+        @Path("message_id") messageId: Int,
+        @Query("emoji_name") emojiName: String,
+        @Query("emoji_code") emojiCode: String,
+        @Query("reaction_type") reactionType: String
+    ): Completable
 
     companion object {
         fun create(): ApiService {

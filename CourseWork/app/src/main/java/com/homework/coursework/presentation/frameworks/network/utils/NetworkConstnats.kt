@@ -7,6 +7,7 @@ object NetworkConstants {
     const val API_KEY = "HJpJRxO7giLkcod1YoYsVc2u0bHMF7Sh"
     const val APPLICATION_JSON_TYPE = "application/json"
     const val ANCHOR = "first_unread"
+    const val REACTION_TYPE = "unicode_emoji"
     const val NUM_AFTER = 0
     const val NUM_BEFORE = 30
     const val CONNECTION_TIMEOUT = 15.toLong()

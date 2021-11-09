@@ -117,18 +117,10 @@ class StreamViewModel : ViewModel() {
 
     private fun getNeedUseCase(tabState: Int, query: String? = null) =
         when (tabState.getStreamFragmentUseCase(query)) {
-            UseCaseType.GET_ALL_STREAMS_USE_CASE -> {
-                getAllStreamsUseCase()
-            }
-            UseCaseType.GET_SUBSCRIBED_STREAM_USE_CASE -> {
-                getSubscribedStreamsUseCase()
-            }
-            UseCaseType.SEARCH_ALL_STREAM_USE_CASE -> {
-                searchAllStreamUseCase(query ?: "")
-            }
-            UseCaseType.SEARCH_SUBSCRIBED_USE_CASE -> {
-                searchSubscribedStreamsUseCase(query ?: "")
-            }
+            UseCaseType.GET_ALL_STREAMS_USE_CASE -> getAllStreamsUseCase()
+            UseCaseType.GET_SUBSCRIBED_STREAM_USE_CASE -> getSubscribedStreamsUseCase()
+            UseCaseType.SEARCH_ALL_STREAM_USE_CASE -> searchAllStreamUseCase(query ?: "")
+            UseCaseType.SEARCH_SUBSCRIBED_USE_CASE -> searchSubscribedStreamsUseCase(query ?: "")
         }
 
     override fun onCleared() {

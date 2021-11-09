@@ -8,12 +8,12 @@ class EmojiDtoMapper : (List<EmojiDto>) -> (List<EmojiData>) {
         val emojiMap = emojisDto.groupBy { it.emojiCode }
         val emojisData: ArrayList<EmojiData> = arrayListOf()
         for (key in emojiMap.keys) {
-            val keyInt = key.toInt(16)
             emojisData.add(
                 EmojiData(
-                    emojiCode = String(Character.toChars(keyInt)),
-                    emojiNumber = emojiMap.size,
-                    emojiReactedId = emojiMap[key]?.map { it.userId } ?: listOf()
+                    emojiCode = key,
+                    emojiNumber = emojiMap[key]?.size ?: 0,
+                    emojiReactedId = emojiMap[key]?.map { it.userId } ?: listOf(),
+                    emojiName = emojiMap[key]?.first()?.emojiName ?: ""
                 )
             )
         }

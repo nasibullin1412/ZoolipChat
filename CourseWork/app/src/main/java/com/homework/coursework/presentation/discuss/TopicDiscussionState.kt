@@ -4,7 +4,9 @@ import com.homework.coursework.presentation.adapter.data.DiscussItem
 
 sealed class TopicDiscussionState {
 
-    class Result(val data: List<DiscussItem>) : TopicDiscussionState()
+    class ResultMessages(val data: List<DiscussItem>) : TopicDiscussionState()
+
+    object ResultUserChanges : TopicDiscussionState()
 
     object Loading : TopicDiscussionState()
 
