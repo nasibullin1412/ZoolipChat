@@ -18,7 +18,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.homework.coursework.R
 import com.homework.coursework.databinding.TopicDiscussionFragmentBinding
-import com.homework.coursework.presentation.MainActivity.Companion.DEFAULT_MESSAGE_ID
 import com.homework.coursework.presentation.adapter.MessageAdapter
 import com.homework.coursework.presentation.adapter.data.DiscussItem
 import com.homework.coursework.presentation.adapter.data.EmojiItem
@@ -285,6 +284,8 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
     }
 
     companion object {
+        const val DEFAULT_MESSAGE_ID = -1
+
         fun newInstance(topic: TopicItem, stream: StreamItem): TopicDiscussionFragment {
             val args = Bundle()
             args.putParcelable(TOPIC_KEY, topic)

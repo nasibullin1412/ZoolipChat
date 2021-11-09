@@ -6,77 +6,105 @@
     android:layout_height="match_parent"
     android:background="@color/custom_back">
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/imgProfile"
-        android:layout_width="185dp"
-        android:layout_height="185dp"
-        android:layout_marginTop="126dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/RoundImage" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clResult"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tvName"
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imgProfile"
+            android:layout_width="185dp"
+            android:layout_height="185dp"
+            android:layout_marginTop="126dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/RoundImage" />
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/inter_regular"
+            android:maxWidth="300dp"
+            android:maxLines="2"
+            android:textColor="@color/white"
+            android:textSize="32sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgProfile"
+            tools:text="Darrell Steward" />
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="@font/inter_regular"
+            android:maxWidth="200dp"
+            android:maxLines="1"
+            android:text="@string/status"
+            android:textColor="@color/status_color"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.35"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvName" />
+
+        <TextView
+            android:id="@+id/tvState"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="22dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/inter_regular"
+            android:maxWidth="200dp"
+            android:maxLines="1"
+            android:textColor="@color/state_active_color"
+            android:textSize="20sp"
+            app:layout_constraintStart_toEndOf="@+id/tvStatus"
+            app:layout_constraintTop_toBottomOf="@+id/tvName"
+            tools:text="online" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLogout"
+            android:layout_width="184dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/logout_button_selector"
+            android:text="@string/log_out"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:backgroundTint="@color/send_box_color"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvState"
+            app:layout_constraintVertical_bias="0.6" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shStreams"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/profile_shimmer" />
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nsvErrorConnection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:ellipsize="end"
-        android:fontFamily="@font/inter_regular"
-        android:maxWidth="300dp"
-        android:maxLines="2"
-        android:textColor="@color/white"
-        android:textSize="32sp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgProfile"
-        tools:text="Darrell Steward" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/tvStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:fontFamily="@font/inter_regular"
-        android:maxWidth="200dp"
-        android:maxLines="1"
-        android:textColor="@color/status_color"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.35"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvName"
-        tools:text="In a meeting" />
-
-    <TextView
-        android:id="@+id/tvState"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="22dp"
-        android:ellipsize="end"
-        android:fontFamily="@font/inter_regular"
-        android:maxWidth="200dp"
-        android:maxLines="1"
-        android:textColor="@color/state_color"
-        android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/tvStatus"
-        app:layout_constraintTop_toBottomOf="@+id/tvName"
-        tools:text="online" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnLogout"
-        android:layout_width="184dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/logout_button_selector"
-        android:text="@string/log_out"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:backgroundTint="@color/send_box_color"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvState"
-        app:layout_constraintVertical_bias="0.6" />
+        <include
+            android:id="@+id/errorContent"
+            layout="@layout/error_content" />
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

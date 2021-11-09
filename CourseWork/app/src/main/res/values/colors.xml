@@ -23,8 +23,11 @@
     <color name="item_border_color">#282828</color>
     <color name="indicator_color">#219653</color>
     <color name="status_color">#BCBCBC</color>
-    <color name="state_color">#4AB54D</color>
+    <color name="state_active_color">#4AB54D</color>
+    <color name="state_idle_color">#ff8f00</color>
+    <color name="state_offline_color">#c1d5e0</color>
     <color name="custom_toolbar_color">#2A9D8F</color>
     <color name="odd_color">#E9C46A</color>
     <color name="topic_name_color">#CCCCCC</color>
+    <color name="shimmer_color">#646464</color>
 </resources>

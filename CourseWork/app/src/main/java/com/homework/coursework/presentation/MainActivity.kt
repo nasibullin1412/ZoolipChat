@@ -84,20 +84,4 @@ class MainActivity : AppCompatActivity(), AddTopicDiscussion, BottomNavigationCo
     override fun visibleBottomNavigation() {
         bottomNavigationView.visibility = View.VISIBLE
     }
-
-    companion object {
-        private const val CURR_USER_ID = 1
-        const val DEFAULT_MESSAGE_ID = -1
-        const val CURR_USER_NAME = "Марк Цукерберг"
-        const val CURR_USER_AVATAR_URL = "https://clck.ru/YDyYU"
-        const val CURR_USER_DATE = "3 фев"
-        const val CURR_USER_STATUS = "In a meeting"
-        const val CURR_USER_STATE = "online"
-
-        fun getCurrentUser(): UserData = UserData(
-            id = CURR_USER_ID,
-            name = CURR_USER_NAME,
-            avatarUrl = CURR_USER_AVATAR_URL
-        )
-    }
 }

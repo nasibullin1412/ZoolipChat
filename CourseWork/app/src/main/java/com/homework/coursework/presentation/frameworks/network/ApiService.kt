@@ -1,8 +1,6 @@
 package com.homework.coursework.presentation.frameworks.network
 
-import com.homework.coursework.data.dto.MessagesResponse
-import com.homework.coursework.data.dto.StreamsResponse
-import com.homework.coursework.data.dto.TopicsResponse
+import com.homework.coursework.data.dto.*
 import com.homework.coursework.presentation.frameworks.network.utils.NetworkConstants.BASE_URL
 import com.homework.coursework.presentation.frameworks.network.utils.addJsonConverter
 import com.homework.coursework.presentation.frameworks.network.utils.setClient
@@ -57,6 +55,12 @@ interface ApiService {
         @Query("content") content: String,
         @Query("topic") topic: String
     ): Completable
+
+    @GET("users/me")
+    fun getMe(): Observable<UserDto>
+
+    @GET("users/{user_id}/presence")
+    fun getStatus(@Path("user_id") userId: Int): Observable<StatusResponse>
 
     companion object {
         fun create(): ApiService {

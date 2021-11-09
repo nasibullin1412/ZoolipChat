@@ -8,3 +8,5 @@ typealias StreamsResponse = DtoResponse<List<StreamDto>>
 typealias TopicsResponse = DtoResponse<List<TopicDto>>
 @ExperimentalSerializationApi
 typealias MessagesResponse = DtoResponse<List<MessageDto>>
+@ExperimentalSerializationApi
+typealias StatusResponse = DtoResponse<StatusDto>

@@ -17,7 +17,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.imageview.ShapeableImageView
 import com.homework.coursework.R
-import com.homework.coursework.domain.entity.EmojiData
 import com.homework.coursework.presentation.adapter.data.*
 import com.homework.coursework.presentation.customview.CustomEmojiView
 import com.homework.coursework.presentation.customview.CustomFlexboxLayout
@@ -32,9 +31,7 @@ import org.threeten.bp.Instant
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.TextStyle
-import java.nio.ByteBuffer
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * set margin to view with layout length
@@ -333,4 +330,10 @@ fun Long.toStringDate(): String {
     val day = date.format(DateTimeFormatter.ofPattern("dd"))
     val month = date.month.getDisplayName(TextStyle.SHORT, Locale("ru"))
     return "$day $month"
+}
+
+fun Fragment.getColor(colorId: Int) = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+    resources.getColor(colorId, requireContext().theme)
+} else {
+    resources.getColor(colorId)
 }

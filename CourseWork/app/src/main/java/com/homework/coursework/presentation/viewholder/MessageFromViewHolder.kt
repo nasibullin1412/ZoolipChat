@@ -28,7 +28,7 @@ class MessageFromViewHolder(private val listener: MessageItemCallback, view: Vie
         }
         cvMessage.setBackgroundResource(R.drawable.bg_custom_message)
         tvName.text = messageItem.userData.name
-        tvMessageContent.text = messageItem.messageContent
+        tvMessageContent.text = messageItem.messageContent.dropLast(2)
         fblEmoji.emojiLogic(
             messageItem = messageItem,
             idx = idx,

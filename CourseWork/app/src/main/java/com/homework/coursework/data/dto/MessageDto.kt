@@ -16,5 +16,7 @@ data class MessageDto(
     @SerialName("avatar_url")
     val avatarUrl: String,
     @SerialName("is_me_message")
-    val isCurrentUserMessage: Boolean
+    val isCurrentUserMessage: Boolean,
+    @SerialName("sender_email")
+    val senderEmail: String
 )

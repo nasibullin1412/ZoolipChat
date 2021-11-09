@@ -17,7 +17,7 @@ class MessageToViewHolder(private val listener: MessageItemCallback, view: View)
     private val fblEmoji: CustomFlexboxLayout = view.findViewById(R.id.fblEmoji)
 
     fun bind(messageItem: MessageItem, idx: Int) {
-        tvMessageContent.text = messageItem.messageContent
+        tvMessageContent.text = messageItem.messageContent.dropLast(2)
         cvMessage.setBackgroundResource(R.drawable.bg_custom_message)
         fblEmoji.emojiLogic(
             messageItem = messageItem,

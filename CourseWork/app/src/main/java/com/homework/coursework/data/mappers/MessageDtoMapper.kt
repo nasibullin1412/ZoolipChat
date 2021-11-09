@@ -19,7 +19,8 @@ class MessageDtoMapper : (MessagesResponse) -> (List<MessageData>) {
                     userData = UserData(
                         id = senderId,
                         name = senderFullName,
-                        avatarUrl = avatarUrl
+                        avatarUrl = avatarUrl,
+                        userMail = senderEmail
                     ),
                     messageContent = content.parseHtmlContent(),
                     emojis = emojiDtoMapper(reactions),
