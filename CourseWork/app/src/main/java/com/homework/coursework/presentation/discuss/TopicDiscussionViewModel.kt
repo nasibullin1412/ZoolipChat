@@ -22,6 +22,7 @@ class TopicDiscussionViewModel : ViewModel() {
         AddReactionToMessageUseCaseImpl()
     private val deleteReactionToMessageUseCase: DeleteReactionToMessageUseCaseImpl =
         DeleteReactionToMessageUseCaseImpl()
+    private val addMessagesUseCase: AddMessageUseCase = AddMessageUseCaseImpl()
 
     private val discussToItemMapper: DiscussItemMapper = DiscussItemMapper()
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
@@ -54,13 +55,13 @@ class TopicDiscussionViewModel : ViewModel() {
             .addTo(compositeDisposable)
     }
 
-    fun doUserChanges(
-        useCaseType: UseCaseType,
+    fun doChanges(
+        useCaseTypeReaction: UseCaseTypeReaction,
         messageItem: MessageItem,
-        emojiItem: EmojiItem? = null
+        emojiItem: EmojiItem
     ) {
         getNeedUseCase(
-            useCaseType = useCaseType,
+            useCaseTypeReaction = useCaseTypeReaction,
             messageItem = messageItem,
             emojiItem = emojiItem
         ).subscribeOn(Schedulers.io())
@@ -68,28 +69,66 @@ class TopicDiscussionViewModel : ViewModel() {
             .subscribeBy(
                 onComplete = {
                     _topicDiscScreenState.value = TopicDiscussionState.ResultUserChanges
+                },
+                onError = {
+                    _topicDiscScreenState.value = TopicDiscussionState.ErrorUserChanges(it)
+                }
+            )
+            .addTo(compositeDisposable)
+    }
+
+    fun doChanges(
+        useCaseTypeMessage: UseCaseTypeMessage,
+        streamItem: StreamItem,
+        topicItem: TopicItem,
+        content: String
+    ) {
+        getNeedUseCase(
+            useCaseTypeMessage = useCaseTypeMessage,
+            streamItem = streamItem,
+            topicItem = topicItem,
+            content = content
+        ).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeBy(
+                onComplete = {
+                    _topicDiscScreenState.value = TopicDiscussionState.ResultUserChanges
+                },
+                onError = {
+                    _topicDiscScreenState.value = TopicDiscussionState.ErrorUserChanges(it)
                 }
             )
             .addTo(compositeDisposable)
     }
 
     private fun getNeedUseCase(
-        useCaseType: UseCaseType,
+        useCaseTypeReaction: UseCaseTypeReaction,
         messageItem: MessageItem,
-        emojiItem: EmojiItem? = null
-    ) = when (useCaseType) {
-        UseCaseType.ADD_REACTION -> addReactionToMessageUse(
+        emojiItem: EmojiItem
+    ) = when (useCaseTypeReaction) {
+        UseCaseTypeReaction.ADD_REACTION -> addReactionToMessageUse(
             messageData = messageDataMapper(messageItem),
             emojiData = emojiDataMapper(emojiItem)
         )
-        UseCaseType.DELETE_REACTION -> deleteReactionToMessageUseCase(
+        UseCaseTypeReaction.DELETE_REACTION -> deleteReactionToMessageUseCase(
             messageData = messageDataMapper(messageItem),
             emojiData = emojiDataMapper(emojiItem)
         )
-        UseCaseType.ADD_MESSAGE -> throw NotImplementedError()
-        UseCaseType.DELETE_MESSAGE -> throw NotImplementedError()
     }
 
+    private fun getNeedUseCase(
+        useCaseTypeMessage: UseCaseTypeMessage,
+        streamItem: StreamItem,
+        topicItem: TopicItem,
+        content: String
+    ) = when (useCaseTypeMessage) {
+        UseCaseTypeMessage.ADD_MESSAGE -> addMessagesUseCase(
+            streamData = streamDataMapper(streamItem),
+            topicData = topicDataMapper(topicItem),
+            content = content
+        )
+        UseCaseTypeMessage.DELETE_MESSAGE -> throw NotImplementedError()
+    }
 
     override fun onCleared() {
         super.onCleared()

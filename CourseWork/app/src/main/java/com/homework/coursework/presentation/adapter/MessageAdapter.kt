@@ -12,7 +12,7 @@ import com.homework.coursework.presentation.viewholder.DateViewHolder
 import com.homework.coursework.presentation.viewholder.MessageFromViewHolder
 import com.homework.coursework.presentation.viewholder.MessageToViewHolder
 
-class MessageAdapter(private val curId: Int) :
+class MessageAdapter() :
     ListAdapter<DiscussItem, RecyclerView.ViewHolder>(MessageCallback()) {
 
     private lateinit var listener: MessageItemCallback
@@ -63,9 +63,10 @@ class MessageAdapter(private val curId: Int) :
         if (getItem(position).messageItem == null) {
             return DATE
         }
-        return when (getItem(position).messageItem?.userData?.id) {
-            curId -> MESSAGE_TO
-            else -> MESSAGE_FROM
+        return if (getItem(position).messageItem?.isCurrentUserMessage == true) {
+            MESSAGE_TO
+        } else {
+            MESSAGE_FROM
         }
     }
 

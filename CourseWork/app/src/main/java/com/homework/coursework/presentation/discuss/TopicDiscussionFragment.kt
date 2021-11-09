@@ -93,6 +93,7 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
                 binding.rvMessage.isVisible = false
                 binding.progressBar.isVisible = false
                 binding.nsvErrorConnection.isVisible = true
+                showToast(stateStream.error.message)
             }
             is TopicDiscussionState.Loading -> {
                 binding.nsvErrorConnection.isVisible = false
@@ -107,6 +108,9 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
             }
             TopicDiscussionState.ResultUserChanges -> {
                 viewModel.getMessages(currentStream, currentTopic)
+            }
+            is TopicDiscussionState.ErrorUserChanges -> {
+                showToast(stateStream.error.message)
             }
         }
     }
@@ -143,13 +147,12 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
     }
 
     private fun updateMessageRecycler(messageContent: String) {
-        /*viewModel.addMessage(
-            currentStream.id,
-            currentTopic.id,
-            messageContent,
-            messageAdapter.currentList.size,
-            CURR_USER_DATE
-        )*/
+        viewModel.doChanges(
+            useCaseTypeMessage = UseCaseTypeMessage.ADD_MESSAGE,
+            streamItem = currentStream,
+            topicItem = currentTopic,
+            content = messageContent
+        )
     }
 
     private fun initEditText() {
@@ -209,17 +212,19 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
             throw IllegalArgumentException("selectedMessageId required")
         }
         with(messageAdapter.currentList[messageIdx].messageItem) {
-            val idx = this?.emojis?.indexOfFirst {
+            val existedEmoji = this?.emojis?.firstOrNull() {
                 it.emojiCode == Emoji.values()[emojiIdx].unicodeCodePoint.toHexString()
-            } ?: DEFAULT_MESSAGE_ID
+            }
             val emojiForAction = EmojiItem(
                 emojiCode = Emoji.values()[emojiIdx].unicodeCodePoint.toHexString(),
                 emojiNumber = this?.emojis?.size ?: 0,
                 emojiName = Emoji.values()[emojiIdx].nameInZulip,
                 isCurrUserReacted = false
             )
-            viewModel.doUserChanges(
-                useCaseType = addOrDelete(idx == DEFAULT_MESSAGE_ID),
+            viewModel.doChanges(
+                useCaseTypeReaction = addOrDelete(
+                    existedEmoji?.isCurrUserReacted?.not() ?: true
+                ),
                 messageItem = this ?: throw IllegalArgumentException("message required"),
                 emojiItem = emojiForAction
             )
@@ -229,30 +234,30 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
         bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
-    private fun onEmojiClicked(emojiItem: EmojiItem){
+    private fun onEmojiClicked(emojiItem: EmojiItem) {
         if (messageIdx == DEFAULT_MESSAGE_ID) {
             throw IllegalArgumentException("selectedMessageId required")
         }
         with(messageAdapter.currentList[messageIdx].messageItem) {
             this?.emojis?.indexOf(emojiItem)
-            viewModel.doUserChanges(
-                useCaseType = addOrDelete(emojiItem.isCurrUserReacted.not()),
+            viewModel.doChanges(
+                useCaseTypeReaction = addOrDelete(emojiItem.isCurrUserReacted.not()),
                 messageItem = this ?: throw IllegalArgumentException("message required"),
                 emojiItem = emojiItem
             )
         }
     }
 
-    private fun addOrDelete(isAdd: Boolean): UseCaseType = if (isAdd) {
-        UseCaseType.ADD_REACTION
+    private fun addOrDelete(isAdd: Boolean): UseCaseTypeReaction = if (isAdd) {
+        UseCaseTypeReaction.ADD_REACTION
     } else {
-        UseCaseType.DELETE_REACTION
+        UseCaseTypeReaction.DELETE_REACTION
     }
 
 
     private fun initRecycleView() {
         with(binding.rvMessage) {
-            messageAdapter = MessageAdapter(1).apply {
+            messageAdapter = MessageAdapter().apply {
                 initListener(this@TopicDiscussionFragment)
             }
             adapter = messageAdapter

@@ -15,6 +15,6 @@ class TopicDtoMapper : (TopicsResponse) -> (List<TopicData>) {
                     numberOfMess = maxId
                 )
             }
-        } ?: throw IllegalArgumentException("data required")
+        } ?: throw IllegalArgumentException(topicResponse.msg)
     }
 }

@@ -50,6 +50,14 @@ interface ApiService {
         @Query("reaction_type") reactionType: String
     ): Completable
 
+    @POST("messages")
+    fun addMessage(
+        @Query("type") type: String,
+        @Query("to") to: String,
+        @Query("content") content: String,
+        @Query("topic") topic: String
+    ): Completable
+
     companion object {
         fun create(): ApiService {
             return Retrofit.Builder()

@@ -16,6 +16,6 @@ class StreamDtoMapper : (StreamsResponse) -> (List<StreamData>) {
                     dateCreated = dateCreated
                 )
             }
-        } ?: throw IllegalArgumentException("data required")
+        } ?: throw IllegalArgumentException(streamsDto.msg)
     }
 }

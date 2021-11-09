@@ -147,7 +147,7 @@ fun CustomFlexboxLayout.addEmoji(emoji: EmojiItem, idx: Int, listener: MessageIt
     val validNumber = emoji.emojiNumber.toString().checkEmojiNumber()
     val emojiView = CustomEmojiView(context).apply {
         text = "${Emoji.toEmoji(emoji.emojiCode.toInt(16))} $validNumber"
-        isSelected = true
+        isSelected = emoji.isCurrUserReacted
         setOnClickListener {
             it.isSelected = it.isSelected.not()
             listener.onEmojiClick(emoji, idx)

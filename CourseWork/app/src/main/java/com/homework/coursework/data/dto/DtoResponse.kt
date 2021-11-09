@@ -4,8 +4,6 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonNames
 
-
-
 @ExperimentalSerializationApi
 @Serializable
 data class DtoResponse<out T>(
