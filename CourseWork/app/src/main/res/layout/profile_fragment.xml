@@ -31,6 +31,7 @@
             android:fontFamily="@font/inter_regular"
             android:maxWidth="300dp"
             android:maxLines="2"
+            android:gravity="center"
             android:textColor="@color/white"
             android:textSize="32sp"
             app:layout_constraintEnd_toEndOf="parent"

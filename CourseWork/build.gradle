@@ -39,5 +39,8 @@ ext {
     retrofitKotlinxSerializationVersion = '0.8.0'
     okhttpVersion = '5.0.0-alpha.2'
     retrofitVersion = '2.9.0'
-    kotlinVersion = "1.5.0"
+    kotlinVersion = '1.5.0'
+    retrofitAdapterVersion = '2.4.0'
+    roomVersion = '2.3.0'
+
 }

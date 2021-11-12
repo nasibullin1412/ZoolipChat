@@ -27,11 +27,11 @@ import com.homework.coursework.presentation.profile.ProfileFragment
 import com.homework.coursework.presentation.stream.StreamFragment
 import com.homework.coursework.presentation.stream.TabState
 import com.homework.coursework.presentation.stream.UseCaseType
-import org.threeten.bp.DateTimeUtils
-import org.threeten.bp.Instant
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.format.DateTimeFormatter
-import org.threeten.bp.format.TextStyle
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.format.TextStyle
 import java.util.*
 
 /**
@@ -144,7 +144,8 @@ fun ArrayList<EmojiItem>.checkExistedEmoji(idx: Int) {
 fun CustomFlexboxLayout.addEmoji(emoji: EmojiItem, idx: Int, listener: MessageItemCallback) {
     val validNumber = emoji.emojiNumber.toString().checkEmojiNumber()
     val emojiView = CustomEmojiView(context).apply {
-        text = "${Emoji.toEmoji(emoji.emojiCode.toInt(16))} $validNumber"
+        val emojiCodeInt = emoji.emojiCode.toIntWithValid()
+        text = "${Emoji.toEmoji(emojiCodeInt)} $validNumber"
         isSelected = emoji.isCurrUserReacted
         setOnClickListener {
             it.isSelected = it.isSelected.not()
@@ -152,6 +153,13 @@ fun CustomFlexboxLayout.addEmoji(emoji: EmojiItem, idx: Int, listener: MessageIt
         }
     }
     addView(emojiView, 0)
+}
+
+fun String.toIntWithValid() :Int{
+    if (length < 6){
+        return toInt(16)
+    }
+    return substring(0, 4).toInt(16)
 }
 
 /**
@@ -326,7 +334,8 @@ fun Int.getStreamFragmentUseCase(query: String?): UseCaseType {
 
 fun Long.toStringDate(): String {
     val date = LocalDateTime.ofInstant(
-        Instant.ofEpochSecond(this), DateTimeUtils.toZoneId(TimeZone.getDefault())
+        Instant.ofEpochMilli(this),
+        ZoneId.systemDefault()
     )
     val day = date.format(DateTimeFormatter.ofPattern("dd"))
     val month = date.month.getDisplayName(TextStyle.SHORT, Locale("ru"))

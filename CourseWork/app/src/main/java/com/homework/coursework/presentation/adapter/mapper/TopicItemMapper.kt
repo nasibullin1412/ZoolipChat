@@ -10,7 +10,7 @@ class TopicItemMapper : (List<TopicData>) -> (List<TopicItem>) {
             with(topic) {
                 TopicItem(
                     id = id,
-                    topicName = "#$topicName",
+                    topicName = topicName,
                     numberOfMess = numberOfMess,
                     isEven = idx % 2 == 0
                 )

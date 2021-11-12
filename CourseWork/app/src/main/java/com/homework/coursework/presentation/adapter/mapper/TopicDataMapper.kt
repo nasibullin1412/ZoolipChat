@@ -8,7 +8,7 @@ class TopicDataMapper : (TopicItem) -> (TopicData) {
         return with(topicItem) {
             TopicData(
                 id = id,
-                topicName = topicName.substring(IDX_NAME_START),
+                topicName = topicName,
                 numberOfMess = numberOfMess
             )
         }
