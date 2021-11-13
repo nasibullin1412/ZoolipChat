@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.homework.coursework.R
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.callbacks.StreamCallback
-import com.homework.coursework.presentation.interfaces.StreamItemCallback
 import com.homework.coursework.presentation.interfaces.TopicItemCallback
 import com.homework.coursework.presentation.viewholder.StreamNameViewHolder
 
@@ -17,14 +16,9 @@ class StreamNameAdapter : ListAdapter<StreamItem,
 
     private val viewPool = RecyclerView.RecycledViewPool()
     private lateinit var listenerTopic: TopicItemCallback
-    private lateinit var listenerStream: StreamItemCallback
 
     fun setTopicListener(listener: TopicItemCallback) {
         this.listenerTopic = listener
-    }
-
-    fun setStreamListener(listener: StreamItemCallback) {
-        this.listenerStream = listener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StreamNameViewHolder {
@@ -45,11 +39,7 @@ class StreamNameAdapter : ListAdapter<StreamItem,
     private fun changeState(position: Int) {
         with(getItem(position)) {
             isTouched = isTouched.not()
-            if (isTouched.not()) {
-                notifyItemChanged(position)
-                return
-            }
-            listenerStream.onStreamItemCallback(id)
+            notifyItemChanged(position)
         }
     }
 

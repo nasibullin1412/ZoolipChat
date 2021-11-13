@@ -9,6 +9,6 @@ data class StreamItem(
     val streamName: String,
     val description: String,
     val dateCreated: Int,
-    var topicItemList: ArrayList<TopicItem>?,
+    var topicItemList: List<TopicItem>,
     var isTouched: Boolean
 ) : Parcelable
