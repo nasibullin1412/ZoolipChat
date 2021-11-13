@@ -11,7 +11,8 @@ class StreamDataMapper : (StreamItem) -> (StreamData) {
                 id = id,
                 streamName = streamName.substring(IDX_NAME_START),
                 description = description,
-                dateCreated = dateCreated
+                dateCreated = dateCreated,
+                topics = listOf()
             )
         }
     }
