@@ -1,4 +1,4 @@
-package com.homework.coursework.data.mappers
+package com.homework.coursework.data.frameworks.network.mappersimpl
 
 import com.homework.coursework.data.dto.EmojiDto
 import com.homework.coursework.domain.entity.EmojiData

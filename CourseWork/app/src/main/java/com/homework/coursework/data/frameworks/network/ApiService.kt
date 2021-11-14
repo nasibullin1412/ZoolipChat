@@ -1,11 +1,12 @@
-package com.homework.coursework.presentation.frameworks.network
+package com.homework.coursework.data.frameworks.network
 
 import com.homework.coursework.data.dto.*
-import com.homework.coursework.presentation.frameworks.network.utils.NetworkConstants.BASE_URL
-import com.homework.coursework.presentation.frameworks.network.utils.addJsonConverter
-import com.homework.coursework.presentation.frameworks.network.utils.setClient
+import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.BASE_URL
+import com.homework.coursework.data.frameworks.network.utils.addJsonConverter
+import com.homework.coursework.data.frameworks.network.utils.setClient
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import kotlinx.serialization.ExperimentalSerializationApi
 import retrofit2.Retrofit

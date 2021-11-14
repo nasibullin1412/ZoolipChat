@@ -4,5 +4,18 @@ data class UserData(
     val id: Int,
     val name: String,
     val avatarUrl: String,
-    val userMail: String
-)
+    val userMail: String,
+    val userStatus: UserStatus,
+    val errorHandle: ErrorHandle = ErrorHandle()
+) {
+    companion object {
+        fun getErrorObject(throwable: Throwable) = UserData(
+            id = 0,
+            name = "",
+            avatarUrl = "",
+            userStatus = UserStatus(StatusEnum.UNKNOWN, 0),
+            userMail = "",
+            errorHandle = ErrorHandle(true, throwable)
+        )
+    }
+}

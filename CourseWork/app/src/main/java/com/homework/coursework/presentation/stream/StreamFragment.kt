@@ -2,6 +2,7 @@ package com.homework.coursework.presentation.stream
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -75,6 +76,7 @@ class StreamFragment : Fragment() {
         }.attach()
         bottomNavigationController?.visibleBottomNavigation()
         initSearchEditText()
+        Log.d("CallbackCheck", "onViewCreated Stream")
     }
 
     private fun initSearchEditText() {

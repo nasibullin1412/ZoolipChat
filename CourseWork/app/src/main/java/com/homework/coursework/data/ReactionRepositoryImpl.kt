@@ -4,7 +4,7 @@ import com.homework.coursework.domain.entity.EmojiData
 import com.homework.coursework.domain.entity.MessageData
 import com.homework.coursework.domain.repository.ReactionRepository
 import com.homework.coursework.presentation.App
-import com.homework.coursework.presentation.frameworks.network.utils.NetworkConstants.REACTION_TYPE
+import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.REACTION_TYPE
 import io.reactivex.Completable
 import kotlinx.serialization.ExperimentalSerializationApi
 

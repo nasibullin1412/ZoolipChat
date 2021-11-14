@@ -58,7 +58,7 @@ class StreamListFragment : Fragment(), TopicItemCallback {
         initObservers()
         getStreamData()
         initRecycler()
-        Log.d("CallbackCheck", "onViewCreated")
+        Log.d("CallbackCheck", "onViewCreated Stream List")
     }
 
     private fun getStreamData() {

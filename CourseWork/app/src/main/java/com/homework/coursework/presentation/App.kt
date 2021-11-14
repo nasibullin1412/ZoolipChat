@@ -2,7 +2,7 @@ package com.homework.coursework.presentation
 
 import android.app.Application
 import android.content.Context
-import com.homework.coursework.presentation.frameworks.network.ApiService
+import com.homework.coursework.data.frameworks.network.ApiService
 import kotlinx.serialization.ExperimentalSerializationApi
 
 class App : Application() {

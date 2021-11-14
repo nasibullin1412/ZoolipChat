@@ -11,8 +11,10 @@ class UserItemMapper : (UserData) -> (UserItem) {
                 name = name,
                 avatarUrl = avatarUrl,
                 userMail = userMail,
-                userStatus = null,
-                lastStatusDate = null
+                userStatus = userStatus,
+                lastStatusDate = userStatus.timestamp,
+                isError = errorHandle.isError,
+                error = errorHandle.error
             )
         }
     }

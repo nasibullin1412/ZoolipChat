@@ -1,6 +1,7 @@
 package com.homework.coursework.presentation.profile
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,7 @@ import com.homework.coursework.R
 import com.homework.coursework.databinding.ProfileFragmentBinding
 import com.homework.coursework.domain.entity.StatusEnum
 import com.homework.coursework.presentation.adapter.data.UserItem
-import com.homework.coursework.presentation.frameworks.network.utils.NetworkConstants.USER_ID
+import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.USER_ID
 import com.homework.coursework.presentation.utils.getColor
 import com.homework.coursework.presentation.utils.off
 import com.homework.coursework.presentation.utils.showToast
@@ -41,6 +42,7 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initObservers()
         viewModel.getUserData(UseCaseType.GET_ME_PROFILE, USER_ID)
+        Log.d("CallbackCheck", "onViewCreated Profile")
     }
 
     private fun initObservers() {
@@ -114,6 +116,7 @@ class ProfileFragment : Fragment() {
         StatusEnum.ACTIVE -> R.color.state_active_color
         StatusEnum.IDLE -> R.color.state_idle_color
         StatusEnum.OFFLINE -> R.color.state_offline_color
+        StatusEnum.UNKNOWN -> R.color.state_offline_color
         null -> throw IllegalArgumentException("status null")
     }
 
@@ -121,6 +124,7 @@ class ProfileFragment : Fragment() {
         StatusEnum.ACTIVE -> "active"
         StatusEnum.IDLE -> "idle"
         StatusEnum.OFFLINE -> "offline"
+        StatusEnum.UNKNOWN -> "unknown"
         null -> throw IllegalArgumentException("status null")
     }
 }

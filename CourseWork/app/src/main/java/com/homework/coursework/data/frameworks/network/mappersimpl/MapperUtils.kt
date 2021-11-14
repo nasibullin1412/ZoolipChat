@@ -1,4 +1,4 @@
-package com.homework.coursework.data.mappers
+package com.homework.coursework.data.frameworks.network.mappersimpl
 
 import android.os.Build
 import android.text.Html

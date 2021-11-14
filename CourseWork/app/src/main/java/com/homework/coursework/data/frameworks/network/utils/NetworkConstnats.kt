@@ -1,4 +1,4 @@
-package com.homework.coursework.presentation.frameworks.network.utils
+package com.homework.coursework.data.frameworks.network.utils
 
 object NetworkConstants {
     const val BASE_URL = "https://tinkoff-android-fall21.zulipchat.com/api/v1/"

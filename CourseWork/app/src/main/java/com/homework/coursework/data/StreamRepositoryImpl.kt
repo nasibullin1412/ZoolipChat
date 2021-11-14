@@ -3,10 +3,8 @@ package com.homework.coursework.data
 import com.homework.coursework.data.dto.StreamDto
 import com.homework.coursework.data.dto.StreamWithTopics
 import com.homework.coursework.data.dto.TopicDto
-import com.homework.coursework.data.mappers.StreamDtoMapper
-import com.homework.coursework.data.mappers.TopicDtoMapper
+import com.homework.coursework.data.frameworks.network.mappersimpl.StreamDtoMapper
 import com.homework.coursework.domain.entity.StreamData
-import com.homework.coursework.domain.entity.TopicData
 import com.homework.coursework.domain.repository.StreamRepository
 import com.homework.coursework.presentation.App
 import io.reactivex.Observable
@@ -18,7 +16,6 @@ import kotlinx.serialization.ExperimentalSerializationApi
 class StreamRepositoryImpl : StreamRepository {
 
     private val streamDtoMapper: StreamDtoMapper = StreamDtoMapper()
-    private val topicDtoMapper: TopicDtoMapper = TopicDtoMapper()
 
     override fun loadStreams(): Single<List<StreamData>> {
         return App.instance.apiService.getAllStreams()
@@ -38,7 +35,7 @@ class StreamRepositoryImpl : StreamRepository {
             .map(streamDtoMapper)
     }
 
-    override fun loadTopics(idStream: Int): Observable<List<TopicDto>> {
+    private fun loadTopics(idStream: Int): Observable<List<TopicDto>> {
         return App.instance.apiService.getTopics(idStream)
             .map { it.data }
     }

@@ -1,4 +1,4 @@
-package com.homework.coursework.presentation.frameworks.database.entities
+package com.homework.coursework.data.frameworks.database.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

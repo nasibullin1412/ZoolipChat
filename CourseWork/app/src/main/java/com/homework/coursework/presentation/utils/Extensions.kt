@@ -304,7 +304,7 @@ fun AppCompatActivity.addFragment(fragment: Fragment, tag: FragmentTag) {
     }
     supportFragmentManager.popBackStack(tag.value, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     supportFragmentManager.beginTransaction()
-        .replace(R.id.nav_host_fragment, fragment, tag.value)
+        .add(R.id.nav_host_fragment, fragment, tag.value)
         .addToBackStack(tag.value)
         .commit()
 }
