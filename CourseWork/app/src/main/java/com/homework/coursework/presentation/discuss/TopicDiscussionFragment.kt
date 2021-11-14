@@ -305,6 +305,10 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
         return true
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        bottomNavigationController?.visibleBottomNavigation()
+    }
     override fun onDetach() {
         super.onDetach()
         bottomNavigationController = null

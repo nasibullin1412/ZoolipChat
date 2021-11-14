@@ -1,11 +1,12 @@
 package com.homework.coursework.data.frameworks.network.mappersimpl
 
 import com.homework.coursework.data.dto.StreamWithTopics
+import com.homework.coursework.data.mappers.StreamMapper
 import com.homework.coursework.domain.entity.StreamData
 import kotlinx.serialization.ExperimentalSerializationApi
 
 @ExperimentalSerializationApi
-class StreamDtoMapper : (List<StreamWithTopics>) -> (List<StreamData>) {
+class StreamDtoMapper : StreamMapper<List<StreamWithTopics>> {
 
     private val topicDtoMapper: TopicDtoMapper = TopicDtoMapper()
 

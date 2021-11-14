@@ -28,7 +28,9 @@ class ProfileFragmentViewModel : ViewModel() {
         getNeedUseCase(useCaseType, id)
             .subscribeOn(Schedulers.io())
             .map(userItemMapper)
+            .doOnNext { Log.d("ItemBefore", it.toString()) }
             .distinct { it.toString() }
+            .doOnNext { Log.d("ItemAfter", it.toString()) }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
                 onNext = {
@@ -49,11 +51,11 @@ class ProfileFragmentViewModel : ViewModel() {
 
 
     private fun getNewState(userItem: UserItem): ProfileScreenState? {
-        if (userItem.isError.not()) {
+        if (userItem.errorHandle.isError.not()) {
             return ProfileScreenState.Result(userItem)
         }
         if (isSecondError) {
-            return ProfileScreenState.Error(userItem.error)
+            return ProfileScreenState.Error(userItem.errorHandle.error)
         }
         return null
     }

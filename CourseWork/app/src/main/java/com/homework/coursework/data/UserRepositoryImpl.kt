@@ -40,12 +40,10 @@ class UserRepositoryImpl : UserRepository {
             getLocalUser(),
             getRemoteUser()
         )
-            .doOnNext { Log.d("ffffff", it.toString()) }
     }
 
     private fun getRemoteUser(): Observable<UserData> {
         return App.instance.apiService.getMe()
-            .subscribeOn(Schedulers.io())
             .flatMap { userDto -> zipUserAndStatus(userDto) }
             .map(userDtoMapper)
             .doOnNext { storeUsersInDb(userDataMapper(it)) }
@@ -56,7 +54,6 @@ class UserRepositoryImpl : UserRepository {
 
     private fun getLocalUser(userId: Long = USER_ID.toLong()): Observable<UserData> {
         return AppDatabase.instance.userDao().getUser(userId)
-            .doAfterSuccess { Log.d("CheckGetUserLocal", it.toString()) }
             .map(userEntityMapper)
             .toObservable()
             .onErrorReturn { error: Throwable ->

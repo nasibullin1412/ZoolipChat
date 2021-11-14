@@ -29,15 +29,11 @@ class StreamFragment : Fragment() {
     private lateinit var streamAdapter: StreamAdapter
     private lateinit var viewPager: ViewPager2
     private var topicItemCallback: AddTopicDiscussion? = null
-    private var bottomNavigationController: BottomNavigationController? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is AddTopicDiscussion) {
             topicItemCallback = context
-        }
-        if (context is BottomNavigationController) {
-            bottomNavigationController = context
         }
     }
 
@@ -74,7 +70,6 @@ class StreamFragment : Fragment() {
         TabLayoutMediator(binding.tabLayout, viewPager) { tab, position ->
             tab.text = itemTextList[position]
         }.attach()
-        bottomNavigationController?.visibleBottomNavigation()
         initSearchEditText()
         Log.d("CallbackCheck", "onViewCreated Stream")
     }

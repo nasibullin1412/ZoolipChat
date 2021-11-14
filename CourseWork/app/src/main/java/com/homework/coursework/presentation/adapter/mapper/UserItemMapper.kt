@@ -1,6 +1,7 @@
 package com.homework.coursework.presentation.adapter.mapper
 
 import com.homework.coursework.domain.entity.UserData
+import com.homework.coursework.presentation.adapter.data.ErrorHandle
 import com.homework.coursework.presentation.adapter.data.UserItem
 
 class UserItemMapper : (UserData) -> (UserItem) {
@@ -13,8 +14,7 @@ class UserItemMapper : (UserData) -> (UserItem) {
                 userMail = userMail,
                 userStatus = userStatus,
                 lastStatusDate = userStatus.timestamp,
-                isError = errorHandle.isError,
-                error = errorHandle.error
+                errorHandle = ErrorHandle(isError = errorHandle.isError, error = errorHandle.error)
             )
         }
     }

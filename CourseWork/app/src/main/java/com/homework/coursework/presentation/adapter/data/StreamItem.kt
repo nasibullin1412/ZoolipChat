@@ -10,5 +10,6 @@ data class StreamItem(
     val description: String,
     val dateCreated: Int,
     var topicItemList: List<TopicItem>,
-    var isTouched: Boolean
+    var isTouched: Boolean,
+    var errorHandle: ErrorHandle = ErrorHandle()
 ) : Parcelable

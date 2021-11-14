@@ -9,6 +9,5 @@ data class UserItem(
     val userMail: String,
     var userStatus: UserStatus?,
     val lastStatusDate: Long?,
-    var isError: Boolean,
-    var error: Throwable
+    val errorHandle: ErrorHandle = ErrorHandle()
 )

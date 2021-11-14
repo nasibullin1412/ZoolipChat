@@ -1,8 +1,10 @@
 package com.homework.coursework.data.frameworks.database.entities
 
 import androidx.room.ColumnInfo
+import androidx.room.ColumnInfo.TEXT
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.util.TableInfo
 
 @Entity(
     tableName = "user_table",
@@ -15,9 +17,9 @@ data class UserEntity(
     @ColumnInfo(name = "user_id")
     val userId: Int,
     val email: String,
-    @ColumnInfo(name = "full_name")
+    @ColumnInfo(name = "full_name", typeAffinity = TEXT)
     val fullName: String,
-    @ColumnInfo(name = "avatar_url")
+    @ColumnInfo(name = "avatar_url", typeAffinity = TEXT)
     val avatarUrl: String,
     @ColumnInfo(name = "user_status")
     val userStatus: Int,

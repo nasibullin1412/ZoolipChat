@@ -1,10 +1,15 @@
 package com.homework.coursework.presentation.stream
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.homework.coursework.domain.entity.StreamData
 import com.homework.coursework.domain.usecase.*
+import com.homework.coursework.presentation.adapter.data.StreamItem
+import com.homework.coursework.presentation.adapter.data.UserItem
 import com.homework.coursework.presentation.adapter.mapper.StreamItemMapper
+import com.homework.coursework.presentation.profile.ProfileScreenState
 import com.homework.coursework.presentation.utils.getStreamFragmentUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -29,6 +34,7 @@ class StreamViewModel : ViewModel() {
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private val searchSubject: PublishSubject<Pair<Int, String>> = PublishSubject.create()
+    private var isSecondError = false
 
     init {
         subscribeToSearchStreams()
@@ -44,7 +50,7 @@ class StreamViewModel : ViewModel() {
             .distinctUntilChanged()
             .doOnNext { _streamScreenState.postValue(StreamScreenState.Loading) }
             .debounce(500, TimeUnit.MILLISECONDS, Schedulers.io())
-            .switchMapSingle { pair ->
+            .switchMap { pair ->
                 getNeedUseCase(
                     tabState = pair.first,
                     query = pair.second
@@ -64,11 +70,21 @@ class StreamViewModel : ViewModel() {
 
     fun getStreams(tabState: Int) {
         getNeedUseCase(tabState)
+            .subscribeOn(Schedulers.io())
             .map(streamToItemMapper)
+            .doOnNext { Log.d("ItemBefore", it.toString()) }
+            .distinct { it.toString() }
+            .doOnNext { Log.d("ItemAfter", it.toString()) }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
-                onSuccess = {
-                    _streamScreenState.value = StreamScreenState.Result(it)
+                onNext = {
+                    val newScreenState = getNewState(it)
+                    if (newScreenState == null) {
+                        isSecondError = true
+                        return@subscribeBy
+                    }
+                    _streamScreenState.value = newScreenState
+                    isSecondError = false
                 },
                 onError = { _streamScreenState.value = StreamScreenState.Error(it) }
             )
@@ -89,5 +105,19 @@ class StreamViewModel : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         compositeDisposable.dispose()
+    }
+
+    private fun getNewState(streams: List<StreamItem>): StreamScreenState? {
+        if (streams.isEmpty()) {
+            return StreamScreenState.Result(streams)
+        }
+        val firstElem = streams.first()
+        if (firstElem.errorHandle.isError.not()) {
+            return StreamScreenState.Result(streams)
+        }
+        if (isSecondError) {
+            return StreamScreenState.Error(firstElem.errorHandle.error)
+        }
+        return null
     }
 }
