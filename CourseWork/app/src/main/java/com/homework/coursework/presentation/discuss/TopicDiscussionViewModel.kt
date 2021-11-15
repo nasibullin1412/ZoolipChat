@@ -11,6 +11,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 
 class TopicDiscussionViewModel : ViewModel() {
     private var _topicDiscScreenState: MutableLiveData<TopicDiscussionState> = MutableLiveData()
@@ -32,10 +33,6 @@ class TopicDiscussionViewModel : ViewModel() {
     private val messageDataMapper: MessageDataMapper = MessageDataMapper()
     private val emojiDataMapper: EmojiDataMapper = EmojiDataMapper()
 
-    /**
-     * it is emulate sent messages
-     */
-    private val sentDiscusses: MutableList<DiscussItem> = mutableListOf()
 
     fun getMessages(stream: StreamItem, topic: TopicItem) {
         getTopicMessagesUseCase(streamDataMapper(stream), topicDataMapper(topic))
@@ -46,7 +43,7 @@ class TopicDiscussionViewModel : ViewModel() {
             .subscribeBy(
                 onNext = {
                     _topicDiscScreenState.value =
-                        TopicDiscussionState.ResultMessages(it + sentDiscusses)
+                        TopicDiscussionState.ResultMessages(it)
                 },
                 onError = {
                     _topicDiscScreenState.value = TopicDiscussionState.Error(it)

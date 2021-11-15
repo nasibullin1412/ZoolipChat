@@ -115,13 +115,11 @@ class StreamRepositoryImpl : StreamRepository {
                 }
         }
             .subscribeOn(Schedulers.io())
-            .observeOn(Schedulers.io())
             .subscribeBy(
                 onNext = { Log.d("FromRoom", it.toString()) },
                 onError = { Log.d("FromRoom", it.message.toString()) }
             )
             .addTo(compositeDisposable)
-
     }
 
     private fun zipStreamAndTopics(streamDto: StreamDto): Observable<StreamWithTopics> {

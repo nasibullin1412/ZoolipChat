@@ -13,6 +13,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.homework.coursework.R
@@ -42,6 +43,7 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
     private var bottomNavigationController: BottomNavigationController? = null
     private lateinit var currentTopic: TopicItem
     private lateinit var currentStream: StreamItem
+    private lateinit var scrollListener: PagingScrollListener
     private val viewModel: TopicDiscussionViewModel by viewModels()
 
     override fun onAttach(context: Context) {
@@ -147,7 +149,9 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
      * @param newList is list with new MessageData
      */
     private fun updateMessage(newList: List<DiscussItem>) {
-        messageAdapter.submitList(newList)
+        val resultList = newList + messageAdapter.currentList.drop(1)
+        resultList.forEachIndexed { idx, element -> element.id = idx }
+        messageAdapter.submitList(resultList)
     }
 
     private fun initBackButton() {
@@ -206,9 +210,7 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
     }
 
     private fun initBottomDialog() {
-        bottomSheetDialog = BottomSheetDialog(
-            context ?: throw IllegalArgumentException("Context required")
-        ).apply {
+        bottomSheetDialog = BottomSheetDialog(requireContext()).apply {
             setContentView(R.layout.bottom_sheet)
             findViewById<CardView>(R.id.cvEmojiBottom)?.apply {
                 background = ResourcesCompat.getDrawable(
@@ -239,7 +241,7 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
             throw IllegalArgumentException("selectedMessageId required")
         }
         with(messageAdapter.currentList[messageIdx].messageItem) {
-            val existedEmoji = this?.emojis?.firstOrNull() {
+            val existedEmoji = this?.emojis?.firstOrNull {
                 it.emojiCode == Emoji.values()[emojiIdx].unicodeCodePoint.toHexString()
             }
             val emojiForAction = EmojiItem(
@@ -287,9 +289,26 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
                 initListener(this@TopicDiscussionFragment)
             }
             adapter = messageAdapter
-            layoutManager = LinearLayoutManager(context).apply {
-                stackFromEnd = true
+            val currLayoutManager = LinearLayoutManager(context).apply { stackFromEnd = true }
+            layoutManager = currLayoutManager
+            scrollListener = object : PagingScrollListener(currLayoutManager) {
+                override fun onLoadMore(
+                    top: Boolean,
+                    totalItemsCount: Int,
+                    view: RecyclerView?
+                ): Boolean {
+                    viewModel.getMessages(
+                        stream = currentStream,
+                        topic = currentTopic.copy(
+                            numberOfMess = messageAdapter.currentList
+                                .first { it.messageItem != null }
+                                .messageItem?.messageId
+                                ?: throw IllegalArgumentException("messageItem requird")),
+                    )
+                    return true
+                }
             }
+            addOnScrollListener(scrollListener)
         }
     }
 
@@ -309,6 +328,7 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
         super.onDestroyView()
         bottomNavigationController?.visibleBottomNavigation()
     }
+
     override fun onDetach() {
         super.onDetach()
         bottomNavigationController = null

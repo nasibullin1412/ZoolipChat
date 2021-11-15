@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.marginBottom
@@ -18,6 +19,7 @@ import androidx.fragment.app.FragmentManager
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.imageview.ShapeableImageView
 import com.homework.coursework.R
+import com.homework.coursework.presentation.App
 import com.homework.coursework.presentation.adapter.data.*
 import com.homework.coursework.presentation.customview.CustomEmojiView
 import com.homework.coursework.presentation.customview.CustomFlexboxLayout
@@ -27,6 +29,7 @@ import com.homework.coursework.presentation.profile.ProfileFragment
 import com.homework.coursework.presentation.stream.StreamFragment
 import com.homework.coursework.presentation.stream.TabState
 import com.homework.coursework.presentation.stream.UseCaseType
+import java.time.Clock
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -155,11 +158,15 @@ fun CustomFlexboxLayout.addEmoji(emoji: EmojiItem, idx: Int, listener: MessageIt
     addView(emojiView, 0)
 }
 
-fun String.toIntWithValid() :Int{
-    if (length < 6){
-        return toInt(16)
+fun String.toIntWithValid(): Int {
+    return try {
+        if (length < 6) {
+            return toInt(16)
+        }
+        substring(0, 4).toInt(16)
+    } catch (e: NumberFormatException) {
+        0
     }
-    return substring(0, 4).toInt(16)
 }
 
 /**
@@ -244,7 +251,7 @@ fun CustomFlexboxLayout.emojiLogic(
  * @param date is string with date
  */
 fun ArrayList<DiscussItem>.addDate(date: String) {
-    if (lastIndex != -1 && this[lastIndex].messageItem?.date?.toStringDate() == date) {
+    if (lastIndex == -1 || this[lastIndex].messageItem?.date?.toStringDate() == date) {
         return
     }
     val curIdx = lastIndex + 1
@@ -262,7 +269,7 @@ fun ArrayList<DiscussItem>.addDate(date: String) {
  * @param messageItemList is list with new messages
  */
 fun ArrayList<DiscussItem>.addMessageItem(messageItemList: List<MessageItem>) {
-    val idx = lastIndex
+    val idx = lastIndex + 1
     addAll(
         messageItemList.mapIndexed { index, messageItem ->
             DiscussItem(
@@ -334,12 +341,18 @@ fun Int.getStreamFragmentUseCase(query: String?): UseCaseType {
 
 fun Long.toStringDate(): String {
     val date = LocalDateTime.ofInstant(
-        Instant.ofEpochMilli(this),
-        ZoneId.systemDefault()
+        Instant.ofEpochMilli(this * 1000),
+        App.instance.getZone()
     )
     val day = date.format(DateTimeFormatter.ofPattern("dd"))
     val month = date.month.getDisplayName(TextStyle.SHORT, Locale("ru"))
     return "$day $month"
+}
+
+fun App.getZone(): ZoneId = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+    TimeZone.getDefault().toZoneId()
+} else {
+    Clock.systemDefaultZone().zone
 }
 
 fun Fragment.getColor(colorId: Int) = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

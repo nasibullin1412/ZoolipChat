@@ -46,7 +46,7 @@ interface ApiService {
      */
     @GET("messages")
     fun getMessages(
-        @Query("anchor") anchor: String,
+        @Query("anchor") anchor: Int,
         @Query("num_after") numAfter: Int,
         @Query("num_before") numBefore: Int,
         @Query("narrow") narrow: String,
