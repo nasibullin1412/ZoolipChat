@@ -44,6 +44,7 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
     private lateinit var currentTopic: TopicItem
     private lateinit var currentStream: StreamItem
     private lateinit var scrollListener: PagingScrollListener
+    private var currMessageId = 0
     private val viewModel: TopicDiscussionViewModel by viewModels()
 
     override fun onAttach(context: Context) {
@@ -100,13 +101,19 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
             }
             is TopicDiscussionState.ResultMessages -> {
                 showResultScreen()
-                updateMessage(stateStream.data)
+                createNewRecycleList(stateStream.data)
             }
             TopicDiscussionState.ResultUserChanges -> {
-                viewModel.getMessages(currentStream, currentTopic)
+                viewModel.getMessages(
+                    currentStream,
+                    currentTopic.copy(numberOfMess = currMessageId)
+                )
             }
             is TopicDiscussionState.ErrorUserChanges -> {
                 showToast(stateStream.error.message)
+            }
+            is TopicDiscussionState.UpdateRecycleMessages -> {
+                updateMessage(stateStream.data)
             }
         }
     }
@@ -144,13 +151,18 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
         }
     }
 
+    private fun createNewRecycleList(newList: List<DiscussItem>) {
+        viewModel.doCreateNewRecycleList(
+            oldList = messageAdapter.currentList.drop(1),
+            newList = newList
+        )
+    }
+
     /**
      * update recycler view with new message
-     * @param newList is list with new MessageData
+     * @param resultList is list with MessageData
      */
-    private fun updateMessage(newList: List<DiscussItem>) {
-        val resultList = newList + messageAdapter.currentList.drop(1)
-        resultList.forEachIndexed { idx, element -> element.id = idx }
+    private fun updateMessage(resultList: List<DiscussItem>) {
         messageAdapter.submitList(resultList)
     }
 
@@ -250,6 +262,7 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
                 emojiName = Emoji.values()[emojiIdx].nameInZulip,
                 isCurrUserReacted = false
             )
+            currMessageId = this?.messageId ?: 0
             viewModel.doChanges(
                 useCaseTypeReaction = addOrDelete(
                     existedEmoji?.isCurrUserReacted?.not() ?: true
@@ -268,6 +281,7 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
             throw IllegalArgumentException("selectedMessageId required")
         }
         with(messageAdapter.currentList[messageIdx].messageItem) {
+            currMessageId = this?.messageId ?: 0
             this?.emojis?.indexOf(emojiItem)
             viewModel.doChanges(
                 useCaseTypeReaction = addOrDelete(emojiItem.isCurrUserReacted.not()),

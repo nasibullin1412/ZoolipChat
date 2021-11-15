@@ -6,12 +6,12 @@ import androidx.lifecycle.ViewModel
 import com.homework.coursework.domain.usecase.*
 import com.homework.coursework.presentation.adapter.data.*
 import com.homework.coursework.presentation.adapter.mapper.*
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
-import java.util.concurrent.TimeUnit
 
 class TopicDiscussionViewModel : ViewModel() {
     private var _topicDiscScreenState: MutableLiveData<TopicDiscussionState> = MutableLiveData()
@@ -125,6 +125,60 @@ class TopicDiscussionViewModel : ViewModel() {
             content = content
         )
         UseCaseTypeMessage.DELETE_MESSAGE -> throw NotImplementedError()
+    }
+
+    fun doCreateNewRecycleList(oldList: List<DiscussItem>, newList: List<DiscussItem>) {
+        Observable.fromCallable {
+            getNewRecycleList(oldList = oldList, newList = newList)
+        }
+            .subscribeOn(Schedulers.computation())
+            .map{discussList ->
+                discussList.forEachIndexed { i, element -> element.id = i }
+                discussList
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeBy(
+                onNext = {
+                    _topicDiscScreenState.value = TopicDiscussionState.UpdateRecycleMessages(it)
+                },
+                onError = {
+                    _topicDiscScreenState.value = TopicDiscussionState.Error(it)
+                }
+            )
+            .addTo(compositeDisposable)
+    }
+
+    private fun getNewRecycleList(
+        oldList: List<DiscussItem>,
+        newList: List<DiscussItem>
+    ): List<DiscussItem> {
+        val lastElemOfNew = newList.last()
+        val idx = oldList.indexOfFirst { it.messageItem?.messageId == lastElemOfNew.messageItem?.messageId }
+        if (idx == -1) {
+            return newList + oldList
+        }
+        val resultList: MutableList<DiscussItem> = oldList.toMutableList()
+        val (untilIdx, remain) = getUntilIdx(
+            idx = idx,
+            newSize = newList.size
+        )
+        for (i in idx downTo untilIdx) {
+            val newIdx = newList.lastIndex - idx + i
+            resultList[i] = newList[newIdx]
+        }
+        for (i in remain - 1 downTo 0) {
+            resultList.add(0, newList[i])
+        }
+        return resultList
+    }
+
+    private fun getUntilIdx(idx: Int, newSize: Int): Pair<Int, Int> {
+        val remainElemNumber = idx - newSize + 1
+        return if (remainElemNumber >= 0) {
+            Pair(remainElemNumber, 0)
+        } else {
+            Pair(0, -remainElemNumber)
+        }
     }
 
     override fun onCleared() {
