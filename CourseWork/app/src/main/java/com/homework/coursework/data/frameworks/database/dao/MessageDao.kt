@@ -35,6 +35,9 @@ interface MessageDao {
         }
     }
 
+    @Query("DELETE FROM message_table WHERE stream_id =:streamId AND topic_name =:topicName")
+    fun deleteMessagesByTopic(streamId: Int, topicName: String)
+
     fun insertMessages(messageWithEmojis: List<MessageWithEmojiEntity>): Completable {
         for (stream in messageWithEmojis) {
             insertOneMessage(stream)

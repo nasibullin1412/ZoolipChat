@@ -28,6 +28,7 @@ import com.homework.coursework.presentation.interfaces.MessageItemCallback
 import com.homework.coursework.presentation.stream.StreamListFragment.Companion.STREAM_KEY
 import com.homework.coursework.presentation.stream.StreamListFragment.Companion.TOPIC_KEY
 import com.homework.coursework.presentation.utils.Emoji
+import com.homework.coursework.presentation.utils.getValueByCondition
 import com.homework.coursework.presentation.utils.initEmojiToBottomSheet
 import com.homework.coursework.presentation.utils.showToast
 import okhttp3.internal.toHexString
@@ -340,6 +341,20 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
         return true
     }
 
+    override fun onStop() {
+        super.onStop()
+        val numberOfMessage = messageAdapter.currentList.filter { it.messageItem != null }.size
+        val last = DATABASE_MESSAGE_THRESHOLD.getValueByCondition(
+            condition = DATABASE_MESSAGE_THRESHOLD < numberOfMessage,
+            second = numberOfMessage
+        )
+        viewModel.updateData(
+            streamItem = currentStream,
+            topicItem = currentTopic,
+            messages = messageAdapter.currentList.takeLast(last)
+        )
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         bottomNavigationController?.visibleBottomNavigation()
@@ -352,6 +367,7 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
 
     companion object {
         const val DEFAULT_MESSAGE_ID = -1
+        const val DATABASE_MESSAGE_THRESHOLD = 50
 
         fun newInstance(topic: TopicItem, stream: StreamItem): TopicDiscussionFragment {
             val args = Bundle()

@@ -1,5 +1,6 @@
 package com.homework.coursework.presentation.discuss
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,6 +26,7 @@ class TopicDiscussionViewModel : ViewModel() {
         DeleteReactionToMessageUseCaseImpl()
     private val addMessagesUseCase: AddMessageUseCase = AddMessageUseCaseImpl()
     private val initMessagesUseCase: InitMessageUseCase = InitMessageUseCaseImpl()
+    private val saveMessageUseCase: SaveMessageUseCase = SaveMessageUseCaseImpl()
 
     private val discussToItemMapper: DiscussItemMapper = DiscussItemMapper()
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
@@ -33,6 +35,7 @@ class TopicDiscussionViewModel : ViewModel() {
     private val topicDataMapper: TopicDataMapper = TopicDataMapper()
     private val messageDataMapper: MessageDataMapper = MessageDataMapper()
     private val emojiDataMapper: EmojiDataMapper = EmojiDataMapper()
+    private val messageListDataMapper: MessageListDataMapper = MessageListDataMapper()
     private var isSecondError = false
 
     fun initMessages(stream: StreamItem, topic: TopicItem) {
@@ -67,7 +70,9 @@ class TopicDiscussionViewModel : ViewModel() {
             .subscribeBy(
                 onNext = {
                     val check = it.first().messageItem?.errorHandle?.isError ?: true
-                    if (check){ return@subscribeBy }
+                    if (check) {
+                        return@subscribeBy
+                    }
                     _topicDiscScreenState.value =
                         TopicDiscussionState.ResultMessages(it)
                 },
@@ -223,6 +228,27 @@ class TopicDiscussionViewModel : ViewModel() {
             )
         }
         return null
+    }
+
+    fun updateData(
+        streamItem: StreamItem,
+        topicItem: TopicItem,
+        messages: List<DiscussItem>
+    ) {
+        saveMessageUseCase(
+            streamData = streamDataMapper(streamItem),
+            topicData = topicDataMapper(topicItem),
+            messageDataList = messageListDataMapper(messages)
+        )
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeBy(
+                onError = {
+                        e -> Log.e("error", e.toString())
+                }
+            )
+            .addTo(compositeDisposable)
+
     }
 
     override fun onCleared() {

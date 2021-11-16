@@ -9,7 +9,7 @@ class EmojiDataMapper : (EmojiItem?) -> (EmojiData) {
             EmojiData(
                 emojiCode = emojiCode,
                 emojiName = emojiName,
-                emojiReactedId = listOf(),
+                emojiReactedId = List(5) { it + 1 },
                 emojiNumber = emojiNumber
             )
         }

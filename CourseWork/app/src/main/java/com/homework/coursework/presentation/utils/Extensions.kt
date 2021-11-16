@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.marginBottom
@@ -365,4 +364,10 @@ fun ShimmerFrameLayout.off() {
     stopShimmer()
     hideShimmer()
     visibility = View.GONE
+}
+
+fun Int.getValueByCondition(condition: Boolean, second: Int) = if (condition) {
+    this
+} else {
+    second
 }

@@ -69,6 +69,25 @@ class MessageRepositoryImpl : MessageRepository {
         ).map { it.data }
     }
 
+    override fun saveMessages(
+        streamData: StreamData,
+        topicData: TopicData,
+        messages: List<MessageData>
+    ): Completable {
+        return Completable.fromCallable {
+            AppDatabase.instance.messageDao().deleteMessagesByTopic(
+                streamId = streamData.id,
+                topicName = topicData.topicName
+            )
+        }.doAfterTerminate {
+            storeUsersInDb(
+                messageDataList = messages,
+                topicData = topicData,
+                streamData = streamData
+            )
+        }
+    }
+
     private fun getRemoteMessage(
         streamData: StreamData,
         topicData: TopicData
@@ -80,13 +99,6 @@ class MessageRepositoryImpl : MessageRepository {
             numBefore = NUM_BEFORE,
             narrow = narrow
         ).map(messageDtoMapper)
-            .doOnNext {
-                storeUsersInDb(
-                    messageDataList = it,
-                    topicData = topicData,
-                    streamData = streamData
-                )
-            }
             .onErrorReturn { error: Throwable ->
                 listOf(
                     MessageData.getErrorObject(error)
@@ -155,7 +167,6 @@ class MessageRepositoryImpl : MessageRepository {
                 }
         }
     }
-
 
     private fun getLocalMessage(
         streamData: StreamData,
