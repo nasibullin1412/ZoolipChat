@@ -12,6 +12,7 @@ import com.homework.coursework.domain.repository.MessageRepository
 import com.homework.coursework.presentation.App
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.Single
 import kotlinx.serialization.ExperimentalSerializationApi
 
 @ExperimentalSerializationApi
@@ -36,12 +37,13 @@ class MessageRepositoryImpl : MessageRepository {
         streamData: StreamData,
         topicData: TopicData,
         content: String
-    ): Completable {
+    ): Observable<Int> {
         return App.instance.apiService.addMessage(
             type = STREAM,
             to = streamData.streamName,
             content = content,
             topic = topicData.topicName
         )
+            .map { it.data }
     }
 }

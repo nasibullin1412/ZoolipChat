@@ -8,6 +8,8 @@ sealed class TopicDiscussionState {
 
     class UpdateRecycleMessages(val data: List<DiscussItem>): TopicDiscussionState()
 
+    class AddMessageResult(val data: Int): TopicDiscussionState()
+
     object ResultUserChanges : TopicDiscussionState()
 
     object Loading : TopicDiscussionState()

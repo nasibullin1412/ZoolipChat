@@ -95,7 +95,7 @@ interface ApiService {
         @Query("to") to: String,
         @Query("content") content: String,
         @Query("topic") topic: String
-    ): Completable
+    ): Observable<AddMessageResponse>
 
     /**
      * Get actual user data

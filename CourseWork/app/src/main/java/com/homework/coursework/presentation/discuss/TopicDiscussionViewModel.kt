@@ -88,8 +88,8 @@ class TopicDiscussionViewModel : ViewModel() {
         ).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
-                onComplete = {
-                    _topicDiscScreenState.value = TopicDiscussionState.ResultUserChanges
+                onNext = {
+                    _topicDiscScreenState.value = TopicDiscussionState.AddMessageResult(it)
                 },
                 onError = {
                     _topicDiscScreenState.value = TopicDiscussionState.ErrorUserChanges(it)

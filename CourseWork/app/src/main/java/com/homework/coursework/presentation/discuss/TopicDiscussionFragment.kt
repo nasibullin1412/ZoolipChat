@@ -13,7 +13,6 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.homework.coursework.R
@@ -114,6 +113,13 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
             }
             is TopicDiscussionState.UpdateRecycleMessages -> {
                 updateMessage(stateStream.data)
+            }
+            is TopicDiscussionState.AddMessageResult -> {
+                messageAdapter.submitList(emptyList())
+                viewModel.getMessages(
+                    currentStream,
+                    currentTopic.copy(numberOfMess = stateStream.data)
+                )
             }
         }
     }
@@ -306,18 +312,14 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
             val currLayoutManager = LinearLayoutManager(context).apply { stackFromEnd = true }
             layoutManager = currLayoutManager
             scrollListener = object : PagingScrollListener(currLayoutManager) {
-                override fun onLoadMore(
-                    top: Boolean,
-                    totalItemsCount: Int,
-                    view: RecyclerView?
-                ): Boolean {
+                override fun onLoadMore(top: Boolean): Boolean {
                     viewModel.getMessages(
                         stream = currentStream,
                         topic = currentTopic.copy(
                             numberOfMess = messageAdapter.currentList
                                 .first { it.messageItem != null }
                                 .messageItem?.messageId
-                                ?: throw IllegalArgumentException("messageItem requird")),
+                                ?: throw IllegalArgumentException("messageItem required")),
                     )
                     return true
                 }

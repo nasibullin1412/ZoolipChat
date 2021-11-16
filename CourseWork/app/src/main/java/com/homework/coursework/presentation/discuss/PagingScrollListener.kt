@@ -28,12 +28,12 @@ abstract class PagingScrollListener(
             previousTotalItemCount = totalItemCount
         }
         if (!loading && firstVisibleItemPosition < VISIBLE_THRESHOLD) {
-            onLoadMore(true, totalItemCount, recyclerView)
+            onLoadMore(true)
             loading = true
         }
     }
 
-    abstract fun onLoadMore(top: Boolean, totalItemsCount: Int, view: RecyclerView?): Boolean
+    abstract fun onLoadMore(top: Boolean): Boolean
 
     companion object {
         const val VISIBLE_THRESHOLD = 5
