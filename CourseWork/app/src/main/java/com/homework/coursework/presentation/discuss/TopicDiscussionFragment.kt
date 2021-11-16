@@ -76,7 +76,7 @@ class TopicDiscussionFragment : Fragment(), MessageItemCallback {
         initEditText()
         initNames()
         initBackButton()
-        viewModel.getMessages(currentStream, currentTopic)
+        viewModel.initMessages(currentStream, currentTopic)
     }
 
     private fun initObservers() {

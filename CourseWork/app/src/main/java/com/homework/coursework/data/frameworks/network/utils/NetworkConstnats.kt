@@ -9,7 +9,7 @@ object NetworkConstants {
     const val REACTION_TYPE = "unicode_emoji"
     const val STREAM = "stream"
     const val NUM_AFTER = 0
-    const val NUM_BEFORE = 20
+    const val NUM_BEFORE = 19
     const val CONNECTION_TIMEOUT = 15.toLong()
     const val READ_TIMEOUT = 5.toLong()
     const val WRITE_TIMEOUT = 5.toLong()

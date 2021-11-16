@@ -8,6 +8,7 @@ import io.reactivex.Observable
 import io.reactivex.Single
 
 interface MessageRepository {
+    fun initMessages(streamData: StreamData, topicData: TopicData): Observable<List<MessageData>>
     fun loadMessages(streamData: StreamData, topicData: TopicData): Observable<List<MessageData>>
     fun addMessages(streamData: StreamData, topicData: TopicData, content: String): Observable<Int>
 }

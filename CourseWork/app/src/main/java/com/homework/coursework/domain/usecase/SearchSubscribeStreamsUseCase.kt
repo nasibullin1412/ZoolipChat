@@ -22,6 +22,9 @@ class SearchSubscribeStreamsUseCaseImpl : SearchSubscribeStreamsUseCase {
     override fun invoke(searchQuery: String): Observable<List<StreamData>> {
         return streamRepository.loadSubscribedStreams()
             .map { streams ->
+                if (streams.isEmpty() || streams.first().errorHandle.isError) {
+                    return@map streams
+                }
                 streams.filter {
                     it.streamName.contains(searchQuery, ignoreCase = true)
                 }

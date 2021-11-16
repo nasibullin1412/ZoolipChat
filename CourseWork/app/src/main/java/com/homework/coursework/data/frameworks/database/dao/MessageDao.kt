@@ -9,7 +9,10 @@ import io.reactivex.Single
 
 @Dao
 interface MessageDao {
-    @Query("SELECT COUNT(id) FROM message_table WHERE stream_id = :streamId AND topic_name = :topicName")
+    @Query(
+        "SELECT COUNT(id) FROM message_table " +
+                "WHERE stream_id = :streamId AND topic_name = :topicName"
+    )
     fun getMessageNumber(streamId: Int, topicName: String): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -17,6 +20,12 @@ interface MessageDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMessage(messageEntity: MessageEntity)
+
+    @Query(
+        "SELECT * FROM message_table WHERE stream_id = :streamId " +
+                "AND topic_name = :topicName ORDER BY LOWER(message_id) ASC"
+    )
+    fun getMessages(streamId: Int, topicName: String): Single<List<MessageWithEmojiEntity>>
 
     @Transaction
     fun insertOneMessage(messageWithEmojiEntity: MessageWithEmojiEntity) {

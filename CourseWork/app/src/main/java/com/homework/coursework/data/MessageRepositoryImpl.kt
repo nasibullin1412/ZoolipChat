@@ -1,12 +1,14 @@
 package com.homework.coursework.data
 
 import android.util.Log
+import androidx.room.EmptyResultSetException
 import com.homework.coursework.data.dto.MessagesResponse
 import com.homework.coursework.data.dto.Narrow
 import com.homework.coursework.data.frameworks.database.AppDatabase
 import com.homework.coursework.data.frameworks.database.crossref.MessageToUserCrossRef
 import com.homework.coursework.data.frameworks.database.entities.MessageWithEmojiEntity
 import com.homework.coursework.data.frameworks.database.mappersimpl.MessageDataMapper
+import com.homework.coursework.data.frameworks.database.mappersimpl.MessageEntityMapper
 import com.homework.coursework.data.frameworks.database.mappersimpl.UserDataListMapper
 import com.homework.coursework.data.frameworks.network.mappersimpl.MessageDtoMapper
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.NUM_AFTER
@@ -33,7 +35,18 @@ class MessageRepositoryImpl : MessageRepository {
     private val messageDataMapper: MessageDataMapper = MessageDataMapper()
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private val userDataListMapper: UserDataListMapper = UserDataListMapper()
+    private val messageEntityMapper: MessageMapper<List<MessageWithEmojiEntity>> =
+        MessageEntityMapper()
 
+    override fun initMessages(
+        streamData: StreamData,
+        topicData: TopicData
+    ): Observable<List<MessageData>> {
+        return Observable.concatArrayEagerDelayError(
+            getLocalMessage(streamData, topicData),
+            getRemoteMessage(streamData, topicData)
+        )
+    }
 
     override fun loadMessages(
         streamData: StreamData,
@@ -41,6 +54,7 @@ class MessageRepositoryImpl : MessageRepository {
     ): Observable<List<MessageData>> {
         return getRemoteMessage(streamData, topicData)
     }
+
 
     override fun addMessages(
         streamData: StreamData,
@@ -71,6 +85,11 @@ class MessageRepositoryImpl : MessageRepository {
                     messageDataList = it,
                     topicData = topicData,
                     streamData = streamData
+                )
+            }
+            .onErrorReturn { error: Throwable ->
+                listOf(
+                    MessageData.getErrorObject(error)
                 )
             }
     }
@@ -126,13 +145,32 @@ class MessageRepositoryImpl : MessageRepository {
         }
     }
 
-    private fun storeMessagesInDb(messageWithEmojiEntity: List<MessageWithEmojiEntity>): Observable<Completable>? {
+    private fun storeMessagesInDb(
+        messageWithEmojiEntity: List<MessageWithEmojiEntity>
+    ): Observable<Completable> {
         return Observable.fromCallable {
             AppDatabase.instance.messageDao().insertMessages(messageWithEmojiEntity)
                 .doOnError {
                     Log.d("FromRoom", it.message.toString())
                 }
         }
+    }
+
+
+    private fun getLocalMessage(
+        streamData: StreamData,
+        topicData: TopicData
+    ): Observable<List<MessageData>> {
+        return AppDatabase.instance.messageDao()
+            .getMessages(streamId = streamData.id, topicName = topicData.topicName)
+            .map { if (it.isEmpty()) throw EmptyResultSetException("empty db") else it }
+            .map(messageEntityMapper)
+            .toObservable()
+            .onErrorReturn { error: Throwable ->
+                listOf(
+                    MessageData.getErrorObject(error)
+                )
+            }
     }
 
     private fun positiveOrZero(value: Int) = if (value > 0) {

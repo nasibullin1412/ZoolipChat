@@ -8,5 +8,6 @@ data class MessageItem(
     val messageContent: String,
     val emojis: ArrayList<EmojiItem>,
     val date: Long,
-    val isCurrentUserMessage: Boolean
+    val isCurrentUserMessage: Boolean,
+    var errorHandle: ErrorHandle = ErrorHandle()
 )

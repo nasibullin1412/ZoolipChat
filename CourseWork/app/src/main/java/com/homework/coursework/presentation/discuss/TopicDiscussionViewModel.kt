@@ -24,6 +24,7 @@ class TopicDiscussionViewModel : ViewModel() {
     private val deleteReactionToMessageUseCase: DeleteReactionToMessageUseCaseImpl =
         DeleteReactionToMessageUseCaseImpl()
     private val addMessagesUseCase: AddMessageUseCase = AddMessageUseCaseImpl()
+    private val initMessagesUseCase: InitMessageUseCase = InitMessageUseCaseImpl()
 
     private val discussToItemMapper: DiscussItemMapper = DiscussItemMapper()
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
@@ -32,7 +33,30 @@ class TopicDiscussionViewModel : ViewModel() {
     private val topicDataMapper: TopicDataMapper = TopicDataMapper()
     private val messageDataMapper: MessageDataMapper = MessageDataMapper()
     private val emojiDataMapper: EmojiDataMapper = EmojiDataMapper()
+    private var isSecondError = false
 
+    fun initMessages(stream: StreamItem, topic: TopicItem) {
+        initMessagesUseCase(streamDataMapper(stream), topicDataMapper(topic))
+            .subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.computation())
+            .map(discussToItemMapper)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeBy(
+                onNext = {
+                    val newScreenState = getNewState(it)
+                    if (newScreenState == null) {
+                        isSecondError = true
+                        return@subscribeBy
+                    }
+                    _topicDiscScreenState.value = newScreenState
+                    isSecondError = false
+                },
+                onError = {
+                    _topicDiscScreenState.value = TopicDiscussionState.Error(it)
+                }
+            )
+            .addTo(compositeDisposable)
+    }
 
     fun getMessages(stream: StreamItem, topic: TopicItem) {
         getTopicMessagesUseCase(streamDataMapper(stream), topicDataMapper(topic))
@@ -42,6 +66,8 @@ class TopicDiscussionViewModel : ViewModel() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
                 onNext = {
+                    val check = it.first().messageItem?.errorHandle?.isError ?: true
+                    if (check){ return@subscribeBy }
                     _topicDiscScreenState.value =
                         TopicDiscussionState.ResultMessages(it)
                 },
@@ -132,7 +158,7 @@ class TopicDiscussionViewModel : ViewModel() {
             getNewRecycleList(oldList = oldList, newList = newList)
         }
             .subscribeOn(Schedulers.computation())
-            .map{discussList ->
+            .map { discussList ->
                 discussList.forEachIndexed { i, element -> element.id = i }
                 discussList
             }
@@ -153,7 +179,8 @@ class TopicDiscussionViewModel : ViewModel() {
         newList: List<DiscussItem>
     ): List<DiscussItem> {
         val lastElemOfNew = newList.last()
-        val idx = oldList.indexOfFirst { it.messageItem?.messageId == lastElemOfNew.messageItem?.messageId }
+        val idx =
+            oldList.indexOfFirst { it.messageItem?.messageId == lastElemOfNew.messageItem?.messageId }
         if (idx == -1) {
             return newList + oldList
         }
@@ -179,6 +206,23 @@ class TopicDiscussionViewModel : ViewModel() {
         } else {
             Pair(0, -remainElemNumber)
         }
+    }
+
+    private fun getNewState(messages: List<DiscussItem>): TopicDiscussionState? {
+        if (messages.isEmpty()) {
+            return TopicDiscussionState.ResultMessages(messages)
+        }
+        val firstElem = messages.first()
+        val isError = firstElem.messageItem?.errorHandle?.isError ?: true
+        if (isError.not()) {
+            return TopicDiscussionState.ResultMessages(messages)
+        }
+        if (isSecondError) {
+            return TopicDiscussionState.Error(
+                firstElem.messageItem?.errorHandle?.error ?: UnknownError()
+            )
+        }
+        return null
     }
 
     override fun onCleared() {

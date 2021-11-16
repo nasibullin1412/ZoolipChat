@@ -1,8 +1,9 @@
 package com.homework.coursework.presentation.adapter.mapper
 
-import com.homework.coursework.domain.entity.MessageData
-import com.homework.coursework.presentation.adapter.data.MessageItem
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.USER_ID
+import com.homework.coursework.domain.entity.MessageData
+import com.homework.coursework.presentation.adapter.data.ErrorHandle
+import com.homework.coursework.presentation.adapter.data.MessageItem
 
 class MessageItemMapper : (List<MessageData>) -> (List<MessageItem>) {
 
@@ -17,7 +18,8 @@ class MessageItemMapper : (List<MessageData>) -> (List<MessageItem>) {
                     messageContent = messageContent,
                     emojis = emojiItemMapper(emojis, USER_ID),
                     date = date,
-                    isCurrentUserMessage = isCurrentUserMessage
+                    isCurrentUserMessage = isCurrentUserMessage,
+                    errorHandle = ErrorHandle(errorHandle.isError, errorHandle.error)
                 )
             }
         }

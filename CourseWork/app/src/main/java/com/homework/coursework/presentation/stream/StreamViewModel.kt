@@ -59,7 +59,15 @@ class StreamViewModel : ViewModel() {
             .map(streamToItemMapper)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
-                onNext = { _streamScreenState.value = StreamScreenState.Result(it) },
+                onNext = {
+                    val newScreenState = getNewState(it)
+                    if (newScreenState == null) {
+                        isSecondError = true
+                        return@subscribeBy
+                    }
+                    _streamScreenState.value = newScreenState
+                    isSecondError = false
+                         },
                 onError = {
                     _streamScreenState.value = StreamScreenState.Error(it)
                     subscribeToSearchStreams()
