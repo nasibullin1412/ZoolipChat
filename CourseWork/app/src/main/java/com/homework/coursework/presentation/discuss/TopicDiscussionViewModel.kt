@@ -243,8 +243,8 @@ class TopicDiscussionViewModel : ViewModel() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
-                onError = {
-                        e -> Log.e("error", e.toString())
+                onError = { e ->
+                    Log.e("error", e.toString())
                 }
             )
             .addTo(compositeDisposable)

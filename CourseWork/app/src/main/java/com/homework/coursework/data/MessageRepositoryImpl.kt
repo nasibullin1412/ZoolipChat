@@ -75,11 +75,6 @@ class MessageRepositoryImpl : MessageRepository {
         messages: List<MessageData>
     ): Completable {
         return Completable.fromCallable {
-            AppDatabase.instance.messageDao().deleteMessagesByTopic(
-                streamId = streamData.id,
-                topicName = topicData.topicName
-            )
-        }.doAfterTerminate {
             storeUsersInDb(
                 messageDataList = messages,
                 topicData = topicData,

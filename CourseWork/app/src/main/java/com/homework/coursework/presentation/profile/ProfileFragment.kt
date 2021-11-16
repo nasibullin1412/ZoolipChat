@@ -9,10 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import coil.load
 import com.homework.coursework.R
+import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.USER_ID
 import com.homework.coursework.databinding.ProfileFragmentBinding
 import com.homework.coursework.domain.entity.StatusEnum
 import com.homework.coursework.presentation.adapter.data.UserItem
-import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.USER_ID
 import com.homework.coursework.presentation.utils.getColor
 import com.homework.coursework.presentation.utils.off
 import com.homework.coursework.presentation.utils.showToast

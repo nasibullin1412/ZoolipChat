@@ -13,8 +13,4 @@ class TopicDataMapper : (TopicItem) -> (TopicData) {
             )
         }
     }
-
-    companion object {
-        const val IDX_NAME_START = 1
-    }
 }

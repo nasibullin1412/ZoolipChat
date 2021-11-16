@@ -21,7 +21,9 @@ class SearchAllStreamsUseCaseImpl : SearchAllStreamsUseCase {
     override fun invoke(searchQuery: String): Observable<List<StreamData>> {
         return streamRepository.loadAllStreams()
             .map { streams ->
-                if (streams.first().errorHandle.isError){return@map streams}
+                if (streams.first().errorHandle.isError) {
+                    return@map streams
+                }
                 streams.filter {
                     it.streamName.contains(searchQuery, ignoreCase = true)
                 }

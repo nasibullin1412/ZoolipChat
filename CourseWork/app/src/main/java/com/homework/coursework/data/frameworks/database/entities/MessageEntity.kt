@@ -1,9 +1,10 @@
 package com.homework.coursework.data.frameworks.database.entities
 
-import androidx.room.*
+import androidx.room.ColumnInfo
 import androidx.room.ColumnInfo.TEXT
-import androidx.room.ForeignKey.CASCADE
-import com.homework.coursework.domain.entity.UserData
+import androidx.room.Entity
+import androidx.room.Index
+import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "message_table",

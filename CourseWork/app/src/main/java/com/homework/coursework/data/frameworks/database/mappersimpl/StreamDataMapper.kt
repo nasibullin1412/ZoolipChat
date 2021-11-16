@@ -17,7 +17,7 @@ class StreamDataMapper : (List<StreamData>, Boolean) -> (List<StreamWithTopicsEn
                         streamName = streamName,
                         description = description,
                         dateCreated = dateCreated,
-                        isSubscribed =isSubscribed
+                        isSubscribed = isSubscribed
                     ),
                     topicsEntity = topics.map {
                         TopicEntity(

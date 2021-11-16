@@ -1,6 +1,5 @@
 package com.homework.coursework.data.frameworks.network.mappersimpl
 
-import com.homework.coursework.data.dto.UserDto
 import com.homework.coursework.data.dto.UserWithStatus
 import com.homework.coursework.data.mappers.UserMapper
 import com.homework.coursework.domain.entity.UserData

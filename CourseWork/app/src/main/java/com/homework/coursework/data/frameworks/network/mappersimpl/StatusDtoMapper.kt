@@ -15,7 +15,6 @@ class StatusDtoMapper : (StatusDto) -> (UserStatus) {
         )
     }
 
-
     private fun getStatus(status: StatusDto): StatusEnum {
         if (status.website.isActive() || status.aggregated.isActive()) {
             return StatusEnum.ACTIVE

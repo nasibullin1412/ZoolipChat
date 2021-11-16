@@ -1,6 +1,10 @@
 package com.homework.coursework.data.frameworks.database.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Transaction
+import androidx.room.Query
 import com.homework.coursework.data.frameworks.database.entities.StreamEntity
 import com.homework.coursework.data.frameworks.database.entities.StreamWithTopicsEntity
 import com.homework.coursework.data.frameworks.database.entities.TopicEntity
@@ -19,7 +23,7 @@ interface StreamDao {
     @Transaction
     fun insertOneStream(streamWithTopics: StreamWithTopicsEntity) {
         insertStream(streamWithTopics.streamEntity)
-        for (topic in streamWithTopics.topicsEntity){
+        for (topic in streamWithTopics.topicsEntity) {
             insertTopic(topic)
         }
     }

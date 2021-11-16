@@ -6,9 +6,9 @@ sealed class TopicDiscussionState {
 
     class ResultMessages(val data: List<DiscussItem>) : TopicDiscussionState()
 
-    class UpdateRecycleMessages(val data: List<DiscussItem>): TopicDiscussionState()
+    class UpdateRecycleMessages(val data: List<DiscussItem>) : TopicDiscussionState()
 
-    class AddMessageResult(val data: Int): TopicDiscussionState()
+    class AddMessageResult(val data: Int) : TopicDiscussionState()
 
     object ResultUserChanges : TopicDiscussionState()
 

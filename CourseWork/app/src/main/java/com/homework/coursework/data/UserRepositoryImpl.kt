@@ -15,7 +15,6 @@ import com.homework.coursework.domain.entity.UserData
 import com.homework.coursework.domain.repository.UserRepository
 import com.homework.coursework.presentation.App
 import io.reactivex.Observable
-import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy

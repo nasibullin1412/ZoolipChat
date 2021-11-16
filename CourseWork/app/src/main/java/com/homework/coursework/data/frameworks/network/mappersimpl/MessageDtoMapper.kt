@@ -1,11 +1,11 @@
 package com.homework.coursework.data.frameworks.network.mappersimpl
 
 import com.homework.coursework.data.dto.MessagesResponse
-import com.homework.coursework.domain.entity.MessageData
-import com.homework.coursework.domain.entity.UserData
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.USER_ID
 import com.homework.coursework.data.mappers.MessageMapper
+import com.homework.coursework.domain.entity.MessageData
 import com.homework.coursework.domain.entity.StatusEnum
+import com.homework.coursework.domain.entity.UserData
 import com.homework.coursework.domain.entity.UserStatus
 import kotlinx.serialization.ExperimentalSerializationApi
 

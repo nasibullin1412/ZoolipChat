@@ -10,5 +10,4 @@ class StatusEntityMapper : (Int, Long) -> (UserStatus) {
             timestamp = timestamp
         )
     }
-
 }

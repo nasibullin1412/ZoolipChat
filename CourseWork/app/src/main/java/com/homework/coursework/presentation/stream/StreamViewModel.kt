@@ -4,12 +4,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.homework.coursework.domain.entity.StreamData
 import com.homework.coursework.domain.usecase.*
 import com.homework.coursework.presentation.adapter.data.StreamItem
-import com.homework.coursework.presentation.adapter.data.UserItem
 import com.homework.coursework.presentation.adapter.mapper.StreamItemMapper
-import com.homework.coursework.presentation.profile.ProfileScreenState
 import com.homework.coursework.presentation.utils.getStreamFragmentUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -67,7 +64,7 @@ class StreamViewModel : ViewModel() {
                     }
                     _streamScreenState.value = newScreenState
                     isSecondError = false
-                         },
+                },
                 onError = {
                     _streamScreenState.value = StreamScreenState.Error(it)
                     subscribeToSearchStreams()
@@ -80,9 +77,6 @@ class StreamViewModel : ViewModel() {
         getNeedUseCase(tabState)
             .subscribeOn(Schedulers.io())
             .map(streamToItemMapper)
-            .doOnNext { Log.d("ItemBefore", it.toString()) }
-            .distinct { it.toString() }
-            .doOnNext { Log.d("ItemAfter", it.toString()) }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
                 onNext = {

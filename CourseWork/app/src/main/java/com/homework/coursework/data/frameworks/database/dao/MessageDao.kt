@@ -1,6 +1,10 @@
 package com.homework.coursework.data.frameworks.database.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Transaction
 import com.homework.coursework.data.frameworks.database.entities.EmojiEntity
 import com.homework.coursework.data.frameworks.database.entities.MessageEntity
 import com.homework.coursework.data.frameworks.database.entities.MessageWithEmojiEntity
@@ -34,9 +38,6 @@ interface MessageDao {
             insertEmoji(emoji)
         }
     }
-
-    @Query("DELETE FROM message_table WHERE stream_id =:streamId AND topic_name =:topicName")
-    fun deleteMessagesByTopic(streamId: Int, topicName: String)
 
     fun insertMessages(messageWithEmojis: List<MessageWithEmojiEntity>): Completable {
         for (stream in messageWithEmojis) {

@@ -3,7 +3,7 @@ package com.homework.coursework.data.frameworks.database.mappersimpl
 import com.homework.coursework.data.frameworks.database.entities.EmojiEntity
 import com.homework.coursework.domain.entity.EmojiData
 
-class EmojiEntityMapper: (List<EmojiEntity>) -> (List<EmojiData>) {
+class EmojiEntityMapper : (List<EmojiEntity>) -> (List<EmojiData>) {
     override fun invoke(emojis: List<EmojiEntity>): List<EmojiData> {
         val emojiMap = emojis.groupBy { it.emojiCode }
         val emojisData: ArrayList<EmojiData> = arrayListOf()

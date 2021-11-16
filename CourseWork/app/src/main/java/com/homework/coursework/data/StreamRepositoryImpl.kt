@@ -15,7 +15,6 @@ import com.homework.coursework.domain.entity.StreamData
 import com.homework.coursework.domain.repository.StreamRepository
 import com.homework.coursework.presentation.App
 import io.reactivex.Observable
-import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
@@ -57,7 +56,7 @@ class StreamRepositoryImpl : StreamRepository {
 
     private fun getLocalAllStreams(): Observable<List<StreamData>> {
         return AppDatabase.instance.streamDao().getAllStreams()
-            .map { if (it.isEmpty()) throw EmptyResultSetException ("empty db") else it }
+            .map { if (it.isEmpty()) throw EmptyResultSetException("empty db") else it }
             .map(streamEntityMapper)
             .toObservable()
             .onErrorReturn { error: Throwable ->
@@ -75,7 +74,7 @@ class StreamRepositoryImpl : StreamRepository {
     }
 
 
-    private fun getRemoteSubscribedStreams(): Observable<List<StreamData>>{
+    private fun getRemoteSubscribedStreams(): Observable<List<StreamData>> {
         return App.instance.apiService.getSubscribedStreams()
             .switchMap { streamList -> Observable.fromIterable(streamList.data) }
             .concatMap { streamDto -> zipStreamAndTopics(streamDto) }
@@ -92,7 +91,7 @@ class StreamRepositoryImpl : StreamRepository {
 
     private fun getLocalSubscribedStreams(): Observable<List<StreamData>> {
         return AppDatabase.instance.streamDao().getAllStreams()
-            .map { if (it.isEmpty()) throw EmptyResultSetException ("empty db") else it }
+            .map { if (it.isEmpty()) throw EmptyResultSetException("empty db") else it }
             .map(streamEntityMapper)
             .toObservable()
             .onErrorReturn { error: Throwable ->

@@ -7,9 +7,9 @@ import com.homework.coursework.data.frameworks.database.crossref.MessageToUserCr
 import com.homework.coursework.data.frameworks.database.dao.MessageDao
 import com.homework.coursework.data.frameworks.database.dao.MessageToUserCrossRefDao
 import com.homework.coursework.data.frameworks.database.dao.StreamDao
-import com.homework.coursework.presentation.App
 import com.homework.coursework.data.frameworks.database.dao.UserDao
 import com.homework.coursework.data.frameworks.database.entities.*
+import com.homework.coursework.presentation.App
 
 @Database(
     entities = [
