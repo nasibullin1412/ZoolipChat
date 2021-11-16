@@ -71,7 +71,6 @@ class UserRepositoryImpl : UserRepository {
                 onError = { Log.e("FromRoom", it.message.toString()) }
             )
             .addTo(compositeDisposable)
-
     }
 
     private fun zipUserAndStatus(userDto: UserDto): Observable<UserWithStatus> {

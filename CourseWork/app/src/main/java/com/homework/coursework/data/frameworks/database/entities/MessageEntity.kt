@@ -1,18 +1,13 @@
 package com.homework.coursework.data.frameworks.database.entities
 
 import androidx.room.*
+import androidx.room.ColumnInfo.TEXT
 import androidx.room.ForeignKey.CASCADE
 import com.homework.coursework.domain.entity.UserData
 
 @Entity(
-    tableName = "stream_table",
-    foreignKeys = [ForeignKey(
-        entity = TopicEntity::class,
-        parentColumns = arrayOf("id"),
-        childColumns = arrayOf("topic_id"),
-        onDelete = CASCADE
-    )],
-    indices = [Index()]
+    tableName = "message_table",
+    indices = [Index(value = ["message_id"], unique = true)]
 )
 class MessageEntity(
     @PrimaryKey(autoGenerate = true)
@@ -20,14 +15,16 @@ class MessageEntity(
     val id: Long,
     @ColumnInfo(name = "message_id")
     val messageId: Int,
-    @ColumnInfo(name = "user_data")
-    val userData: UserData,
-    @ColumnInfo(name = "message_content")
+    @ColumnInfo(name = "user_id")
+    val userId: Int,
+    @ColumnInfo(name = "message_content", typeAffinity = TEXT)
     val messageContent: String,
-    @ColumnInfo(name = "message_content")
+    @ColumnInfo(name = "date")
     val date: Long,
     @ColumnInfo(name = "is_current_user")
     val isCurrentUserMessage: Boolean,
-    @ColumnInfo(name = "topic_id")
-    val topicId: Int
+    @ColumnInfo(name = "topic_name", typeAffinity = TEXT)
+    val topicName: String,
+    @ColumnInfo(name = "stream_id")
+    val streamId: Int
 )

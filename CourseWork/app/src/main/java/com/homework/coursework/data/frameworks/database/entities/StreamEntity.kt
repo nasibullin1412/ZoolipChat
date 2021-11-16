@@ -6,10 +6,7 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(
-    tableName = "stream_table",
-    indices = [Index(value = ["stream_back_id"], unique = true)]
-)
+@Entity(tableName = "stream_table", indices = [Index(value = ["stream_back_id"], unique = true)])
 data class StreamEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
