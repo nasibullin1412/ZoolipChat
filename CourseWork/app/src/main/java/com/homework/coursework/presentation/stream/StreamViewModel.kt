@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.homework.coursework.di.GlobalDI
 import com.homework.coursework.domain.usecase.*
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.mapper.StreamItemMapper
@@ -21,13 +22,15 @@ class StreamViewModel : ViewModel() {
     val streamScreenState: LiveData<StreamScreenState>
         get() = _streamScreenState
 
-    private val getAllStreamsUseCase: GetAllStreamsUseCase = GetAllStreamsUseCaseImpl()
+    private val getAllStreamsUseCase: GetAllStreamsUseCase = GetAllStreamsUseCaseImpl(
+        GlobalDI.instance.streamRepository
+    )
     private val getSubscribedStreamsUseCase: GetSubscribedStreamsUseCase =
-        GetSubscribedStreamsUseCaseImpl()
+        GetSubscribedStreamsUseCaseImpl(GlobalDI.instance.streamRepository)
     private val streamToItemMapper: StreamItemMapper = StreamItemMapper()
-    private val searchAllStreamUseCase: SearchAllStreamsUseCase = SearchAllStreamsUseCaseImpl()
+    private val searchAllStreamUseCase: SearchAllStreamsUseCase = SearchAllStreamsUseCaseImpl(GlobalDI.instance.streamRepository)
     private val searchSubscribedStreamsUseCase: SearchSubscribeStreamsUseCase =
-        SearchSubscribeStreamsUseCaseImpl()
+        SearchSubscribeStreamsUseCaseImpl(GlobalDI.instance.streamRepository)
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private val searchSubject: PublishSubject<Pair<Int, String>> = PublishSubject.create()

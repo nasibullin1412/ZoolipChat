@@ -10,11 +10,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.serialization.ExperimentalSerializationApi
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
-import retrofit2.http.POST
-import retrofit2.http.DELETE
+import retrofit2.http.*
 
 
 @ExperimentalSerializationApi
@@ -116,8 +112,8 @@ interface ApiService {
     fun getStatus(@Path("user_id") userId: Int): Observable<StatusResponse>
 
     companion object {
-        fun create(): ApiService {
-            return Retrofit.Builder()
+        val instance: ApiService by lazy {
+            Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .setClient()
                 .addJsonConverter()

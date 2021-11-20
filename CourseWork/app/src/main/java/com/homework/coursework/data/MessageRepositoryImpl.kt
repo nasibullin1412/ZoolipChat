@@ -4,12 +4,15 @@ import android.util.Log
 import androidx.room.EmptyResultSetException
 import com.homework.coursework.data.dto.MessagesResponse
 import com.homework.coursework.data.dto.Narrow
-import com.homework.coursework.data.frameworks.database.AppDatabase
 import com.homework.coursework.data.frameworks.database.crossref.MessageToUserCrossRef
+import com.homework.coursework.data.frameworks.database.dao.MessageDao
+import com.homework.coursework.data.frameworks.database.dao.MessageToUserCrossRefDao
+import com.homework.coursework.data.frameworks.database.dao.UserDao
 import com.homework.coursework.data.frameworks.database.entities.MessageWithEmojiEntity
 import com.homework.coursework.data.frameworks.database.mappersimpl.MessageDataMapper
 import com.homework.coursework.data.frameworks.database.mappersimpl.MessageEntityMapper
 import com.homework.coursework.data.frameworks.database.mappersimpl.UserDataListMapper
+import com.homework.coursework.data.frameworks.network.ApiService
 import com.homework.coursework.data.frameworks.network.mappersimpl.MessageDtoMapper
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.NUM_AFTER
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.NUM_BEFORE
@@ -19,7 +22,6 @@ import com.homework.coursework.domain.entity.MessageData
 import com.homework.coursework.domain.entity.StreamData
 import com.homework.coursework.domain.entity.TopicData
 import com.homework.coursework.domain.repository.MessageRepository
-import com.homework.coursework.presentation.App
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -29,7 +31,12 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.serialization.ExperimentalSerializationApi
 
 @ExperimentalSerializationApi
-class MessageRepositoryImpl : MessageRepository {
+class MessageRepositoryImpl(
+    private val apiService: ApiService,
+    private val messageDao: MessageDao,
+    private val messageToUserCrossRefDao: MessageToUserCrossRefDao,
+    private val userDao: UserDao
+) : MessageRepository {
 
     private val messageDtoMapper: MessageMapper<MessagesResponse> = MessageDtoMapper()
     private val messageDataMapper: MessageDataMapper = MessageDataMapper()
@@ -61,7 +68,7 @@ class MessageRepositoryImpl : MessageRepository {
         topicData: TopicData,
         content: String
     ): Observable<Int> {
-        return App.instance.apiService.addMessage(
+        return apiService.addMessage(
             type = STREAM,
             to = streamData.streamName,
             content = content,
@@ -88,7 +95,7 @@ class MessageRepositoryImpl : MessageRepository {
         topicData: TopicData
     ): Observable<List<MessageData>> {
         val narrow = Narrow.createNarrowForMessage(streamData, topicData)
-        return App.instance.apiService.getMessages(
+        return apiService.getMessages(
             anchor = topicData.numberOfMess,
             numAfter = NUM_AFTER,
             numBefore = NUM_BEFORE,
@@ -106,8 +113,7 @@ class MessageRepositoryImpl : MessageRepository {
         streamData: StreamData,
         topicData: TopicData
     ) {
-        val length =
-            AppDatabase.instance.messageDao().getMessageNumber(streamData.id, topicData.topicName)
+        val length = messageDao.getMessageNumber(streamData.id, topicData.topicName)
         if (length >= DATABASE_MESSAGE_THRESHOLD) {
             return
         }
@@ -116,7 +122,7 @@ class MessageRepositoryImpl : MessageRepository {
         val messageListAfterDrop = messageDataList.drop(dropNumber)
         val userMap = messageListAfterDrop.groupBy { it.userData }
         Observable.fromCallable {
-            AppDatabase.instance.userDao().insertAll(
+            userDao.insertAll(
                 userDataListMapper(userMap.keys.toList())
             )
         }.subscribeOn(Schedulers.io())
@@ -148,7 +154,7 @@ class MessageRepositoryImpl : MessageRepository {
             )
         }
         messageToUserCrossRefList.forEach {
-            AppDatabase.instance.messageToUserCrossRefDao().insert(it)
+            messageToUserCrossRefDao.insert(it)
         }
     }
 
@@ -156,7 +162,7 @@ class MessageRepositoryImpl : MessageRepository {
         messageWithEmojiEntity: List<MessageWithEmojiEntity>
     ): Observable<Completable> {
         return Observable.fromCallable {
-            AppDatabase.instance.messageDao().insertMessages(messageWithEmojiEntity)
+            messageDao.insertMessages(messageWithEmojiEntity)
                 .doOnError {
                     Log.d("FromRoom", it.message.toString())
                 }
@@ -167,7 +173,7 @@ class MessageRepositoryImpl : MessageRepository {
         streamData: StreamData,
         topicData: TopicData
     ): Observable<List<MessageData>> {
-        return AppDatabase.instance.messageDao()
+        return messageDao
             .getMessages(streamId = streamData.id, topicName = topicData.topicName)
             .map { if (it.isEmpty()) throw EmptyResultSetException("empty db") else it }
             .map(messageEntityMapper)

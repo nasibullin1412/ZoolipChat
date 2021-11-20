@@ -13,6 +13,14 @@ buildscript {
     }
 }
 
+allprojects {
+    repositories {
+        maven { url "https://jitpack.io" }
+        google()
+        mavenCentral()
+    }
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
@@ -40,7 +48,9 @@ ext {
     okhttpVersion = '5.0.0-alpha.2'
     retrofitVersion = '2.9.0'
     kotlinVersion = '1.5.0'
-    retrofitAdapterVersion = '2.4.0'
+    retrofitAdapterVersion = '2.9.0'
     roomVersion = '2.3.0'
-
+    roomRuntimeVersion = '1.1.1'
+    desugarJDKVersion = '1.1.5'
+    elmsilieVersion = '1.2.0'
 }

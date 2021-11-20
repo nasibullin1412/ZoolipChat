@@ -1,9 +1,11 @@
 package com.homework.coursework.domain.usecase
 
 import com.homework.coursework.data.ReactionRepositoryImpl
+import com.homework.coursework.di.GlobalDI
 import com.homework.coursework.domain.entity.EmojiData
 import com.homework.coursework.domain.entity.MessageData
 import com.homework.coursework.domain.repository.ReactionRepository
+import com.homework.coursework.presentation.App
 import io.reactivex.Completable
 
 /**
@@ -13,9 +15,9 @@ interface AddReactionToMessageUseCase : (MessageData, EmojiData) -> Completable 
     override fun invoke(messageData: MessageData, emojiData: EmojiData): Completable
 }
 
-class AddReactionToMessageUseCaseImpl : AddReactionToMessageUseCase {
-
-    private val repositoryReaction: ReactionRepository = ReactionRepositoryImpl()
+class AddReactionToMessageUseCaseImpl(
+    private val repositoryReaction: ReactionRepository
+) : AddReactionToMessageUseCase {
 
     override fun invoke(messageData: MessageData, emojiData: EmojiData): Completable {
         return repositoryReaction.addReaction(messageData, emojiData)

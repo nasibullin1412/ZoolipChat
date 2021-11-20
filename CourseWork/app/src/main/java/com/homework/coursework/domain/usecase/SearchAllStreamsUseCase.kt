@@ -14,9 +14,9 @@ interface SearchAllStreamsUseCase : (String) -> Observable<List<StreamData>> {
     override fun invoke(searchQuery: String): Observable<List<StreamData>>
 }
 
-class SearchAllStreamsUseCaseImpl : SearchAllStreamsUseCase {
-
-    private val streamRepository: StreamRepository = StreamRepositoryImpl()
+class SearchAllStreamsUseCaseImpl(
+    private val streamRepository: StreamRepository
+) : SearchAllStreamsUseCase {
 
     override fun invoke(searchQuery: String): Observable<List<StreamData>> {
         return streamRepository.loadAllStreams()

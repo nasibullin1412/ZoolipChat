@@ -1,6 +1,7 @@
 package com.homework.coursework.domain.usecase
 
 import com.homework.coursework.data.MessageRepositoryImpl
+import com.homework.coursework.di.GlobalDI
 import com.homework.coursework.domain.entity.MessageData
 import com.homework.coursework.domain.entity.StreamData
 import com.homework.coursework.domain.entity.TopicData
@@ -14,9 +15,9 @@ interface GetTopicMessagesUseCase : (StreamData, TopicData) -> Observable<List<M
     override fun invoke(streamData: StreamData, topicData: TopicData): Observable<List<MessageData>>
 }
 
-class GetTopicMessagesUseCaseImpl : GetTopicMessagesUseCase {
-
-    private val messageRepository: MessageRepository = MessageRepositoryImpl()
+class GetTopicMessagesUseCaseImpl(
+    private val messageRepository: MessageRepository
+) : GetTopicMessagesUseCase {
 
     override fun invoke(
         streamData: StreamData,

@@ -310,7 +310,7 @@ fun AppCompatActivity.addFragment(fragment: Fragment, tag: FragmentTag) {
     }
     supportFragmentManager.popBackStack(tag.value, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     supportFragmentManager.beginTransaction()
-        .add(R.id.nav_host_fragment, fragment, tag.value)
+        .replace(R.id.nav_host_fragment, fragment, tag.value)
         .addToBackStack(tag.value)
         .commit()
 }
@@ -341,14 +341,14 @@ fun Int.getStreamFragmentUseCase(query: String?): UseCaseType {
 fun Long.toStringDate(): String {
     val date = LocalDateTime.ofInstant(
         Instant.ofEpochMilli(this * 1000),
-        App.instance.getZone()
+        getZone()
     )
     val day = date.format(DateTimeFormatter.ofPattern("dd"))
     val month = date.month.getDisplayName(TextStyle.SHORT, Locale("ru"))
     return "$day $month"
 }
 
-fun App.getZone(): ZoneId = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+internal fun getZone(): ZoneId = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
     TimeZone.getDefault().toZoneId()
 } else {
     Clock.systemDefaultZone().zone

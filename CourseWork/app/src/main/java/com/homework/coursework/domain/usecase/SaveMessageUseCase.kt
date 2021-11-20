@@ -15,8 +15,9 @@ interface SaveMessageUseCase : (StreamData, TopicData, List<MessageData>) -> Com
     ): Completable
 }
 
-class SaveMessageUseCaseImpl : SaveMessageUseCase {
-    private val repositoryMessage: MessageRepository = MessageRepositoryImpl()
+class SaveMessageUseCaseImpl(
+    private val repositoryMessage: MessageRepository
+) : SaveMessageUseCase {
 
     override fun invoke(
         streamData: StreamData,

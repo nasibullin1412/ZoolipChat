@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.homework.coursework.di.GlobalDI
 import com.homework.coursework.domain.usecase.*
 import com.homework.coursework.presentation.adapter.data.*
 import com.homework.coursework.presentation.adapter.mapper.*
@@ -19,14 +20,24 @@ class TopicDiscussionViewModel : ViewModel() {
     val topicDiscScreenState: LiveData<TopicDiscussionState>
         get() = _topicDiscScreenState
 
-    private val getTopicMessagesUseCase: GetTopicMessagesUseCase = GetTopicMessagesUseCaseImpl()
+    private val getTopicMessagesUseCase: GetTopicMessagesUseCase = GetTopicMessagesUseCaseImpl(
+        GlobalDI.instance.messageRepository
+    )
     private val addReactionToMessageUse: AddReactionToMessageUseCase =
-        AddReactionToMessageUseCaseImpl()
+        AddReactionToMessageUseCaseImpl(GlobalDI.instance.reactionRepository)
     private val deleteReactionToMessageUseCase: DeleteReactionToMessageUseCaseImpl =
-        DeleteReactionToMessageUseCaseImpl()
-    private val addMessagesUseCase: AddMessageUseCase = AddMessageUseCaseImpl()
-    private val initMessagesUseCase: InitMessageUseCase = InitMessageUseCaseImpl()
-    private val saveMessageUseCase: SaveMessageUseCase = SaveMessageUseCaseImpl()
+        DeleteReactionToMessageUseCaseImpl(
+            GlobalDI.instance.reactionRepository
+        )
+    private val addMessagesUseCase: AddMessageUseCase = AddMessageUseCaseImpl(
+        GlobalDI.instance.messageRepository
+    )
+    private val initMessagesUseCase: InitMessageUseCase = InitMessageUseCaseImpl(
+        GlobalDI.instance.messageRepository
+    )
+    private val saveMessageUseCase: SaveMessageUseCase = SaveMessageUseCaseImpl(
+        GlobalDI.instance.messageRepository
+    )
 
     private val discussToItemMapper: DiscussItemMapper = DiscussItemMapper()
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()

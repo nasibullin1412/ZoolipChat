@@ -4,16 +4,16 @@ import android.util.Log
 import com.homework.coursework.data.dto.StatusDto
 import com.homework.coursework.data.dto.UserDto
 import com.homework.coursework.data.dto.UserWithStatus
-import com.homework.coursework.data.frameworks.database.AppDatabase
+import com.homework.coursework.data.frameworks.database.dao.UserDao
 import com.homework.coursework.data.frameworks.database.entities.UserEntity
 import com.homework.coursework.data.frameworks.database.mappersimpl.UserDataMapper
 import com.homework.coursework.data.frameworks.database.mappersimpl.UserEntityMapper
+import com.homework.coursework.data.frameworks.network.ApiService
 import com.homework.coursework.data.frameworks.network.mappersimpl.UserDtoMapper
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.USER_ID
 import com.homework.coursework.data.mappers.UserMapper
 import com.homework.coursework.domain.entity.UserData
 import com.homework.coursework.domain.repository.UserRepository
-import com.homework.coursework.presentation.App
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -22,7 +22,10 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.serialization.ExperimentalSerializationApi
 
 @ExperimentalSerializationApi
-class UserRepositoryImpl : UserRepository {
+class UserRepositoryImpl(
+    private val apiService: ApiService,
+    private val userDao: UserDao
+) : UserRepository {
 
     private val userDtoMapper: UserMapper<UserWithStatus> = UserDtoMapper()
     private val userEntityMapper: UserMapper<UserEntity> = UserEntityMapper()
@@ -30,7 +33,7 @@ class UserRepositoryImpl : UserRepository {
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     private fun getStatus(userDto: UserDto): Observable<StatusDto> {
-        return App.instance.apiService.getStatus(userDto.id)
+        return apiService.getStatus(userDto.id)
             .map { it.data }
     }
 
@@ -42,7 +45,7 @@ class UserRepositoryImpl : UserRepository {
     }
 
     private fun getRemoteUser(): Observable<UserData> {
-        return App.instance.apiService.getMe()
+        return apiService.getMe()
             .flatMap { userDto -> zipUserAndStatus(userDto) }
             .map(userDtoMapper)
             .doOnNext { storeUsersInDb(userDataMapper(it)) }
@@ -52,7 +55,7 @@ class UserRepositoryImpl : UserRepository {
     }
 
     private fun getLocalUser(userId: Long = USER_ID.toLong()): Observable<UserData> {
-        return AppDatabase.instance.userDao().getUser(userId)
+        return userDao.getUser(userId)
             .map(userEntityMapper)
             .toObservable()
             .onErrorReturn { error: Throwable ->
@@ -62,7 +65,7 @@ class UserRepositoryImpl : UserRepository {
     }
 
     private fun storeUsersInDb(users: UserEntity) {
-        Observable.fromCallable { AppDatabase.instance.userDao().insert(users) }
+        Observable.fromCallable { userDao.insert(users) }
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .subscribeBy(
@@ -76,8 +79,7 @@ class UserRepositoryImpl : UserRepository {
         return Observable.zip(
             Observable.just(userDto),
             getStatus(userDto)
-        )
-        { _: UserDto, status: StatusDto ->
+        ) { _: UserDto, status: StatusDto ->
             Pair(userDto, status)
         }
     }
