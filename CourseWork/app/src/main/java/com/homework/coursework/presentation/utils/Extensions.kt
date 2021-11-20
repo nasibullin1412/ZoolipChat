@@ -18,7 +18,6 @@ import androidx.fragment.app.FragmentManager
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.imageview.ShapeableImageView
 import com.homework.coursework.R
-import com.homework.coursework.presentation.App
 import com.homework.coursework.presentation.adapter.data.*
 import com.homework.coursework.presentation.customview.CustomEmojiView
 import com.homework.coursework.presentation.customview.CustomFlexboxLayout
@@ -26,8 +25,7 @@ import com.homework.coursework.presentation.discuss.TopicDiscussionFragment
 import com.homework.coursework.presentation.interfaces.MessageItemCallback
 import com.homework.coursework.presentation.profile.ProfileFragment
 import com.homework.coursework.presentation.stream.StreamFragment
-import com.homework.coursework.presentation.stream.TabState
-import com.homework.coursework.presentation.stream.UseCaseType
+import kotlinx.serialization.ExperimentalSerializationApi
 import java.time.Clock
 import java.time.Instant
 import java.time.LocalDateTime
@@ -280,6 +278,7 @@ fun ArrayList<DiscussItem>.addMessageItem(messageItemList: List<MessageItem>) {
     )
 }
 
+@ExperimentalSerializationApi
 fun FragmentTag.fragmentByTag(topic: TopicItem? = null, stream: StreamItem? = null): Fragment =
     when (this) {
         FragmentTag.CHANNEL_FRAGMENT_TAG -> StreamFragment()
@@ -315,29 +314,6 @@ fun AppCompatActivity.addFragment(fragment: Fragment, tag: FragmentTag) {
         .commit()
 }
 
-fun Int.getStreamFragmentUseCase(query: String?): UseCaseType {
-    if (query == null) {
-        return when (this) {
-            TabState.SUBSCRIBED_STREAMS.value -> {
-                UseCaseType.GET_SUBSCRIBED_STREAM_USE_CASE
-            }
-            TabState.ALL_STREAMS.value -> {
-                UseCaseType.GET_ALL_STREAMS_USE_CASE
-            }
-            else -> throw IllegalArgumentException("Unexpected TabState")
-        }
-    }
-    return when (this) {
-        TabState.SUBSCRIBED_STREAMS.value -> {
-            UseCaseType.SEARCH_SUBSCRIBED_USE_CASE
-        }
-        TabState.ALL_STREAMS.value -> {
-            UseCaseType.SEARCH_ALL_STREAM_USE_CASE
-        }
-        else -> throw IllegalArgumentException("Unexpected TabState")
-    }
-}
-
 fun Long.toStringDate(): String {
     val date = LocalDateTime.ofInstant(
         Instant.ofEpochMilli(this * 1000),
@@ -352,12 +328,6 @@ internal fun getZone(): ZoneId = if (Build.VERSION.SDK_INT >= Build.VERSION_CODE
     TimeZone.getDefault().toZoneId()
 } else {
     Clock.systemDefaultZone().zone
-}
-
-fun Fragment.getColor(colorId: Int) = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-    resources.getColor(colorId, requireContext().theme)
-} else {
-    resources.getColor(colorId)
 }
 
 fun ShimmerFrameLayout.off() {

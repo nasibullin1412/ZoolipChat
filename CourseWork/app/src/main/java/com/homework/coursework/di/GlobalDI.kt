@@ -11,9 +11,12 @@ import com.homework.coursework.domain.repository.ReactionRepository
 import com.homework.coursework.domain.repository.StreamRepository
 import com.homework.coursework.domain.repository.UserRepository
 import com.homework.coursework.domain.usecase.*
+import com.homework.coursework.presentation.adapter.mapper.StreamItemMapper
 import com.homework.coursework.presentation.adapter.mapper.UserItemMapper
 import com.homework.coursework.presentation.profile.elm.ProfileActor
 import com.homework.coursework.presentation.profile.elm.ProfileStoreFactory
+import com.homework.coursework.presentation.stream.elm.StreamActor
+import com.homework.coursework.presentation.stream.elm.StreamStoreFactory
 import kotlinx.serialization.ExperimentalSerializationApi
 
 
@@ -94,18 +97,41 @@ class GlobalDI private constructor() {
         SearchAllStreamsUseCaseImpl(streamRepository)
     }
 
-    val searchSubscribedStreamsUseCase: SearchAllStreamsUseCase by lazy {
-        SearchAllStreamsUseCaseImpl(streamRepository)
+    val searchSubscribedStreams: SearchSubscribeStreamsUseCase by lazy {
+        SearchSubscribeStreamsUseCaseImpl(streamRepository)
     }
 
-    private val userItemMapper: UserItemMapper = UserItemMapper()
+    private val userItemMapper: UserItemMapper by lazy { UserItemMapper() }
 
+    private val streamItemMapper: StreamItemMapper by lazy { StreamItemMapper() }
 
+    private val streamActor: StreamActor by lazy {
+        StreamActor(
+            streamToItemMapper = streamItemMapper,
+            getAllStreams = getAllStreams,
+            getSubscribedStreams = getSubscribedStreams,
+            searchAllStream = searchAllStreams,
+            searchSubscribedStreams = searchSubscribedStreams
+        )
+    }
 
-    private val profileActor by lazy { ProfileActor(getMe = getMe, userItemMapper = userItemMapper) }
+    private val profileActor by lazy {
+        ProfileActor(
+            getMe = getMe,
+            userItemMapper = userItemMapper
+        )
+    }
 
-    val elmStoreFactory by lazy {
+    val profileElmStoreFactory by lazy {
         ProfileStoreFactory(profileActor)
+    }
+
+    val subscribedStreamStoreFactory by lazy {
+        StreamStoreFactory(streamActor)
+    }
+
+    val allStreamStoreFactory by lazy {
+        StreamStoreFactory(streamActor)
     }
 
     companion object {

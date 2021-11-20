@@ -1,32 +1,32 @@
 package com.homework.coursework.presentation.stream
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
-import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.homework.coursework.R
 import com.homework.coursework.databinding.StreamViewPageFragmentBinding
+import com.homework.coursework.di.GlobalDI
 import com.homework.coursework.presentation.adapter.StreamNameAdapter
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
 import com.homework.coursework.presentation.interfaces.TopicItemCallback
 import com.homework.coursework.presentation.stream.StreamFragment.Companion.KEY_QUERY_DATA
 import com.homework.coursework.presentation.stream.StreamFragment.Companion.KEY_QUERY_REQUEST
+import com.homework.coursework.presentation.stream.elm.Effect
+import com.homework.coursework.presentation.stream.elm.Event
+import com.homework.coursework.presentation.stream.elm.State
 import com.homework.coursework.presentation.utils.off
-import com.homework.coursework.presentation.utils.showToast
+import kotlinx.serialization.ExperimentalSerializationApi
+import vivid.money.elmslie.android.base.ElmFragment
+import vivid.money.elmslie.core.store.Store
 
-class StreamListFragment : Fragment(), TopicItemCallback {
+@ExperimentalSerializationApi
+class StreamListFragment : ElmFragment<Event, Effect, State>(), TopicItemCallback {
     private lateinit var streamAdapter: StreamNameAdapter
-    private val viewModel: StreamViewModel by viewModels()
     private var tabState: Int = INIT_VALUE
     private var _binding: StreamViewPageFragmentBinding? = null
     private var currQuery: String = ""
@@ -36,61 +36,67 @@ class StreamListFragment : Fragment(), TopicItemCallback {
                 "Cannot access view in after view destroyed and before view creation"
             )
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        getArgument()
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.d("CallbackCheck", "onCreateView")
         _binding = StreamViewPageFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getArgument()
         setFragmentResultListener(
             "$KEY_QUERY_REQUEST$tabState"
         ) { _, bundle ->
             currQuery = bundle.getString(KEY_QUERY_DATA) ?: ""
-            viewModel.searchStreams(tabState, currQuery)
+            store.accept(getNeedEvent(currQuery))
         }
-        initObservers()
-        getStreamData()
+        initErrorRepeat()
         initRecycler()
-        Log.d("CallbackCheck", "onViewCreated Stream List")
     }
 
-    private fun getStreamData() {
-        tabState = requireArguments().getInt(ARG_OBJECT)
-        viewModel.getStreams(tabState)
-    }
-
-    private fun initObservers() {
-        viewModel.streamScreenState.observe(viewLifecycleOwner) { processStreamScreenState(it) }
+    private fun initErrorRepeat() {
         binding.errorContent.tvRepeat.setOnClickListener {
-            viewModel.getStreams(tabState)
+            store.accept(getNeedEvent())
         }
     }
 
-    private fun processStreamScreenState(stateStream: StreamScreenState) {
-        when (stateStream) {
-            is StreamScreenState.Error -> {
-                binding.rvStreams.visibility = View.GONE
-                binding.shStreams.off()
-                binding.nsvErrorConnection.visibility = View.VISIBLE
-                showToast(stateStream.error.message)
-            }
-            StreamScreenState.Loading -> {
-                binding.nsvErrorConnection.visibility = View.GONE
-                binding.shStreams.startShimmer()
-            }
-            is StreamScreenState.Result -> {
-                binding.nsvErrorConnection.isVisible = false
-                binding.shStreams.off()
-                binding.rvStreams.visibility = View.VISIBLE
-                dataStreamUpdate(stateStream.data)
-            }
+    /**
+     * show error layout
+     */
+    private fun showErrorScreen() {
+        with(binding) {
+            rvStreams.visibility = View.GONE
+            shStreams.off()
+            nsvErrorConnection.visibility = View.VISIBLE
+        }
+    }
+
+    /**
+     * show loading layout
+     */
+    private fun showLoadingScreen() {
+        with(binding) {
+            nsvErrorConnection.visibility = View.GONE
+            shStreams.startShimmer()
+        }
+    }
+
+    /**
+     * show result screen
+     */
+    private fun showResultScreen() {
+        with(binding) {
+            nsvErrorConnection.isVisible = false
+            shStreams.off()
+            rvStreams.visibility = View.VISIBLE
         }
     }
 
@@ -108,16 +114,7 @@ class StreamListFragment : Fragment(), TopicItemCallback {
             setTopicListener(this@StreamListFragment)
         }
         with(binding.rvStreams) {
-            val itemDecorator = DividerItemDecoration(
-                context,
-                DividerItemDecoration.VERTICAL
-            ).apply {
-                ResourcesCompat.getDrawable(
-                    resources,
-                    R.drawable.sh_item_border,
-                    context.theme
-                )?.let { setDrawable(it) }
-            }
+            val itemDecorator = getDividerItemDecoration()
             addItemDecoration(itemDecorator)
             adapter = streamAdapter
             layoutManager = LinearLayoutManager(context)
@@ -138,11 +135,50 @@ class StreamListFragment : Fragment(), TopicItemCallback {
         setFragmentResult(REQUEST_KEY_CHOICE, bundle)
     }
 
+    override val initEvent: Event
+        get() = getNeedEvent()
+
+    override fun render(state: State) {
+        if (state.isLoading) {
+            showLoadingScreen()
+            return
+        }
+        if (state.isSecondError) {
+            showErrorScreen()
+            return
+        }
+        if (state.itemList.first().errorHandle.isError.not()) {
+            showResultScreen()
+            dataStreamUpdate(state.itemList)
+        }
+    }
+
+    private fun getNeedEvent() = if (tabState == SUBSCRIBED_FRAGMENT) {
+        Event.Ui.LoadSubscribedStreams
+    } else {
+        Event.Ui.LoadAllStreams
+    }
+
+    private fun getNeedEvent(query: String) = if (tabState == SUBSCRIBED_FRAGMENT) {
+        Event.Ui.SearchSubscribedStreams(query)
+    } else {
+        Event.Ui.SearchStreams(query)
+    }
+
+    override fun createStore(): Store<Event, Effect, State> = getNeedStore()
+
+    private fun getNeedStore() = if (tabState == SUBSCRIBED_FRAGMENT) {
+        GlobalDI.instance.allStreamStoreFactory.provide()
+    } else {
+        GlobalDI.instance.subscribedStreamStoreFactory.provide()
+    }
+
     companion object {
         const val ARG_OBJECT = "object"
         const val REQUEST_KEY_CHOICE = "requestKeyChoice"
         const val STREAM_KEY = "stream"
         const val TOPIC_KEY = "topic"
         const val INIT_VALUE = -1
+        const val SUBSCRIBED_FRAGMENT = 0
     }
 }

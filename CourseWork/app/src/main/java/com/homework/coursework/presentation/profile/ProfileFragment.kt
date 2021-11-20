@@ -5,15 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import coil.load
-import com.homework.coursework.R
 import com.homework.coursework.databinding.ProfileFragmentBinding
 import com.homework.coursework.di.GlobalDI
-import com.homework.coursework.domain.entity.StatusEnum
 import com.homework.coursework.presentation.adapter.data.UserItem
 import com.homework.coursework.presentation.profile.elm.Effect
 import com.homework.coursework.presentation.profile.elm.Event
 import com.homework.coursework.presentation.profile.elm.State
-import com.homework.coursework.presentation.utils.getColor
 import com.homework.coursework.presentation.utils.off
 import com.homework.coursework.presentation.utils.showToast
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -32,7 +29,6 @@ class ProfileFragment : ElmFragment<Event, Effect, State>() {
             userId = savedInstanceState.getInt(USER_ID_KEY, DEFAULT_VALUE)
         }
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -47,6 +43,37 @@ class ProfileFragment : ElmFragment<Event, Effect, State>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initErrorRepeat()
+    }
+
+
+    override val initEvent: Event
+        get() = getNeedEvent()
+
+    override fun createStore(): Store<Event, Effect, State> =
+        GlobalDI.instance.profileElmStoreFactory.provide()
+
+    override fun render(state: State) {
+        if (state.item !is UserItem) {
+            return
+        }
+        if (state.isLoading) {
+            showLoadingScreen()
+            return
+        }
+        if (state.isSecondError){
+            showErrorScreen()
+            return
+        }
+        if (state.item.errorHandle.isError.not()){
+            showResultScreen()
+            updateView(state.item)
+        }
+    }
+
+    override fun handleEffect(effect: Effect) {
+        when (effect) {
+            is Effect.UserLoadError -> showToast(effect.error.message)
+        }
     }
 
     private fun initErrorRepeat() {
@@ -96,52 +123,6 @@ class ProfileFragment : ElmFragment<Event, Effect, State>() {
                 tvState.text = getStatusString(userItem.userStatus?.status)
                 tvState.setTextColor(getColor(getStatusColor(userItem.userStatus?.status)))
             }
-        }
-    }
-
-    private fun getStatusColor(status: StatusEnum?) = when (status) {
-        StatusEnum.ACTIVE -> R.color.state_active_color
-        StatusEnum.IDLE -> R.color.state_idle_color
-        StatusEnum.OFFLINE -> R.color.state_offline_color
-        StatusEnum.UNKNOWN -> R.color.state_offline_color
-        null -> throw IllegalArgumentException("status null")
-    }
-
-    private fun getStatusString(status: StatusEnum?) = when (status) {
-        StatusEnum.ACTIVE -> "active"
-        StatusEnum.IDLE -> "idle"
-        StatusEnum.OFFLINE -> "offline"
-        StatusEnum.UNKNOWN -> "unknown"
-        null -> throw IllegalArgumentException("status null")
-    }
-
-    override val initEvent: Event
-        get() = getNeedEvent()
-
-    override fun createStore(): Store<Event, Effect, State> =
-        GlobalDI.instance.elmStoreFactory.provide()
-
-    override fun render(state: State) {
-        if (state.item !is UserItem) {
-            return
-        }
-        if (state.isLoading) {
-            showLoadingScreen()
-            return
-        }
-        if (state.isSecondError){
-            showErrorScreen()
-            return
-        }
-        if (state.item.errorHandle.isError.not()){
-            showResultScreen()
-            updateView(state.item)
-        }
-    }
-
-    override fun handleEffect(effect: Effect) {
-        when (effect) {
-            is Effect.UserLoadError -> showToast(effect.error.message)
         }
     }
 
