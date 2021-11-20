@@ -3,7 +3,10 @@ package com.homework.coursework.presentation.profile.elm
 import vivid.money.elmslie.core.store.dsl_reducer.DslReducer
 
 class Reducer : DslReducer<Event, State, Effect, Command>() {
-    override fun Result.reduce(event: Event): Any = when (event) {
+
+    private var isSecondError = false
+
+    override fun Result.reduce(event: Event) = when (event) {
         is Event.Internal.ErrorLoading -> {
             state { copy(error = event.error, isLoading = false) }
         }
@@ -13,20 +16,40 @@ class Reducer : DslReducer<Event, State, Effect, Command>() {
         }
         is Event.Internal.MeLoaded -> {
             if (event.item.errorHandle.isError) {
+                handleResult(event)?.let { state { it } }
+            } else {
                 state {
                     copy(
                         item = event.item,
                         isLoading = false,
-                        error = event.item.errorHandle.error
+                        error = null,
+                        isSecondError = false
                     )
                 }
-            }
-            else {
-                state { copy(item = event.item, isLoading = false, error = null) }
             }
         }
         is Event.Ui.LoadUser -> {
             throw NotImplementedError()
         }
+    }
+
+    private fun handleResult(event: Event.Internal.MeLoaded): State? {
+        return if (isSecondError) {
+            State(
+                item = event.item,
+                isLoading = false,
+                isSecondError = isSecondErrorChange(),
+                error = event.item.errorHandle.error
+            )
+        } else {
+            isSecondErrorChange()
+            null
+        }
+    }
+
+    private fun isSecondErrorChange(): Boolean {
+        val temp = isSecondError
+        isSecondError = isSecondError.not()
+        return temp
     }
 }

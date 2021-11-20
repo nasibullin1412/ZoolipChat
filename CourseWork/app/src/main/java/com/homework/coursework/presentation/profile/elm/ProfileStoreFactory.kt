@@ -2,7 +2,7 @@ package com.homework.coursework.presentation.profile.elm
 
 import vivid.money.elmslie.core.ElmStoreCompat
 
-class StoreFactory(
+class ProfileStoreFactory(
     private val profileActor: ProfileActor
 ) {
 

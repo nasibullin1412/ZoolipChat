@@ -122,18 +122,26 @@ class ProfileFragment : ElmFragment<Event, Effect, State>() {
         GlobalDI.instance.elmStoreFactory.provide()
 
     override fun render(state: State) {
+        if (state.item !is UserItem) {
+            return
+        }
         if (state.isLoading) {
             showLoadingScreen()
             return
         }
-        state.error?.let {
+        if (state.isSecondError){
             showErrorScreen()
-            showToast(state.error.message)
             return
         }
-        showResultScreen()
-        if (state.item is UserItem) {
+        if (state.item.errorHandle.isError.not()){
+            showResultScreen()
             updateView(state.item)
+        }
+    }
+
+    override fun handleEffect(effect: Effect) {
+        when (effect) {
+            is Effect.UserLoadError -> showToast(effect.error.message)
         }
     }
 

@@ -13,7 +13,7 @@ import com.homework.coursework.domain.repository.UserRepository
 import com.homework.coursework.domain.usecase.*
 import com.homework.coursework.presentation.adapter.mapper.UserItemMapper
 import com.homework.coursework.presentation.profile.elm.ProfileActor
-import com.homework.coursework.presentation.profile.elm.StoreFactory
+import com.homework.coursework.presentation.profile.elm.ProfileStoreFactory
 import kotlinx.serialization.ExperimentalSerializationApi
 
 
@@ -105,7 +105,7 @@ class GlobalDI private constructor() {
     private val profileActor by lazy { ProfileActor(getMe = getMe, userItemMapper = userItemMapper) }
 
     val elmStoreFactory by lazy {
-        StoreFactory(profileActor)
+        ProfileStoreFactory(profileActor)
     }
 
     companion object {
