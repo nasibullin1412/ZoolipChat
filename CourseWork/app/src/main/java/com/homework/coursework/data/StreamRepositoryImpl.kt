@@ -93,7 +93,7 @@ class StreamRepositoryImpl(
     }
 
     private fun getLocalSubscribedStreams(): Observable<List<StreamData>> {
-        return streamDao.getAllStreams()
+        return streamDao.getSubscribedStreams()
             .map { if (it.isEmpty()) throw EmptyResultSetException("empty db") else it }
             .map(streamEntityMapper)
             .toObservable()

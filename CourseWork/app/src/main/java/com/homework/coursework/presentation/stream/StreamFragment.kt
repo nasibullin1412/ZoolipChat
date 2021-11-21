@@ -17,9 +17,9 @@ import com.homework.coursework.presentation.adapter.StreamAdapter
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
 import com.homework.coursework.presentation.interfaces.AddTopicDiscussion
-import com.homework.coursework.presentation.stream.StreamListFragment.Companion.REQUEST_KEY_CHOICE
-import com.homework.coursework.presentation.stream.StreamListFragment.Companion.STREAM_KEY
-import com.homework.coursework.presentation.stream.StreamListFragment.Companion.TOPIC_KEY
+import com.homework.coursework.presentation.stream.StreamItemBaseFragment.Companion.REQUEST_KEY_CHOICE
+import com.homework.coursework.presentation.stream.StreamItemBaseFragment.Companion.STREAM_KEY
+import com.homework.coursework.presentation.stream.StreamItemBaseFragment.Companion.TOPIC_KEY
 
 class StreamFragment : Fragment() {
 

@@ -9,10 +9,12 @@ class Reducer : DslReducer<Event, State, Effect, Command>() {
     override fun Result.reduce(event: Event) = when (event) {
         is Event.Internal.ErrorLoading -> {
             state { copy(error = event.error, isLoading = false, isSecondError = true) }
+            effects { +Effect.StreamLoadError(event.error) }
         }
         is Event.Internal.StreamLoaded -> {
-            if (event.itemList.first().errorHandle.isError) {
+            if (event.itemList.isNotEmpty() && event.itemList.first().errorHandle.isError) {
                 handleResult(event)?.let { state { it } }
+                effects { +Effect.StreamLoadError(event.itemList.first().errorHandle.error) }
             } else {
                 state {
                     copy(

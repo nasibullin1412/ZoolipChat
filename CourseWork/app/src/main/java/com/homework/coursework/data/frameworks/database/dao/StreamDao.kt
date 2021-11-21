@@ -37,4 +37,7 @@ interface StreamDao {
 
     @Query("SELECT * FROM stream_table")
     fun getAllStreams(): Single<List<StreamWithTopicsEntity>>
+
+    @Query("SELECT * FROM stream_table WHERE is_subscribed = 1")
+    fun getSubscribedStreams(): Single<List<StreamWithTopicsEntity>>
 }

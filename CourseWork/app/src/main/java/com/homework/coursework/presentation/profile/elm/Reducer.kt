@@ -8,6 +8,7 @@ class Reducer : DslReducer<Event, State, Effect, Command>() {
 
     override fun Result.reduce(event: Event) = when (event) {
         is Event.Internal.ErrorLoading -> {
+            effects { +Effect.UserLoadError(event.error) }
             state { copy(error = event.error, isLoading = false) }
         }
         Event.Ui.LoadMe -> {
@@ -17,6 +18,7 @@ class Reducer : DslReducer<Event, State, Effect, Command>() {
         is Event.Internal.MeLoaded -> {
             if (event.item.errorHandle.isError) {
                 handleResult(event)?.let { state { it } }
+                effects { +Effect.UserLoadError(event.item.errorHandle.error) }
             } else {
                 state {
                     copy(

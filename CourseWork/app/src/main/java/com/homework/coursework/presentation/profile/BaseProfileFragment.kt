@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import coil.load
 import com.homework.coursework.databinding.ProfileFragmentBinding
-import com.homework.coursework.di.GlobalDI
 import com.homework.coursework.presentation.adapter.data.UserItem
 import com.homework.coursework.presentation.profile.elm.Effect
 import com.homework.coursework.presentation.profile.elm.Event
@@ -15,21 +14,11 @@ import com.homework.coursework.presentation.utils.off
 import com.homework.coursework.presentation.utils.showToast
 import kotlinx.serialization.ExperimentalSerializationApi
 import vivid.money.elmslie.android.base.ElmFragment
-import vivid.money.elmslie.core.store.Store
 
 @ExperimentalSerializationApi
-class ProfileFragment : ElmFragment<Event, Effect, State>() {
-
+abstract class BaseProfileFragment : ElmFragment<Event, Effect, State>() {
     private var _binding: ProfileFragmentBinding? = null
-    private val binding get() = _binding!!
-    private var userId = DEFAULT_VALUE
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        savedInstanceState?.let {
-            userId = savedInstanceState.getInt(USER_ID_KEY, DEFAULT_VALUE)
-        }
-        super.onCreate(savedInstanceState)
-    }
+    protected val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,13 +34,6 @@ class ProfileFragment : ElmFragment<Event, Effect, State>() {
         initErrorRepeat()
     }
 
-
-    override val initEvent: Event
-        get() = getNeedEvent()
-
-    override fun createStore(): Store<Event, Effect, State> =
-        GlobalDI.instance.profileElmStoreFactory.provide()
-
     override fun render(state: State) {
         if (state.item !is UserItem) {
             return
@@ -60,11 +42,11 @@ class ProfileFragment : ElmFragment<Event, Effect, State>() {
             showLoadingScreen()
             return
         }
-        if (state.isSecondError){
+        if (state.isSecondError) {
             showErrorScreen()
             return
         }
-        if (state.item.errorHandle.isError.not()){
+        if (state.item.errorHandle.isError.not()) {
             showResultScreen()
             updateView(state.item)
         }
@@ -76,11 +58,7 @@ class ProfileFragment : ElmFragment<Event, Effect, State>() {
         }
     }
 
-    private fun initErrorRepeat() {
-        binding.errorContent.tvRepeat.setOnClickListener {
-            store.accept(getNeedEvent())
-        }
-    }
+    abstract fun initErrorRepeat()
 
     /**
      * show error layout
@@ -124,16 +102,5 @@ class ProfileFragment : ElmFragment<Event, Effect, State>() {
                 tvState.setTextColor(getColor(getStatusColor(userItem.userStatus?.status)))
             }
         }
-    }
-
-    private fun getNeedEvent() = if (userId == DEFAULT_VALUE) {
-        Event.Ui.LoadMe
-    } else {
-        Event.Ui.LoadUser(userId)
-    }
-
-    companion object {
-        const val USER_ID_KEY = "UserId"
-        const val DEFAULT_VALUE = -1
     }
 }

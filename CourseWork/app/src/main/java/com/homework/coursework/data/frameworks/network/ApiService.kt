@@ -45,7 +45,22 @@ interface ApiService {
      * @param numAfter the number of messages with IDs greater than the anchor to retrieve.
      */
     @GET("messages")
-    fun getMessages(
+    fun getFirstMessages(
+        @Query("anchor") anchor: String,
+        @Query("num_after") numAfter: Int,
+        @Query("num_before") numBefore: Int,
+        @Query("narrow") narrow: String,
+    ): Observable<MessagesResponse>
+
+    /**
+     * get messages of selected topic
+     * @param anchor supports special string values for when the client wants the server to
+     * compute the anchor to use
+     * @param numBefore the number of messages with IDs less than the anchor to retrieve.
+     * @param numAfter the number of messages with IDs greater than the anchor to retrieve.
+     */
+    @GET("messages")
+    fun loadMoreMessages(
         @Query("anchor") anchor: Int,
         @Query("num_after") numAfter: Int,
         @Query("num_before") numBefore: Int,

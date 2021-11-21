@@ -11,8 +11,9 @@ import com.homework.coursework.domain.repository.ReactionRepository
 import com.homework.coursework.domain.repository.StreamRepository
 import com.homework.coursework.domain.repository.UserRepository
 import com.homework.coursework.domain.usecase.*
-import com.homework.coursework.presentation.adapter.mapper.StreamItemMapper
-import com.homework.coursework.presentation.adapter.mapper.UserItemMapper
+import com.homework.coursework.presentation.adapter.mapper.*
+import com.homework.coursework.presentation.discuss.elm.ChatActor
+import com.homework.coursework.presentation.discuss.elm.ChatStoreFactory
 import com.homework.coursework.presentation.profile.elm.ProfileActor
 import com.homework.coursework.presentation.profile.elm.ProfileStoreFactory
 import com.homework.coursework.presentation.stream.elm.StreamActor
@@ -105,6 +106,18 @@ class GlobalDI private constructor() {
 
     private val streamItemMapper: StreamItemMapper by lazy { StreamItemMapper() }
 
+    private val streamDataMapper: StreamDataMapper by lazy { StreamDataMapper() }
+
+    private val topicDataMapper: TopicDataMapper by lazy { TopicDataMapper() }
+
+    private val discussItemMapper: DiscussItemMapper by lazy { DiscussItemMapper() }
+
+    private val messageDataMapper: MessageDataMapper by lazy { MessageDataMapper() }
+
+    private val messageDataListMapper: MessageListDataMapper by lazy { MessageListDataMapper() }
+
+    private val emojiDataMapper: EmojiDataMapper by lazy { EmojiDataMapper() }
+
     private val streamActor: StreamActor by lazy {
         StreamActor(
             streamToItemMapper = streamItemMapper,
@@ -122,6 +135,23 @@ class GlobalDI private constructor() {
         )
     }
 
+    private val discussActor by lazy {
+        ChatActor(
+            getTopicMessages = getTopicMessages,
+            addReactionToMessage = addReaction,
+            deleteReactionToMessage = deleteReactionToMessage,
+            addMessages = addMessage,
+            initMessages = initMessage,
+            saveMessage = saveMessage,
+            streamDataMapper = streamDataMapper,
+            topicDataMapper = topicDataMapper,
+            discussToItemMapper = discussItemMapper,
+            messageDataMapper = messageDataMapper,
+            messageListDataMapper = messageDataListMapper,
+            emojiDataMapper = emojiDataMapper
+        )
+    }
+
     val profileElmStoreFactory by lazy {
         ProfileStoreFactory(profileActor)
     }
@@ -132,6 +162,10 @@ class GlobalDI private constructor() {
 
     val allStreamStoreFactory by lazy {
         StreamStoreFactory(streamActor)
+    }
+
+    val topicChatStoreFactory by lazy {
+        ChatStoreFactory(discussActor)
     }
 
     companion object {

@@ -18,8 +18,7 @@ class MessageItemMapper : (List<MessageData>) -> (List<MessageItem>) {
                     messageContent = messageContent,
                     emojis = emojiItemMapper(emojis, USER_ID),
                     date = date,
-                    isCurrentUserMessage = isCurrentUserMessage,
-                    errorHandle = ErrorHandle(errorHandle.isError, errorHandle.error)
+                    isCurrentUserMessage = isCurrentUserMessage
                 )
             }
         }

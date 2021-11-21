@@ -1,21 +1,22 @@
 package com.homework.coursework.presentation.adapter
 
-import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.homework.coursework.presentation.stream.StreamListFragment
-import com.homework.coursework.presentation.stream.StreamListFragment.Companion.ARG_OBJECT
+import com.homework.coursework.presentation.stream.main.StreamAllFragment
+import com.homework.coursework.presentation.stream.main.StreamSubscribedFragment
 
 class StreamAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
     override fun getItemCount(): Int = NUMBER_OF_ITEMS
 
     override fun createFragment(position: Int): Fragment {
-        val fragment = StreamListFragment()
-        fragment.arguments = Bundle().apply {
-            putInt(ARG_OBJECT, position)
-        }
-        return fragment
+        return getNeedFragment(position)
+    }
+
+    private fun getNeedFragment(position: Int) = if (position == 0) {
+        StreamSubscribedFragment()
+    } else {
+        StreamAllFragment()
     }
 
     companion object {

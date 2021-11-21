@@ -24,7 +24,7 @@ internal fun getStatusString(status: StatusEnum?) = when (status) {
 }
 
 @ExperimentalSerializationApi
-internal fun ProfileFragment.getColor(colorId: Int) =
+internal fun BaseProfileFragment.getColor(colorId: Int) =
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         resources.getColor(colorId, requireContext().theme)
     } else {
