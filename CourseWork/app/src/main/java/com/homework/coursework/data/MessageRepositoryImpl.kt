@@ -63,7 +63,6 @@ class MessageRepositoryImpl(
         return loadMoreMessage(streamData, topicData)
     }
 
-
     override fun addMessages(
         streamData: StreamData,
         topicData: TopicData,
@@ -136,9 +135,7 @@ class MessageRepositoryImpl(
         val messageListAfterDrop = messageDataList.drop(dropNumber)
         val userMap = messageListAfterDrop.groupBy { it.userData }
         Observable.fromCallable {
-            userDao.insertAll(
-                userDataListMapper(userMap.keys.toList())
-            )
+            userDao.insertAll(userDataListMapper(userMap.keys.toList()))
         }.subscribeOn(Schedulers.io())
             .switchMap {
                 storeMessagesInDb(

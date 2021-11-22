@@ -75,6 +75,11 @@ abstract class StreamItemBaseFragment : ElmFragment<Event, Effect, State>(), Top
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+        store.accept(Event.Ui.OnStop)
+    }
+
     /**
      * show error layout
      */

@@ -21,8 +21,8 @@ class ChatActor(
     private val messageListDataMapper: MessageListDataMapper,
     private val emojiDataMapper: EmojiDataMapper
 ) : ActorCompat<Command, Event> {
-    override fun execute(command: Command): Observable<Event> = when (command) {
 
+    override fun execute(command: Command): Observable<Event> = when (command) {
         is Command.AddReaction -> {
             addReactionToMessage(
                 messageData = messageDataMapper(command.messageItem),
@@ -81,6 +81,7 @@ class ChatActor(
                     { error -> Event.Internal.ErrorLoading(error) }
                 )
         }
+
         is Command.SaveMessage -> {
             saveMessage(
                 streamData = streamDataMapper(command.streamItem),

@@ -114,7 +114,7 @@ class TopicChatFragment : ChatBaseFragment() {
             showLoadingScreen()
             return
         }
-        if (state.isSecondError) {
+        if (state.isError) {
             showErrorScreen()
             return
         }
@@ -126,7 +126,6 @@ class TopicChatFragment : ChatBaseFragment() {
 
     override fun handleEffect(effect: Effect) {
         when (effect) {
-
             is Effect.ErrorCommands -> {
                 showToast(effect.error.message)
             }

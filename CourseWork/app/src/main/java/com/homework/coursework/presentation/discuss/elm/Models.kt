@@ -11,7 +11,7 @@ data class State(
     val error: Throwable? = null,
     val messageId: Int = 0,
     val isLoading: Boolean = false,
-    val isSecondError: Boolean = false,
+    val isError: Boolean = false,
     val isUpdate: Boolean = false
 ) : Parcelable
 

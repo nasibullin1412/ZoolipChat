@@ -20,6 +20,7 @@ sealed class Event {
         object LoadSubscribedStreams : Ui()
         class SearchStreams(val query: String) : Ui()
         class SearchSubscribedStreams(val query: String) : Ui()
+        object OnStop: Ui()
     }
 
     sealed class Internal : Event() {

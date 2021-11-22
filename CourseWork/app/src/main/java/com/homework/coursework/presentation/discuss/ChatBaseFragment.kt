@@ -2,6 +2,7 @@ package com.homework.coursework.presentation.discuss
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -156,5 +157,4 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
         const val DEFAULT_MESSAGE_ID = -1
         const val DATABASE_MESSAGE_THRESHOLD = 50
     }
-
 }

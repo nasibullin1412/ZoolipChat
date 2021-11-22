@@ -1,10 +1,12 @@
 package com.homework.coursework.presentation.stream.elm
 
+import com.homework.coursework.presentation.interfaces.TwoSourceHandleReducer
 import vivid.money.elmslie.core.store.dsl_reducer.DslReducer
 
-class Reducer : DslReducer<Event, State, Effect, Command>() {
+class Reducer : DslReducer<Event, State, Effect, Command>(),
+    TwoSourceHandleReducer<Event.Internal.StreamLoaded, State> {
 
-    private var isSecondError = false
+    override var isSecondError = false
 
     override fun Result.reduce(event: Event) = when (event) {
         is Event.Internal.ErrorLoading -> {
@@ -12,7 +14,7 @@ class Reducer : DslReducer<Event, State, Effect, Command>() {
             effects { +Effect.StreamLoadError(event.error) }
         }
         is Event.Internal.StreamLoaded -> {
-            if (event.itemList.isNotEmpty() && event.itemList.first().errorHandle.isError) {
+            if (isWithError(event)) {
                 handleResult(event)?.let { state { it } }
                 effects { +Effect.StreamLoadError(event.itemList.first().errorHandle.error) }
             } else {
@@ -42,9 +44,12 @@ class Reducer : DslReducer<Event, State, Effect, Command>() {
             state { copy(isLoading = true, error = null) }
             commands { +Command.SearchSubscribedStreams(event.query) }
         }
+        Event.Ui.OnStop -> {
+            isSecondError = false
+        }
     }
 
-    private fun handleResult(event: Event.Internal.StreamLoaded): State? {
+    override fun handleResult(event: Event.Internal.StreamLoaded): State? {
         return if (isSecondError) {
             State(
                 itemList = event.itemList,
@@ -58,9 +63,7 @@ class Reducer : DslReducer<Event, State, Effect, Command>() {
         }
     }
 
-    private fun isSecondErrorChange(): Boolean {
-        val temp = isSecondError
-        isSecondError = isSecondError.not()
-        return temp
+    override fun isWithError(event: Event.Internal.StreamLoaded): Boolean {
+        return event.itemList.isNotEmpty() && event.itemList.first().errorHandle.isError
     }
 }

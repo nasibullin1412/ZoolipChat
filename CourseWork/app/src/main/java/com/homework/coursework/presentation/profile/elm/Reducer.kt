@@ -1,10 +1,12 @@
 package com.homework.coursework.presentation.profile.elm
 
+import com.homework.coursework.presentation.interfaces.TwoSourceHandleReducer
 import vivid.money.elmslie.core.store.dsl_reducer.DslReducer
 
-class Reducer : DslReducer<Event, State, Effect, Command>() {
+class Reducer : DslReducer<Event, State, Effect, Command>(),
+    TwoSourceHandleReducer<Event.Internal.MeLoaded, State> {
 
-    private var isSecondError = false
+    override var isSecondError = false
 
     override fun Result.reduce(event: Event) = when (event) {
         is Event.Internal.ErrorLoading -> {
@@ -16,7 +18,7 @@ class Reducer : DslReducer<Event, State, Effect, Command>() {
             commands { +Command.LoadMe }
         }
         is Event.Internal.MeLoaded -> {
-            if (event.item.errorHandle.isError) {
+            if (isWithError(event)) {
                 handleResult(event)?.let { state { it } }
                 effects { +Effect.UserLoadError(event.item.errorHandle.error) }
             } else {
@@ -33,9 +35,12 @@ class Reducer : DslReducer<Event, State, Effect, Command>() {
         is Event.Ui.LoadUser -> {
             throw NotImplementedError()
         }
+        Event.Ui.OnStop -> {
+            isSecondError = false
+        }
     }
 
-    private fun handleResult(event: Event.Internal.MeLoaded): State? {
+    override fun handleResult(event: Event.Internal.MeLoaded): State? {
         return if (isSecondError) {
             State(
                 item = event.item,
@@ -49,9 +54,7 @@ class Reducer : DslReducer<Event, State, Effect, Command>() {
         }
     }
 
-    private fun isSecondErrorChange(): Boolean {
-        val temp = isSecondError
-        isSecondError = isSecondError.not()
-        return temp
+    override fun isWithError(event: Event.Internal.MeLoaded): Boolean {
+        return event.item.errorHandle.isError
     }
 }

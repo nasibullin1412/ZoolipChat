@@ -58,6 +58,11 @@ abstract class BaseProfileFragment : ElmFragment<Event, Effect, State>() {
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+        store.accept(Event.Ui.OnStop)
+    }
+
     abstract fun initErrorRepeat()
 
     /**

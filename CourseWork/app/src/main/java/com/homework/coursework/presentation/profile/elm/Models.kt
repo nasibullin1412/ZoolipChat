@@ -19,6 +19,7 @@ sealed class Event {
 
     sealed class Ui : Event() {
         object LoadMe: Ui()
+        object OnStop: Ui()
         class LoadUser(userId: Int): Ui()
     }
 

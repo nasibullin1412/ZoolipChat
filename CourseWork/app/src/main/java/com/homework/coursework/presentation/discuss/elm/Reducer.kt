@@ -1,10 +1,10 @@
 package com.homework.coursework.presentation.discuss.elm
 
+import com.homework.coursework.presentation.interfaces.TwoSourceHandleReducer
 import vivid.money.elmslie.core.store.dsl_reducer.DslReducer
 
-class Reducer : DslReducer<Event, State, Effect, Command>() {
-
-    private var isSecondError = false
+class Reducer : DslReducer<Event, State, Effect, Command>(),
+    TwoSourceHandleReducer<Event.Internal.InitPageLoaded, State> {
 
     override fun Result.reduce(event: Event) = when (event) {
         is Event.Internal.ErrorLoading -> {
@@ -12,7 +12,7 @@ class Reducer : DslReducer<Event, State, Effect, Command>() {
                 copy(
                     error = event.error,
                     isLoading = false,
-                    isSecondError = true,
+                    isError = true,
                     isUpdate = false
                 )
             }
@@ -24,14 +24,14 @@ class Reducer : DslReducer<Event, State, Effect, Command>() {
         }
 
         is Event.Internal.InitPageLoaded -> {
-            if (event.itemList.isNotEmpty() && event.itemList.first().errorHandle.isError) {
+            if (isWithError(event)) {
                 handleResult(event)?.let { state { it } }
             } else {
                 state {
                     copy(
                         itemList = event.itemList,
                         isLoading = false,
-                        isSecondError = false,
+                        isError = false,
                         isUpdate = true
                     )
                 }
@@ -55,7 +55,7 @@ class Reducer : DslReducer<Event, State, Effect, Command>() {
                 copy(
                     itemList = event.itemList,
                     isLoading = false,
-                    isSecondError = false,
+                    isError = false,
                     isUpdate = true
                 )
             }
@@ -85,7 +85,8 @@ class Reducer : DslReducer<Event, State, Effect, Command>() {
             state {
                 copy(
                     isLoading = true,
-                    isSecondError = false
+                    isError = false,
+                    isUpdate = false
                 )
             }
             commands {
@@ -121,6 +122,7 @@ class Reducer : DslReducer<Event, State, Effect, Command>() {
             }
         }
         is Event.Ui.SaveMessage -> {
+            isSecondError = false
             commands {
                 +Command.SaveMessage(
                     streamItem = event.streamItem,
@@ -131,10 +133,12 @@ class Reducer : DslReducer<Event, State, Effect, Command>() {
         }
     }
 
-    private fun handleResult(event: Event.Internal.InitPageLoaded): State? {
+    override var isSecondError: Boolean = false
+
+    override fun handleResult(event: Event.Internal.InitPageLoaded): State? {
         return if (isSecondError) {
             State(
-                isSecondError = isSecondErrorChange(),
+                isError = isSecondErrorChange(),
                 error = event.itemList.first().errorHandle.error
             )
         } else {
@@ -143,9 +147,6 @@ class Reducer : DslReducer<Event, State, Effect, Command>() {
         }
     }
 
-    private fun isSecondErrorChange(): Boolean {
-        val temp = isSecondError
-        isSecondError = isSecondError.not()
-        return temp
-    }
+    override fun isWithError(event: Event.Internal.InitPageLoaded) =
+        event.itemList.isNotEmpty() && event.itemList.first().errorHandle.isError
 }
