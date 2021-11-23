@@ -18,8 +18,6 @@ import vivid.money.elmslie.android.base.ElmFragment
 
 abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageItemCallback {
 
-    private var bottomNavigationController: BottomNavigationController? = null
-
     internal lateinit var messageAdapter: MessageAdapter
 
     internal lateinit var scrollListener: PagingScrollListener
@@ -32,9 +30,11 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
 
     internal val internalStore get() = store
 
-    private var _binding: ChatFragmentBinding? = null
-
     internal val binding get() = _binding!!
+
+    private var bottomNavigationController: BottomNavigationController? = null
+
+    private var _binding: ChatFragmentBinding? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

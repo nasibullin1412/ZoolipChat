@@ -227,41 +227,6 @@ fun CustomFlexboxLayout.emojiLogic(
     }
 }
 
-/**
- * add date to recycler list
- * @param date is string with date
- */
-fun ArrayList<DiscussItem>.addDate(date: String) {
-    if (lastIndex == -1 || this[lastIndex].messageItem?.date?.toStringDate() == date) {
-        return
-    }
-    val curIdx = lastIndex + 1
-    add(
-        DiscussItem(
-            id = curIdx,
-            messageItem = null,
-            date = date
-        )
-    )
-}
-
-/**
- * add message to recycler list
- * @param messageItemList is list with new messages
- */
-fun ArrayList<DiscussItem>.addMessageItem(messageItemList: List<MessageItem>) {
-    val idx = lastIndex + 1
-    addAll(
-        messageItemList.mapIndexed { index, messageItem ->
-            DiscussItem(
-                id = idx + index,
-                messageItem = messageItem,
-                date = null
-            )
-        }
-    )
-}
-
 @ExperimentalSerializationApi
 fun FragmentTag.fragmentByTag(topic: TopicItem? = null, stream: StreamItem? = null): Fragment =
     when (this) {

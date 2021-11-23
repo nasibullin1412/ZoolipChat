@@ -3,8 +3,8 @@ package com.homework.coursework.presentation.adapter.mapper
 import com.homework.coursework.domain.entity.MessageData
 import com.homework.coursework.presentation.adapter.data.DiscussItem
 import com.homework.coursework.presentation.adapter.data.ErrorHandle
-import com.homework.coursework.presentation.utils.addDate
-import com.homework.coursework.presentation.utils.addMessageItem
+import com.homework.coursework.presentation.discuss.addDate
+import com.homework.coursework.presentation.discuss.addMessageItem
 import com.homework.coursework.presentation.utils.toStringDate
 
 class DiscussItemMapper : (List<MessageData>) -> (List<DiscussItem>) {

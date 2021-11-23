@@ -41,19 +41,6 @@ abstract class StreamItemBaseFragment : ElmFragment<Event, Effect, State>(), Top
         initRecycler()
     }
 
-    abstract val tabState: Int
-
-    abstract fun initErrorRepeat()
-
-    abstract fun setFragmentResultListener(savedInstanceState: Bundle?)
-
-    override fun onTopicItemClick(topic: TopicItem, stream: StreamItem) {
-        val bundle = Bundle().apply {
-            putParcelable(STREAM_KEY, stream)
-            putParcelable(TOPIC_KEY, topic)
-        }
-        setFragmentResult(REQUEST_KEY_CHOICE, bundle)
-    }
 
     override fun render(state: State) {
         if (state.isLoading) {
@@ -74,6 +61,20 @@ abstract class StreamItemBaseFragment : ElmFragment<Event, Effect, State>(), Top
         super.onStop()
         store.accept(Event.Ui.OnStop)
     }
+
+    override fun onTopicItemClick(topic: TopicItem, stream: StreamItem) {
+        val bundle = Bundle().apply {
+            putParcelable(STREAM_KEY, stream)
+            putParcelable(TOPIC_KEY, topic)
+        }
+        setFragmentResult(REQUEST_KEY_CHOICE, bundle)
+    }
+
+    abstract val tabState: Int
+
+    abstract fun initErrorRepeat()
+
+    abstract fun setFragmentResultListener(savedInstanceState: Bundle?)
 
     /**
      * show error layout
