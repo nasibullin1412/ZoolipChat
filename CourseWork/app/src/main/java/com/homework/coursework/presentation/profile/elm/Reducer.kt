@@ -4,20 +4,23 @@ import com.homework.coursework.presentation.interfaces.TwoSourceHandleReducer
 import vivid.money.elmslie.core.store.dsl_reducer.DslReducer
 
 class Reducer : DslReducer<Event, State, Effect, Command>(),
-    TwoSourceHandleReducer<Event.Internal.MeLoaded, State> {
+    TwoSourceHandleReducer<Event.Internal.UserLoaded, State> {
 
     override var isSecondError = false
 
     override fun Result.reduce(event: Event) = when (event) {
         is Event.Internal.ErrorLoading -> {
             effects { +Effect.UserLoadError(event.error) }
-            state { copy(error = event.error, isLoading = false) }
+            state {
+                copy(
+                    error = event.error,
+                    isError = true,
+                    isLoading = false,
+                    isUpdate = false
+                )
+            }
         }
-        Event.Ui.LoadMe -> {
-            state { copy(isLoading = true, error = null) }
-            commands { +Command.LoadMe }
-        }
-        is Event.Internal.MeLoaded -> {
+        is Event.Internal.UserLoaded -> {
             if (isWithError(event)) {
                 handleResult(event)?.let { state { it } }
                 effects { +Effect.UserLoadError(event.item.errorHandle.error) }
@@ -26,26 +29,29 @@ class Reducer : DslReducer<Event, State, Effect, Command>(),
                     copy(
                         item = event.item,
                         isLoading = false,
-                        error = null,
-                        isSecondError = false
+                        isError = false,
+                        isUpdate = true
                     )
                 }
             }
         }
+        Event.Ui.LoadMe -> {
+            state { copy(isLoading = true, isError = false, isUpdate = false) }
+            commands { +Command.LoadMe }
+        }
         is Event.Ui.LoadUser -> {
-            throw NotImplementedError()
+            state { copy(isLoading = true, isError = false, isUpdate = false) }
+            commands { +Command.LoadUser(event.userId) }
         }
         Event.Ui.OnStop -> {
             isSecondError = false
         }
     }
 
-    override fun handleResult(event: Event.Internal.MeLoaded): State? {
+    override fun handleResult(event: Event.Internal.UserLoaded): State? {
         return if (isSecondError) {
             State(
-                item = event.item,
-                isLoading = false,
-                isSecondError = isSecondErrorChange(),
+                isError = isSecondErrorChange(),
                 error = event.item.errorHandle.error
             )
         } else {
@@ -54,7 +60,7 @@ class Reducer : DslReducer<Event, State, Effect, Command>(),
         }
     }
 
-    override fun isWithError(event: Event.Internal.MeLoaded): Boolean {
+    override fun isWithError(event: Event.Internal.UserLoaded): Boolean {
         return event.item.errorHandle.isError
     }
 }

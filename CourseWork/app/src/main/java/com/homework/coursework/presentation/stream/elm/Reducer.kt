@@ -10,7 +10,14 @@ class Reducer : DslReducer<Event, State, Effect, Command>(),
 
     override fun Result.reduce(event: Event) = when (event) {
         is Event.Internal.ErrorLoading -> {
-            state { copy(error = event.error, isLoading = false, isSecondError = true) }
+            state {
+                copy(
+                    error = event.error,
+                    isError = true,
+                    isLoading = false,
+                    isUpdate = false
+                )
+            }
             effects { +Effect.StreamLoadError(event.error) }
         }
         is Event.Internal.StreamLoaded -> {
@@ -21,27 +28,27 @@ class Reducer : DslReducer<Event, State, Effect, Command>(),
                 state {
                     copy(
                         itemList = event.itemList,
+                        isUpdate = true,
                         isLoading = false,
-                        error = null,
-                        isSecondError = false
+                        isError = false
                     )
                 }
             }
         }
         Event.Ui.LoadAllStreams -> {
-            state { copy(isLoading = true, error = null) }
+            state { copy(isLoading = true, isUpdate = false, isError = false) }
             commands { +Command.LoadAllStreams }
         }
         Event.Ui.LoadSubscribedStreams -> {
-            state { copy(isLoading = true, error = null) }
+            state { copy(isLoading = true, isUpdate = false, isError = false) }
             commands { +Command.LoadSubscribedStreams }
         }
         is Event.Ui.SearchStreams -> {
-            state { copy(isLoading = true, error = null) }
+            state { copy(isLoading = true, isUpdate = false, isError = false) }
             commands { +Command.SearchStreams(event.query) }
         }
         is Event.Ui.SearchSubscribedStreams -> {
-            state { copy(isLoading = true, error = null) }
+            state { copy(isLoading = true, isUpdate = false, isError = false) }
             commands { +Command.SearchSubscribedStreams(event.query) }
         }
         Event.Ui.OnStop -> {
@@ -52,9 +59,7 @@ class Reducer : DslReducer<Event, State, Effect, Command>(),
     override fun handleResult(event: Event.Internal.StreamLoaded): State? {
         return if (isSecondError) {
             State(
-                itemList = event.itemList,
-                isLoading = false,
-                isSecondError = isSecondErrorChange(),
+                isError = isSecondErrorChange(),
                 error = event.itemList.first().errorHandle.error
             )
         } else {

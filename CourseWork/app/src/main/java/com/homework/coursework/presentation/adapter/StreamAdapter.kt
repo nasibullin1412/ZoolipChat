@@ -4,7 +4,9 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.homework.coursework.presentation.stream.main.StreamAllFragment
 import com.homework.coursework.presentation.stream.main.StreamSubscribedFragment
+import kotlinx.serialization.ExperimentalSerializationApi
 
+@ExperimentalSerializationApi
 class StreamAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
     override fun getItemCount(): Int = NUMBER_OF_ITEMS

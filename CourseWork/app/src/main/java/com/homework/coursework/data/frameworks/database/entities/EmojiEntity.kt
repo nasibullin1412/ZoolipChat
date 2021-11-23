@@ -25,8 +25,10 @@ data class EmojiEntity(
     val emojiName: String,
     @ColumnInfo(name = "emoji_code")
     val emojiCode: String,
-    @ColumnInfo(name = "user_id")
-    val userId: Int,
     @ColumnInfo(name = "emoji_message_id")
-    val messageId: Int
+    val messageId: Int,
+    @ColumnInfo(name = "emoji_number")
+    val emojiNumber: Int,
+    @ColumnInfo(name = "is_me")
+    val isMe: Boolean
 )

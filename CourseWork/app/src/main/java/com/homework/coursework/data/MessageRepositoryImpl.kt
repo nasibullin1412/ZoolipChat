@@ -14,7 +14,7 @@ import com.homework.coursework.data.frameworks.database.mappersimpl.MessageEntit
 import com.homework.coursework.data.frameworks.database.mappersimpl.UserDataListMapper
 import com.homework.coursework.data.frameworks.network.ApiService
 import com.homework.coursework.data.frameworks.network.mappersimpl.MessageDtoMapper
-import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.FIRST_UNREAD
+import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.NEWEST
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.NUM_AFTER
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.NUM_BEFORE
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.STREAM
@@ -96,7 +96,7 @@ class MessageRepositoryImpl(
     ): Observable<List<MessageData>> {
         val narrow = Narrow.createNarrowForMessage(streamData, topicData)
         return apiService.getFirstMessages(
-            anchor = FIRST_UNREAD,
+            anchor = NEWEST,
             numAfter = NUM_AFTER,
             numBefore = NUM_BEFORE,
             narrow = narrow

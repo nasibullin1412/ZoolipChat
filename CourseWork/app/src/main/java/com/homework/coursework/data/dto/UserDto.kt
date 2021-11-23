@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class UserDto(
-    val result: String,
-    val msg: String?,
+    val result: String? = null,
+    val msg: String? = null,
     @SerialName("user_id")
     val id: Int,
     val email: String,

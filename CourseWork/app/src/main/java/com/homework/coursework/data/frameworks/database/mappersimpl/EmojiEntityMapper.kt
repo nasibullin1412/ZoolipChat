@@ -5,15 +5,15 @@ import com.homework.coursework.domain.entity.EmojiData
 
 class EmojiEntityMapper : (List<EmojiEntity>) -> (List<EmojiData>) {
     override fun invoke(emojis: List<EmojiEntity>): List<EmojiData> {
-        val emojiMap = emojis.groupBy { it.emojiCode }
         val emojisData: ArrayList<EmojiData> = arrayListOf()
-        for (key in emojiMap.keys) {
+        for (emoji in emojis) {
+            val emojiReactedId = List(emoji.emojiNumber) { it + 1 }
             emojisData.add(
                 EmojiData(
-                    emojiCode = key,
-                    emojiNumber = emojiMap[key]?.size ?: 0,
-                    emojiReactedId = emojiMap[key]?.map { it.userId } ?: listOf(),
-                    emojiName = emojiMap[key]?.first()?.emojiName ?: ""
+                    emojiCode = emoji.emojiCode,
+                    emojiNumber = emoji.emojiNumber,
+                    emojiReactedId = emojiReactedId,
+                    emojiName = emoji.emojiName
                 )
             )
         }

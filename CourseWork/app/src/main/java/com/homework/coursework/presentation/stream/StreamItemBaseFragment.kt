@@ -60,16 +60,11 @@ abstract class StreamItemBaseFragment : ElmFragment<Event, Effect, State>(), Top
             showLoadingScreen()
             return
         }
-        if (state.isSecondError) {
+        if (state.isError) {
             showErrorScreen()
             return
         }
-        if (state.itemList.isEmpty()) {
-            showResultScreen()
-            dataStreamUpdate(state.itemList)
-            return
-        }
-        if (state.itemList.first().errorHandle.isError.not()) {
+        if (state.isUpdate) {
             showResultScreen()
             dataStreamUpdate(state.itemList)
         }

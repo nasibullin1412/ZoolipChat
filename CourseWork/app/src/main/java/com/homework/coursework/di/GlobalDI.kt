@@ -20,14 +20,13 @@ import com.homework.coursework.presentation.stream.elm.StreamActor
 import com.homework.coursework.presentation.stream.elm.StreamStoreFactory
 import kotlinx.serialization.ExperimentalSerializationApi
 
-
 @ExperimentalSerializationApi
 class GlobalDI private constructor() {
 
     private val apiService: ApiService by lazy { ApiService.instance }
     private val appDatabase: AppDatabase by lazy { AppDatabase.instance }
 
-    val messageRepository: MessageRepository by lazy {
+    private val messageRepository: MessageRepository by lazy {
         MessageRepositoryImpl(
             apiService = apiService,
             messageDao = appDatabase.messageDao(),
@@ -36,70 +35,74 @@ class GlobalDI private constructor() {
         )
     }
 
-    val reactionRepository: ReactionRepository by lazy {
+    private val reactionRepository: ReactionRepository by lazy {
         ReactionRepositoryImpl(apiService = apiService)
     }
 
-    val streamRepository: StreamRepository by lazy {
+    private val streamRepository: StreamRepository by lazy {
         StreamRepositoryImpl(
             apiService = apiService,
             streamDao = appDatabase.streamDao()
         )
     }
 
-    val userRepository: UserRepository by lazy {
+    private val userRepository: UserRepository by lazy {
         UserRepositoryImpl(
             apiService = apiService,
             userDao = appDatabase.userDao()
         )
     }
 
-    val addMessage: AddMessageUseCase by lazy {
+    private val addMessage: AddMessageUseCase by lazy {
         AddMessageUseCaseImpl(
             messageRepository
         )
     }
 
-    val addReaction: AddReactionToMessageUseCase by lazy {
+    private val addReaction: AddReactionToMessageUseCase by lazy {
         AddReactionToMessageUseCaseImpl(
             reactionRepository
         )
     }
 
-    val deleteReactionToMessage: DeleteReactionToMessageUseCase by lazy {
+    private val deleteReactionToMessage: DeleteReactionToMessageUseCase by lazy {
         DeleteReactionToMessageUseCaseImpl(reactionRepository)
     }
 
-    val getAllStreams: GetAllStreamsUseCase by lazy {
+    private val getAllStreams: GetAllStreamsUseCase by lazy {
         GetAllStreamsUseCaseImpl(streamRepository)
     }
 
-    val getMe: GetMeUseCase by lazy {
+    private val getMe: GetMeUseCase by lazy {
         GetMeUseCaseImpl(userRepository)
     }
 
-    val getSubscribedStreams: GetSubscribedStreamsUseCase by lazy {
+    private val getSubscribedStreams: GetSubscribedStreamsUseCase by lazy {
         GetSubscribedStreamsUseCaseImpl(streamRepository)
     }
 
-    val getTopicMessages: GetTopicMessagesUseCase by lazy {
+    private val getTopicMessages: GetTopicMessagesUseCase by lazy {
         GetTopicMessagesUseCaseImpl(messageRepository)
     }
 
-    val initMessage: InitMessageUseCase by lazy {
+    private val initMessage: InitMessageUseCase by lazy {
         InitMessageUseCaseImpl(messageRepository)
     }
 
-    val saveMessage: SaveMessageUseCase by lazy {
+    private val saveMessage: SaveMessageUseCase by lazy {
         SaveMessageUseCaseImpl(messageRepository)
     }
 
-    val searchAllStreams: SearchAllStreamsUseCase by lazy {
+    private val searchAllStreams: SearchAllStreamsUseCase by lazy {
         SearchAllStreamsUseCaseImpl(streamRepository)
     }
 
-    val searchSubscribedStreams: SearchSubscribeStreamsUseCase by lazy {
+    private val searchSubscribedStreams: SearchSubscribeStreamsUseCase by lazy {
         SearchSubscribeStreamsUseCaseImpl(streamRepository)
+    }
+
+    private val getUserProfileUseCase: GetUserProfileUseCase by lazy {
+        GetUserProfileUseCaseImpl(userRepository)
     }
 
     private val userItemMapper: UserItemMapper by lazy { UserItemMapper() }
@@ -131,7 +134,8 @@ class GlobalDI private constructor() {
     private val profileActor by lazy {
         ProfileActor(
             getMe = getMe,
-            userItemMapper = userItemMapper
+            userItemMapper = userItemMapper,
+            getUser = getUserProfileUseCase
         )
     }
 
@@ -152,7 +156,11 @@ class GlobalDI private constructor() {
         )
     }
 
-    val profileElmStoreFactory by lazy {
+    val profileMeElmStoreFactory by lazy {
+        ProfileStoreFactory(profileActor)
+    }
+
+    val profileUserElmStoreFactory by lazy {
         ProfileStoreFactory(profileActor)
     }
 

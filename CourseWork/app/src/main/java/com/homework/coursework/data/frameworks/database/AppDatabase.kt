@@ -20,7 +20,7 @@ import com.homework.coursework.presentation.App
         EmojiEntity::class,
         MessageToUserCrossRef::class
     ],
-    version = 1
+    version = 2
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao

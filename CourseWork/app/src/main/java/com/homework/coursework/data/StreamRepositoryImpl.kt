@@ -25,7 +25,7 @@ import kotlinx.serialization.ExperimentalSerializationApi
 class StreamRepositoryImpl(
     private val apiService: ApiService,
     private val streamDao: StreamDao,
-    ) : StreamRepository {
+) : StreamRepository {
 
     private val streamDtoMapper: StreamMapper<List<StreamWithTopics>> = StreamDtoMapper()
     private val streamDataMapper: StreamDataMapper = StreamDataMapper()

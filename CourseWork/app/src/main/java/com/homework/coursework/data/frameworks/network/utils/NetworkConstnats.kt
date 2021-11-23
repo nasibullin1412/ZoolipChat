@@ -14,5 +14,8 @@ object NetworkConstants {
     const val READ_TIMEOUT = 5.toLong()
     const val WRITE_TIMEOUT = 5.toLong()
     const val USER_ID = 455625
-    const val FIRST_UNREAD = "first_unread"
+    const val NEWEST = "newest"
+
+    //random user id need for test
+    const val SOME_ANOTHER_USER_ID = 454962
 }

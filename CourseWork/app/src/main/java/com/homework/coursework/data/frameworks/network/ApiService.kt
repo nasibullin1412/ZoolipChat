@@ -12,7 +12,6 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.http.*
 
-
 @ExperimentalSerializationApi
 interface ApiService {
 
@@ -118,6 +117,13 @@ interface ApiService {
      */
     @GET("users/me")
     fun getMe(): Observable<UserDto>
+
+    /**
+     * Get user data
+     * @param id is id of user who data need
+     */
+    @GET("users/{id}")
+    fun getUser(@Path("id") id: Int): Observable<UserResponse>
 
     /**
      * Get status of user

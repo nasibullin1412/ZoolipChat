@@ -2,7 +2,6 @@ package com.homework.coursework.presentation.discuss
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,14 +9,11 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.homework.coursework.databinding.ChatFragmentBinding
 import com.homework.coursework.presentation.adapter.MessageAdapter
 import com.homework.coursework.presentation.adapter.data.EmojiItem
-import com.homework.coursework.presentation.adapter.data.StreamItem
-import com.homework.coursework.presentation.adapter.data.TopicItem
 import com.homework.coursework.presentation.discuss.elm.Effect
 import com.homework.coursework.presentation.discuss.elm.Event
 import com.homework.coursework.presentation.discuss.elm.State
 import com.homework.coursework.presentation.interfaces.BottomNavigationController
 import com.homework.coursework.presentation.interfaces.MessageItemCallback
-import com.homework.coursework.presentation.stream.StreamItemBaseFragment
 import vivid.money.elmslie.android.base.ElmFragment
 
 abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageItemCallback {

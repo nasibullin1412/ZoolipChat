@@ -35,20 +35,19 @@ abstract class BaseProfileFragment : ElmFragment<Event, Effect, State>() {
     }
 
     override fun render(state: State) {
-        if (state.item !is UserItem) {
-            return
-        }
         if (state.isLoading) {
             showLoadingScreen()
             return
         }
-        if (state.isSecondError) {
+        if (state.isError) {
             showErrorScreen()
             return
         }
-        if (state.item.errorHandle.isError.not()) {
-            showResultScreen()
-            updateView(state.item)
+        if (state.isUpdate) {
+            if (state.item is UserItem) {
+                showResultScreen()
+                updateView(state.item)
+            }
         }
     }
 

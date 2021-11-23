@@ -40,11 +40,11 @@ class UserRepositoryImpl(
     override fun getUser(): Observable<UserData> {
         return Observable.concatArrayEagerDelayError(
             getLocalUser(),
-            getRemoteUser()
+            getRemoteMe()
         )
     }
 
-    private fun getRemoteUser(): Observable<UserData> {
+    private fun getRemoteMe(): Observable<UserData> {
         return apiService.getMe()
             .flatMap { userDto -> zipUserAndStatus(userDto) }
             .map(userDtoMapper)
@@ -84,7 +84,20 @@ class UserRepositoryImpl(
         }
     }
 
+    private fun getRemoteUser(id: Int): Observable<UserData> {
+        return apiService.getUser(id)
+            .flatMap { userResponse -> zipUserAndStatus(userResponse.data!!) }
+            .map(userDtoMapper)
+            .doOnNext { storeUsersInDb(userDataMapper(it)) }
+            .onErrorReturn { error: Throwable ->
+                UserData.getErrorObject(error)
+            }
+    }
+
     override fun getUser(id: Int): Observable<UserData> {
-        throw NotImplementedError()
+        return Observable.concatArrayEagerDelayError(
+            getLocalUser(userId = id.toLong()),
+            getRemoteUser(id)
+        )
     }
 }

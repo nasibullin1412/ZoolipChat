@@ -18,7 +18,7 @@ import androidx.fragment.app.FragmentManager
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.imageview.ShapeableImageView
 import com.homework.coursework.R
-import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.USER_ID
+import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.SOME_ANOTHER_USER_ID
 import com.homework.coursework.presentation.adapter.data.*
 import com.homework.coursework.presentation.customview.CustomEmojiView
 import com.homework.coursework.presentation.customview.CustomFlexboxLayout
@@ -117,24 +117,6 @@ fun TextView.initEmojiToBottomSheet(emojiCode: String) {
         setTextColor(resources.getColor(R.color.white))
     }
     textAlignment = View.TEXT_ALIGNMENT_CENTER
-}
-
-/**
- * On existed emoji check logic. Increase or decrease emoji number
- * @param idx is index of emoji in emoji list
- */
-fun ArrayList<EmojiItem>.checkExistedEmoji(idx: Int) {
-    if (this[idx].isCurrUserReacted) {
-        this[idx].isCurrUserReacted = false
-        if (this[idx].emojiNumber > 1) {
-            this[idx].emojiNumber -= 1
-            return
-        }
-        removeAt(idx)
-    } else {
-        this[idx].emojiNumber += 1
-        this[idx].isCurrUserReacted = true
-    }
 }
 
 /**
@@ -286,7 +268,7 @@ fun FragmentTag.fragmentByTag(topic: TopicItem? = null, stream: StreamItem? = nu
         FragmentTag.CHANNEL_FRAGMENT_TAG -> StreamFragment()
         FragmentTag.PROFILE_FRAGMENT_TAG -> CurrUserProfileFragment()
         FragmentTag.PEOPLE_FRAGMENT_TAG -> {
-            UserProfileFragment.newInstance(USER_ID)
+            UserProfileFragment.newInstance(SOME_ANOTHER_USER_ID)
         }
         FragmentTag.TOPIC_DISCUSSION_FRAGMENT_TAG -> {
             if (topic != null && stream != null) {
@@ -306,7 +288,7 @@ fun AppCompatActivity.addFragment(fragment: Fragment, tag: FragmentTag) {
             )
         } else {
             supportFragmentManager.beginTransaction()
-                .add(R.id.nav_host_fragment, fragment, tag.value)
+                .replace(R.id.nav_host_fragment, fragment, tag.value)
                 .commit()
         }
         return

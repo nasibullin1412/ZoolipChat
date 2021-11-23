@@ -15,7 +15,7 @@ class CurrUserProfileFragment : BaseProfileFragment() {
         get() = Event.Ui.LoadMe
 
     override fun createStore(): Store<Event, Effect, State> =
-        GlobalDI.instance.profileElmStoreFactory.provide()
+        GlobalDI.instance.profileMeElmStoreFactory.provide()
 
     override fun initErrorRepeat() {
         binding.errorContent.tvRepeat.setOnClickListener {

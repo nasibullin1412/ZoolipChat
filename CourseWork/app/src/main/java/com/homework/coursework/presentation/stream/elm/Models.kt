@@ -10,7 +10,8 @@ data class State(
     val itemList: @RawValue List<StreamItem> = emptyList(),
     val error: Throwable? = null,
     val isLoading: Boolean = false,
-    val isSecondError: Boolean = true
+    val isError: Boolean = false,
+    val isUpdate: Boolean = false
 ) : Parcelable
 
 sealed class Event {
@@ -20,7 +21,7 @@ sealed class Event {
         object LoadSubscribedStreams : Ui()
         class SearchStreams(val query: String) : Ui()
         class SearchSubscribedStreams(val query: String) : Ui()
-        object OnStop: Ui()
+        object OnStop : Ui()
     }
 
     sealed class Internal : Event() {

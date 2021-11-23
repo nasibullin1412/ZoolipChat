@@ -10,8 +10,8 @@ class StreamDtoMapper : StreamMapper<List<StreamWithTopics>> {
 
     private val topicDtoMapper: TopicDtoMapper = TopicDtoMapper()
 
-    override fun invoke(streamsWithtopics: List<StreamWithTopics>): List<StreamData> {
-        return streamsWithtopics.map { streamPair ->
+    override fun invoke(streams: List<StreamWithTopics>): List<StreamData> {
+        return streams.map { streamPair ->
             with(streamPair) {
                 StreamData(
                     id = first.streamId,
