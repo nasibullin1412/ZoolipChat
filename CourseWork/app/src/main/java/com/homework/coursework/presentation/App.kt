@@ -2,20 +2,22 @@ package com.homework.coursework.presentation
 
 import android.app.Application
 import android.content.Context
+import com.homework.coursework.di.DaggerApplicationComponent
 import com.homework.coursework.di.GlobalDI
+import com.homework.coursework.di.ApplicationComponent
 import kotlinx.serialization.ExperimentalSerializationApi
 
+@ExperimentalSerializationApi
 class App : Application() {
 
-    @ExperimentalSerializationApi
     override fun onCreate() {
         super.onCreate()
-        appContext = applicationContext
+        appComponent = DaggerApplicationComponent.factory().create(this.applicationContext)
         GlobalDI.init()
     }
 
     companion object {
-        lateinit var appContext: Context
+        lateinit var appComponent: ApplicationComponent
             private set
     }
 }

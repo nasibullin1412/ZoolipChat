@@ -23,6 +23,7 @@ import com.homework.coursework.domain.entity.MessageData
 import com.homework.coursework.domain.entity.StreamData
 import com.homework.coursework.domain.entity.TopicData
 import com.homework.coursework.domain.repository.MessageRepository
+import dagger.Lazy
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -30,10 +31,11 @@ import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import kotlinx.serialization.ExperimentalSerializationApi
+import javax.inject.Inject
 
 @ExperimentalSerializationApi
-class MessageRepositoryImpl(
-    private val apiService: ApiService,
+class MessageRepositoryImpl @Inject constructor(
+    private val _apiService: Lazy<ApiService>,
     private val messageDao: MessageDao,
     private val messageToUserCrossRefDao: MessageToUserCrossRefDao,
     private val userDao: UserDao
@@ -45,6 +47,7 @@ class MessageRepositoryImpl(
     private val userDataListMapper: UserDataListMapper = UserDataListMapper()
     private val messageEntityMapper: MessageMapper<List<MessageWithEmojiEntity>> =
         MessageEntityMapper()
+    private val apiService: ApiService get() = _apiService.get()
 
     override fun initMessages(
         streamData: StreamData,

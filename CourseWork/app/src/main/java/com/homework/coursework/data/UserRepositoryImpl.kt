@@ -14,16 +14,18 @@ import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.US
 import com.homework.coursework.data.mappers.UserMapper
 import com.homework.coursework.domain.entity.UserData
 import com.homework.coursework.domain.repository.UserRepository
+import dagger.Lazy
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import kotlinx.serialization.ExperimentalSerializationApi
+import javax.inject.Inject
 
 @ExperimentalSerializationApi
-class UserRepositoryImpl(
-    private val apiService: ApiService,
+class UserRepositoryImpl @Inject constructor(
+    private val _apiService: Lazy<ApiService>,
     private val userDao: UserDao
 ) : UserRepository {
 
@@ -31,6 +33,7 @@ class UserRepositoryImpl(
     private val userEntityMapper: UserMapper<UserEntity> = UserEntityMapper()
     private val userDataMapper: UserDataMapper = UserDataMapper()
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
+    private val apiService: ApiService get() = _apiService.get()
 
     private fun getStatus(userDto: UserDto): Observable<StatusDto> {
         return apiService.getStatus(userDto.id)

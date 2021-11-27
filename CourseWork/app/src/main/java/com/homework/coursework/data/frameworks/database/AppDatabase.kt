@@ -10,6 +10,7 @@ import com.homework.coursework.data.frameworks.database.dao.StreamDao
 import com.homework.coursework.data.frameworks.database.dao.UserDao
 import com.homework.coursework.data.frameworks.database.entities.*
 import com.homework.coursework.presentation.App
+import kotlinx.serialization.ExperimentalSerializationApi
 
 @Database(
     entities = [
@@ -20,7 +21,7 @@ import com.homework.coursework.presentation.App
         EmojiEntity::class,
         MessageToUserCrossRef::class
     ],
-    version = 2
+    version = 3
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
@@ -30,9 +31,10 @@ abstract class AppDatabase : RoomDatabase() {
 
     companion object {
         private const val DATABASE_NAME = "Streams.db"
+        @ExperimentalSerializationApi
         val instance: AppDatabase by lazy {
             Room.databaseBuilder(
-                App.appContext,
+                App.appComponent.context(),
                 AppDatabase::class.java,
                 DATABASE_NAME
             )

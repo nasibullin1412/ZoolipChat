@@ -2,9 +2,13 @@ package com.homework.coursework.data.frameworks.database.crossref
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "mes_to_user")
+@Entity(
+    tableName = "mes_to_user",
+    indices = [Index(value = ["message_id", "user_id"])]
+)
 data class MessageToUserCrossRef(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")

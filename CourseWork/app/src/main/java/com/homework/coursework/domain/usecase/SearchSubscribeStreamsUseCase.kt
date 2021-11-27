@@ -3,6 +3,7 @@ package com.homework.coursework.domain.usecase
 import com.homework.coursework.domain.entity.StreamData
 import com.homework.coursework.domain.repository.StreamRepository
 import io.reactivex.Observable
+import javax.inject.Inject
 
 /**
  * Used to search for subscribed streams by query.
@@ -13,7 +14,7 @@ interface SearchSubscribeStreamsUseCase : (String) -> Observable<List<StreamData
     override fun invoke(searchQuery: String): Observable<List<StreamData>>
 }
 
-class SearchSubscribeStreamsUseCaseImpl(
+class SearchSubscribeStreamsUseCaseImpl @Inject constructor(
     private val streamRepository: StreamRepository
 ) : SearchSubscribeStreamsUseCase {
 

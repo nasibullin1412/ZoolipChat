@@ -1,16 +1,7 @@
 package com.homework.coursework.di
 
-import com.homework.coursework.data.MessageRepositoryImpl
-import com.homework.coursework.data.ReactionRepositoryImpl
-import com.homework.coursework.data.StreamRepositoryImpl
-import com.homework.coursework.data.UserRepositoryImpl
-import com.homework.coursework.data.frameworks.database.AppDatabase
-import com.homework.coursework.data.frameworks.network.ApiService
-import com.homework.coursework.domain.repository.MessageRepository
-import com.homework.coursework.domain.repository.ReactionRepository
-import com.homework.coursework.domain.repository.StreamRepository
-import com.homework.coursework.domain.repository.UserRepository
 import com.homework.coursework.domain.usecase.*
+import com.homework.coursework.presentation.App
 import com.homework.coursework.presentation.adapter.mapper.*
 import com.homework.coursework.presentation.discuss.elm.ChatActor
 import com.homework.coursework.presentation.discuss.elm.ChatStoreFactory
@@ -19,91 +10,46 @@ import com.homework.coursework.presentation.profile.elm.ProfileStoreFactory
 import com.homework.coursework.presentation.stream.elm.StreamActor
 import com.homework.coursework.presentation.stream.elm.StreamStoreFactory
 import kotlinx.serialization.ExperimentalSerializationApi
+import javax.inject.Inject
 
 @ExperimentalSerializationApi
 class GlobalDI private constructor() {
 
-    private val apiService: ApiService by lazy { ApiService.instance }
-    private val appDatabase: AppDatabase by lazy { AppDatabase.instance }
+    @Inject
+    lateinit var addMessage: AddMessageUseCase
 
-    private val messageRepository: MessageRepository by lazy {
-        MessageRepositoryImpl(
-            apiService = apiService,
-            messageDao = appDatabase.messageDao(),
-            userDao = appDatabase.userDao(),
-            messageToUserCrossRefDao = appDatabase.messageToUserCrossRefDao()
-        )
-    }
+    @Inject
+    lateinit var addReaction: AddReactionToMessageUseCase
 
-    private val reactionRepository: ReactionRepository by lazy {
-        ReactionRepositoryImpl(apiService = apiService)
-    }
+    @Inject
+    lateinit var deleteReactionToMessage: DeleteReactionToMessageUseCase
 
-    private val streamRepository: StreamRepository by lazy {
-        StreamRepositoryImpl(
-            apiService = apiService,
-            streamDao = appDatabase.streamDao()
-        )
-    }
+    @Inject
+    lateinit var getAllStreams: GetAllStreamsUseCase
 
-    private val userRepository: UserRepository by lazy {
-        UserRepositoryImpl(
-            apiService = apiService,
-            userDao = appDatabase.userDao()
-        )
-    }
+    @Inject
+    lateinit var getMe: GetMeUseCase
 
-    private val addMessage: AddMessageUseCase by lazy {
-        AddMessageUseCaseImpl(
-            messageRepository
-        )
-    }
+    @Inject
+    lateinit var getSubscribedStreams: GetSubscribedStreamsUseCase
 
-    private val addReaction: AddReactionToMessageUseCase by lazy {
-        AddReactionToMessageUseCaseImpl(
-            reactionRepository
-        )
-    }
+    @Inject
+    lateinit var getTopicMessages: GetTopicMessagesUseCase
 
-    private val deleteReactionToMessage: DeleteReactionToMessageUseCase by lazy {
-        DeleteReactionToMessageUseCaseImpl(reactionRepository)
-    }
+    @Inject
+    lateinit var initMessage: InitMessageUseCase
 
-    private val getAllStreams: GetAllStreamsUseCase by lazy {
-        GetAllStreamsUseCaseImpl(streamRepository)
-    }
+    @Inject
+    lateinit var saveMessage: SaveMessageUseCase
 
-    private val getMe: GetMeUseCase by lazy {
-        GetMeUseCaseImpl(userRepository)
-    }
+    @Inject
+    lateinit var searchAllStreams: SearchAllStreamsUseCase
 
-    private val getSubscribedStreams: GetSubscribedStreamsUseCase by lazy {
-        GetSubscribedStreamsUseCaseImpl(streamRepository)
-    }
+    @Inject
+    lateinit var searchSubscribedStreams: SearchSubscribeStreamsUseCase
 
-    private val getTopicMessages: GetTopicMessagesUseCase by lazy {
-        GetTopicMessagesUseCaseImpl(messageRepository)
-    }
-
-    private val initMessage: InitMessageUseCase by lazy {
-        InitMessageUseCaseImpl(messageRepository)
-    }
-
-    private val saveMessage: SaveMessageUseCase by lazy {
-        SaveMessageUseCaseImpl(messageRepository)
-    }
-
-    private val searchAllStreams: SearchAllStreamsUseCase by lazy {
-        SearchAllStreamsUseCaseImpl(streamRepository)
-    }
-
-    private val searchSubscribedStreams: SearchSubscribeStreamsUseCase by lazy {
-        SearchSubscribeStreamsUseCaseImpl(streamRepository)
-    }
-
-    private val getUserProfileUseCase: GetUserProfileUseCase by lazy {
-        GetUserProfileUseCaseImpl(userRepository)
-    }
+    @Inject
+    lateinit var getUserProfileUseCase: GetUserProfileUseCase
 
     private val userItemMapper: UserItemMapper by lazy { UserItemMapper() }
 
@@ -178,10 +124,12 @@ class GlobalDI private constructor() {
 
     companion object {
 
+
         lateinit var instance: GlobalDI
 
         fun init() {
             instance = GlobalDI()
+            App.appComponent.inject(instance)
         }
     }
 }

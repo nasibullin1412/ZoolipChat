@@ -14,19 +14,22 @@ import com.homework.coursework.data.frameworks.network.mappersimpl.StreamDtoMapp
 import com.homework.coursework.data.mappers.StreamMapper
 import com.homework.coursework.domain.entity.StreamData
 import com.homework.coursework.domain.repository.StreamRepository
+import dagger.Lazy
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import kotlinx.serialization.ExperimentalSerializationApi
+import javax.inject.Inject
 
 @ExperimentalSerializationApi
-class StreamRepositoryImpl(
-    private val apiService: ApiService,
+class StreamRepositoryImpl @Inject constructor(
+    private val _apiService: Lazy<ApiService>,
     private val streamDao: StreamDao,
 ) : StreamRepository {
 
+    private val apiService: ApiService get() = _apiService.get()
     private val streamDtoMapper: StreamMapper<List<StreamWithTopics>> = StreamDtoMapper()
     private val streamDataMapper: StreamDataMapper = StreamDataMapper()
     private val streamEntityMapper: StreamMapper<List<StreamWithTopicsEntity>> =

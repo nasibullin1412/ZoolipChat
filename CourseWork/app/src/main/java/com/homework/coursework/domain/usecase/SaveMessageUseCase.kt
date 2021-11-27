@@ -5,6 +5,7 @@ import com.homework.coursework.domain.entity.StreamData
 import com.homework.coursework.domain.entity.TopicData
 import com.homework.coursework.domain.repository.MessageRepository
 import io.reactivex.Completable
+import javax.inject.Inject
 
 interface SaveMessageUseCase : (StreamData, TopicData, List<MessageData>) -> Completable {
     override fun invoke(
@@ -14,7 +15,7 @@ interface SaveMessageUseCase : (StreamData, TopicData, List<MessageData>) -> Com
     ): Completable
 }
 
-class SaveMessageUseCaseImpl(
+class SaveMessageUseCaseImpl @Inject constructor(
     private val repositoryMessage: MessageRepository
 ) : SaveMessageUseCase {
 

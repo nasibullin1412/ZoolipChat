@@ -1,10 +1,6 @@
 package com.homework.coursework.data.frameworks.database.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import androidx.room.Transaction
+import androidx.room.*
 import com.homework.coursework.data.frameworks.database.entities.EmojiEntity
 import com.homework.coursework.data.frameworks.database.entities.MessageEntity
 import com.homework.coursework.data.frameworks.database.entities.MessageWithEmojiEntity
@@ -20,11 +16,12 @@ interface MessageDao {
     fun getMessageNumber(streamId: Int, topicName: String): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertEmoji(emojiEntity: EmojiEntity)
+    fun insertEmoji(emojiEntities: List<EmojiEntity>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMessage(messageEntity: MessageEntity)
 
+    @Transaction
     @Query(
         "SELECT * FROM message_table WHERE stream_id = :streamId " +
                 "AND topic_name = :topicName ORDER BY LOWER(message_id) ASC"
@@ -34,9 +31,7 @@ interface MessageDao {
     @Transaction
     fun insertOneMessage(messageWithEmojiEntity: MessageWithEmojiEntity) {
         insertMessage(messageWithEmojiEntity.messageEntity)
-        for (emoji in messageWithEmojiEntity.emojiEntity) {
-            insertEmoji(emoji)
-        }
+        insertEmoji(messageWithEmojiEntity.emojiEntity)
     }
 
     fun insertMessages(messageWithEmojis: List<MessageWithEmojiEntity>): Completable {

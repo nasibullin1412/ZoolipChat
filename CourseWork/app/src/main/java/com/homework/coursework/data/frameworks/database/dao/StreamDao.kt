@@ -35,9 +35,11 @@ interface StreamDao {
         return Completable.complete()
     }
 
+    @Transaction
     @Query("SELECT * FROM stream_table")
     fun getAllStreams(): Single<List<StreamWithTopicsEntity>>
 
+    @Transaction
     @Query("SELECT * FROM stream_table WHERE is_subscribed = 1")
     fun getSubscribedStreams(): Single<List<StreamWithTopicsEntity>>
 }
