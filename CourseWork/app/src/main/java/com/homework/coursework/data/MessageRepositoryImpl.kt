@@ -2,7 +2,6 @@ package com.homework.coursework.data
 
 import android.util.Log
 import androidx.room.EmptyResultSetException
-import com.homework.coursework.data.dto.MessagesResponse
 import com.homework.coursework.data.dto.Narrow
 import com.homework.coursework.data.frameworks.database.crossref.MessageToUserCrossRef
 import com.homework.coursework.data.frameworks.database.dao.MessageDao
@@ -18,7 +17,7 @@ import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.NE
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.NUM_AFTER
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.NUM_BEFORE
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.STREAM
-import com.homework.coursework.data.mappers.MessageMapper
+import com.homework.coursework.di.MessageComposite
 import com.homework.coursework.domain.entity.MessageData
 import com.homework.coursework.domain.entity.StreamData
 import com.homework.coursework.domain.entity.TopicData
@@ -33,6 +32,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.serialization.ExperimentalSerializationApi
 import javax.inject.Inject
 
+@MessageComposite
 @ExperimentalSerializationApi
 class MessageRepositoryImpl @Inject constructor(
     private val _apiService: Lazy<ApiService>,
@@ -41,12 +41,21 @@ class MessageRepositoryImpl @Inject constructor(
     private val userDao: UserDao
 ) : MessageRepository {
 
-    private val messageDtoMapper: MessageMapper<MessagesResponse> = MessageDtoMapper()
-    private val messageDataMapper: MessageDataMapper = MessageDataMapper()
-    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
-    private val userDataListMapper: UserDataListMapper = UserDataListMapper()
-    private val messageEntityMapper: MessageMapper<List<MessageWithEmojiEntity>> =
-        MessageEntityMapper()
+    @Inject
+    internal lateinit var messageDtoMapper: MessageDtoMapper
+
+    @Inject
+    internal lateinit var messageDataMapper: MessageDataMapper
+
+    @MessageComposite
+    internal lateinit var compositeDisposable: CompositeDisposable
+
+    @Inject
+    internal lateinit var userDataListMapper: UserDataListMapper
+
+    @Inject
+    internal lateinit var messageEntityMapper: MessageEntityMapper
+
     private val apiService: ApiService get() = _apiService.get()
 
     override fun initMessages(

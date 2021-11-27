@@ -3,10 +3,13 @@ package com.homework.coursework.data.frameworks.network.mappersimpl
 import com.homework.coursework.data.dto.StatusDto
 import com.homework.coursework.domain.entity.StatusEnum
 import com.homework.coursework.domain.entity.UserStatus
+import dagger.Reusable
 import kotlinx.serialization.ExperimentalSerializationApi
+import javax.inject.Inject
 
+@Reusable
 @ExperimentalSerializationApi
-class StatusDtoMapper : (StatusDto) -> (UserStatus) {
+class StatusDtoMapper @Inject constructor() : (StatusDto) -> (UserStatus) {
 
     override fun invoke(status: StatusDto): UserStatus {
         return UserStatus(

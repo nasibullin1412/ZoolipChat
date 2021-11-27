@@ -2,8 +2,11 @@ package com.homework.coursework.data.frameworks.database.mappersimpl
 
 import com.homework.coursework.data.frameworks.database.entities.UserEntity
 import com.homework.coursework.domain.entity.UserData
+import dagger.Reusable
+import javax.inject.Inject
 
-class UserDataMapper : (UserData) -> (UserEntity) {
+@Reusable
+class UserDataMapper @Inject constructor() : (UserData) -> (UserEntity) {
     override fun invoke(userData: UserData): UserEntity {
         return with(userData) {
             UserEntity(

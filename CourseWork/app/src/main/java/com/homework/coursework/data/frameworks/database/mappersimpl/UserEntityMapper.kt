@@ -1,10 +1,12 @@
 package com.homework.coursework.data.frameworks.database.mappersimpl
 
 import com.homework.coursework.data.frameworks.database.entities.UserEntity
-import com.homework.coursework.data.mappers.UserMapper
 import com.homework.coursework.domain.entity.UserData
+import dagger.Reusable
+import javax.inject.Inject
 
-class UserEntityMapper : UserMapper<UserEntity> {
+@Reusable
+class UserEntityMapper @Inject constructor() : (UserEntity) -> (UserData) {
 
     private val statusEntityMapper: StatusEntityMapper = StatusEntityMapper()
 

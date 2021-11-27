@@ -2,8 +2,11 @@ package com.homework.coursework.data.frameworks.network.mappersimpl
 
 import com.homework.coursework.data.dto.EmojiDto
 import com.homework.coursework.domain.entity.EmojiData
+import dagger.Reusable
+import javax.inject.Inject
 
-class EmojiDtoMapper : (List<EmojiDto>) -> (List<EmojiData>) {
+@Reusable
+class EmojiDtoMapper @Inject constructor() : (List<EmojiDto>) -> (List<EmojiData>) {
     override fun invoke(emojisDto: List<EmojiDto>): List<EmojiData> {
         val emojiMap = emojisDto.groupBy { it.emojiCode }
         val emojisData: ArrayList<EmojiData> = arrayListOf()

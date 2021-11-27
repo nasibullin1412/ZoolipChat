@@ -1,12 +1,14 @@
 package com.homework.coursework.data.frameworks.network.mappersimpl
 
 import com.homework.coursework.data.dto.UserWithStatus
-import com.homework.coursework.data.mappers.UserMapper
 import com.homework.coursework.domain.entity.UserData
+import dagger.Reusable
 import kotlinx.serialization.ExperimentalSerializationApi
+import javax.inject.Inject
 
+@Reusable
 @ExperimentalSerializationApi
-class UserDtoMapper : UserMapper<UserWithStatus> {
+class UserDtoMapper @Inject constructor() : (UserWithStatus) -> (UserData) {
     private val statusDtoMapper: StatusDtoMapper = StatusDtoMapper()
     override fun invoke(user: UserWithStatus): UserData {
         return with(user) {

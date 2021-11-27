@@ -7,7 +7,10 @@ import com.homework.coursework.di.modules.RepositoryModule
 import com.homework.coursework.di.modules.UseCaseModule
 import dagger.BindsInstance
 import dagger.Component
+import dagger.Provides
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.serialization.ExperimentalSerializationApi
+import javax.inject.Named
 import javax.inject.Singleton
 
 @ExperimentalSerializationApi
@@ -29,4 +32,5 @@ interface ApplicationComponent {
     }
 
     fun context(): Context
+
 }

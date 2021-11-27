@@ -53,4 +53,5 @@ ext {
     roomRuntimeVersion = '1.1.1'
     desugarJDKVersion = '1.1.5'
     elmsilieVersion = '1.2.0'
+    daggerVersion = '2.37'
 }

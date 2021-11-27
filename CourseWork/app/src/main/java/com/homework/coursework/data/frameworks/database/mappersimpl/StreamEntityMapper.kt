@@ -1,11 +1,13 @@
 package com.homework.coursework.data.frameworks.database.mappersimpl
 
 import com.homework.coursework.data.frameworks.database.entities.StreamWithTopicsEntity
-import com.homework.coursework.data.mappers.StreamMapper
 import com.homework.coursework.domain.entity.StreamData
 import com.homework.coursework.domain.entity.TopicData
+import dagger.Reusable
+import javax.inject.Inject
 
-class StreamEntityMapper : StreamMapper<List<StreamWithTopicsEntity>> {
+@Reusable
+class StreamEntityMapper @Inject constructor() : (List<StreamWithTopicsEntity>) -> (List<StreamData>) {
     override fun invoke(streams: List<StreamWithTopicsEntity>): List<StreamData> {
         return streams.map { streamWithTopic ->
             with(streamWithTopic) {

@@ -2,8 +2,11 @@ package com.homework.coursework.data.frameworks.database.mappersimpl
 
 import com.homework.coursework.data.frameworks.database.entities.EmojiEntity
 import com.homework.coursework.domain.entity.EmojiData
+import dagger.Reusable
+import javax.inject.Inject
 
-class EmojiEntityMapper : (List<EmojiEntity>) -> (List<EmojiData>) {
+@Reusable
+class EmojiEntityMapper @Inject constructor() : (List<EmojiEntity>) -> (List<EmojiData>) {
     override fun invoke(emojis: List<EmojiEntity>): List<EmojiData> {
         val emojisData: ArrayList<EmojiData> = arrayListOf()
         for (emoji in emojis) {

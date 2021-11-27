@@ -1,10 +1,12 @@
 package com.homework.coursework.data.frameworks.database.mappersimpl
 
 import com.homework.coursework.data.frameworks.database.entities.MessageWithEmojiEntity
-import com.homework.coursework.data.mappers.MessageMapper
 import com.homework.coursework.domain.entity.MessageData
+import dagger.Reusable
+import javax.inject.Inject
 
-class MessageEntityMapper : MessageMapper<List<MessageWithEmojiEntity>> {
+@Reusable
+class MessageEntityMapper @Inject constructor() : (List<MessageWithEmojiEntity>) -> (List<MessageData>) {
 
     private val emojiEntityMapper: EmojiEntityMapper = EmojiEntityMapper()
     private val userEntityMapper: UserEntityMapper = UserEntityMapper()

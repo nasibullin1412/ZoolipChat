@@ -4,8 +4,11 @@ import com.homework.coursework.data.frameworks.database.entities.StreamEntity
 import com.homework.coursework.data.frameworks.database.entities.StreamWithTopicsEntity
 import com.homework.coursework.data.frameworks.database.entities.TopicEntity
 import com.homework.coursework.domain.entity.StreamData
+import dagger.Reusable
+import javax.inject.Inject
 
-class StreamDataMapper : (List<StreamData>, Boolean) -> (List<StreamWithTopicsEntity>) {
+@Reusable
+class StreamDataMapper @Inject constructor() : (List<StreamData>, Boolean) -> (List<StreamWithTopicsEntity>) {
     override fun invoke(streamList: List<StreamData>, isSubscribed: Boolean)
             : List<StreamWithTopicsEntity> {
         return streamList.map { streamData ->

@@ -6,7 +6,6 @@ import com.homework.coursework.data.frameworks.database.dao.MessageToUserCrossRe
 import com.homework.coursework.data.frameworks.database.dao.StreamDao
 import com.homework.coursework.data.frameworks.database.dao.UserDao
 import dagger.Lazy
-
 import dagger.Module
 import dagger.Provides
 import kotlinx.serialization.ExperimentalSerializationApi

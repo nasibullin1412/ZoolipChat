@@ -11,7 +11,7 @@ import com.homework.coursework.data.frameworks.database.mappersimpl.UserEntityMa
 import com.homework.coursework.data.frameworks.network.ApiService
 import com.homework.coursework.data.frameworks.network.mappersimpl.UserDtoMapper
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.USER_ID
-import com.homework.coursework.data.mappers.UserMapper
+import com.homework.coursework.di.UserComposite
 import com.homework.coursework.domain.entity.UserData
 import com.homework.coursework.domain.repository.UserRepository
 import dagger.Lazy
@@ -23,16 +23,25 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.serialization.ExperimentalSerializationApi
 import javax.inject.Inject
 
+@UserComposite
 @ExperimentalSerializationApi
 class UserRepositoryImpl @Inject constructor(
     private val _apiService: Lazy<ApiService>,
     private val userDao: UserDao
 ) : UserRepository {
 
-    private val userDtoMapper: UserMapper<UserWithStatus> = UserDtoMapper()
-    private val userEntityMapper: UserMapper<UserEntity> = UserEntityMapper()
-    private val userDataMapper: UserDataMapper = UserDataMapper()
-    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
+    @Inject
+    internal lateinit var userDtoMapper: UserDtoMapper
+
+    @Inject
+    internal lateinit var userEntityMapper: UserEntityMapper
+
+    @Inject
+    internal lateinit var userDataMapper: UserDataMapper
+
+    @UserComposite
+    internal lateinit var compositeDisposable: CompositeDisposable
+
     private val apiService: ApiService get() = _apiService.get()
 
     private fun getStatus(userDto: UserDto): Observable<StatusDto> {
