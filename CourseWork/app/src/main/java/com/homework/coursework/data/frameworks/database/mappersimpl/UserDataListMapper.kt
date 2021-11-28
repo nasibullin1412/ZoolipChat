@@ -8,7 +8,8 @@ import javax.inject.Inject
 @Reusable
 class UserDataListMapper @Inject constructor() : (List<UserData>) -> (List<UserEntity>) {
 
-    private val userDataMapper: UserDataMapper = UserDataMapper()
+    @Inject
+    internal lateinit var userDataMapper: UserDataMapper
 
     override fun invoke(userList: List<UserData>): List<UserEntity> {
         val userEntityList: ArrayList<UserEntity> = arrayListOf()

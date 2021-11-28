@@ -8,7 +8,8 @@ import dagger.Reusable
 import javax.inject.Inject
 
 @Reusable
-class StreamDataMapper @Inject constructor() : (List<StreamData>, Boolean) -> (List<StreamWithTopicsEntity>) {
+class StreamDataMapper @Inject constructor() :
+        (List<StreamData>, Boolean) -> (List<StreamWithTopicsEntity>) {
     override fun invoke(streamList: List<StreamData>, isSubscribed: Boolean)
             : List<StreamWithTopicsEntity> {
         return streamList.map { streamData ->

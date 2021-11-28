@@ -1,27 +1,27 @@
 package com.homework.coursework.di
 
 import android.content.Context
-import com.homework.coursework.di.modules.DatabaseModule
-import com.homework.coursework.di.modules.NetworkModule
-import com.homework.coursework.di.modules.RepositoryModule
-import com.homework.coursework.di.modules.UseCaseModule
+import com.homework.coursework.di.modules.*
+import com.homework.coursework.di.subcomponents.CurrUserProfileComponent
+import com.homework.coursework.di.subcomponents.UserProfileComponent
 import dagger.BindsInstance
 import dagger.Component
-import dagger.Provides
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.serialization.ExperimentalSerializationApi
-import javax.inject.Named
 import javax.inject.Singleton
 
 @ExperimentalSerializationApi
 @Singleton
 @Component(
     modules = [NetworkModule::class, DatabaseModule::class, RepositoryModule::class,
-        UseCaseModule::class]
+        UseCaseModule::class, CompositeModule::class]
 )
 interface ApplicationComponent {
 
     fun inject(globalDI: GlobalDI)
+
+    fun userProfileComponent(): UserProfileComponent
+
+    fun currUserProfileComponent(): CurrUserProfileComponent
 
     @Component.Factory
     interface Factory {
@@ -32,5 +32,4 @@ interface ApplicationComponent {
     }
 
     fun context(): Context
-
 }

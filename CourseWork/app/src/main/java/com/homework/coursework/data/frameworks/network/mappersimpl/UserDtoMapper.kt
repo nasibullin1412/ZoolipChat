@@ -9,7 +9,10 @@ import javax.inject.Inject
 @Reusable
 @ExperimentalSerializationApi
 class UserDtoMapper @Inject constructor() : (UserWithStatus) -> (UserData) {
-    private val statusDtoMapper: StatusDtoMapper = StatusDtoMapper()
+
+    @Inject
+    internal lateinit var statusDtoMapper: StatusDtoMapper
+
     override fun invoke(user: UserWithStatus): UserData {
         return with(user) {
             UserData(

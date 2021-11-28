@@ -6,10 +6,14 @@ import dagger.Reusable
 import javax.inject.Inject
 
 @Reusable
-class MessageEntityMapper @Inject constructor() : (List<MessageWithEmojiEntity>) -> (List<MessageData>) {
+class MessageEntityMapper @Inject constructor() :
+        (List<MessageWithEmojiEntity>) -> (List<MessageData>) {
 
-    private val emojiEntityMapper: EmojiEntityMapper = EmojiEntityMapper()
-    private val userEntityMapper: UserEntityMapper = UserEntityMapper()
+    @Inject
+    internal lateinit var emojiEntityMapper: EmojiEntityMapper
+
+    @Inject
+    internal lateinit var userEntityMapper: UserEntityMapper
 
     override fun invoke(messages: List<MessageWithEmojiEntity>): List<MessageData> {
         return messages.map { messageWithEmojiEntity ->

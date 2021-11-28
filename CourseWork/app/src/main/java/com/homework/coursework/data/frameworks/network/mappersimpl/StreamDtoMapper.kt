@@ -10,7 +10,8 @@ import javax.inject.Inject
 @ExperimentalSerializationApi
 class StreamDtoMapper @Inject constructor() : (List<StreamWithTopics>) -> (List<StreamData>) {
 
-    private val topicDtoMapper: TopicDtoMapper = TopicDtoMapper()
+    @Inject
+    internal lateinit var topicDtoMapper: TopicDtoMapper
 
     override fun invoke(streams: List<StreamWithTopics>): List<StreamData> {
         return streams.map { streamPair ->

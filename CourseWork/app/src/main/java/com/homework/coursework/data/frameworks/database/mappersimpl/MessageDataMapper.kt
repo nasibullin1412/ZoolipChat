@@ -9,8 +9,11 @@ import javax.inject.Inject
 @Reusable
 class MessageDataMapper @Inject constructor() : (List<MessageData>, String, Int) -> (List<MessageWithEmojiEntity>) {
 
-    private val emojiDataMapper: EmojiDataMapper = EmojiDataMapper()
-    private val userDataMapper: UserDataMapper = UserDataMapper()
+    @Inject
+    internal lateinit var emojiDataMapper: EmojiDataMapper
+
+    @Inject
+    internal lateinit var userDataMapper: UserDataMapper
 
     override fun invoke(
         messageDataList: List<MessageData>,

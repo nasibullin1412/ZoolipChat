@@ -17,7 +17,6 @@ import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.NE
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.NUM_AFTER
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.NUM_BEFORE
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.STREAM
-import com.homework.coursework.di.MessageComposite
 import com.homework.coursework.domain.entity.MessageData
 import com.homework.coursework.domain.entity.StreamData
 import com.homework.coursework.domain.entity.TopicData
@@ -32,7 +31,6 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.serialization.ExperimentalSerializationApi
 import javax.inject.Inject
 
-@MessageComposite
 @ExperimentalSerializationApi
 class MessageRepositoryImpl @Inject constructor(
     private val _apiService: Lazy<ApiService>,
@@ -47,7 +45,7 @@ class MessageRepositoryImpl @Inject constructor(
     @Inject
     internal lateinit var messageDataMapper: MessageDataMapper
 
-    @MessageComposite
+    @Inject
     internal lateinit var compositeDisposable: CompositeDisposable
 
     @Inject

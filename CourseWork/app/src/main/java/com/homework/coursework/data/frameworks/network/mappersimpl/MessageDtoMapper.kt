@@ -14,7 +14,8 @@ import javax.inject.Inject
 @ExperimentalSerializationApi
 class MessageDtoMapper @Inject constructor() : (MessagesResponse) -> (List<MessageData>) {
 
-    private val emojiDtoMapper: EmojiDtoMapper = EmojiDtoMapper()
+    @Inject
+    internal lateinit var emojiDtoMapper: EmojiDtoMapper
 
     override fun invoke(messages: MessagesResponse): List<MessageData> {
         return messages.data?.map { messageDto ->

@@ -11,11 +11,9 @@ import com.homework.coursework.data.frameworks.database.mappersimpl.StreamDataMa
 import com.homework.coursework.data.frameworks.database.mappersimpl.StreamEntityMapper
 import com.homework.coursework.data.frameworks.network.ApiService
 import com.homework.coursework.data.frameworks.network.mappersimpl.StreamDtoMapper
-import com.homework.coursework.di.StreamComposite
 import com.homework.coursework.domain.entity.StreamData
 import com.homework.coursework.domain.repository.StreamRepository
 import dagger.Lazy
-import dagger.Reusable
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -23,9 +21,7 @@ import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import kotlinx.serialization.ExperimentalSerializationApi
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@StreamComposite
 @ExperimentalSerializationApi
 class StreamRepositoryImpl @Inject constructor(
     private val _apiService: Lazy<ApiService>,
@@ -46,8 +42,7 @@ class StreamRepositoryImpl @Inject constructor(
     @Inject
     internal lateinit var streamEntityMapper: StreamEntityMapper
 
-    @Singleton
-    @StreamComposite
+    @Inject
     internal lateinit var compositeDisposable: CompositeDisposable
 
     override fun loadAllStreams(): Observable<List<StreamData>> {

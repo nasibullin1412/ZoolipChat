@@ -28,9 +28,6 @@ class GlobalDI private constructor() {
     lateinit var getAllStreams: GetAllStreamsUseCase
 
     @Inject
-    lateinit var getMe: GetMeUseCase
-
-    @Inject
     lateinit var getSubscribedStreams: GetSubscribedStreamsUseCase
 
     @Inject
@@ -48,10 +45,6 @@ class GlobalDI private constructor() {
     @Inject
     lateinit var searchSubscribedStreams: SearchSubscribeStreamsUseCase
 
-    @Inject
-    lateinit var getUserProfileUseCase: GetUserProfileUseCase
-
-    private val userItemMapper: UserItemMapper by lazy { UserItemMapper() }
 
     private val streamItemMapper: StreamItemMapper by lazy { StreamItemMapper() }
 
@@ -77,14 +70,6 @@ class GlobalDI private constructor() {
         )
     }
 
-    private val profileActor by lazy {
-        ProfileActor(
-            getMe = getMe,
-            userItemMapper = userItemMapper,
-            getUser = getUserProfileUseCase
-        )
-    }
-
     private val discussActor by lazy {
         ChatActor(
             getTopicMessages = getTopicMessages,
@@ -100,14 +85,6 @@ class GlobalDI private constructor() {
             messageListDataMapper = messageDataListMapper,
             emojiDataMapper = emojiDataMapper
         )
-    }
-
-    val profileMeElmStoreFactory by lazy {
-        ProfileStoreFactory(profileActor)
-    }
-
-    val profileUserElmStoreFactory by lazy {
-        ProfileStoreFactory(profileActor)
     }
 
     val subscribedStreamStoreFactory by lazy {

@@ -8,7 +8,8 @@ import javax.inject.Inject
 @Reusable
 class UserEntityMapper @Inject constructor() : (UserEntity) -> (UserData) {
 
-    private val statusEntityMapper: StatusEntityMapper = StatusEntityMapper()
+    @Inject
+    internal lateinit var statusEntityMapper: StatusEntityMapper
 
     override fun invoke(user: UserEntity): UserData {
         return with(user) {

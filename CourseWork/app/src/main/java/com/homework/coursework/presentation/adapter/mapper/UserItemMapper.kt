@@ -3,8 +3,11 @@ package com.homework.coursework.presentation.adapter.mapper
 import com.homework.coursework.domain.entity.UserData
 import com.homework.coursework.presentation.adapter.data.ErrorHandle
 import com.homework.coursework.presentation.adapter.data.UserItem
+import dagger.Reusable
+import javax.inject.Inject
 
-class UserItemMapper : (UserData) -> (UserItem) {
+@Reusable
+class UserItemMapper @Inject constructor() : (UserData) -> (UserItem) {
     override fun invoke(userData: UserData): UserItem {
         return with(userData) {
             UserItem(

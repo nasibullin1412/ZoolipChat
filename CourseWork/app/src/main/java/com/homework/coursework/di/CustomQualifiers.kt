@@ -3,10 +3,13 @@ package com.homework.coursework.di
 import javax.inject.Qualifier
 
 @Qualifier
-annotation class MessageComposite
+annotation class CurrUserStore
 
 @Qualifier
-annotation class StreamComposite
+annotation class CurrUserActor
 
 @Qualifier
-annotation class UserComposite
+annotation class UserStore
+
+@Qualifier
+annotation class UserActor
