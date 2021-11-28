@@ -17,24 +17,24 @@ class DatabaseModule {
 
     @Singleton
     @Provides
-    fun bindDatabase(): AppDatabase = AppDatabase.instance
+    fun provideDatabase(): AppDatabase = AppDatabase.instance
 
     @Singleton
     @Provides
-    fun bindMessageDao(database: Lazy<AppDatabase>): MessageDao = database.get().messageDao()
+    fun provideMessageDao(database: Lazy<AppDatabase>): MessageDao = database.get().messageDao()
 
     @Singleton
     @Provides
-    fun bindMessageToUserCrossRefDao(database: Lazy<AppDatabase>): MessageToUserCrossRefDao {
+    fun provideMessageToUserCrossRefDao(database: Lazy<AppDatabase>): MessageToUserCrossRefDao {
         return database.get().messageToUserCrossRefDao()
     }
 
     @Singleton
     @Provides
-    fun bindStreamDao(database: Lazy<AppDatabase>): StreamDao = database.get().streamDao()
+    fun provideStreamDao(database: Lazy<AppDatabase>): StreamDao = database.get().streamDao()
 
     @Singleton
     @Provides
-    fun bindUserDao(database: Lazy<AppDatabase>): UserDao = database.get().userDao()
+    fun provideUserDao(database: Lazy<AppDatabase>): UserDao = database.get().userDao()
 
 }

@@ -3,8 +3,11 @@ package com.homework.coursework.presentation.adapter.mapper
 import com.homework.coursework.domain.entity.StreamData
 import com.homework.coursework.presentation.adapter.data.ErrorHandle
 import com.homework.coursework.presentation.adapter.data.StreamItem
+import dagger.Reusable
+import javax.inject.Inject
 
-class StreamItemMapper : (List<StreamData>) -> (List<StreamItem>) {
+@Reusable
+class StreamItemMapper @Inject constructor(): (List<StreamData>) -> (List<StreamItem>) {
 
     private val topicItemMapper: TopicItemMapper = TopicItemMapper()
 

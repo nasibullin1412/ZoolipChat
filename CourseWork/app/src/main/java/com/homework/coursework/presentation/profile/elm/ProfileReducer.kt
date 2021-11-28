@@ -6,7 +6,7 @@ import vivid.money.elmslie.core.store.dsl_reducer.DslReducer
 import javax.inject.Inject
 
 @ProfileFragmentScope
-class Reducer @Inject constructor() : DslReducer<Event, State, Effect, Command>(),
+class ProfileReducer @Inject constructor() : DslReducer<Event, State, Effect, Command>(),
     TwoSourceHandleReducer<Event.Internal.UserLoaded, State> {
 
     override var isSecondError = false

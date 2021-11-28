@@ -2,7 +2,9 @@ package com.homework.coursework.di
 
 import android.content.Context
 import com.homework.coursework.di.modules.*
+import com.homework.coursework.di.subcomponents.AllStreamComponent
 import com.homework.coursework.di.subcomponents.CurrUserProfileComponent
+import com.homework.coursework.di.subcomponents.SubscribedStreamComponent
 import com.homework.coursework.di.subcomponents.UserProfileComponent
 import dagger.BindsInstance
 import dagger.Component
@@ -22,6 +24,10 @@ interface ApplicationComponent {
     fun userProfileComponent(): UserProfileComponent
 
     fun currUserProfileComponent(): CurrUserProfileComponent
+
+    fun allStreamsComponent(): AllStreamComponent
+
+    fun subscribedStreamsComponent(): SubscribedStreamComponent
 
     @Component.Factory
     interface Factory {

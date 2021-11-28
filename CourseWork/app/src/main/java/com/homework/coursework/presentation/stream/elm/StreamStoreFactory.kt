@@ -2,12 +2,15 @@ package com.homework.coursework.presentation.stream.elm
 
 import vivid.money.elmslie.core.ElmStoreCompat
 
-class StreamStoreFactory(private val streamActor: StreamActor) {
+class StreamStoreFactory(
+    private val streamActor: StreamActor,
+    private val streamReducer: StreamReducer
+) {
 
     private val store by lazy {
         ElmStoreCompat(
             initialState = State(),
-            reducer = Reducer(),
+            reducer = streamReducer,
             actor = streamActor
         )
     }

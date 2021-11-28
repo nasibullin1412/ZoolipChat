@@ -6,12 +6,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.homework.coursework.R
+import com.homework.coursework.di.StreamFragmentScope
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.callbacks.StreamCallback
 import com.homework.coursework.presentation.interfaces.TopicItemCallback
 import com.homework.coursework.presentation.viewholder.StreamNameViewHolder
+import javax.inject.Inject
 
-class StreamNameAdapter : ListAdapter<StreamItem,
+@StreamFragmentScope
+class StreamNameAdapter @Inject constructor() : ListAdapter<StreamItem,
         StreamNameViewHolder>(StreamCallback()) {
 
     private val viewPool = RecyclerView.RecycledViewPool()

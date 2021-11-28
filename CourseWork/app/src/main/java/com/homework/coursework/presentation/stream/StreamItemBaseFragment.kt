@@ -17,9 +17,12 @@ import com.homework.coursework.presentation.stream.elm.Event
 import com.homework.coursework.presentation.stream.elm.State
 import com.homework.coursework.presentation.utils.off
 import vivid.money.elmslie.android.base.ElmFragment
+import javax.inject.Inject
 
 abstract class StreamItemBaseFragment : ElmFragment<Event, Effect, State>(), TopicItemCallback {
-    private lateinit var streamAdapter: StreamNameAdapter
+
+    @Inject
+    internal lateinit var streamAdapter: StreamNameAdapter
     protected var currQuery: String = ""
     private var _binding: StreamViewPageFragmentBinding? = null
     protected val binding
@@ -118,9 +121,7 @@ abstract class StreamItemBaseFragment : ElmFragment<Event, Effect, State>(), Top
     }
 
     private fun initRecycler() {
-        streamAdapter = StreamNameAdapter().apply {
-            setTopicListener(this@StreamItemBaseFragment)
-        }
+        streamAdapter.setTopicListener(this@StreamItemBaseFragment)
         with(binding.rvStreams) {
             val itemDecorator = getDividerItemDecoration()
             addItemDecoration(itemDecorator)

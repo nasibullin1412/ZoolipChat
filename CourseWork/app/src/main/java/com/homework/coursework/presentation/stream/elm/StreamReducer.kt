@@ -1,9 +1,12 @@
 package com.homework.coursework.presentation.stream.elm
 
+import com.homework.coursework.di.StreamFragmentScope
 import com.homework.coursework.presentation.interfaces.TwoSourceHandleReducer
 import vivid.money.elmslie.core.store.dsl_reducer.DslReducer
+import javax.inject.Inject
 
-class Reducer : DslReducer<Event, State, Effect, Command>(),
+@StreamFragmentScope
+class StreamReducer @Inject constructor() : DslReducer<Event, State, Effect, Command>(),
     TwoSourceHandleReducer<Event.Internal.StreamLoaded, State> {
 
     override var isSecondError = false

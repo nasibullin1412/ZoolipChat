@@ -17,11 +17,11 @@ class ProfileModule {
     @ProfileFragmentScope
     @Provides
     @UserStore
-    fun provideProfileFragment(
+    fun provideProfileStore(
         profileActor: ProfileActor,
-        profileReducer: Reducer
+        profileProfileReducer: ProfileReducer
     ): Store<Event, Effect, State> {
-        return ProfileStoreFactory(profileActor, profileReducer).provide()
+        return ProfileStoreFactory(profileActor, profileProfileReducer).provide()
     }
 
     @ProfileFragmentScope
@@ -37,10 +37,10 @@ class ProfileModule {
     @ProfileFragmentScope
     @Provides
     @CurrUserStore
-    fun provideCurrProfileFragment(
+    fun provideCurrProfileStore(
         profileActor: ProfileActor,
-        profileReducer: Reducer
+        profileProfileReducer: ProfileReducer
     ): Store<Event, Effect, State> {
-        return ProfileStoreFactory(profileActor, profileReducer).provide()
+        return ProfileStoreFactory(profileActor, profileProfileReducer).provide()
     }
 }

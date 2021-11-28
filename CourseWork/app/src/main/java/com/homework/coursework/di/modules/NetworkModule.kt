@@ -8,8 +8,12 @@ import javax.inject.Singleton
 
 @Module
 class NetworkModule {
+    var value: Int = 0
+
     @ExperimentalSerializationApi
     @Singleton
     @Provides
-    fun bindApiService(): ApiService = ApiService.instance
+    fun provideApiService(): ApiService {
+        return ApiService.instance
+    }
 }

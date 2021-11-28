@@ -13,3 +13,9 @@ annotation class UserStore
 
 @Qualifier
 annotation class UserActor
+
+@Qualifier
+annotation class AllStreams
+
+@Qualifier
+annotation class SubscribedStreams
