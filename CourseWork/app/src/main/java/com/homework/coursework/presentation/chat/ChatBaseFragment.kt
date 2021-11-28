@@ -1,4 +1,4 @@
-package com.homework.coursework.presentation.discuss
+package com.homework.coursework.presentation.chat
 
 import android.content.Context
 import android.os.Bundle
@@ -9,9 +9,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.homework.coursework.databinding.ChatFragmentBinding
 import com.homework.coursework.presentation.adapter.MessageAdapter
 import com.homework.coursework.presentation.adapter.data.EmojiItem
-import com.homework.coursework.presentation.discuss.elm.Effect
-import com.homework.coursework.presentation.discuss.elm.Event
-import com.homework.coursework.presentation.discuss.elm.State
+import com.homework.coursework.presentation.chat.elm.Effect
+import com.homework.coursework.presentation.chat.elm.Event
+import com.homework.coursework.presentation.chat.elm.State
 import com.homework.coursework.presentation.interfaces.BottomNavigationController
 import com.homework.coursework.presentation.interfaces.MessageItemCallback
 import vivid.money.elmslie.android.base.ElmFragment

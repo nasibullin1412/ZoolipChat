@@ -2,9 +2,11 @@ package com.homework.coursework.presentation.adapter.mapper
 
 import com.homework.coursework.domain.entity.MessageData
 import com.homework.coursework.presentation.adapter.data.DiscussItem
+import dagger.Reusable
+import javax.inject.Inject
 
-
-class MessageListDataMapper : (List<DiscussItem>) -> (List<MessageData>) {
+@Reusable
+class MessageListDataMapper @Inject constructor() : (List<DiscussItem>) -> (List<MessageData>) {
 
     private val messageDataMapper: MessageDataMapper = MessageDataMapper()
 

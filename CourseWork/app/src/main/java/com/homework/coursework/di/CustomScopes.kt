@@ -7,3 +7,6 @@ annotation class ProfileFragmentScope
 
 @Scope
 annotation class StreamFragmentScope
+
+@Scope
+annotation class ChatFragmentScope

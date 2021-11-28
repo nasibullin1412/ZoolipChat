@@ -3,11 +3,14 @@ package com.homework.coursework.presentation.adapter.mapper
 import com.homework.coursework.domain.entity.MessageData
 import com.homework.coursework.presentation.adapter.data.DiscussItem
 import com.homework.coursework.presentation.adapter.data.ErrorHandle
-import com.homework.coursework.presentation.discuss.addDate
-import com.homework.coursework.presentation.discuss.addMessageItem
+import com.homework.coursework.presentation.chat.addDate
+import com.homework.coursework.presentation.chat.addMessageItem
 import com.homework.coursework.presentation.utils.toStringDate
+import dagger.Reusable
+import javax.inject.Inject
 
-class DiscussItemMapper : (List<MessageData>) -> (List<DiscussItem>) {
+@Reusable
+class DiscussItemMapper @Inject constructor() : (List<MessageData>) -> (List<DiscussItem>) {
 
     private val messageItemMapper: MessageItemMapper = MessageItemMapper()
 

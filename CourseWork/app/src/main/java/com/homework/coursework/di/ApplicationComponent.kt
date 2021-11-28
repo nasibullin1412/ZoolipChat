@@ -2,10 +2,7 @@ package com.homework.coursework.di
 
 import android.content.Context
 import com.homework.coursework.di.modules.*
-import com.homework.coursework.di.subcomponents.AllStreamComponent
-import com.homework.coursework.di.subcomponents.CurrUserProfileComponent
-import com.homework.coursework.di.subcomponents.SubscribedStreamComponent
-import com.homework.coursework.di.subcomponents.UserProfileComponent
+import com.homework.coursework.di.subcomponents.*
 import dagger.BindsInstance
 import dagger.Component
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -19,7 +16,7 @@ import javax.inject.Singleton
 )
 interface ApplicationComponent {
 
-    fun inject(globalDI: GlobalDI)
+    fun topicChatComponent(): TopicChatComponent
 
     fun userProfileComponent(): UserProfileComponent
 

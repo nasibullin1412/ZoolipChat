@@ -1,4 +1,4 @@
-package com.homework.coursework.presentation.discuss.elm
+package com.homework.coursework.presentation.chat.elm
 
 import com.homework.coursework.domain.usecase.*
 import com.homework.coursework.presentation.adapter.data.DiscussItem

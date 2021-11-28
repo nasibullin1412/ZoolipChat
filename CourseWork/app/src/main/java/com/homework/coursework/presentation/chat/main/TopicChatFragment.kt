@@ -1,24 +1,25 @@
-package com.homework.coursework.presentation.discuss.main
+package com.homework.coursework.presentation.chat.main
 
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
-import com.homework.coursework.di.GlobalDI
+import com.homework.coursework.presentation.App
 import com.homework.coursework.presentation.adapter.data.DiscussItem
 import com.homework.coursework.presentation.adapter.data.EmojiItem
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
-import com.homework.coursework.presentation.discuss.ChatBaseFragment
-import com.homework.coursework.presentation.discuss.elm.Effect
-import com.homework.coursework.presentation.discuss.elm.Event
-import com.homework.coursework.presentation.discuss.elm.State
-import com.homework.coursework.presentation.discuss.initRecycleViewImpl
-import com.homework.coursework.presentation.discuss.onEmojiClickedImpl
+import com.homework.coursework.presentation.chat.ChatBaseFragment
+import com.homework.coursework.presentation.chat.elm.Effect
+import com.homework.coursework.presentation.chat.elm.Event
+import com.homework.coursework.presentation.chat.elm.State
+import com.homework.coursework.presentation.chat.initRecycleViewImpl
+import com.homework.coursework.presentation.chat.onEmojiClickedImpl
 import com.homework.coursework.presentation.stream.StreamItemBaseFragment
 import com.homework.coursework.presentation.utils.getValueByCondition
 import com.homework.coursework.presentation.utils.showToast
 import kotlinx.serialization.ExperimentalSerializationApi
 import vivid.money.elmslie.core.store.Store
+import javax.inject.Inject
 
 @ExperimentalSerializationApi
 class TopicChatFragment : ChatBaseFragment() {
@@ -26,6 +27,14 @@ class TopicChatFragment : ChatBaseFragment() {
     internal lateinit var currentTopic: TopicItem
 
     internal lateinit var currentStream: StreamItem
+
+    @Inject
+    internal lateinit var topicChatStore: Store<Event, Effect, State>
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        App.appComponent.topicChatComponent().inject(this)
+    }
 
     override fun initArguments() {
         currentTopic = requireArguments().getParcelable(StreamItemBaseFragment.TOPIC_KEY)
@@ -90,8 +99,7 @@ class TopicChatFragment : ChatBaseFragment() {
             topicItem = currentTopic
         )
 
-    override fun createStore(): Store<Event, Effect, State> =
-        GlobalDI.instance.topicChatStoreFactory.provide()
+    override fun createStore(): Store<Event, Effect, State> = topicChatStore
 
     override fun onStop() {
         super.onStop()

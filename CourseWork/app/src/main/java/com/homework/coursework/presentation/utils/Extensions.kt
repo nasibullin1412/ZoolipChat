@@ -22,7 +22,7 @@ import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.SO
 import com.homework.coursework.presentation.adapter.data.*
 import com.homework.coursework.presentation.customview.CustomEmojiView
 import com.homework.coursework.presentation.customview.CustomFlexboxLayout
-import com.homework.coursework.presentation.discuss.main.TopicChatFragment
+import com.homework.coursework.presentation.chat.main.TopicChatFragment
 import com.homework.coursework.presentation.interfaces.MessageItemCallback
 import com.homework.coursework.presentation.profile.main.CurrUserProfileFragment
 import com.homework.coursework.presentation.profile.main.UserProfileFragment

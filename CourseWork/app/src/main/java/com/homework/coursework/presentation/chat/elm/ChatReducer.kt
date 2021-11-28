@@ -1,9 +1,12 @@
-package com.homework.coursework.presentation.discuss.elm
+package com.homework.coursework.presentation.chat.elm
 
 import com.homework.coursework.presentation.interfaces.TwoSourceHandleReducer
+import dagger.Reusable
 import vivid.money.elmslie.core.store.dsl_reducer.DslReducer
+import javax.inject.Inject
 
-class Reducer : DslReducer<Event, State, Effect, Command>(),
+@Reusable
+class ChatReducer @Inject constructor() : DslReducer<Event, State, Effect, Command>(),
     TwoSourceHandleReducer<Event.Internal.InitPageLoaded, State> {
 
     override fun Result.reduce(event: Event) = when (event) {

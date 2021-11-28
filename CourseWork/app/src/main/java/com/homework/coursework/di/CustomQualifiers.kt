@@ -6,13 +6,7 @@ import javax.inject.Qualifier
 annotation class CurrUserStore
 
 @Qualifier
-annotation class CurrUserActor
-
-@Qualifier
 annotation class UserStore
-
-@Qualifier
-annotation class UserActor
 
 @Qualifier
 annotation class AllStreams

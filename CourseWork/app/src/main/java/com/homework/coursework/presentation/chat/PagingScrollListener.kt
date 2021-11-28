@@ -1,4 +1,4 @@
-package com.homework.coursework.presentation.discuss
+package com.homework.coursework.presentation.chat
 
 import androidx.annotation.NonNull
 import androidx.recyclerview.widget.LinearLayoutManager

@@ -1,4 +1,4 @@
-package com.homework.coursework.presentation.discuss
+package com.homework.coursework.presentation.chat
 
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -13,9 +13,9 @@ import com.homework.coursework.presentation.adapter.data.DiscussItem
 import com.homework.coursework.presentation.adapter.data.EmojiItem
 import com.homework.coursework.presentation.adapter.data.MessageItem
 import com.homework.coursework.presentation.customview.CustomFlexboxLayout
-import com.homework.coursework.presentation.discuss.ChatBaseFragment.Companion.DEFAULT_MESSAGE_ID
-import com.homework.coursework.presentation.discuss.elm.Event
-import com.homework.coursework.presentation.discuss.main.TopicChatFragment
+import com.homework.coursework.presentation.chat.ChatBaseFragment.Companion.DEFAULT_MESSAGE_ID
+import com.homework.coursework.presentation.chat.elm.Event
+import com.homework.coursework.presentation.chat.main.TopicChatFragment
 import com.homework.coursework.presentation.utils.Emoji
 import com.homework.coursework.presentation.utils.initEmojiToBottomSheet
 import com.homework.coursework.presentation.utils.toStringDate
