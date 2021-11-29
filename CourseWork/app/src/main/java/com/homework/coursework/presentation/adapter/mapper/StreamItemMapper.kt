@@ -9,7 +9,8 @@ import javax.inject.Inject
 @Reusable
 class StreamItemMapper @Inject constructor(): (List<StreamData>) -> (List<StreamItem>) {
 
-    private val topicItemMapper: TopicItemMapper = TopicItemMapper()
+    @Inject
+    internal lateinit var topicItemMapper: TopicItemMapper
 
     override fun invoke(streams: List<StreamData>): List<StreamItem> {
         return streams.map { stream ->

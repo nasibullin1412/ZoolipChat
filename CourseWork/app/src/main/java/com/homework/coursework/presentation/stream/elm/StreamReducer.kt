@@ -28,6 +28,7 @@ class StreamReducer @Inject constructor() : DslReducer<Event, State, Effect, Com
                 handleResult(event)?.let { state { it } }
                 effects { +Effect.StreamLoadError(event.itemList.first().errorHandle.error) }
             } else {
+                isSecondError = false
                 state {
                     copy(
                         itemList = event.itemList,

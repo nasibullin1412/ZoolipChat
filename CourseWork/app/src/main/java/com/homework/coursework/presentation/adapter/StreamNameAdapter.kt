@@ -14,10 +14,10 @@ import com.homework.coursework.presentation.viewholder.StreamNameViewHolder
 import javax.inject.Inject
 
 @StreamFragmentScope
-class StreamNameAdapter @Inject constructor() : ListAdapter<StreamItem,
-        StreamNameViewHolder>(StreamCallback()) {
+class StreamNameAdapter @Inject constructor(
+    private val viewPool: RecyclerView.RecycledViewPool
+) : ListAdapter<StreamItem, StreamNameViewHolder>(StreamCallback()) {
 
-    private val viewPool = RecyclerView.RecycledViewPool()
     private lateinit var listenerTopic: TopicItemCallback
 
     fun setTopicListener(listener: TopicItemCallback) {

@@ -8,7 +8,8 @@ import javax.inject.Inject
 @Reusable
 class MessageListDataMapper @Inject constructor() : (List<DiscussItem>) -> (List<MessageData>) {
 
-    private val messageDataMapper: MessageDataMapper = MessageDataMapper()
+    @Inject
+    internal lateinit var messageDataMapper: MessageDataMapper
 
     override fun invoke(discussItemList: List<DiscussItem>): List<MessageData> {
         return discussItemList.filter { it.messageItem != null }

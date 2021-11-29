@@ -12,7 +12,8 @@ import javax.inject.Inject
 @Reusable
 class DiscussItemMapper @Inject constructor() : (List<MessageData>) -> (List<DiscussItem>) {
 
-    private val messageItemMapper: MessageItemMapper = MessageItemMapper()
+    @Inject
+    internal lateinit var messageItemMapper: MessageItemMapper
 
     override fun invoke(messageDataList: List<MessageData>): List<DiscussItem> {
         if (messageDataList.size == 1 && messageDataList.first().errorHandle.isError) {
