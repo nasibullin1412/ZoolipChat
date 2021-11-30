@@ -13,3 +13,6 @@ annotation class AllStreams
 
 @Qualifier
 annotation class SubscribedStreams
+
+@Qualifier
+annotation class CurrUserId

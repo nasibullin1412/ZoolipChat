@@ -1,5 +1,6 @@
 package com.homework.coursework.presentation.stream
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import com.homework.coursework.databinding.StreamViewPageFragmentBinding
 import com.homework.coursework.presentation.adapter.StreamNameAdapter
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
+import com.homework.coursework.presentation.interfaces.BottomNavigationController
 import com.homework.coursework.presentation.interfaces.TopicItemCallback
 import com.homework.coursework.presentation.stream.elm.Effect
 import com.homework.coursework.presentation.stream.elm.Event
@@ -25,8 +27,18 @@ abstract class StreamItemBaseFragment : ElmFragment<Event, Effect, State>(), Top
     internal lateinit var streamAdapter: StreamNameAdapter
     protected var currQuery: String = ""
     private var _binding: StreamViewPageFragmentBinding? = null
+    private var bottomNavigationController: BottomNavigationController? = null
+
     protected val binding
         get() = _binding!!
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is BottomNavigationController) {
+            bottomNavigationController = context
+            bottomNavigationController?.visibleBottomNavigation()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,6 +83,11 @@ abstract class StreamItemBaseFragment : ElmFragment<Event, Effect, State>(), Top
             putParcelable(TOPIC_KEY, topic)
         }
         setFragmentResult(REQUEST_KEY_CHOICE, bundle)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        bottomNavigationController = null
     }
 
     abstract val tabState: Int

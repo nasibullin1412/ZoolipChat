@@ -19,10 +19,14 @@ import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.imageview.ShapeableImageView
 import com.homework.coursework.R
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.SOME_ANOTHER_USER_ID
-import com.homework.coursework.presentation.adapter.data.*
+import com.homework.coursework.presentation.adapter.data.EmojiItem
+import com.homework.coursework.presentation.adapter.data.MessageItem
+import com.homework.coursework.presentation.adapter.data.StreamItem
+import com.homework.coursework.presentation.adapter.data.TopicItem
+import com.homework.coursework.presentation.authorization.main.AuthFragment
+import com.homework.coursework.presentation.chat.main.TopicChatFragment
 import com.homework.coursework.presentation.customview.CustomEmojiView
 import com.homework.coursework.presentation.customview.CustomFlexboxLayout
-import com.homework.coursework.presentation.chat.main.TopicChatFragment
 import com.homework.coursework.presentation.interfaces.MessageItemCallback
 import com.homework.coursework.presentation.profile.main.CurrUserProfileFragment
 import com.homework.coursework.presentation.profile.main.UserProfileFragment
@@ -242,6 +246,7 @@ fun FragmentTag.fragmentByTag(topic: TopicItem? = null, stream: StreamItem? = nu
                 throw IllegalArgumentException("topic and stream required")
             }
         }
+        FragmentTag.AUTH_FRAGMENT_TAG -> AuthFragment()
     }
 
 fun AppCompatActivity.addFragment(fragment: Fragment, tag: FragmentTag) {
@@ -251,11 +256,10 @@ fun AppCompatActivity.addFragment(fragment: Fragment, tag: FragmentTag) {
                 null,
                 FragmentManager.POP_BACK_STACK_INCLUSIVE
             )
-        } else {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment, fragment, tag.value)
-                .commit()
         }
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.nav_host_fragment, fragment, tag.value)
+            .commit()
         return
     }
     supportFragmentManager.popBackStack(tag.value, FragmentManager.POP_BACK_STACK_INCLUSIVE)

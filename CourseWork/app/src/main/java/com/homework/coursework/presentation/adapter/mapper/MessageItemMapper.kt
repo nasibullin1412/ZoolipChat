@@ -1,6 +1,7 @@
 package com.homework.coursework.presentation.adapter.mapper
 
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.USER_ID
+import com.homework.coursework.di.CurrUserId
 import com.homework.coursework.domain.entity.MessageData
 import com.homework.coursework.presentation.adapter.data.MessageItem
 import javax.inject.Inject

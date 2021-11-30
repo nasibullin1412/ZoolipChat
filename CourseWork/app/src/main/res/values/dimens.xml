@@ -73,4 +73,12 @@
     <dimen name="tv_repeat_margin_top">10dp</dimen>
     <dimen name="tv_repeat_text_size">16sp</dimen>
 
+    <dimen name="login_welcome_text_view_text_m_t">145dp</dimen>
+    <dimen name="login_welcome_image_width">152dp</dimen>
+    <dimen name="login_welcome_image_height">152dp</dimen>
+    <dimen name="login_welcome_margin_top">60dp</dimen>
+    <dimen name="login_welcome_username_margin_top">25dp</dimen>
+    <dimen name="login_welcome_password_margin_top">20dp</dimen>
+    <dimen name="login_welcome_btn_margin_top">40dp</dimen>
+
 </resources>

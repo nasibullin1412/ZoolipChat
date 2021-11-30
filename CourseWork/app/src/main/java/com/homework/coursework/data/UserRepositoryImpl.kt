@@ -47,7 +47,7 @@ class UserRepositoryImpl @Inject constructor(
             .map { it.data }
     }
 
-    override fun getUser(): Observable<UserData> {
+    override fun getMe(): Observable<UserData> {
         return Observable.concatArrayEagerDelayError(
             getLocalUser(),
             getRemoteMe()

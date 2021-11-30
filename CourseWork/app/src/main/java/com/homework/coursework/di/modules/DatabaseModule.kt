@@ -1,10 +1,8 @@
 package com.homework.coursework.di.modules
 
 import com.homework.coursework.data.frameworks.database.AppDatabase
-import com.homework.coursework.data.frameworks.database.dao.MessageDao
-import com.homework.coursework.data.frameworks.database.dao.MessageToUserCrossRefDao
-import com.homework.coursework.data.frameworks.database.dao.StreamDao
-import com.homework.coursework.data.frameworks.database.dao.UserDao
+import com.homework.coursework.data.frameworks.database.dao.*
+import com.homework.coursework.di.CurrUserId
 import dagger.Lazy
 import dagger.Module
 import dagger.Provides
@@ -37,4 +35,7 @@ class DatabaseModule {
     @Provides
     fun provideUserDao(database: Lazy<AppDatabase>): UserDao = database.get().userDao()
 
+    @Singleton
+    @Provides
+    fun providesApiKeyDao(database: Lazy<AppDatabase>): ApiKeyDao = database.get().apiKeyDao()
 }

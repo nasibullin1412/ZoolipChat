@@ -30,4 +30,5 @@
     <color name="odd_color">#E9C46A</color>
     <color name="topic_name_color">#CCCCCC</color>
     <color name="shimmer_color">#646464</color>
+    <color name="custom_login_back">#F1F1F1</color>
 </resources>

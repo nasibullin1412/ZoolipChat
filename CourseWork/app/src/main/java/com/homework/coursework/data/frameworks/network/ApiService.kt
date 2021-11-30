@@ -1,6 +1,7 @@
 package com.homework.coursework.data.frameworks.network
 
 import com.homework.coursework.data.dto.*
+import com.homework.coursework.data.frameworks.database.dao.ApiKeyDao
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.BASE_URL
 import com.homework.coursework.data.frameworks.network.utils.addJsonConverter
 import com.homework.coursework.data.frameworks.network.utils.setClient
@@ -8,6 +9,7 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.serialization.ExperimentalSerializationApi
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.http.*
@@ -132,11 +134,20 @@ interface ApiService {
     @GET("users/{user_id}/presence")
     fun getStatus(@Path("user_id") userId: Int): Observable<StatusResponse>
 
+    /**
+     * Authorization
+     */
+    @POST("fetch_api_key")
+    fun authUser(
+        @Query("username") username: String,
+        @Query("password") password: String
+    ): Observable<AuthDto>
+
     companion object {
-        val instance: ApiService by lazy {
-            Retrofit.Builder()
+        fun create(apiKeyDao: ApiKeyDao): ApiService {
+            return Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .setClient()
+                .setClient(apiKeyDao)
                 .addJsonConverter()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
                 .build()

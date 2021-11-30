@@ -1,5 +1,6 @@
 package com.homework.coursework.di.modules
 
+import com.homework.coursework.data.frameworks.database.dao.ApiKeyDao
 import com.homework.coursework.data.frameworks.network.ApiService
 import dagger.Module
 import dagger.Provides
@@ -8,12 +9,10 @@ import javax.inject.Singleton
 
 @Module
 class NetworkModule {
-    var value: Int = 0
-
     @ExperimentalSerializationApi
     @Singleton
     @Provides
-    fun provideApiService(): ApiService {
-        return ApiService.instance
+    fun provideApiService(apiKeyDao: ApiKeyDao): ApiService {
+        return ApiService.create(apiKeyDao)
     }
 }

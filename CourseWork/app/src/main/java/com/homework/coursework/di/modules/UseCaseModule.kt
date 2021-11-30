@@ -59,4 +59,12 @@ interface UseCaseModule {
     @Reusable
     @Binds
     fun bindSaveMessageUseCase(saveMessageUseCase: SaveMessageUseCaseImpl): SaveMessageUseCase
+
+    @Reusable
+    @Binds
+    fun bindAuthUserUseCase(authUserUseCase: AuthUserUseCaseImpl): AuthUserUseCase
+
+    @Reusable
+    @Binds
+    fun bindCheckAuthUseCase(checkAuthUseCase: CheckAuthUseCaseImpl): CheckAuthUseCase
 }

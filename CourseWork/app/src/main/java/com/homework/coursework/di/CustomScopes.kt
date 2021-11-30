@@ -10,3 +10,6 @@ annotation class StreamFragmentScope
 
 @Scope
 annotation class ChatFragmentScope
+
+@Scope
+annotation class AuthScope

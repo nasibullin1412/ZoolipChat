@@ -14,6 +14,10 @@
     <string name="error_message">Произошла ошибка при загрузке данных. Проверьте подключение…</string>
     <string name="repeat">Повторить</string>
     <string name="status">Status:</string>
+    <string name="login_top_text">Вход</string>
+    <string name="hint_login_username">Логин</string>
+    <string name="hint_login_password">Пароль</string>
+    <string name="btn_string">LogIn</string>
     <string-array name="view_pager_items">
         <item>Subscribed</item>
         <item>All streams</item>

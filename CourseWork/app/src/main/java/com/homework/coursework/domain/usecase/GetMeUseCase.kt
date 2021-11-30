@@ -14,6 +14,6 @@ class GetMeUseCaseImpl @Inject constructor(
 ) : GetMeUseCase {
 
     override fun invoke(): Observable<UserData> {
-        return userRepository.getUser()
+        return userRepository.getMe()
     }
 }

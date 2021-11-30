@@ -26,6 +26,8 @@ interface ApplicationComponent {
 
     fun subscribedStreamsComponent(): SubscribedStreamComponent
 
+    fun authComponent(): AuthComponent
+
     @Component.Factory
     interface Factory {
         fun create(

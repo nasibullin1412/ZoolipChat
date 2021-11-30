@@ -4,10 +4,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.homework.coursework.data.frameworks.database.crossref.MessageToUserCrossRef
-import com.homework.coursework.data.frameworks.database.dao.MessageDao
-import com.homework.coursework.data.frameworks.database.dao.MessageToUserCrossRefDao
-import com.homework.coursework.data.frameworks.database.dao.StreamDao
-import com.homework.coursework.data.frameworks.database.dao.UserDao
+import com.homework.coursework.data.frameworks.database.dao.*
 import com.homework.coursework.data.frameworks.database.entities.*
 import com.homework.coursework.presentation.App
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -19,18 +16,21 @@ import kotlinx.serialization.ExperimentalSerializationApi
         TopicEntity::class,
         MessageEntity::class,
         EmojiEntity::class,
-        MessageToUserCrossRef::class
+        MessageToUserCrossRef::class,
+        AuthEntity::class
     ],
-    version = 3
+    version = 4
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun streamDao(): StreamDao
     abstract fun messageDao(): MessageDao
     abstract fun messageToUserCrossRefDao(): MessageToUserCrossRefDao
+    abstract fun apiKeyDao(): ApiKeyDao
 
     companion object {
         private const val DATABASE_NAME = "Streams.db"
+
         @ExperimentalSerializationApi
         val instance: AppDatabase by lazy {
             Room.databaseBuilder(

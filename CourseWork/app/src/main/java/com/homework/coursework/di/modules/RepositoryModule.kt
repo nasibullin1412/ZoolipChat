@@ -1,13 +1,7 @@
 package com.homework.coursework.di.modules
 
-import com.homework.coursework.data.MessageRepositoryImpl
-import com.homework.coursework.data.ReactionRepositoryImpl
-import com.homework.coursework.data.StreamRepositoryImpl
-import com.homework.coursework.data.UserRepositoryImpl
-import com.homework.coursework.domain.repository.MessageRepository
-import com.homework.coursework.domain.repository.ReactionRepository
-import com.homework.coursework.domain.repository.StreamRepository
-import com.homework.coursework.domain.repository.UserRepository
+import com.homework.coursework.data.*
+import com.homework.coursework.domain.repository.*
 import dagger.Binds
 import dagger.Module
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -31,4 +25,9 @@ interface RepositoryModule {
     @Singleton
     @Binds
     fun bindUserRepository(userRepository: UserRepositoryImpl): UserRepository
+
+    @Singleton
+    @Binds
+    fun bindAuthRepository(authRepository: AuthRepositoryImpl): AuthRepository
 }
+

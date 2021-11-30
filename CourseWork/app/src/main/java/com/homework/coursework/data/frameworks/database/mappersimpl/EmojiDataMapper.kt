@@ -8,6 +8,7 @@ import javax.inject.Inject
 
 @Reusable
 class EmojiDataMapper @Inject constructor() : (List<EmojiData>, Int) -> (List<EmojiEntity>) {
+
     override fun invoke(emojis: List<EmojiData>, messageId: Int): List<EmojiEntity> {
         val emojiEntityList: ArrayList<EmojiEntity> = arrayListOf()
         for (emoji in emojis) {

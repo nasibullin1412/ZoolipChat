@@ -16,22 +16,24 @@ import com.homework.coursework.databinding.StreamFragmentBinding
 import com.homework.coursework.presentation.adapter.StreamAdapter
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
-import com.homework.coursework.presentation.interfaces.AddTopicDiscussion
+import com.homework.coursework.presentation.interfaces.NavigateController
 import com.homework.coursework.presentation.stream.StreamItemBaseFragment.Companion.REQUEST_KEY_CHOICE
 import com.homework.coursework.presentation.stream.StreamItemBaseFragment.Companion.STREAM_KEY
 import com.homework.coursework.presentation.stream.StreamItemBaseFragment.Companion.TOPIC_KEY
+import kotlinx.serialization.ExperimentalSerializationApi
 
+@ExperimentalSerializationApi
 class StreamFragment : Fragment() {
 
     private var _binding: StreamFragmentBinding? = null
     private val binding get() = _binding!!
     private lateinit var streamAdapter: StreamAdapter
     private lateinit var viewPager: ViewPager2
-    private var topicItemCallback: AddTopicDiscussion? = null
+    private var topicItemCallback: NavigateController? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is AddTopicDiscussion) {
+        if (context is NavigateController) {
             topicItemCallback = context
         }
     }
@@ -44,7 +46,7 @@ class StreamFragment : Fragment() {
         ) { _, bundle ->
             val stream = bundle.getParcelable<StreamItem>(STREAM_KEY)
             val topic = bundle.getParcelable<TopicItem>(TOPIC_KEY)
-            topicItemCallback?.addTopicDiscussion(
+            topicItemCallback?.navigateFragment(
                 topic = topic,
                 stream = stream
             )

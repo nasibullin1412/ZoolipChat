@@ -8,14 +8,16 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.homework.coursework.R
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
-import com.homework.coursework.presentation.interfaces.AddTopicDiscussion
 import com.homework.coursework.presentation.interfaces.BottomNavigationController
+import com.homework.coursework.presentation.interfaces.NavigateController
 import com.homework.coursework.presentation.utils.FragmentTag
 import com.homework.coursework.presentation.utils.MenuItemIdx
 import com.homework.coursework.presentation.utils.addFragment
 import com.homework.coursework.presentation.utils.fragmentByTag
+import kotlinx.serialization.ExperimentalSerializationApi
 
-class MainActivity : AppCompatActivity(), AddTopicDiscussion, BottomNavigationController {
+@ExperimentalSerializationApi
+class MainActivity : AppCompatActivity(), NavigateController, BottomNavigationController {
 
     private lateinit var bottomNavigationView: BottomNavigationView
 
@@ -23,7 +25,7 @@ class MainActivity : AppCompatActivity(), AddTopicDiscussion, BottomNavigationCo
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
         if (savedInstanceState == null) {
-            val tag = FragmentTag.CHANNEL_FRAGMENT_TAG
+            val tag = FragmentTag.AUTH_FRAGMENT_TAG
             addFragment(tag.fragmentByTag(), tag)
         }
         initNavigationListener()
@@ -71,9 +73,14 @@ class MainActivity : AppCompatActivity(), AddTopicDiscussion, BottomNavigationCo
         bottomNavigationView.menu.getItem(MenuItemIdx.PROFILE_IDX.value).isChecked = true
     }
 
-    override fun addTopicDiscussion(topic: TopicItem?, stream: StreamItem?) {
+    override fun navigateFragment(topic: TopicItem?, stream: StreamItem?) {
         val tag = FragmentTag.TOPIC_DISCUSSION_FRAGMENT_TAG
         addFragment(tag.fragmentByTag(topic = topic, stream = stream), tag)
+    }
+
+    override fun navigateFragment() {
+        val tag = FragmentTag.CHANNEL_FRAGMENT_TAG
+        addFragment(tag.fragmentByTag(), tag)
     }
 
     override fun goneBottomNavigation() {
