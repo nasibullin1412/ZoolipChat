@@ -10,6 +10,7 @@ class MessageDataMapper @Inject constructor() : (MessageItem) -> (MessageData) {
 
     @Inject
     internal lateinit var emojiDataListMapper: EmojiDataListMapper
+
     override fun invoke(messageItem: MessageItem): MessageData {
         return with(messageItem) {
             MessageData(

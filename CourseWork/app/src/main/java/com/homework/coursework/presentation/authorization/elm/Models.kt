@@ -22,7 +22,7 @@ sealed class Event {
 
     sealed class Internal : Event() {
         data class SuccessAuth(val apiToken: String) : Internal()
-        data class ErrorAuth(val throwable: Throwable): Internal()
+        data class ErrorAuth(val throwable: Throwable) : Internal()
     }
 }
 

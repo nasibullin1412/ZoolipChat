@@ -25,11 +25,14 @@ class AuthRepositoryImpl @Inject constructor(
     private val apiKeyDao: ApiKeyDao
 ) : AuthRepository {
 
-    private val authDtoMapper: AuthDtoMapper = AuthDtoMapper()
+    @Inject
+    internal lateinit var authDtoMapper: AuthDtoMapper
 
-    private val authEntityMapper: AuthEntityMapper = AuthEntityMapper()
+    @Inject
+    internal lateinit var authEntityMapper: AuthEntityMapper
 
-    private val authDataMapper: AuthDataMapper = AuthDataMapper()
+    @Inject
+    internal lateinit var authDataMapper: AuthDataMapper
 
     @Inject
     internal lateinit var compositeDisposable: CompositeDisposable

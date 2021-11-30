@@ -28,22 +28,19 @@ class StreamRepositoryImpl @Inject constructor(
     private val streamDao: StreamDao,
 ) : StreamRepository {
 
-    private val apiService: ApiService get() = _apiService.get()
-
-
     @Inject
     internal lateinit var streamDtoMapper: StreamDtoMapper
 
-
     @Inject
     internal lateinit var streamDataMapper: StreamDataMapper
-
 
     @Inject
     internal lateinit var streamEntityMapper: StreamEntityMapper
 
     @Inject
     internal lateinit var compositeDisposable: CompositeDisposable
+
+    private val apiService: ApiService get() = _apiService.get()
 
     override fun loadAllStreams(): Observable<List<StreamData>> {
         return Observable.concatArrayEagerDelayError(
@@ -140,9 +137,6 @@ class StreamRepositoryImpl @Inject constructor(
         return Observable.zip(
             Observable.just(streamDto),
             loadTopics(streamDto.streamId)
-        )
-        { stream: StreamDto, topicList: List<TopicDto> ->
-            Pair(stream, topicList)
-        }
+        ) { stream: StreamDto, topicList: List<TopicDto> -> Pair(stream, topicList) }
     }
 }

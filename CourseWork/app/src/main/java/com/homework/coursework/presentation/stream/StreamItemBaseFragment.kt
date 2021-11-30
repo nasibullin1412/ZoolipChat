@@ -36,7 +36,6 @@ abstract class StreamItemBaseFragment : ElmFragment<Event, Effect, State>(), Top
         super.onAttach(context)
         if (context is BottomNavigationController) {
             bottomNavigationController = context
-            bottomNavigationController?.visibleBottomNavigation()
         }
     }
 
@@ -70,6 +69,11 @@ abstract class StreamItemBaseFragment : ElmFragment<Event, Effect, State>(), Top
             showResultScreen()
             dataStreamUpdate(state.itemList)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        bottomNavigationController?.visibleBottomNavigation()
     }
 
     override fun onStop() {

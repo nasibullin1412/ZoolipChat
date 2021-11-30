@@ -6,9 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import coil.load
 import com.homework.coursework.databinding.ProfileFragmentBinding
-import com.homework.coursework.di.CurrUserStore
-import com.homework.coursework.di.UserStore
-import com.homework.coursework.presentation.App
 import com.homework.coursework.presentation.adapter.data.UserItem
 import com.homework.coursework.presentation.profile.elm.Effect
 import com.homework.coursework.presentation.profile.elm.Event
@@ -17,8 +14,6 @@ import com.homework.coursework.presentation.utils.off
 import com.homework.coursework.presentation.utils.showToast
 import kotlinx.serialization.ExperimentalSerializationApi
 import vivid.money.elmslie.android.base.ElmFragment
-import vivid.money.elmslie.core.store.Store
-import javax.inject.Inject
 
 @ExperimentalSerializationApi
 abstract class BaseProfileFragment : ElmFragment<Event, Effect, State>() {

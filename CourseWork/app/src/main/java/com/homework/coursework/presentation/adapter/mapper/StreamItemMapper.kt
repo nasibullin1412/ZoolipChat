@@ -7,7 +7,7 @@ import dagger.Reusable
 import javax.inject.Inject
 
 @Reusable
-class StreamItemMapper @Inject constructor(): (List<StreamData>) -> (List<StreamItem>) {
+class StreamItemMapper @Inject constructor() : (List<StreamData>) -> (List<StreamItem>) {
 
     @Inject
     internal lateinit var topicItemMapper: TopicItemMapper

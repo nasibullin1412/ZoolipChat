@@ -1,8 +1,18 @@
 package com.homework.coursework.presentation.chat.elm
 
-import com.homework.coursework.domain.usecase.*
+import com.homework.coursework.domain.usecase.AddMessageUseCase
+import com.homework.coursework.domain.usecase.AddReactionToMessageUseCase
+import com.homework.coursework.domain.usecase.DeleteReactionToMessageUseCase
+import com.homework.coursework.domain.usecase.GetTopicMessagesUseCase
+import com.homework.coursework.domain.usecase.InitMessageUseCase
+import com.homework.coursework.domain.usecase.SaveMessageUseCase
 import com.homework.coursework.presentation.adapter.data.DiscussItem
-import com.homework.coursework.presentation.adapter.mapper.*
+import com.homework.coursework.presentation.adapter.mapper.DiscussItemMapper
+import com.homework.coursework.presentation.adapter.mapper.MessageDataMapper
+import com.homework.coursework.presentation.adapter.mapper.StreamDataMapper
+import com.homework.coursework.presentation.adapter.mapper.TopicDataMapper
+import com.homework.coursework.presentation.adapter.mapper.MessageListDataMapper
+import com.homework.coursework.presentation.adapter.mapper.EmojiDataMapper
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import vivid.money.elmslie.core.ActorCompat

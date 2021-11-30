@@ -2,7 +2,6 @@ package com.homework.coursework.di.modules
 
 import com.homework.coursework.data.frameworks.database.AppDatabase
 import com.homework.coursework.data.frameworks.database.dao.*
-import com.homework.coursework.di.CurrUserId
 import dagger.Lazy
 import dagger.Module
 import dagger.Provides

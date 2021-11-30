@@ -30,4 +30,3 @@ interface RepositoryModule {
     @Binds
     fun bindAuthRepository(authRepository: AuthRepositoryImpl): AuthRepository
 }
-

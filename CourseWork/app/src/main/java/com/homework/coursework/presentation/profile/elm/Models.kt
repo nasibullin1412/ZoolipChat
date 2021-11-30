@@ -14,7 +14,6 @@ data class State(
     val isUpdate: Boolean = false
 ) : Parcelable
 
-
 sealed class Event {
 
     sealed class Ui : Event() {

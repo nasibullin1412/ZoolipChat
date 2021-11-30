@@ -47,8 +47,7 @@ class UserProfileFragment : BaseProfileFragment() {
     companion object {
         const val USER_ID_KEY = "UserId"
         fun newInstance(userId: Int): UserProfileFragment {
-            val args = Bundle()
-            args.putInt(USER_ID_KEY, userId)
+            val args = Bundle().apply { putInt(USER_ID_KEY, userId) }
             val fragment = UserProfileFragment()
             fragment.arguments = args
             return fragment

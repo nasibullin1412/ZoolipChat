@@ -44,10 +44,11 @@ class AuthFragment : AuthBaseFragment() {
         }
     }
 
+    /**
+     * Будет добавленно позже
+     */
     override fun render(state: State) {
     }
 
-
     override fun createStore(): Store<Event, Effect, State> = authStore
-
 }

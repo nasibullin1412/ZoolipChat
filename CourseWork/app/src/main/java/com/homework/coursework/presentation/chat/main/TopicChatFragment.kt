@@ -178,9 +178,10 @@ class TopicChatFragment : ChatBaseFragment() {
 
     companion object {
         fun newInstance(topic: TopicItem, stream: StreamItem): ChatBaseFragment {
-            val args = Bundle()
-            args.putParcelable(StreamItemBaseFragment.TOPIC_KEY, topic)
-            args.putParcelable(StreamItemBaseFragment.STREAM_KEY, stream)
+            val args = Bundle().apply {
+                putParcelable(StreamItemBaseFragment.TOPIC_KEY, topic)
+                putParcelable(StreamItemBaseFragment.STREAM_KEY, stream)
+            }
             val fragment = TopicChatFragment()
             fragment.arguments = args
             return fragment
