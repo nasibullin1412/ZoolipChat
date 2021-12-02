@@ -21,6 +21,7 @@ import com.homework.coursework.presentation.stream.StreamItemBaseFragment.Compan
 import com.homework.coursework.presentation.stream.StreamItemBaseFragment.Companion.STREAM_KEY
 import com.homework.coursework.presentation.stream.StreamItemBaseFragment.Companion.TOPIC_KEY
 import kotlinx.serialization.ExperimentalSerializationApi
+import java.lang.IllegalArgumentException
 
 @ExperimentalSerializationApi
 class StreamFragment : Fragment() {
@@ -45,7 +46,9 @@ class StreamFragment : Fragment() {
             this
         ) { _, bundle ->
             val stream = bundle.getParcelable<StreamItem>(STREAM_KEY)
+                ?: throw IllegalArgumentException("Stream required")
             val topic = bundle.getParcelable<TopicItem>(TOPIC_KEY)
+                ?: throw IllegalArgumentException("Topic required")
             topicItemCallback?.navigateFragment(
                 topic = topic,
                 stream = stream

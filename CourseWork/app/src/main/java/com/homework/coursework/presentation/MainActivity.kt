@@ -13,7 +13,6 @@ import com.homework.coursework.presentation.interfaces.NavigateController
 import com.homework.coursework.presentation.utils.FragmentTag
 import com.homework.coursework.presentation.utils.MenuItemIdx
 import com.homework.coursework.presentation.utils.addFragment
-import com.homework.coursework.presentation.utils.fragmentByTag
 import kotlinx.serialization.ExperimentalSerializationApi
 
 @ExperimentalSerializationApi
@@ -25,8 +24,8 @@ class MainActivity : AppCompatActivity(), NavigateController, BottomNavigationCo
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
         if (savedInstanceState == null) {
-            val tag = FragmentTag.AUTH_FRAGMENT_TAG
-            addFragment(tag.fragmentByTag(), tag)
+            val fragmentFactory = FragmentFactory.create(FragmentTag.AUTH_FRAGMENT_TAG)
+            addFragment(fragmentFactory)
         }
         initNavigationListener()
     }
@@ -49,7 +48,8 @@ class MainActivity : AppCompatActivity(), NavigateController, BottomNavigationCo
             R.id.peopleFragment -> FragmentTag.PEOPLE_FRAGMENT_TAG
             else -> throw IllegalArgumentException("Unexpected tag")
         }
-        addFragment(tag.fragmentByTag(), tag)
+        val fragmentFactory = FragmentFactory.create(tag)
+        addFragment(fragmentFactory)
         return true
     }
 
@@ -73,14 +73,18 @@ class MainActivity : AppCompatActivity(), NavigateController, BottomNavigationCo
         bottomNavigationView.menu.getItem(MenuItemIdx.PROFILE_IDX.value).isChecked = true
     }
 
-    override fun navigateFragment(topic: TopicItem?, stream: StreamItem?) {
-        val tag = FragmentTag.TOPIC_DISCUSSION_FRAGMENT_TAG
-        addFragment(tag.fragmentByTag(topic = topic, stream = stream), tag)
+    override fun navigateFragment(topic: TopicItem, stream: StreamItem) {
+        val fragmentFactory = FragmentFactory.create(
+            fragmentTag = FragmentTag.TOPIC_DISCUSSION_FRAGMENT_TAG,
+            topic = topic,
+            stream = stream
+        )
+        addFragment(fragmentFactory)
     }
 
     override fun navigateFragment() {
-        val tag = FragmentTag.CHANNEL_FRAGMENT_TAG
-        addFragment(tag.fragmentByTag(), tag)
+        val fragmentFactory = FragmentFactory.create(FragmentTag.CHANNEL_FRAGMENT_TAG)
+        addFragment(fragmentFactory)
     }
 
     override fun goneBottomNavigation() {

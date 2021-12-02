@@ -18,19 +18,12 @@ import androidx.fragment.app.FragmentManager
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.imageview.ShapeableImageView
 import com.homework.coursework.R
-import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.SOME_ANOTHER_USER_ID
+import com.homework.coursework.presentation.FragmentFactory
 import com.homework.coursework.presentation.adapter.data.EmojiItem
 import com.homework.coursework.presentation.adapter.data.MessageItem
-import com.homework.coursework.presentation.adapter.data.StreamItem
-import com.homework.coursework.presentation.adapter.data.TopicItem
-import com.homework.coursework.presentation.authorization.main.AuthFragment
-import com.homework.coursework.presentation.chat.main.TopicChatFragment
 import com.homework.coursework.presentation.customview.CustomEmojiView
 import com.homework.coursework.presentation.customview.CustomFlexboxLayout
 import com.homework.coursework.presentation.interfaces.MessageItemCallback
-import com.homework.coursework.presentation.profile.main.CurrUserProfileFragment
-import com.homework.coursework.presentation.profile.main.UserProfileFragment
-import com.homework.coursework.presentation.stream.StreamFragment
 import kotlinx.serialization.ExperimentalSerializationApi
 import java.time.Clock
 import java.time.Instant
@@ -232,25 +225,9 @@ fun CustomFlexboxLayout.emojiLogic(
 }
 
 @ExperimentalSerializationApi
-fun FragmentTag.fragmentByTag(topic: TopicItem? = null, stream: StreamItem? = null): Fragment =
-    when (this) {
-        FragmentTag.CHANNEL_FRAGMENT_TAG -> StreamFragment()
-        FragmentTag.PROFILE_FRAGMENT_TAG -> CurrUserProfileFragment()
-        FragmentTag.PEOPLE_FRAGMENT_TAG -> {
-            UserProfileFragment.newInstance(SOME_ANOTHER_USER_ID)
-        }
-        FragmentTag.TOPIC_DISCUSSION_FRAGMENT_TAG -> {
-            if (topic != null && stream != null) {
-                TopicChatFragment.newInstance(topic, stream)
-            } else {
-                throw IllegalArgumentException("topic and stream required")
-            }
-        }
-        FragmentTag.AUTH_FRAGMENT_TAG -> AuthFragment()
-    }
-
-fun AppCompatActivity.addFragment(fragment: Fragment, tag: FragmentTag) {
-    if (tag == FragmentTag.CHANNEL_FRAGMENT_TAG) {
+fun AppCompatActivity.addFragment(fragmentFactory: FragmentFactory) {
+    val tag = fragmentFactory.fragmentTag.value
+    if (fragmentFactory.fragmentTag == FragmentTag.CHANNEL_FRAGMENT_TAG) {
         if (supportFragmentManager.backStackEntryCount != 0) {
             supportFragmentManager.popBackStack(
                 null,
@@ -258,14 +235,14 @@ fun AppCompatActivity.addFragment(fragment: Fragment, tag: FragmentTag) {
             )
         }
         supportFragmentManager.beginTransaction()
-            .replace(R.id.nav_host_fragment, fragment, tag.value)
+            .replace(R.id.nav_host_fragment, fragmentFactory.fragment, tag)
             .commit()
         return
     }
-    supportFragmentManager.popBackStack(tag.value, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+    supportFragmentManager.popBackStack(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     supportFragmentManager.beginTransaction()
-        .replace(R.id.nav_host_fragment, fragment, tag.value)
-        .addToBackStack(tag.value)
+        .replace(R.id.nav_host_fragment, fragmentFactory.fragment, tag)
+        .addToBackStack(tag)
         .commit()
 }
 
