@@ -4,13 +4,16 @@ import android.util.Log
 import com.homework.coursework.data.dto.StatusDto
 import com.homework.coursework.data.dto.UserDto
 import com.homework.coursework.data.dto.UserWithStatus
+import com.homework.coursework.data.frameworks.database.dao.CurrentProfileDao
 import com.homework.coursework.data.frameworks.database.dao.UserDao
+import com.homework.coursework.data.frameworks.database.entities.CurrentProfileEntity
 import com.homework.coursework.data.frameworks.database.entities.UserEntity
+import com.homework.coursework.data.frameworks.database.mappersimpl.ProfileDataMapper
+import com.homework.coursework.data.frameworks.database.mappersimpl.ProfileEntityMapper
 import com.homework.coursework.data.frameworks.database.mappersimpl.UserDataMapper
 import com.homework.coursework.data.frameworks.database.mappersimpl.UserEntityMapper
 import com.homework.coursework.data.frameworks.network.ApiService
 import com.homework.coursework.data.frameworks.network.mappersimpl.UserDtoMapper
-import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.USER_ID
 import com.homework.coursework.domain.entity.UserData
 import com.homework.coursework.domain.repository.UserRepository
 import dagger.Lazy
@@ -25,7 +28,8 @@ import javax.inject.Inject
 @ExperimentalSerializationApi
 class UserRepositoryImpl @Inject constructor(
     private val _apiService: Lazy<ApiService>,
-    private val userDao: UserDao
+    private val userDao: UserDao,
+    private val currentProfileDao: CurrentProfileDao
 ) : UserRepository {
 
     @Inject
@@ -36,6 +40,12 @@ class UserRepositoryImpl @Inject constructor(
 
     @Inject
     internal lateinit var userDataMapper: UserDataMapper
+
+    @Inject
+    internal lateinit var profileEntityMapper: ProfileEntityMapper
+
+    @Inject
+    internal lateinit var profileDataMapper: ProfileDataMapper
 
     @Inject
     internal lateinit var compositeDisposable: CompositeDisposable
@@ -49,7 +59,7 @@ class UserRepositoryImpl @Inject constructor(
 
     override fun getMe(): Observable<UserData> {
         return Observable.concatArrayEagerDelayError(
-            getLocalUser(),
+            getLocalMe(),
             getRemoteMe()
         )
     }
@@ -58,20 +68,39 @@ class UserRepositoryImpl @Inject constructor(
         return apiService.getMe()
             .flatMap { userDto -> zipUserAndStatus(userDto) }
             .map(userDtoMapper)
-            .doOnNext { storeUsersInDb(userDataMapper(it)) }
+            .doOnNext { storeMeInDb(profileDataMapper(it)) }
             .onErrorReturn { error: Throwable ->
                 UserData.getErrorObject(error)
             }
     }
 
-    private fun getLocalUser(userId: Long = USER_ID.toLong()): Observable<UserData> {
+    private fun getLocalMe(): Observable<UserData> {
+        return currentProfileDao.getCurrentProfile()
+            .map(profileEntityMapper)
+            .toObservable()
+            .onErrorReturn { error: Throwable ->
+                UserData.getErrorObject(error)
+            }
+    }
+
+    private fun storeMeInDb(users: CurrentProfileEntity) {
+        Observable.fromCallable { currentProfileDao.insert(users) }
+            .subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.io())
+            .subscribeBy(
+                onNext = { Log.d("FromRoom", it.toString()) },
+                onError = { Log.e("FromRoom", it.message.toString()) }
+            )
+            .addTo(compositeDisposable)
+    }
+
+    private fun getLocalUser(userId: Long): Observable<UserData> {
         return userDao.getUser(userId)
             .map(userEntityMapper)
             .toObservable()
             .onErrorReturn { error: Throwable ->
                 UserData.getErrorObject(error)
             }
-
     }
 
     private fun storeUsersInDb(users: UserEntity) {
@@ -109,5 +138,10 @@ class UserRepositoryImpl @Inject constructor(
             getLocalUser(userId = id.toLong()),
             getRemoteUser(id)
         )
+    }
+
+    override fun getUserId(): Observable<Int> {
+        return currentProfileDao.getCurrentUserId()
+            .toObservable()
     }
 }

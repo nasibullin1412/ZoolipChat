@@ -6,4 +6,5 @@ import io.reactivex.Observable
 interface UserRepository {
     fun getMe(): Observable<UserData>
     fun getUser(id: Int): Observable<UserData>
+    fun getUserId(): Observable<Int>
 }

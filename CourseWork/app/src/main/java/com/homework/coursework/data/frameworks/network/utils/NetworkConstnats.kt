@@ -11,7 +11,6 @@ object NetworkConstants {
     const val CONNECTION_TIMEOUT = 15.toLong()
     const val READ_TIMEOUT = 5.toLong()
     const val WRITE_TIMEOUT = 5.toLong()
-    const val USER_ID = 455625
     const val NEWEST = "newest"
 
     //random user id need for test

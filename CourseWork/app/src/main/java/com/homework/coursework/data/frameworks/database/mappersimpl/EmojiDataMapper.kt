@@ -1,15 +1,14 @@
 package com.homework.coursework.data.frameworks.database.mappersimpl
 
 import com.homework.coursework.data.frameworks.database.entities.EmojiEntity
-import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.USER_ID
 import com.homework.coursework.domain.entity.EmojiData
 import dagger.Reusable
 import javax.inject.Inject
 
 @Reusable
-class EmojiDataMapper @Inject constructor() : (List<EmojiData>, Int) -> (List<EmojiEntity>) {
+class EmojiDataMapper @Inject constructor() : (List<EmojiData>, Int, Int) -> (List<EmojiEntity>) {
 
-    override fun invoke(emojis: List<EmojiData>, messageId: Int): List<EmojiEntity> {
+    override fun invoke(emojis: List<EmojiData>, messageId: Int, currId: Int): List<EmojiEntity> {
         val emojiEntityList: ArrayList<EmojiEntity> = arrayListOf()
         for (emoji in emojis) {
             with(emoji) {
@@ -20,7 +19,7 @@ class EmojiDataMapper @Inject constructor() : (List<EmojiData>, Int) -> (List<Em
                         emojiCode = emojiCode,
                         messageId = messageId,
                         emojiNumber = emojiNumber,
-                        isMe = emoji.emojiReactedId.contains(USER_ID)
+                        isMe = emoji.emojiReactedId.contains(currId)
                     )
                 )
             }

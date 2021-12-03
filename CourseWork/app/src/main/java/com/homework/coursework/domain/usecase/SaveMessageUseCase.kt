@@ -7,11 +7,12 @@ import com.homework.coursework.domain.repository.MessageRepository
 import io.reactivex.Completable
 import javax.inject.Inject
 
-interface SaveMessageUseCase : (StreamData, TopicData, List<MessageData>) -> Completable {
+interface SaveMessageUseCase : (StreamData, TopicData, List<MessageData>, Int) -> Completable {
     override fun invoke(
         streamData: StreamData,
         topicData: TopicData,
-        messageDataList: List<MessageData>
+        messageDataList: List<MessageData>,
+        currId: Int
     ): Completable
 }
 
@@ -22,12 +23,14 @@ class SaveMessageUseCaseImpl @Inject constructor(
     override fun invoke(
         streamData: StreamData,
         topicData: TopicData,
-        messageDataList: List<MessageData>
+        messageDataList: List<MessageData>,
+        currId: Int
     ): Completable {
         return repositoryMessage.saveMessages(
             streamData = streamData,
             topicData = topicData,
-            messages = messageDataList
+            messages = messageDataList,
+            currUserId = currId
         )
     }
 }

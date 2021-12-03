@@ -17,9 +17,10 @@ import kotlinx.serialization.ExperimentalSerializationApi
         MessageEntity::class,
         EmojiEntity::class,
         MessageToUserCrossRef::class,
-        AuthEntity::class
+        AuthEntity::class,
+        CurrentProfileEntity::class
     ],
-    version = 4
+    version = 5
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
@@ -27,6 +28,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun messageDao(): MessageDao
     abstract fun messageToUserCrossRefDao(): MessageToUserCrossRefDao
     abstract fun apiKeyDao(): ApiKeyDao
+    abstract fun currentProfileDao(): CurrentProfileDao
 
     companion object {
         private const val DATABASE_NAME = "Streams.db"

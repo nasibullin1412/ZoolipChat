@@ -58,19 +58,21 @@ class MessageRepositoryImpl @Inject constructor(
 
     override fun initMessages(
         streamData: StreamData,
-        topicData: TopicData
+        topicData: TopicData,
+        currUserId: Int
     ): Observable<List<MessageData>> {
         return Observable.concatArrayEagerDelayError(
             getLocalMessage(streamData, topicData),
-            getRemoteMessage(streamData, topicData)
+            getRemoteMessage(streamData, topicData, currUserId)
         )
     }
 
     override fun loadMessages(
         streamData: StreamData,
-        topicData: TopicData
+        topicData: TopicData,
+        currUserId: Int
     ): Observable<List<MessageData>> {
-        return loadMoreMessage(streamData, topicData)
+        return loadMoreMessage(streamData, topicData, currUserId)
     }
 
     override fun addMessages(
@@ -89,20 +91,23 @@ class MessageRepositoryImpl @Inject constructor(
     override fun saveMessages(
         streamData: StreamData,
         topicData: TopicData,
-        messages: List<MessageData>
+        messages: List<MessageData>,
+        currUserId: Int
     ): Completable {
         return Completable.fromCallable {
             storeUsersInDb(
                 messageDataList = messages,
                 topicData = topicData,
-                streamData = streamData
+                streamData = streamData,
+                currUserId = currUserId
             )
         }
     }
 
     private fun getRemoteMessage(
         streamData: StreamData,
-        topicData: TopicData
+        topicData: TopicData,
+        currUserId: Int
     ): Observable<List<MessageData>> {
         val narrow = Narrow.createNarrowForMessage(streamData, topicData)
         return apiService.getFirstMessages(
@@ -110,7 +115,7 @@ class MessageRepositoryImpl @Inject constructor(
             numAfter = NUM_AFTER,
             numBefore = NUM_BEFORE,
             narrow = narrow
-        ).map(messageDtoMapper)
+        ).map { messageDtoMapper(messages = it, currUserId = currUserId) }
             .onErrorReturn { error: Throwable ->
                 listOf(
                     MessageData.getErrorObject(error)
@@ -120,7 +125,8 @@ class MessageRepositoryImpl @Inject constructor(
 
     private fun loadMoreMessage(
         streamData: StreamData,
-        topicData: TopicData
+        topicData: TopicData,
+        currUserId: Int
     ): Observable<List<MessageData>> {
         val narrow = Narrow.createNarrowForMessage(streamData, topicData)
         return apiService.loadMoreMessages(
@@ -128,13 +134,14 @@ class MessageRepositoryImpl @Inject constructor(
             numAfter = NUM_AFTER,
             numBefore = NUM_BEFORE,
             narrow = narrow
-        ).map(messageDtoMapper)
+        ).map { messageDtoMapper(messages = it, currUserId = currUserId) }
     }
 
     private fun storeUsersInDb(
         messageDataList: List<MessageData>,
         streamData: StreamData,
-        topicData: TopicData
+        topicData: TopicData,
+        currUserId: Int
     ) {
         val length = messageDao.getMessageNumber(streamData.id, topicData.topicName)
         if (length >= DATABASE_MESSAGE_THRESHOLD) {
@@ -152,7 +159,8 @@ class MessageRepositoryImpl @Inject constructor(
                     messageDataMapper(
                         messageDataList = messageListAfterDrop,
                         topicName = topicData.topicName,
-                        streamId = streamData.id
+                        streamId = streamData.id,
+                        currUserId = currUserId
                     )
                 )
             }

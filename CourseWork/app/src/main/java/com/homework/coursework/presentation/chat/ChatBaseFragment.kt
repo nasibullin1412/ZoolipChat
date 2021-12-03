@@ -26,6 +26,8 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
 
     internal var messageIdx = DEFAULT_MESSAGE_ID
 
+    internal var currId: Int = 0
+
     internal var currMessageId = 0
 
     internal val internalStore get() = store
@@ -84,6 +86,9 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
         super.onDetach()
         bottomNavigationController = null
     }
+
+    override val initEvent: Event
+        get() = Event.Ui.GetCurrentId
 
     abstract fun initErrorRepeat()
 

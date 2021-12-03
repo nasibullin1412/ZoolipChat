@@ -37,4 +37,9 @@ class DatabaseModule {
     @Singleton
     @Provides
     fun providesApiKeyDao(database: Lazy<AppDatabase>): ApiKeyDao = database.get().apiKeyDao()
+
+    @Singleton
+    @Provides
+    fun providesCurrProfileDao(database: Lazy<AppDatabase>): CurrentProfileDao =
+        database.get().currentProfileDao()
 }

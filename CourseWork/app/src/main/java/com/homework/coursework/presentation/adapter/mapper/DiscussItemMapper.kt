@@ -10,12 +10,12 @@ import dagger.Reusable
 import javax.inject.Inject
 
 @Reusable
-class DiscussItemMapper @Inject constructor() : (List<MessageData>) -> (List<DiscussItem>) {
+class DiscussItemMapper @Inject constructor() : (List<MessageData>, Int) -> (List<DiscussItem>) {
 
     @Inject
     internal lateinit var messageItemMapper: MessageItemMapper
 
-    override fun invoke(messageDataList: List<MessageData>): List<DiscussItem> {
+    override fun invoke(messageDataList: List<MessageData>, currId: Int): List<DiscussItem> {
         if (messageDataList.size == 1 && messageDataList.first().errorHandle.isError) {
             val erHandle = messageDataList.first().errorHandle
             return listOf(
@@ -37,7 +37,7 @@ class DiscussItemMapper @Inject constructor() : (List<MessageData>) -> (List<Dis
                 val list =
                     this[date] ?: throw IllegalArgumentException("message required")
                 messageList.addMessageItem(
-                    messageItemMapper(list)
+                    messageItemMapper(list, currId)
                 )
             }
         }

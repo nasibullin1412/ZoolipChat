@@ -1,18 +1,8 @@
 package com.homework.coursework.presentation.chat.elm
 
-import com.homework.coursework.domain.usecase.AddMessageUseCase
-import com.homework.coursework.domain.usecase.AddReactionToMessageUseCase
-import com.homework.coursework.domain.usecase.DeleteReactionToMessageUseCase
-import com.homework.coursework.domain.usecase.GetTopicMessagesUseCase
-import com.homework.coursework.domain.usecase.InitMessageUseCase
-import com.homework.coursework.domain.usecase.SaveMessageUseCase
+import com.homework.coursework.domain.usecase.*
 import com.homework.coursework.presentation.adapter.data.DiscussItem
-import com.homework.coursework.presentation.adapter.mapper.DiscussItemMapper
-import com.homework.coursework.presentation.adapter.mapper.MessageDataMapper
-import com.homework.coursework.presentation.adapter.mapper.StreamDataMapper
-import com.homework.coursework.presentation.adapter.mapper.TopicDataMapper
-import com.homework.coursework.presentation.adapter.mapper.MessageListDataMapper
-import com.homework.coursework.presentation.adapter.mapper.EmojiDataMapper
+import com.homework.coursework.presentation.adapter.mapper.*
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import vivid.money.elmslie.core.ActorCompat
@@ -24,6 +14,7 @@ class ChatActor(
     private val addMessages: AddMessageUseCase,
     private val initMessages: InitMessageUseCase,
     private val saveMessage: SaveMessageUseCase,
+    private val getCurrentId: GetCurrentUserIdUseCase,
     private val streamDataMapper: StreamDataMapper,
     private val topicDataMapper: TopicDataMapper,
     private val discussToItemMapper: DiscussItemMapper,
@@ -54,8 +45,9 @@ class ChatActor(
         is Command.LoadFirstPage -> {
             initMessages(
                 streamData = streamDataMapper(command.streamItem),
-                topicData = topicDataMapper(command.topicItem)
-            ).map(discussToItemMapper)
+                topicData = topicDataMapper(command.topicItem),
+                currId = command.currId
+            ).map { discussToItemMapper(messageDataList = it, currId = command.currId) }
                 .mapEvents(
                     { list -> Event.Internal.InitPageLoaded(list) },
                     { error -> Event.Internal.ErrorLoading(error) }
@@ -65,8 +57,9 @@ class ChatActor(
         is Command.LoadNextPage -> {
             getTopicMessages(
                 streamData = streamDataMapper(command.streamItem),
-                topicData = topicDataMapper(command.topicItem)
-            ).map(discussToItemMapper)
+                topicData = topicDataMapper(command.topicItem),
+                currId = command.currId
+            ).map { discussToItemMapper(messageDataList = it, currId = command.currId) }
                 .mapEvents(
                     { list -> Event.Internal.PageLoaded(list) },
                     { error -> Event.Internal.ErrorCommands(error) }
@@ -96,10 +89,18 @@ class ChatActor(
             saveMessage(
                 streamData = streamDataMapper(command.streamItem),
                 topicData = topicDataMapper(command.topicItem),
-                messageDataList = messageListDataMapper(command.messages)
+                messageDataList = messageListDataMapper(command.messages),
+                currId = command.currId
             ).mapEvents(Event.Internal.MessagesSaved) {
                 Event.Internal.ErrorCommands(it)
             }
+        }
+        Command.GetCurrentId -> {
+            getCurrentId()
+                .mapEvents(
+                    { item -> Event.Internal.SuccessGetId(item) },
+                    { error -> Event.Internal.ErrorLoading(error) }
+                )
         }
     }
 

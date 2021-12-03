@@ -1,7 +1,6 @@
 package com.homework.coursework.presentation.authorization.main
 
 import android.os.Bundle
-import android.util.Log
 import com.homework.coursework.presentation.App
 import com.homework.coursework.presentation.authorization.AuthBaseFragment
 import com.homework.coursework.presentation.authorization.elm.Effect
@@ -24,10 +23,7 @@ class AuthFragment : AuthBaseFragment() {
     }
 
     override val initEvent: Event
-        get() {
-            Log.d("InitEvent", "GetInitEvent")
-            return Event.Ui.CheckDatabase
-        }
+        get() = Event.Ui.CheckDatabase
 
     override fun authAction() {
         val login = binding.etUsername.text.toString()
@@ -42,10 +38,13 @@ class AuthFragment : AuthBaseFragment() {
         is Effect.SuccessAuth -> {
             navigateController?.navigateFragment()
         }
+        is Effect.SuccessGetApiToken -> {
+            store.accept(Event.Ui.GetMe)
+        }
     }
 
     /**
-     * Будет добавленно позже
+     * Будет добавленно позже, наверно
      */
     override fun render(state: State) {
     }

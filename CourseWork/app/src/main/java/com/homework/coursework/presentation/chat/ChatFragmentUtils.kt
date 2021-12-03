@@ -12,10 +12,10 @@ import com.homework.coursework.presentation.adapter.MessageAdapter
 import com.homework.coursework.presentation.adapter.data.DiscussItem
 import com.homework.coursework.presentation.adapter.data.EmojiItem
 import com.homework.coursework.presentation.adapter.data.MessageItem
-import com.homework.coursework.presentation.customview.CustomFlexboxLayout
 import com.homework.coursework.presentation.chat.ChatBaseFragment.Companion.DEFAULT_MESSAGE_ID
 import com.homework.coursework.presentation.chat.elm.Event
 import com.homework.coursework.presentation.chat.main.TopicChatFragment
+import com.homework.coursework.presentation.customview.CustomFlexboxLayout
 import com.homework.coursework.presentation.utils.Emoji
 import com.homework.coursework.presentation.utils.initEmojiToBottomSheet
 import com.homework.coursework.presentation.utils.toStringDate
@@ -41,7 +41,8 @@ internal fun TopicChatFragment.initRecycleViewImpl() {
                             numberOfMess = messageAdapter.currentList
                                 .first { it.messageItem != null }
                                 .messageItem?.messageId
-                                ?: throw IllegalArgumentException("messageItem required"))
+                                ?: throw IllegalArgumentException("messageItem required")),
+                        currId = currId
                     )
                 )
                 return true

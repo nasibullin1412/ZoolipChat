@@ -48,7 +48,8 @@ class TopicChatFragment : ChatBaseFragment() {
             store.accept(
                 Event.Ui.LoadFirstPage(
                     streamItem = currentStream,
-                    topicItem = currentTopic
+                    topicItem = currentTopic,
+                    currId = currId
                 )
             )
         }
@@ -93,12 +94,6 @@ class TopicChatFragment : ChatBaseFragment() {
         }
     }
 
-    override val initEvent: Event
-        get() = Event.Ui.LoadFirstPage(
-            streamItem = currentStream,
-            topicItem = currentTopic
-        )
-
     override fun createStore(): Store<Event, Effect, State> = topicChatStore
 
     override fun onStop() {
@@ -112,7 +107,8 @@ class TopicChatFragment : ChatBaseFragment() {
             Event.Ui.SaveMessage(
                 streamItem = currentStream,
                 topicItem = currentTopic,
-                messages = messageAdapter.currentList.takeLast(last)
+                messages = messageAdapter.currentList.takeLast(last),
+                currId = currId
             )
         )
     }
@@ -143,7 +139,8 @@ class TopicChatFragment : ChatBaseFragment() {
                 store.accept(
                     Event.Ui.LoadNextPage(
                         streamItem = currentStream,
-                        topicItem = currentTopic.copy(numberOfMess = effect.id)
+                        topicItem = currentTopic.copy(numberOfMess = effect.id),
+                        currId = currId
                     )
                 )
             }
@@ -169,7 +166,18 @@ class TopicChatFragment : ChatBaseFragment() {
                 store.accept(
                     Event.Ui.LoadNextPage(
                         streamItem = currentStream,
-                        topicItem = currentTopic.copy(numberOfMess = currMessageId)
+                        topicItem = currentTopic.copy(numberOfMess = currMessageId),
+                        currId = currId
+                    )
+                )
+            }
+            is Effect.SuccessGetId -> {
+                currId = effect.currId
+                store.accept(
+                    Event.Ui.LoadFirstPage(
+                        streamItem = currentStream,
+                        topicItem = currentTopic,
+                        currId = currId
                     )
                 )
             }

@@ -18,9 +18,17 @@ data class State(
 sealed class Event {
 
     sealed class Ui : Event() {
-        data class LoadFirstPage(val streamItem: StreamItem, val topicItem: TopicItem) : Ui()
+        data class LoadFirstPage(
+            val streamItem: StreamItem,
+            val topicItem: TopicItem,
+            val currId: Int
+        ) : Ui()
 
-        data class LoadNextPage(val streamItem: StreamItem, val topicItem: TopicItem) : Ui()
+        data class LoadNextPage(
+            val streamItem: StreamItem,
+            val topicItem: TopicItem,
+            val currId: Int
+        ) : Ui()
 
         data class SendMessage(
             val streamItem: StreamItem,
@@ -32,6 +40,8 @@ sealed class Event {
 
         data class DeleteReaction(val messageItem: MessageItem, val emojiItem: EmojiItem) : Ui()
 
+        object GetCurrentId : Ui()
+
         data class MergeOldList(
             val oldList: List<DiscussItem>,
             val newList: List<DiscussItem>
@@ -40,7 +50,8 @@ sealed class Event {
         data class SaveMessage(
             val streamItem: StreamItem,
             val topicItem: TopicItem,
-            val messages: List<DiscussItem>
+            val messages: List<DiscussItem>,
+            val currId: Int
         ) : Ui()
     }
 
@@ -61,6 +72,8 @@ sealed class Event {
         data class ErrorCommands(val error: Throwable) : Internal()
 
         data class ErrorLoading(val error: Throwable) : Internal()
+
+        data class SuccessGetId(val currId: Int) : Internal()
     }
 }
 
@@ -77,13 +90,22 @@ sealed class Effect {
 
     data class ErrorCommands(val error: Throwable) : Effect()
 
+    data class SuccessGetId(val currId: Int) : Effect()
 }
 
 sealed class Command {
 
-    data class LoadFirstPage(val streamItem: StreamItem, val topicItem: TopicItem) : Command()
+    data class LoadFirstPage(
+        val streamItem: StreamItem,
+        val topicItem: TopicItem,
+        val currId: Int
+    ) : Command()
 
-    data class LoadNextPage(val streamItem: StreamItem, val topicItem: TopicItem) : Command()
+    data class LoadNextPage(
+        val streamItem: StreamItem,
+        val topicItem: TopicItem,
+        val currId: Int
+    ) : Command()
 
     data class SendMessage(
         val streamItem: StreamItem,
@@ -103,6 +125,9 @@ sealed class Command {
     data class SaveMessage(
         val streamItem: StreamItem,
         val topicItem: TopicItem,
-        val messages: List<DiscussItem>
+        val messages: List<DiscussItem>,
+        val currId: Int
     ) : Command()
+
+    object GetCurrentId : Command()
 }

@@ -68,6 +68,10 @@ class ChatReducer @Inject constructor() : DslReducer<Event, State, Effect, Comma
             effects { +Effect.MessagesSaved }
         }
 
+        is Event.Internal.SuccessGetId -> {
+            effects { +Effect.SuccessGetId(event.currId) }
+        }
+
         is Event.Ui.AddReaction -> {
             commands {
                 +Command.AddReaction(
@@ -95,7 +99,8 @@ class ChatReducer @Inject constructor() : DslReducer<Event, State, Effect, Comma
             commands {
                 +Command.LoadFirstPage(
                     streamItem = event.streamItem,
-                    topicItem = event.topicItem
+                    topicItem = event.topicItem,
+                    currId = event.currId
                 )
             }
         }
@@ -103,7 +108,8 @@ class ChatReducer @Inject constructor() : DslReducer<Event, State, Effect, Comma
             commands {
                 +Command.LoadNextPage(
                     streamItem = event.streamItem,
-                    topicItem = event.topicItem
+                    topicItem = event.topicItem,
+                    currId = event.currId
                 )
             }
         }
@@ -130,9 +136,13 @@ class ChatReducer @Inject constructor() : DslReducer<Event, State, Effect, Comma
                 +Command.SaveMessage(
                     streamItem = event.streamItem,
                     topicItem = event.topicItem,
-                    messages = event.messages
+                    messages = event.messages,
+                    currId = event.currId
                 )
             }
+        }
+        Event.Ui.GetCurrentId -> {
+            commands { +Command.GetCurrentId }
         }
     }
 

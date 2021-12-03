@@ -7,7 +7,8 @@ import dagger.Reusable
 import javax.inject.Inject
 
 @Reusable
-class MessageDataMapper @Inject constructor() : (List<MessageData>, String, Int) -> (List<MessageWithEmojiEntity>) {
+class MessageDataMapper @Inject constructor() :
+        (List<MessageData>, String, Int, Int) -> (List<MessageWithEmojiEntity>) {
 
     @Inject
     internal lateinit var emojiDataMapper: EmojiDataMapper
@@ -18,7 +19,8 @@ class MessageDataMapper @Inject constructor() : (List<MessageData>, String, Int)
     override fun invoke(
         messageDataList: List<MessageData>,
         topicName: String,
-        streamId: Int
+        streamId: Int,
+        currUserId: Int
     ): List<MessageWithEmojiEntity> {
         return messageDataList.map { messageData ->
             with(messageData) {
@@ -33,7 +35,7 @@ class MessageDataMapper @Inject constructor() : (List<MessageData>, String, Int)
                         topicName = topicName,
                         streamId = streamId
                     ),
-                    emojiEntity = emojiDataMapper(emojis, messageId),
+                    emojiEntity = emojiDataMapper(emojis, messageId, currUserId),
                     userEntity = userDataMapper(userData)
                 )
             }

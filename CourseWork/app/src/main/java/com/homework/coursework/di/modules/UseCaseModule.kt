@@ -67,4 +67,8 @@ interface UseCaseModule {
     @Reusable
     @Binds
     fun bindCheckAuthUseCase(checkAuthUseCase: CheckAuthUseCaseImpl): CheckAuthUseCase
+
+    @Reusable
+    @Binds
+    fun bindGetCurrentUserId(currentUserIdUseCase: GetCurrentUserIdUseCaseImpl): GetCurrentUserIdUseCase
 }
