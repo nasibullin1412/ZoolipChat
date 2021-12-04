@@ -7,24 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.marginBottom
 import androidx.core.view.marginLeft
 import androidx.core.view.marginRight
 import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.imageview.ShapeableImageView
 import com.homework.coursework.R
-import com.homework.coursework.presentation.FragmentFactory
 import com.homework.coursework.presentation.adapter.data.EmojiItem
 import com.homework.coursework.presentation.adapter.data.MessageItem
 import com.homework.coursework.presentation.customview.CustomEmojiView
 import com.homework.coursework.presentation.customview.CustomFlexboxLayout
 import com.homework.coursework.presentation.interfaces.MessageItemCallback
-import kotlinx.serialization.ExperimentalSerializationApi
 import java.time.Clock
 import java.time.Instant
 import java.time.LocalDateTime
@@ -222,32 +218,6 @@ fun CustomFlexboxLayout.emojiLogic(
             }
         }
     }
-}
-
-fun AppCompatActivity.addChannelFragment(fragmentFactory: FragmentFactory, tag: String) {
-    if (supportFragmentManager.backStackEntryCount != 0) {
-        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-    }
-    supportFragmentManager.beginTransaction()
-        .replace(R.id.nav_host_fragment, fragmentFactory.fragment, tag)
-        .commit()
-}
-
-@ExperimentalSerializationApi
-fun AppCompatActivity.addFragment(fragmentFactory: FragmentFactory) {
-    val tag = fragmentFactory.fragmentTag.value
-    if (fragmentFactory.fragmentTag == FragmentTag.CHANNEL_FRAGMENT_TAG) {
-        addChannelFragment(fragmentFactory = fragmentFactory, tag = tag)
-        return
-    }
-    if (fragmentFactory.fragmentTag == FragmentTag.AUTH_FRAGMENT_TAG) {
-        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-    }
-    supportFragmentManager.popBackStack(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-    supportFragmentManager.beginTransaction()
-        .replace(R.id.nav_host_fragment, fragmentFactory.fragment, tag)
-        .addToBackStack(tag)
-        .commit()
 }
 
 fun Long.toStringDate(): String {

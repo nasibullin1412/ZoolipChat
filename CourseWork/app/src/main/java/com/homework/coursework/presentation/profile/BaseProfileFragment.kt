@@ -1,5 +1,6 @@
 package com.homework.coursework.presentation.profile
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import coil.load
 import com.homework.coursework.databinding.ProfileFragmentBinding
 import com.homework.coursework.presentation.adapter.data.UserItem
+import com.homework.coursework.presentation.interfaces.NavigateController
 import com.homework.coursework.presentation.profile.elm.Effect
 import com.homework.coursework.presentation.profile.elm.Event
 import com.homework.coursework.presentation.profile.elm.State
@@ -20,6 +22,14 @@ abstract class BaseProfileFragment : ElmFragment<Event, Effect, State>() {
 
     private var _binding: ProfileFragmentBinding? = null
     protected val binding get() = _binding!!
+    private var navigateController: NavigateController? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is NavigateController) {
+            navigateController = context
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,6 +69,7 @@ abstract class BaseProfileFragment : ElmFragment<Event, Effect, State>() {
                 showToast("Something went wrong, try again...")
             }
             Effect.SuccessLogout -> {
+                navigateController?.logoutApp()
             }
         }
     }
@@ -66,6 +77,11 @@ abstract class BaseProfileFragment : ElmFragment<Event, Effect, State>() {
     override fun onStop() {
         super.onStop()
         store.accept(Event.Ui.OnStop)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        navigateController = null
     }
 
     abstract fun initErrorRepeat()

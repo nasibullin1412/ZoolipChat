@@ -87,6 +87,11 @@ class MainActivity : AppCompatActivity(), NavigateController, BottomNavigationCo
         addFragment(fragmentFactory)
     }
 
+    override fun logoutApp() {
+        val fragmentFactory = FragmentFactory.create(FragmentTag.AUTH_FRAGMENT_TAG)
+        addFragment(fragmentFactory)
+    }
+
     override fun goneBottomNavigation() {
         bottomNavigationView.visibility = View.GONE
     }
