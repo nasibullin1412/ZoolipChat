@@ -55,6 +55,11 @@ abstract class BaseProfileFragment : ElmFragment<Event, Effect, State>() {
     override fun handleEffect(effect: Effect) {
         when (effect) {
             is Effect.UserLoadError -> showToast(effect.error.message)
+            Effect.ErrorLogout -> {
+                showToast("Something went wrong, try again...")
+            }
+            Effect.SuccessLogout -> {
+            }
         }
     }
 

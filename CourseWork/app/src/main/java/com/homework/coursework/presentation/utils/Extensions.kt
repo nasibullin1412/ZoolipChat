@@ -224,20 +224,24 @@ fun CustomFlexboxLayout.emojiLogic(
     }
 }
 
+fun AppCompatActivity.addChannelFragment(fragmentFactory: FragmentFactory, tag: String) {
+    if (supportFragmentManager.backStackEntryCount != 0) {
+        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+    }
+    supportFragmentManager.beginTransaction()
+        .replace(R.id.nav_host_fragment, fragmentFactory.fragment, tag)
+        .commit()
+}
+
 @ExperimentalSerializationApi
 fun AppCompatActivity.addFragment(fragmentFactory: FragmentFactory) {
     val tag = fragmentFactory.fragmentTag.value
     if (fragmentFactory.fragmentTag == FragmentTag.CHANNEL_FRAGMENT_TAG) {
-        if (supportFragmentManager.backStackEntryCount != 0) {
-            supportFragmentManager.popBackStack(
-                null,
-                FragmentManager.POP_BACK_STACK_INCLUSIVE
-            )
-        }
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.nav_host_fragment, fragmentFactory.fragment, tag)
-            .commit()
+        addChannelFragment(fragmentFactory = fragmentFactory, tag = tag)
         return
+    }
+    if (fragmentFactory.fragmentTag == FragmentTag.AUTH_FRAGMENT_TAG) {
+        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
     supportFragmentManager.popBackStack(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     supportFragmentManager.beginTransaction()

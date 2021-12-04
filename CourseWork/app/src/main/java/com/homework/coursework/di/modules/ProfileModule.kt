@@ -5,6 +5,7 @@ import com.homework.coursework.di.ProfileFragmentScope
 import com.homework.coursework.di.UserStore
 import com.homework.coursework.domain.usecase.GetMeUseCase
 import com.homework.coursework.domain.usecase.GetUserProfileUseCase
+import com.homework.coursework.domain.usecase.LogoutUserUseCase
 import com.homework.coursework.presentation.adapter.mapper.UserItemMapper
 import com.homework.coursework.presentation.profile.elm.*
 import dagger.Module
@@ -29,9 +30,10 @@ class ProfileModule {
     fun provideProfileActor(
         getMe: GetMeUseCase,
         getUser: GetUserProfileUseCase,
+        logoutUser: LogoutUserUseCase,
         userItemMapper: UserItemMapper
     ): ProfileActor {
-        return ProfileActor(getMe, getUser, userItemMapper)
+        return ProfileActor(getMe, getUser, logoutUser, userItemMapper)
     }
 
     @ProfileFragmentScope

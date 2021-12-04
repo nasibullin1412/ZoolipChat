@@ -1,7 +1,7 @@
 package com.homework.coursework.data.frameworks.network.utils
 
 import com.homework.coursework.BuildConfig
-import com.homework.coursework.data.frameworks.database.dao.ApiKeyDao
+import com.homework.coursework.data.frameworks.database.dao.AuthDao
 import com.homework.coursework.data.frameworks.database.entities.AuthEntity
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.APPLICATION_JSON_TYPE
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.AUTHORIZATION
@@ -18,9 +18,9 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import java.util.concurrent.TimeUnit
 
-fun Retrofit.Builder.setClient(apiKeyDao: ApiKeyDao) = apply {
+fun Retrofit.Builder.setClient(authDao: AuthDao) = apply {
     val okHttpClient = OkHttpClient.Builder()
-        .addQueryInterceptor(apiKeyDao)
+        .addQueryInterceptor(authDao)
         .addHttpLoggingInterceptor()
         .connectTimeout(CONNECTION_TIMEOUT, TimeUnit.SECONDS)
         .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
@@ -29,10 +29,10 @@ fun Retrofit.Builder.setClient(apiKeyDao: ApiKeyDao) = apply {
     this.client(okHttpClient)
 }
 
-private fun OkHttpClient.Builder.addQueryInterceptor(apiKeyDao: ApiKeyDao) = apply {
+private fun OkHttpClient.Builder.addQueryInterceptor(authDao: AuthDao) = apply {
     val interceptor = Interceptor { chain ->
         var request = chain.request()
-        val authEntity: AuthEntity = apiKeyDao.getApiKey() ?: AuthEntity(0, "", "")
+        val authEntity: AuthEntity = authDao.getApiKey() ?: AuthEntity(0, "", "")
         request = request.newBuilder().header(
             AUTHORIZATION,
             Credentials.basic(

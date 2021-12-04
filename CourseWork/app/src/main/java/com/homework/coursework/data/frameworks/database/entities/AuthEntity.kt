@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "api_key", indices = [Index(value = ["api_key"], unique = true)])
+@Entity(tableName = "auth", indices = [Index(value = ["api_key"], unique = true)])
 data class AuthEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")

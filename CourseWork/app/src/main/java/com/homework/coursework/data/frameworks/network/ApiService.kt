@@ -1,7 +1,7 @@
 package com.homework.coursework.data.frameworks.network
 
 import com.homework.coursework.data.dto.*
-import com.homework.coursework.data.frameworks.database.dao.ApiKeyDao
+import com.homework.coursework.data.frameworks.database.dao.AuthDao
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.BASE_URL
 import com.homework.coursework.data.frameworks.network.utils.addJsonConverter
 import com.homework.coursework.data.frameworks.network.utils.setClient
@@ -148,10 +148,10 @@ interface ApiService {
     ): Observable<AuthDto>
 
     companion object {
-        fun create(apiKeyDao: ApiKeyDao): ApiService {
+        fun create(authDao: AuthDao): ApiService {
             return Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .setClient(apiKeyDao)
+                .setClient(authDao)
                 .addJsonConverter()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
                 .build()

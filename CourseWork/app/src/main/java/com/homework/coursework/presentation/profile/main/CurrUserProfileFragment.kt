@@ -1,6 +1,7 @@
 package com.homework.coursework.presentation.profile.main
 
 import android.os.Bundle
+import android.view.View
 import com.homework.coursework.di.CurrUserStore
 import com.homework.coursework.presentation.App
 import com.homework.coursework.presentation.profile.BaseProfileFragment
@@ -21,6 +22,17 @@ class CurrUserProfileFragment : BaseProfileFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         App.appComponent.currUserProfileComponent().inject(this)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initLogoutButton()
+    }
+
+    private fun initLogoutButton() {
+        binding.btnLogout.setOnClickListener {
+            store.accept(Event.Ui.LogoutUser)
+        }
     }
 
     override val initEvent: Event

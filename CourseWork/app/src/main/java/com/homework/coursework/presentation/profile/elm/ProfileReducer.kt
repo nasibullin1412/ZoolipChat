@@ -38,6 +38,12 @@ class ProfileReducer @Inject constructor() : DslReducer<Event, State, Effect, Co
                 }
             }
         }
+        Event.Internal.ErrorLogout -> {
+            effects { +Effect.ErrorLogout }
+        }
+        Event.Internal.SuccessLogout -> {
+            effects { +Effect.SuccessLogout }
+        }
         Event.Ui.LoadMe -> {
             state { copy(isLoading = true, isError = false, isUpdate = false) }
             commands { +Command.LoadMe }
@@ -48,6 +54,9 @@ class ProfileReducer @Inject constructor() : DslReducer<Event, State, Effect, Co
         }
         Event.Ui.OnStop -> {
             isSecondError = false
+        }
+        Event.Ui.LogoutUser -> {
+            commands { +Command.LogoutUser }
         }
     }
 

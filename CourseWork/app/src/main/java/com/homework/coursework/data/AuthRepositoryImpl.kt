@@ -1,7 +1,7 @@
 package com.homework.coursework.data
 
 import android.util.Log
-import com.homework.coursework.data.frameworks.database.dao.ApiKeyDao
+import com.homework.coursework.data.frameworks.database.dao.AuthDao
 import com.homework.coursework.data.frameworks.database.entities.AuthEntity
 import com.homework.coursework.data.frameworks.database.mappersimpl.AuthDataMapper
 import com.homework.coursework.data.frameworks.database.mappersimpl.AuthEntityMapper
@@ -10,6 +10,7 @@ import com.homework.coursework.data.frameworks.network.mappersimpl.AuthDtoMapper
 import com.homework.coursework.domain.entity.AuthData
 import com.homework.coursework.domain.repository.AuthRepository
 import dagger.Lazy
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
@@ -22,7 +23,7 @@ import javax.inject.Inject
 @ExperimentalSerializationApi
 class AuthRepositoryImpl @Inject constructor(
     private val _apiService: Lazy<ApiService>,
-    private val apiKeyDao: ApiKeyDao
+    private val authDao: AuthDao
 ) : AuthRepository {
 
     @Inject
@@ -47,12 +48,16 @@ class AuthRepositoryImpl @Inject constructor(
 
     override fun checkIsAuth(): Single<AuthData> {
         return Single.fromCallable {
-            apiKeyDao.getApiKey()
+            authDao.getApiKey()
         }.map(authEntityMapper)
     }
 
+    override fun delete(): Completable {
+        return authDao.delete()
+    }
+
     private fun storeUsersInDb(authEntity: AuthEntity) {
-        apiKeyDao.insertApiKey(authEntity)
+        authDao.insertApiKey(authEntity)
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .subscribeBy(

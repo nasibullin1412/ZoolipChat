@@ -20,14 +20,14 @@ import kotlinx.serialization.ExperimentalSerializationApi
         AuthEntity::class,
         CurrentProfileEntity::class
     ],
-    version = 5
+    version = 6
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun streamDao(): StreamDao
     abstract fun messageDao(): MessageDao
     abstract fun messageToUserCrossRefDao(): MessageToUserCrossRefDao
-    abstract fun apiKeyDao(): ApiKeyDao
+    abstract fun apiKeyDao(): AuthDao
     abstract fun currentProfileDao(): CurrentProfileDao
 
     companion object {

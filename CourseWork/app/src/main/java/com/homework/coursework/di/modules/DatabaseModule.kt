@@ -36,7 +36,7 @@ class DatabaseModule {
 
     @Singleton
     @Provides
-    fun providesApiKeyDao(database: Lazy<AppDatabase>): ApiKeyDao = database.get().apiKeyDao()
+    fun providesApiKeyDao(database: Lazy<AppDatabase>): AuthDao = database.get().apiKeyDao()
 
     @Singleton
     @Provides

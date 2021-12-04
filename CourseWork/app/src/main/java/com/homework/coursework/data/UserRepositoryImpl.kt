@@ -17,6 +17,7 @@ import com.homework.coursework.data.frameworks.network.mappersimpl.UserDtoMapper
 import com.homework.coursework.domain.entity.UserData
 import com.homework.coursework.domain.repository.UserRepository
 import dagger.Lazy
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -143,5 +144,9 @@ class UserRepositoryImpl @Inject constructor(
     override fun getUserId(): Observable<Int> {
         return currentProfileDao.getCurrentUserId()
             .toObservable()
+    }
+
+    override fun delete(): Completable {
+        return currentProfileDao.delete()
     }
 }

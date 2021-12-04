@@ -71,4 +71,8 @@ interface UseCaseModule {
     @Reusable
     @Binds
     fun bindGetCurrentUserId(currentUserIdUseCase: GetCurrentUserIdUseCaseImpl): GetCurrentUserIdUseCase
+
+    @Reusable
+    @Binds
+    fun bindLogoutUser(logoutUserUseCase: LogoutUserUseCaseImpl): LogoutUserUseCase
 }
