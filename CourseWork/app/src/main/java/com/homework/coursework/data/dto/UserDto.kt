@@ -13,5 +13,7 @@ data class UserDto(
     @SerialName("full_name")
     val fullName: String,
     @SerialName("avatar_url")
-    val avatarUrl: String
+    val avatarUrl: String,
+    @SerialName("is_admin")
+    val isAdmin: Boolean
 )

@@ -9,4 +9,5 @@ interface UserRepository {
     fun getUser(id: Int): Observable<UserData>
     fun getUserId(): Observable<Int>
     fun delete(): Completable
+    fun getAllUsers(): Observable<List<UserData>>
 }

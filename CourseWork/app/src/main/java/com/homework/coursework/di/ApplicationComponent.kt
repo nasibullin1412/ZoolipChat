@@ -28,6 +28,8 @@ interface ApplicationComponent {
 
     fun authComponent(): AuthComponent
 
+    fun peopleComponent(): PeopleComponent
+
     @Component.Factory
     interface Factory {
         fun create(

@@ -16,6 +16,7 @@ class ProfileDataMapper @Inject constructor(): (UserData) -> (CurrentProfileEnti
                 email = userMail,
                 fullName = name,
                 avatarUrl = avatarUrl,
+                isAdmin = isAdmin,
                 userStatus = userStatus.status.value,
                 userTimestamp = userStatus.timestamp
             )

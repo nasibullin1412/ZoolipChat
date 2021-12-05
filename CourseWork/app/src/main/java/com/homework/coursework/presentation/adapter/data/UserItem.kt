@@ -9,5 +9,6 @@ data class UserItem(
     val userMail: String,
     var userStatus: UserStatus?,
     val lastStatusDate: Long?,
+    val isAdmin: Boolean,
     val errorHandle: ErrorHandle = ErrorHandle()
 )

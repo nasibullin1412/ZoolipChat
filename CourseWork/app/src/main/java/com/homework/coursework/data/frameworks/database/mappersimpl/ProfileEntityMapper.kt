@@ -18,6 +18,7 @@ class ProfileEntityMapper @Inject constructor() : (CurrentProfileEntity) -> (Use
                 name = fullName,
                 avatarUrl = avatarUrl,
                 userMail = email,
+                isAdmin = user.isAdmin,
                 userStatus = statusEntityMapper(userStatus, userTimestamp)
             )
         }

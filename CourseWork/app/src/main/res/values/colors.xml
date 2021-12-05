@@ -31,4 +31,6 @@
     <color name="topic_name_color">#CCCCCC</color>
     <color name="shimmer_color">#646464</color>
     <color name="custom_login_back">#F1F1F1</color>
+    <color name="shimmer_layout_color">#3e3c3c</color>
+    <color name="email_color">#A1A1A1</color>
 </resources>

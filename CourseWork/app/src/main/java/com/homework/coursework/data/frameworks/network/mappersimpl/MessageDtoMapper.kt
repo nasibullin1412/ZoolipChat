@@ -26,7 +26,8 @@ class MessageDtoMapper @Inject constructor() : (MessagesResponse, Int) -> (List<
                         name = senderFullName,
                         avatarUrl = avatarUrl,
                         userMail = senderEmail,
-                        UserStatus(StatusEnum.UNKNOWN, 0)
+                        isAdmin = false,
+                        userStatus = UserStatus(StatusEnum.UNKNOWN, 0)
                     ),
                     messageContent = content.parseHtmlContent(),
                     emojis = emojiDtoMapper(reactions),

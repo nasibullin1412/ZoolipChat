@@ -23,5 +23,7 @@ data class UserEntity(
     @ColumnInfo(name = "user_status")
     val userStatus: Int,
     @ColumnInfo(name = "user_timestamp")
-    val userTimestamp: Long
+    val userTimestamp: Long,
+    @ColumnInfo(name = "is_admin")
+    val isAdmin: Boolean
 )

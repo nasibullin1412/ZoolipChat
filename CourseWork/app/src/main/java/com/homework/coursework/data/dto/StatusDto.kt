@@ -6,7 +6,16 @@ import kotlinx.serialization.Serializable
 data class StatusDto(
     val aggregated: Client,
     val website: Client
-)
+) {
+    companion object {
+        fun getEmptyStatus(): StatusDto {
+            return StatusDto(
+                aggregated = Client(status = "offline", timestamp = 0),
+                website = Client(status = "offline", timestamp = 0)
+            )
+        }
+    }
+}
 
 @Serializable
 data class Client(

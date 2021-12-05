@@ -12,6 +12,9 @@ interface UserDao {
     @Query("SELECT * FROM user_table WHERE user_id = :id")
     fun getUser(id: Long): Single<UserEntity>
 
+    @Query("SELECT * FROM user_table")
+    fun getAllUsers(): Single<List<UserEntity>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(userEntity: UserEntity)
 

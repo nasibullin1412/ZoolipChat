@@ -6,6 +6,7 @@ data class UserData(
     val avatarUrl: String,
     val userMail: String,
     val userStatus: UserStatus,
+    val isAdmin: Boolean,
     val errorHandle: ErrorHandle = ErrorHandle()
 ) {
     companion object {
@@ -15,7 +16,10 @@ data class UserData(
             avatarUrl = "",
             userStatus = UserStatus(StatusEnum.UNKNOWN, 0),
             userMail = "",
-            errorHandle = ErrorHandle(true, throwable)
+            isAdmin = false,
+            errorHandle = ErrorHandle(
+                true, throwable
+            )
         )
     }
 }

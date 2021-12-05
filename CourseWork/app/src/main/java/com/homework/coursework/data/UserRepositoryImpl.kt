@@ -8,12 +8,10 @@ import com.homework.coursework.data.frameworks.database.dao.CurrentProfileDao
 import com.homework.coursework.data.frameworks.database.dao.UserDao
 import com.homework.coursework.data.frameworks.database.entities.CurrentProfileEntity
 import com.homework.coursework.data.frameworks.database.entities.UserEntity
-import com.homework.coursework.data.frameworks.database.mappersimpl.ProfileDataMapper
-import com.homework.coursework.data.frameworks.database.mappersimpl.ProfileEntityMapper
-import com.homework.coursework.data.frameworks.database.mappersimpl.UserDataMapper
-import com.homework.coursework.data.frameworks.database.mappersimpl.UserEntityMapper
+import com.homework.coursework.data.frameworks.database.mappersimpl.*
 import com.homework.coursework.data.frameworks.network.ApiService
 import com.homework.coursework.data.frameworks.network.mappersimpl.UserDtoMapper
+import com.homework.coursework.data.frameworks.network.mappersimpl.UserListDtoMapper
 import com.homework.coursework.domain.entity.UserData
 import com.homework.coursework.domain.repository.UserRepository
 import dagger.Lazy
@@ -47,6 +45,15 @@ class UserRepositoryImpl @Inject constructor(
 
     @Inject
     internal lateinit var profileDataMapper: ProfileDataMapper
+
+    @Inject
+    internal lateinit var userDtoListMapper: UserListDtoMapper
+
+    @Inject
+    internal lateinit var userDataListMapper: UserDataListMapper
+
+    @Inject
+    internal lateinit var userEntityListMapper: UserEntityListMapper
 
     @Inject
     internal lateinit var compositeDisposable: CompositeDisposable
@@ -104,8 +111,20 @@ class UserRepositoryImpl @Inject constructor(
             }
     }
 
-    private fun storeUsersInDb(users: UserEntity) {
+    private fun storeUserInDb(users: UserEntity) {
         Observable.fromCallable { userDao.insert(users) }
+            .subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.io())
+            .subscribeBy(
+                onNext = { Log.d("FromRoom", it.toString()) },
+                onError = { Log.e("FromRoom", it.message.toString()) }
+            )
+            .addTo(compositeDisposable)
+    }
+
+
+    private fun storeUsersInDb(users: List<UserEntity>) {
+        Observable.fromCallable { userDao.insertAll(users) }
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .subscribeBy(
@@ -128,7 +147,7 @@ class UserRepositoryImpl @Inject constructor(
         return apiService.getUser(id)
             .flatMap { userResponse -> zipUserAndStatus(userResponse.data!!) }
             .map(userDtoMapper)
-            .doOnNext { storeUsersInDb(userDataMapper(it)) }
+            .doOnNext { storeUserInDb(userDataMapper(it)) }
             .onErrorReturn { error: Throwable ->
                 UserData.getErrorObject(error)
             }
@@ -148,5 +167,30 @@ class UserRepositoryImpl @Inject constructor(
 
     override fun delete(): Completable {
         return currentProfileDao.delete()
+    }
+
+    override fun getAllUsers(): Observable<List<UserData>> {
+        return Observable.concatArrayEagerDelayError(
+            getLocalAllUsers(),
+            getRemoteAllUsers()
+        )
+    }
+
+    private fun getLocalAllUsers(): Observable<List<UserData>> {
+        return userDao.getAllUsers()
+            .map(userEntityListMapper)
+            .toObservable()
+            .onErrorReturn { error: Throwable ->
+                listOf(UserData.getErrorObject(error))
+            }
+    }
+
+    private fun getRemoteAllUsers(): Observable<List<UserData>> {
+        return apiService.getAllUsers()
+            .map(userDtoListMapper)
+            .doOnNext { storeUsersInDb(userDataListMapper(it)) }
+            .onErrorReturn { error: Throwable ->
+                listOf(UserData.getErrorObject(error))
+            }
     }
 }

@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.homework.coursework.R
+import com.homework.coursework.databinding.StreamItemBinding
 import com.homework.coursework.di.StreamFragmentScope
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.callbacks.StreamCallback
@@ -27,7 +27,7 @@ class StreamNameAdapter @Inject constructor(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StreamNameViewHolder {
         val inflater: LayoutInflater = LayoutInflater.from(parent.context)
         return StreamNameViewHolder(
-            inflater.inflate(R.layout.stream_item, parent, false)
+            StreamItemBinding.inflate(inflater, parent, false)
         )
     }
 
@@ -52,13 +52,13 @@ class StreamNameAdapter @Inject constructor(
      * @param position is position need for listener onTopicClick
      */
     private fun initChildRecycle(holder: StreamNameViewHolder, position: Int) {
-        with(holder) {
-            adapterTopicName = TopicAdapter(getItem(position)).apply { setListener(listenerTopic) }
-            with(rvTopicName) {
-                layoutManager = LinearLayoutManager(context)
-                adapter = adapterTopicName
-                setRecycledViewPool(viewPool)
-            }
+        holder.adapterTopicName =
+            TopicAdapter(getItem(position)).apply { setListener(listenerTopic) }
+        with(holder.viewBinding.rvTopic) {
+            layoutManager = LinearLayoutManager(context)
+            adapter = holder.adapterTopicName
+            setRecycledViewPool(viewPool)
         }
     }
 }
+

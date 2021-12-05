@@ -20,7 +20,7 @@ import kotlinx.serialization.ExperimentalSerializationApi
         AuthEntity::class,
         CurrentProfileEntity::class
     ],
-    version = 6
+    version = 7
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao

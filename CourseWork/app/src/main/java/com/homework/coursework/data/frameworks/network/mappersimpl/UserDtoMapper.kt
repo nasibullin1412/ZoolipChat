@@ -20,6 +20,7 @@ class UserDtoMapper @Inject constructor() : (UserWithStatus) -> (UserData) {
                 name = first.fullName,
                 avatarUrl = first.avatarUrl,
                 userMail = first.email,
+                isAdmin = first.isAdmin,
                 userStatus = statusDtoMapper(second)
             )
         }

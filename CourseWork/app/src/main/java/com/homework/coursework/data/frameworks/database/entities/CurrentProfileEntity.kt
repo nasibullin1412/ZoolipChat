@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey
     tableName = "current_profile",
     indices = [androidx.room.Index(value = ["user_id"], unique = true)]
 )
-data class CurrentProfileEntity (
+data class CurrentProfileEntity(
     @ColumnInfo(name = "id")
     @PrimaryKey(autoGenerate = true)
     val id: Long,
@@ -23,5 +23,7 @@ data class CurrentProfileEntity (
     @ColumnInfo(name = "user_status")
     val userStatus: Int,
     @ColumnInfo(name = "user_timestamp")
-    val userTimestamp: Long
+    val userTimestamp: Long,
+    @ColumnInfo(name = "is_admin")
+    val isAdmin: Boolean
 )

@@ -9,6 +9,15 @@ import kotlinx.serialization.json.JsonNames
 data class DtoResponse<out T>(
     val result: String,
     val msg: String?,
-    @JsonNames("streams", "subscriptions", "topics", "messages", "presence", "id", "user")
+    @JsonNames(
+        "streams",
+        "subscriptions",
+        "topics",
+        "messages",
+        "presence",
+        "id",
+        "user",
+        "members"
+    )
     val data: T?
 )

@@ -16,6 +16,7 @@ class UserDataMapper @Inject constructor() : (UserData) -> (UserEntity) {
                 fullName = name,
                 avatarUrl = avatarUrl,
                 userStatus = userStatus.status.value,
+                isAdmin = isAdmin,
                 userTimestamp = userStatus.timestamp
             )
         }

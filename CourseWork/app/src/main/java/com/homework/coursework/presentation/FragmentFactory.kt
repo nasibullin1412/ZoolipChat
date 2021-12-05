@@ -6,6 +6,7 @@ import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
 import com.homework.coursework.presentation.authorization.main.AuthFragment
 import com.homework.coursework.presentation.chat.main.TopicChatFragment
+import com.homework.coursework.presentation.people.PeopleFragment
 import com.homework.coursework.presentation.profile.main.CurrUserProfileFragment
 import com.homework.coursework.presentation.profile.main.UserProfileFragment
 import com.homework.coursework.presentation.stream.StreamFragment
@@ -19,9 +20,7 @@ class FragmentFactory(var fragment: Fragment, var fragmentTag: FragmentTag) {
             val fragment = when (fragmentTag) {
                 FragmentTag.CHANNEL_FRAGMENT_TAG -> StreamFragment()
                 FragmentTag.PROFILE_FRAGMENT_TAG -> CurrUserProfileFragment()
-                FragmentTag.PEOPLE_FRAGMENT_TAG -> {
-                    UserProfileFragment.newInstance(NetworkConstants.SOME_ANOTHER_USER_ID)
-                }
+                FragmentTag.PEOPLE_FRAGMENT_TAG -> PeopleFragment()
                 FragmentTag.AUTH_FRAGMENT_TAG -> AuthFragment()
                 else -> throw IllegalArgumentException("messageFragment without arguments")
             }

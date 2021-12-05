@@ -147,6 +147,9 @@ interface ApiService {
         @Query("password") password: String
     ): Observable<AuthDto>
 
+    @GET("users")
+    fun getAllUsers(): Observable<UserResponseList>
+
     companion object {
         fun create(authDao: AuthDao): ApiService {
             return Retrofit.Builder()
