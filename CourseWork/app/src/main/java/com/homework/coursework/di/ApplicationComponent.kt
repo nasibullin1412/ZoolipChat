@@ -30,6 +30,8 @@ interface ApplicationComponent {
 
     fun peopleComponent(): PeopleComponent
 
+    fun streamComponent(): StreamMainComponent
+
     @Component.Factory
     interface Factory {
         fun create(

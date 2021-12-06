@@ -13,3 +13,9 @@ annotation class AllStreams
 
 @Qualifier
 annotation class SubscribedStreams
+
+@Qualifier
+annotation class SearchStreamSubject
+
+@Qualifier
+annotation class SearchPeopleSubject

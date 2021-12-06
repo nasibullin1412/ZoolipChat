@@ -16,3 +16,6 @@ annotation class AuthScope
 
 @Scope
 annotation class PeopleFragmentScope
+
+@Scope
+annotation class StreamMainFragmentScope

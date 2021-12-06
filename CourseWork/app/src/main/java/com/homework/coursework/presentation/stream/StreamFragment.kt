@@ -2,7 +2,6 @@ package com.homework.coursework.presentation.stream
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +12,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.homework.coursework.R
 import com.homework.coursework.databinding.StreamFragmentBinding
+import com.homework.coursework.presentation.App
+import com.homework.coursework.presentation.SearchListener
 import com.homework.coursework.presentation.adapter.StreamAdapter
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
@@ -20,11 +21,15 @@ import com.homework.coursework.presentation.interfaces.NavigateController
 import com.homework.coursework.presentation.stream.StreamItemBaseFragment.Companion.REQUEST_KEY_CHOICE
 import com.homework.coursework.presentation.stream.StreamItemBaseFragment.Companion.STREAM_KEY
 import com.homework.coursework.presentation.stream.StreamItemBaseFragment.Companion.TOPIC_KEY
+import com.homework.coursework.presentation.utils.showToast
 import kotlinx.serialization.ExperimentalSerializationApi
-import java.lang.IllegalArgumentException
+import javax.inject.Inject
 
 @ExperimentalSerializationApi
 class StreamFragment : Fragment() {
+
+    @Inject
+    internal lateinit var searchListener: SearchListener
 
     private var _binding: StreamFragmentBinding? = null
     private val binding get() = _binding!!
@@ -54,6 +59,8 @@ class StreamFragment : Fragment() {
                 stream = stream
             )
         }
+        App.appComponent.streamComponent().inject(this)
+        searchListener.subscribeToSearchSubject({ setQuery(it) }, { showToast(it) })
     }
 
     override fun onCreateView(
@@ -75,17 +82,20 @@ class StreamFragment : Fragment() {
             tab.text = itemTextList[position]
         }.attach()
         initSearchEditText()
-        Log.d("CallbackCheck", "onViewCreated Stream")
     }
 
     private fun initSearchEditText() {
         binding.etSearch.doAfterTextChanged {
-            val position = binding.pager.currentItem
-            childFragmentManager.setFragmentResult(
-                "$KEY_QUERY_REQUEST$position",
-                bundleOf(KEY_QUERY_DATA to it.toString())
-            )
+            searchListener.searchTopics(it.toString())
         }
+    }
+
+    private fun setQuery(query: String) {
+        val position = binding.pager.currentItem
+        childFragmentManager.setFragmentResult(
+            "$KEY_QUERY_REQUEST$position",
+            bundleOf(KEY_QUERY_DATA to query)
+        )
     }
 
     override fun onDetach() {
