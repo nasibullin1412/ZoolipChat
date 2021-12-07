@@ -62,6 +62,9 @@ class MainActivity : AppCompatActivity(), NavigateController, BottomNavigationCo
      * set correct checked item for bottom navigation after back press
      */
     private fun setPreviousItem() {
+        if (bottomNavigationView.visibility == View.GONE){
+            return
+        }
         if (supportFragmentManager.backStackEntryCount <= 1) {
             bottomNavigationView.menu.getItem(MenuItemIdx.CHANNEL_IDX.value).isChecked = true
             return
@@ -78,6 +81,14 @@ class MainActivity : AppCompatActivity(), NavigateController, BottomNavigationCo
             fragmentTag = FragmentTag.TOPIC_DISCUSSION_FRAGMENT_TAG,
             topic = topic,
             stream = stream
+        )
+        addFragment(fragmentFactory)
+    }
+
+    override fun navigateFragment(userId: Int) {
+        val fragmentFactory = FragmentFactory.create(
+            fragmentTag = FragmentTag.USER_PROFILE_FRAGMENT_TAG,
+            userId = userId
         )
         addFragment(fragmentFactory)
     }

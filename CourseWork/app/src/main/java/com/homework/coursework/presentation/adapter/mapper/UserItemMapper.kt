@@ -7,11 +7,12 @@ import dagger.Reusable
 import javax.inject.Inject
 
 @Reusable
-class UserItemMapper @Inject constructor() : (UserData) -> (UserItem) {
-    override fun invoke(userData: UserData): UserItem {
+class UserItemMapper @Inject constructor() : (UserData, Int) -> (UserItem) {
+    override fun invoke(userData: UserData, idx: Int): UserItem {
         return with(userData) {
             UserItem(
-                id = id,
+                id = idx,
+                userId = id,
                 name = name,
                 avatarUrl = avatarUrl,
                 userMail = userMail,

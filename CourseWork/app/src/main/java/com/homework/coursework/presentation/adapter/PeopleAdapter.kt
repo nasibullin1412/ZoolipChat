@@ -29,6 +29,9 @@ class PeopleAdapter @Inject constructor() :
     }
 
     override fun onBindViewHolder(holder: PeopleViewHolder, position: Int) {
+        holder.itemView.setOnClickListener {
+            userItemCallback.onUserItemClick(getItem(position).userId)
+        }
         holder.bind(getItem(position))
     }
 }

@@ -35,5 +35,13 @@ class FragmentFactory(var fragment: Fragment, var fragmentTag: FragmentTag) {
             val fragment = TopicChatFragment.newInstance(topic, stream)
             return FragmentFactory(fragment, fragmentTag)
         }
+
+        fun create(
+            fragmentTag: FragmentTag,
+            userId: Int
+        ): FragmentFactory{
+            val fragment = UserProfileFragment.newInstance(userId)
+            return FragmentFactory(fragment, fragmentTag)
+        }
     }
 }

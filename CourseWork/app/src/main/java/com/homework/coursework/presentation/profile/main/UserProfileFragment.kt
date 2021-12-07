@@ -1,10 +1,12 @@
 package com.homework.coursework.presentation.profile.main
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.SOME_ANOTHER_USER_ID
 import com.homework.coursework.di.UserStore
 import com.homework.coursework.presentation.App
+import com.homework.coursework.presentation.interfaces.BottomNavigationController
 import com.homework.coursework.presentation.profile.BaseProfileFragment
 import com.homework.coursework.presentation.profile.elm.Effect
 import com.homework.coursework.presentation.profile.elm.Event
@@ -20,7 +22,16 @@ class UserProfileFragment : BaseProfileFragment() {
     @UserStore
     internal lateinit var userProfileStore: Store<Event, Effect, State>
 
+    private var bottomNavigationController: BottomNavigationController? = null
+
     private var userId = 0
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is BottomNavigationController){
+            bottomNavigationController = context.apply { goneBottomNavigation() }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +41,7 @@ class UserProfileFragment : BaseProfileFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.btnLogout.visibility = View.GONE
     }
 
@@ -42,6 +54,11 @@ class UserProfileFragment : BaseProfileFragment() {
         binding.errorContent.tvRepeat.setOnClickListener {
             store.accept(Event.Ui.LoadUser(userId))
         }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        bottomNavigationController = null
     }
 
     companion object {

@@ -4,6 +4,7 @@ import com.homework.coursework.domain.entity.UserStatus
 
 data class UserItem(
     val id: Int,
+    val userId: Int,
     val name: String,
     val avatarUrl: String,
     val userMail: String,

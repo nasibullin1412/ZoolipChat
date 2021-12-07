@@ -10,6 +10,6 @@ class UserListMapper @Inject constructor() : (List<UserData>) -> (List<UserItem>
     internal lateinit var userItemMapper: UserItemMapper
 
     override fun invoke(userDataList: List<UserData>): List<UserItem> {
-        return userDataList.map(userItemMapper)
+        return userDataList.mapIndexed { idx, item -> userItemMapper(item, idx) }
     }
 }

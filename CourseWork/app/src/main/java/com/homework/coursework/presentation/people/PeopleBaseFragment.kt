@@ -1,5 +1,6 @@
 package com.homework.coursework.presentation.people
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.homework.coursework.databinding.PeopleFragmentBinding
 import com.homework.coursework.presentation.adapter.PeopleAdapter
 import com.homework.coursework.presentation.adapter.data.UserItem
+import com.homework.coursework.presentation.interfaces.BottomNavigationController
+import com.homework.coursework.presentation.interfaces.NavigateController
 import com.homework.coursework.presentation.interfaces.UserItemCallback
 import com.homework.coursework.presentation.people.elm.Effect
 import com.homework.coursework.presentation.people.elm.Event
@@ -21,11 +24,24 @@ abstract class PeopleBaseFragment : ElmFragment<Event, Effect, State>(), UserIte
 
     @Inject
     internal lateinit var peopleAdapter: PeopleAdapter
-    protected var currQuery: String = ""
+
+    private var bottomNavigationController: BottomNavigationController? = null
+
+    private var navigateController: NavigateController? = null
     private var _binding: PeopleFragmentBinding? = null
 
     protected val binding
         get() = _binding!!
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is NavigateController) {
+            navigateController = context
+        }
+        if (context is BottomNavigationController){
+            bottomNavigationController = context
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,13 +74,26 @@ abstract class PeopleBaseFragment : ElmFragment<Event, Effect, State>(), UserIte
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        bottomNavigationController?.visibleBottomNavigation()
+    }
+
     override fun onStop() {
         super.onStop()
         store.accept(Event.Ui.OnStop)
     }
 
     override fun onUserItemClick(id: Int) {
+        navigateController?.navigateFragment(id)
     }
+
+    override fun onDetach() {
+        super.onDetach()
+        navigateController = null
+        bottomNavigationController = null
+    }
+
 
     abstract fun initErrorRepeat()
 
@@ -113,7 +142,7 @@ abstract class PeopleBaseFragment : ElmFragment<Event, Effect, State>(), UserIte
 
     private fun initRecycler() {
         with(binding.rvUsers) {
-            adapter = peopleAdapter
+            adapter = peopleAdapter.apply { setUserListener(this@PeopleBaseFragment) }
             layoutManager = LinearLayoutManager(context)
         }
     }
