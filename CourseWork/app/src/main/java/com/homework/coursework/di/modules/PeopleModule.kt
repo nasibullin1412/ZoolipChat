@@ -6,7 +6,7 @@ import com.homework.coursework.domain.usecase.GetAllUsersUseCase
 import com.homework.coursework.domain.usecase.SearchUsersUseCase
 import com.homework.coursework.presentation.SearchListener
 import com.homework.coursework.presentation.adapter.mapper.UserListMapper
-import com.homework.coursework.presentation.people.elm.*
+import com.homework.coursework.presentation.ui.people.elm.*
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable

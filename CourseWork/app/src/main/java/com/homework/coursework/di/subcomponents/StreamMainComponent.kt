@@ -2,7 +2,7 @@ package com.homework.coursework.di.subcomponents
 
 import com.homework.coursework.di.StreamMainFragmentScope
 import com.homework.coursework.di.modules.StreamMainModule
-import com.homework.coursework.presentation.stream.StreamFragment
+import com.homework.coursework.presentation.ui.stream.StreamFragment
 import dagger.Subcomponent
 
 @StreamMainFragmentScope

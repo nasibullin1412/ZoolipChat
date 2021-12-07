@@ -1,15 +1,14 @@
 package com.homework.coursework.presentation
 
 import androidx.fragment.app.Fragment
-import com.homework.coursework.data.frameworks.network.utils.NetworkConstants
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
-import com.homework.coursework.presentation.authorization.main.AuthFragment
-import com.homework.coursework.presentation.chat.main.TopicChatFragment
-import com.homework.coursework.presentation.people.PeopleFragment
-import com.homework.coursework.presentation.profile.main.CurrUserProfileFragment
-import com.homework.coursework.presentation.profile.main.UserProfileFragment
-import com.homework.coursework.presentation.stream.StreamFragment
+import com.homework.coursework.presentation.ui.authorization.main.AuthFragment
+import com.homework.coursework.presentation.ui.chat.main.TopicChatFragment
+import com.homework.coursework.presentation.ui.people.PeopleFragment
+import com.homework.coursework.presentation.ui.profile.main.CurrUserProfileFragment
+import com.homework.coursework.presentation.ui.profile.main.UserProfileFragment
+import com.homework.coursework.presentation.ui.stream.StreamFragment
 import com.homework.coursework.presentation.utils.FragmentTag
 import kotlinx.serialization.ExperimentalSerializationApi
 

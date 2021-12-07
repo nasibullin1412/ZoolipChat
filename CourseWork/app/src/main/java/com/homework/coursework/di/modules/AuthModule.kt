@@ -4,8 +4,7 @@ import com.homework.coursework.di.AuthScope
 import com.homework.coursework.domain.usecase.AuthUserUseCase
 import com.homework.coursework.domain.usecase.CheckAuthUseCase
 import com.homework.coursework.domain.usecase.GetMeUseCase
-import com.homework.coursework.domain.usecase.GetMeUseCaseImpl
-import com.homework.coursework.presentation.authorization.elm.*
+import com.homework.coursework.presentation.ui.authorization.elm.*
 import dagger.Module
 import dagger.Provides
 import vivid.money.elmslie.core.store.Store

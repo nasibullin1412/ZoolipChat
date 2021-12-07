@@ -8,7 +8,7 @@ import com.homework.coursework.domain.usecase.GetSubscribedStreamsUseCase
 import com.homework.coursework.domain.usecase.SearchAllStreamsUseCase
 import com.homework.coursework.domain.usecase.SearchSubscribeStreamsUseCase
 import com.homework.coursework.presentation.adapter.mapper.StreamItemMapper
-import com.homework.coursework.presentation.stream.elm.*
+import com.homework.coursework.presentation.ui.stream.elm.*
 import dagger.Module
 import dagger.Provides
 import vivid.money.elmslie.core.store.Store

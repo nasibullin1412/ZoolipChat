@@ -2,8 +2,8 @@ package com.homework.coursework.presentation.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.homework.coursework.presentation.stream.main.StreamAllFragment
-import com.homework.coursework.presentation.stream.main.StreamSubscribedFragment
+import com.homework.coursework.presentation.ui.stream.main.StreamAllFragment
+import com.homework.coursework.presentation.ui.stream.main.StreamSubscribedFragment
 import kotlinx.serialization.ExperimentalSerializationApi
 
 @ExperimentalSerializationApi

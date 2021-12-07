@@ -7,7 +7,7 @@ import com.homework.coursework.domain.usecase.GetMeUseCase
 import com.homework.coursework.domain.usecase.GetUserProfileUseCase
 import com.homework.coursework.domain.usecase.LogoutUserUseCase
 import com.homework.coursework.presentation.adapter.mapper.UserItemMapper
-import com.homework.coursework.presentation.profile.elm.*
+import com.homework.coursework.presentation.ui.profile.elm.*
 import dagger.Module
 import dagger.Provides
 import vivid.money.elmslie.core.store.Store

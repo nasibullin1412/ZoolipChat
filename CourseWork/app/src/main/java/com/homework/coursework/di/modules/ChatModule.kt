@@ -3,7 +3,7 @@ package com.homework.coursework.di.modules
 import com.homework.coursework.di.ChatFragmentScope
 import com.homework.coursework.domain.usecase.*
 import com.homework.coursework.presentation.adapter.mapper.*
-import com.homework.coursework.presentation.chat.elm.*
+import com.homework.coursework.presentation.ui.chat.elm.*
 import dagger.Module
 import dagger.Provides
 import vivid.money.elmslie.core.store.Store

@@ -3,8 +3,8 @@ package com.homework.coursework.presentation.adapter.mapper
 import com.homework.coursework.domain.entity.MessageData
 import com.homework.coursework.presentation.adapter.data.DiscussItem
 import com.homework.coursework.presentation.adapter.data.ErrorHandle
-import com.homework.coursework.presentation.chat.addDate
-import com.homework.coursework.presentation.chat.addMessageItem
+import com.homework.coursework.presentation.ui.chat.addDate
+import com.homework.coursework.presentation.ui.chat.addMessageItem
 import com.homework.coursework.presentation.utils.toStringDate
 import dagger.Reusable
 import javax.inject.Inject
