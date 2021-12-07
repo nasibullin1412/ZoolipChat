@@ -23,7 +23,6 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import okhttp3.internal.toHexString
 import java.util.*
 
-@ExperimentalSerializationApi
 internal fun TopicChatFragment.initRecycleViewImpl() {
     with(binding.rvMessage) {
         messageAdapter = MessageAdapter().apply {
@@ -79,7 +78,6 @@ internal fun ChatBaseFragment.initBottomDialog() {
  * emoji number
  * @param emojiIdx is clicked emoji idx
  */
-@ExperimentalSerializationApi
 internal fun TopicChatFragment.onEmojiClickedImpl(emojiIdx: Int) {
     if (messageIdx == DEFAULT_MESSAGE_ID) {
         throw IllegalArgumentException("selectedMessageId required")
@@ -108,7 +106,6 @@ internal fun TopicChatFragment.onEmojiClickedImpl(emojiIdx: Int) {
     bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_HIDDEN
 }
 
-@ExperimentalSerializationApi
 internal fun TopicChatFragment.onEmojiClickedImpl(emojiItem: EmojiItem) {
     if (messageIdx == DEFAULT_MESSAGE_ID) {
         throw IllegalArgumentException("selectedMessageId required")

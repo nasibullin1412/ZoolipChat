@@ -7,11 +7,9 @@ import com.homework.coursework.presentation.ui.authorization.elm.Effect
 import com.homework.coursework.presentation.ui.authorization.elm.Event
 import com.homework.coursework.presentation.ui.authorization.elm.State
 import com.homework.coursework.presentation.utils.showToast
-import kotlinx.serialization.ExperimentalSerializationApi
 import vivid.money.elmslie.core.store.Store
 import javax.inject.Inject
 
-@ExperimentalSerializationApi
 class AuthFragment : AuthBaseFragment() {
 
     @Inject

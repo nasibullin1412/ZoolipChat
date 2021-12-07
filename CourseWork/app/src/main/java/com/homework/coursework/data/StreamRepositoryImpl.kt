@@ -22,12 +22,12 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.serialization.ExperimentalSerializationApi
 import javax.inject.Inject
 
-@ExperimentalSerializationApi
 class StreamRepositoryImpl @Inject constructor(
     private val _apiService: Lazy<ApiService>,
     private val streamDao: StreamDao,
 ) : StreamRepository {
 
+    @ExperimentalSerializationApi
     @Inject
     internal lateinit var streamDtoMapper: StreamDtoMapper
 
@@ -42,6 +42,7 @@ class StreamRepositoryImpl @Inject constructor(
 
     private val apiService: ApiService get() = _apiService.get()
 
+    @ExperimentalSerializationApi
     override fun loadAllStreams(): Observable<List<StreamData>> {
         return Observable.concatArrayEagerDelayError(
             getLocalAllStreams(),
@@ -50,6 +51,7 @@ class StreamRepositoryImpl @Inject constructor(
 
     }
 
+    @ExperimentalSerializationApi
     private fun getRemoteAllStreams(): Observable<List<StreamData>> {
         return apiService.getAllStreams()
             .subscribeOn(Schedulers.io())
@@ -78,6 +80,7 @@ class StreamRepositoryImpl @Inject constructor(
             }
     }
 
+    @ExperimentalSerializationApi
     override fun loadSubscribedStreams(): Observable<List<StreamData>> {
         return Observable.concatArrayEagerDelayError(
             getLocalSubscribedStreams(),
@@ -86,6 +89,7 @@ class StreamRepositoryImpl @Inject constructor(
     }
 
 
+    @ExperimentalSerializationApi
     private fun getRemoteSubscribedStreams(): Observable<List<StreamData>> {
         return apiService.getSubscribedStreams()
             .switchMap { streamList -> Observable.fromIterable(streamList.data) }
@@ -113,6 +117,7 @@ class StreamRepositoryImpl @Inject constructor(
             }
     }
 
+    @ExperimentalSerializationApi
     private fun loadTopics(idStream: Int): Observable<List<TopicDto>> {
         return apiService.getTopics(idStream)
             .map { it.data }
@@ -133,6 +138,7 @@ class StreamRepositoryImpl @Inject constructor(
             .addTo(compositeDisposable)
     }
 
+    @ExperimentalSerializationApi
     private fun zipStreamAndTopics(streamDto: StreamDto): Observable<StreamWithTopics> {
         return Observable.zip(
             Observable.just(streamDto),

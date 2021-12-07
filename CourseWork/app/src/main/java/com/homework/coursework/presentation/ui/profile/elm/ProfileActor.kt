@@ -17,7 +17,7 @@ class ProfileActor(
     override fun execute(command: Command): Observable<Event> = when (command) {
         Command.LoadMe -> {
             getMe()
-                .map{userItemMapper(it, 0)}
+                .map { userItemMapper(it, 0) }
                 .mapEvents(
                     { item -> Event.Internal.UserLoaded(item = item) },
                     { error -> Event.Internal.ErrorLoading(error = error) }
@@ -25,7 +25,7 @@ class ProfileActor(
         }
         is Command.LoadUser -> {
             getUser(command.id)
-                .map{userItemMapper(it, 0)}
+                .map { userItemMapper(it, 0) }
                 .mapEvents(
                     { item -> Event.Internal.UserLoaded(item = item) },
                     { error -> Event.Internal.ErrorLoading(error = error) }

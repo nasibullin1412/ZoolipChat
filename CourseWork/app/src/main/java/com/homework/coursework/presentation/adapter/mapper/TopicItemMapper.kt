@@ -2,8 +2,10 @@ package com.homework.coursework.presentation.adapter.mapper
 
 import com.homework.coursework.domain.entity.TopicData
 import com.homework.coursework.presentation.adapter.data.TopicItem
+import dagger.Reusable
 import javax.inject.Inject
 
+@Reusable
 class TopicItemMapper @Inject constructor() : (List<TopicData>) -> (List<TopicItem>) {
 
     override fun invoke(topics: List<TopicData>): List<TopicItem> {

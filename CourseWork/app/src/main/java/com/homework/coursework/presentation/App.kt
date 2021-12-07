@@ -5,7 +5,6 @@ import com.homework.coursework.di.ApplicationComponent
 import com.homework.coursework.di.DaggerApplicationComponent
 import kotlinx.serialization.ExperimentalSerializationApi
 
-@ExperimentalSerializationApi
 class App : Application() {
 
     override fun onCreate() {

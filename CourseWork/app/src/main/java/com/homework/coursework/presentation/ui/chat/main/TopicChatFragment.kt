@@ -17,11 +17,9 @@ import com.homework.coursework.presentation.ui.chat.onEmojiClickedImpl
 import com.homework.coursework.presentation.ui.stream.StreamItemBaseFragment
 import com.homework.coursework.presentation.utils.getValueByCondition
 import com.homework.coursework.presentation.utils.showToast
-import kotlinx.serialization.ExperimentalSerializationApi
 import vivid.money.elmslie.core.store.Store
 import javax.inject.Inject
 
-@ExperimentalSerializationApi
 class TopicChatFragment : ChatBaseFragment() {
 
     internal lateinit var currentTopic: TopicItem

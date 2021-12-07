@@ -17,10 +17,8 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
-import kotlinx.serialization.ExperimentalSerializationApi
 import javax.inject.Inject
 
-@ExperimentalSerializationApi
 class AuthRepositoryImpl @Inject constructor(
     private val _apiService: Lazy<ApiService>,
     private val authDao: AuthDao

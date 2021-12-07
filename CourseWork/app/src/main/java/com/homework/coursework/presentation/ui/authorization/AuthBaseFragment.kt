@@ -6,11 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.homework.coursework.databinding.LoginFragmentBinding
+import com.homework.coursework.presentation.interfaces.BottomNavigationController
+import com.homework.coursework.presentation.interfaces.NavigateController
 import com.homework.coursework.presentation.ui.authorization.elm.Effect
 import com.homework.coursework.presentation.ui.authorization.elm.Event
 import com.homework.coursework.presentation.ui.authorization.elm.State
-import com.homework.coursework.presentation.interfaces.BottomNavigationController
-import com.homework.coursework.presentation.interfaces.NavigateController
 import vivid.money.elmslie.android.base.ElmFragment
 
 abstract class AuthBaseFragment : ElmFragment<Event, Effect, State>() {

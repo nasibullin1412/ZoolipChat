@@ -61,4 +61,3 @@ class StreamNameAdapter @Inject constructor(
         }
     }
 }
-

@@ -1,4 +1,4 @@
-package com.homework.coursework.presentation
+package com.homework.coursework.presentation.utils
 
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable

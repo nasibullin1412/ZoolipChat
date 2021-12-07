@@ -10,12 +10,11 @@ import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
 import com.homework.coursework.presentation.interfaces.BottomNavigationController
 import com.homework.coursework.presentation.interfaces.NavigateController
+import com.homework.coursework.presentation.utils.FragmentFactory
 import com.homework.coursework.presentation.utils.FragmentTag
 import com.homework.coursework.presentation.utils.MenuItemIdx
 import com.homework.coursework.presentation.utils.addFragment
-import kotlinx.serialization.ExperimentalSerializationApi
 
-@ExperimentalSerializationApi
 class MainActivity : AppCompatActivity(), NavigateController, BottomNavigationController {
 
     private lateinit var bottomNavigationView: BottomNavigationView
@@ -62,7 +61,7 @@ class MainActivity : AppCompatActivity(), NavigateController, BottomNavigationCo
      * set correct checked item for bottom navigation after back press
      */
     private fun setPreviousItem() {
-        if (bottomNavigationView.visibility == View.GONE){
+        if (bottomNavigationView.visibility == View.GONE) {
             return
         }
         if (supportFragmentManager.backStackEntryCount <= 1) {

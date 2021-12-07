@@ -4,7 +4,6 @@ import com.homework.coursework.presentation.interfaces.TwoSourceHandleReducer
 import vivid.money.elmslie.core.store.dsl_reducer.DslReducer
 import javax.inject.Inject
 
-
 class PeopleReducer @Inject constructor() : DslReducer<Event, State, Effect, Command>(),
     TwoSourceHandleReducer<Event.Internal.UserLoaded, State> {
     override fun Result.reduce(event: Event) = when (event) {

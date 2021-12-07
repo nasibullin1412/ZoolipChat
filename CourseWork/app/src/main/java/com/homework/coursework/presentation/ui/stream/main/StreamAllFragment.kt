@@ -9,11 +9,9 @@ import com.homework.coursework.presentation.ui.stream.StreamItemBaseFragment
 import com.homework.coursework.presentation.ui.stream.elm.Effect
 import com.homework.coursework.presentation.ui.stream.elm.Event
 import com.homework.coursework.presentation.ui.stream.elm.State
-import kotlinx.serialization.ExperimentalSerializationApi
 import vivid.money.elmslie.core.store.Store
 import javax.inject.Inject
 
-@ExperimentalSerializationApi
 class StreamAllFragment : StreamItemBaseFragment() {
     override val tabState: Int
         get() = 1

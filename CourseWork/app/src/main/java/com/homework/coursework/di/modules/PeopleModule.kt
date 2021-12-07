@@ -4,7 +4,7 @@ import com.homework.coursework.di.PeopleFragmentScope
 import com.homework.coursework.di.SearchPeopleSubject
 import com.homework.coursework.domain.usecase.GetAllUsersUseCase
 import com.homework.coursework.domain.usecase.SearchUsersUseCase
-import com.homework.coursework.presentation.SearchListener
+import com.homework.coursework.presentation.utils.SearchListener
 import com.homework.coursework.presentation.adapter.mapper.UserListMapper
 import com.homework.coursework.presentation.ui.people.elm.*
 import dagger.Module

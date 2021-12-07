@@ -13,7 +13,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.homework.coursework.R
 import com.homework.coursework.databinding.StreamFragmentBinding
 import com.homework.coursework.presentation.App
-import com.homework.coursework.presentation.SearchListener
+import com.homework.coursework.presentation.utils.SearchListener
 import com.homework.coursework.presentation.adapter.StreamAdapter
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
@@ -22,10 +22,8 @@ import com.homework.coursework.presentation.ui.stream.StreamItemBaseFragment.Com
 import com.homework.coursework.presentation.ui.stream.StreamItemBaseFragment.Companion.STREAM_KEY
 import com.homework.coursework.presentation.ui.stream.StreamItemBaseFragment.Companion.TOPIC_KEY
 import com.homework.coursework.presentation.utils.showToast
-import kotlinx.serialization.ExperimentalSerializationApi
 import javax.inject.Inject
 
-@ExperimentalSerializationApi
 class StreamFragment : Fragment() {
 
     @Inject

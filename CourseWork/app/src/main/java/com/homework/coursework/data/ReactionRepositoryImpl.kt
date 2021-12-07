@@ -7,10 +7,8 @@ import com.homework.coursework.domain.entity.MessageData
 import com.homework.coursework.domain.repository.ReactionRepository
 import dagger.Lazy
 import io.reactivex.Completable
-import kotlinx.serialization.ExperimentalSerializationApi
 import javax.inject.Inject
 
-@ExperimentalSerializationApi
 class ReactionRepositoryImpl @Inject constructor(
     private val _apiService: Lazy<ApiService>
 ) : ReactionRepository {

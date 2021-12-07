@@ -4,7 +4,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-
 @Entity(
     tableName = "current_profile",
     indices = [androidx.room.Index(value = ["user_id"], unique = true)]

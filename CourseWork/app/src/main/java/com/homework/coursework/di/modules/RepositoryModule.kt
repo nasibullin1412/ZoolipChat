@@ -4,10 +4,8 @@ import com.homework.coursework.data.*
 import com.homework.coursework.domain.repository.*
 import dagger.Binds
 import dagger.Module
-import kotlinx.serialization.ExperimentalSerializationApi
 import javax.inject.Singleton
 
-@ExperimentalSerializationApi
 @Module
 interface RepositoryModule {
     @Singleton

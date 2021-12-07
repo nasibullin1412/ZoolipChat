@@ -1,4 +1,4 @@
-package com.homework.coursework.presentation
+package com.homework.coursework.presentation.utils
 
 import androidx.fragment.app.Fragment
 import com.homework.coursework.presentation.adapter.data.StreamItem
@@ -9,10 +9,7 @@ import com.homework.coursework.presentation.ui.people.PeopleFragment
 import com.homework.coursework.presentation.ui.profile.main.CurrUserProfileFragment
 import com.homework.coursework.presentation.ui.profile.main.UserProfileFragment
 import com.homework.coursework.presentation.ui.stream.StreamFragment
-import com.homework.coursework.presentation.utils.FragmentTag
-import kotlinx.serialization.ExperimentalSerializationApi
 
-@ExperimentalSerializationApi
 class FragmentFactory(var fragment: Fragment, var fragmentTag: FragmentTag) {
     companion object {
         fun create(fragmentTag: FragmentTag): FragmentFactory {
@@ -38,7 +35,7 @@ class FragmentFactory(var fragment: Fragment, var fragmentTag: FragmentTag) {
         fun create(
             fragmentTag: FragmentTag,
             userId: Int
-        ): FragmentFactory{
+        ): FragmentFactory {
             val fragment = UserProfileFragment.newInstance(userId)
             return FragmentFactory(fragment, fragmentTag)
         }

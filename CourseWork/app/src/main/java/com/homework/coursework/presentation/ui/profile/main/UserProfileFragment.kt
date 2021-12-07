@@ -3,7 +3,6 @@ package com.homework.coursework.presentation.ui.profile.main
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.SOME_ANOTHER_USER_ID
 import com.homework.coursework.di.UserStore
 import com.homework.coursework.presentation.App
 import com.homework.coursework.presentation.interfaces.BottomNavigationController
@@ -11,11 +10,9 @@ import com.homework.coursework.presentation.ui.profile.BaseProfileFragment
 import com.homework.coursework.presentation.ui.profile.elm.Effect
 import com.homework.coursework.presentation.ui.profile.elm.Event
 import com.homework.coursework.presentation.ui.profile.elm.State
-import kotlinx.serialization.ExperimentalSerializationApi
 import vivid.money.elmslie.core.store.Store
 import javax.inject.Inject
 
-@ExperimentalSerializationApi
 class UserProfileFragment : BaseProfileFragment() {
 
     @Inject
@@ -28,7 +25,7 @@ class UserProfileFragment : BaseProfileFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is BottomNavigationController){
+        if (context is BottomNavigationController) {
             bottomNavigationController = context.apply { goneBottomNavigation() }
         }
     }
@@ -36,7 +33,7 @@ class UserProfileFragment : BaseProfileFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         App.appComponent.userProfileComponent().inject(this)
-        userId = requireArguments().getInt(USER_ID_KEY, SOME_ANOTHER_USER_ID)
+        userId = requireArguments().getInt(USER_ID_KEY, 0)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

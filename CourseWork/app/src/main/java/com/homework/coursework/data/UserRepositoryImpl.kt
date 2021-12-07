@@ -24,13 +24,13 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.serialization.ExperimentalSerializationApi
 import javax.inject.Inject
 
-@ExperimentalSerializationApi
 class UserRepositoryImpl @Inject constructor(
     private val _apiService: Lazy<ApiService>,
     private val userDao: UserDao,
     private val currentProfileDao: CurrentProfileDao
 ) : UserRepository {
 
+    @ExperimentalSerializationApi
     @Inject
     internal lateinit var userDtoMapper: UserDtoMapper
 
@@ -46,6 +46,7 @@ class UserRepositoryImpl @Inject constructor(
     @Inject
     internal lateinit var profileDataMapper: ProfileDataMapper
 
+    @ExperimentalSerializationApi
     @Inject
     internal lateinit var userDtoListMapper: UserListDtoMapper
 
@@ -60,11 +61,13 @@ class UserRepositoryImpl @Inject constructor(
 
     private val apiService: ApiService get() = _apiService.get()
 
+    @ExperimentalSerializationApi
     private fun getStatus(userDto: UserDto): Observable<StatusDto> {
         return apiService.getStatus(userDto.id)
             .map { it.data }
     }
 
+    @ExperimentalSerializationApi
     override fun getMe(): Observable<UserData> {
         return Observable.concatArrayEagerDelayError(
             getLocalMe(),
@@ -72,6 +75,7 @@ class UserRepositoryImpl @Inject constructor(
         )
     }
 
+    @ExperimentalSerializationApi
     private fun getRemoteMe(): Observable<UserData> {
         return apiService.getMe()
             .flatMap { userDto -> zipUserAndStatus(userDto) }
@@ -134,6 +138,7 @@ class UserRepositoryImpl @Inject constructor(
             .addTo(compositeDisposable)
     }
 
+    @ExperimentalSerializationApi
     private fun zipUserAndStatus(userDto: UserDto): Observable<UserWithStatus> {
         return Observable.zip(
             Observable.just(userDto),
@@ -143,6 +148,7 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
+    @ExperimentalSerializationApi
     private fun getRemoteUser(id: Int): Observable<UserData> {
         return apiService.getUser(id)
             .flatMap { userResponse -> zipUserAndStatus(userResponse.data!!) }
@@ -153,6 +159,7 @@ class UserRepositoryImpl @Inject constructor(
             }
     }
 
+    @ExperimentalSerializationApi
     override fun getUser(id: Int): Observable<UserData> {
         return Observable.concatArrayEagerDelayError(
             getLocalUser(userId = id.toLong()),
@@ -169,6 +176,7 @@ class UserRepositoryImpl @Inject constructor(
         return currentProfileDao.delete()
     }
 
+    @ExperimentalSerializationApi
     override fun getAllUsers(): Observable<List<UserData>> {
         return Observable.concatArrayEagerDelayError(
             getLocalAllUsers(),
@@ -185,6 +193,7 @@ class UserRepositoryImpl @Inject constructor(
             }
     }
 
+    @ExperimentalSerializationApi
     private fun getRemoteAllUsers(): Observable<List<UserData>> {
         return apiService.getAllUsers()
             .map(userDtoListMapper)

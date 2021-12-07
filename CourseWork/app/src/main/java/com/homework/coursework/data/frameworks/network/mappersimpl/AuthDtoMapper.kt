@@ -12,5 +12,4 @@ class AuthDtoMapper @Inject constructor() : (AuthDto) -> (AuthData) {
             AuthData(apiKey = apiKey, email = email)
         }
     }
-
 }

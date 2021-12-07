@@ -17,14 +17,13 @@ import retrofit2.http.Query
 import retrofit2.http.POST
 import retrofit2.http.DELETE
 
-
-@ExperimentalSerializationApi
 interface ApiService {
 
     /**
      * Get all organization streams
      * @return Observable of streams
      */
+    @ExperimentalSerializationApi
     @GET("streams")
     fun getAllStreams(): Observable<StreamsResponse>
 
@@ -32,6 +31,7 @@ interface ApiService {
      * Get subscribed streams
      * @return Observable of streams
      */
+    @ExperimentalSerializationApi
     @GET("users/me/subscriptions")
     fun getSubscribedStreams(): Observable<StreamsResponse>
 
@@ -39,6 +39,7 @@ interface ApiService {
      * Get topics of selected stream
      * @param streamId id of selected stream
      */
+    @ExperimentalSerializationApi
     @GET("users/me/{stream_id}/topics")
     fun getTopics(@Path("stream_id") streamId: Int): Observable<TopicsResponse>
 
@@ -49,6 +50,7 @@ interface ApiService {
      * @param numBefore the number of messages with IDs less than the anchor to retrieve.
      * @param numAfter the number of messages with IDs greater than the anchor to retrieve.
      */
+    @ExperimentalSerializationApi
     @GET("messages")
     fun getFirstMessages(
         @Query("anchor") anchor: String,
@@ -64,6 +66,7 @@ interface ApiService {
      * @param numBefore the number of messages with IDs less than the anchor to retrieve.
      * @param numAfter the number of messages with IDs greater than the anchor to retrieve.
      */
+    @ExperimentalSerializationApi
     @GET("messages")
     fun loadMoreMessages(
         @Query("anchor") anchor: Int,
@@ -109,6 +112,7 @@ interface ApiService {
      * @param to for stream messages, either the name or integer ID of the stream.
      * @param content the content of the message
      */
+    @ExperimentalSerializationApi
     @POST("messages")
     fun addMessage(
         @Query("type") type: String,
@@ -128,6 +132,7 @@ interface ApiService {
      * Get user data
      * @param id is id of user who data need
      */
+    @ExperimentalSerializationApi
     @GET("users/{id}")
     fun getUser(@Path("id") id: Int): Observable<UserResponse>
 
@@ -135,6 +140,7 @@ interface ApiService {
      * Get status of user
      * @param userId id of user, which status need to be known
      */
+    @ExperimentalSerializationApi
     @GET("users/{user_id}/presence")
     fun getStatus(@Path("user_id") userId: Int): Observable<StatusResponse>
 
@@ -147,6 +153,7 @@ interface ApiService {
         @Query("password") password: String
     ): Observable<AuthDto>
 
+    @ExperimentalSerializationApi
     @GET("users")
     fun getAllUsers(): Observable<UserResponseList>
 

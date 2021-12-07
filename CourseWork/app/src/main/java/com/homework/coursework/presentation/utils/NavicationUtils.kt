@@ -3,8 +3,6 @@ package com.homework.coursework.presentation.utils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import com.homework.coursework.R
-import com.homework.coursework.presentation.FragmentFactory
-import kotlinx.serialization.ExperimentalSerializationApi
 
 fun AppCompatActivity.addFragmentWithoutBackstack(fragmentFactory: FragmentFactory, tag: String) {
     if (supportFragmentManager.backStackEntryCount != 0) {
@@ -15,7 +13,6 @@ fun AppCompatActivity.addFragmentWithoutBackstack(fragmentFactory: FragmentFacto
         .commit()
 }
 
-@ExperimentalSerializationApi
 fun AppCompatActivity.addFragment(fragmentFactory: FragmentFactory) {
     val tag = fragmentFactory.fragmentTag.value
     if (fragmentFactory.fragmentTag == FragmentTag.CHANNEL_FRAGMENT_TAG) {

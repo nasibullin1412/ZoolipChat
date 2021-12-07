@@ -7,7 +7,6 @@ import com.homework.coursework.data.frameworks.database.crossref.MessageToUserCr
 import com.homework.coursework.data.frameworks.database.dao.*
 import com.homework.coursework.data.frameworks.database.entities.*
 import com.homework.coursework.presentation.App
-import kotlinx.serialization.ExperimentalSerializationApi
 
 @Database(
     entities = [
@@ -33,7 +32,6 @@ abstract class AppDatabase : RoomDatabase() {
     companion object {
         private const val DATABASE_NAME = "Streams.db"
 
-        @ExperimentalSerializationApi
         val instance: AppDatabase by lazy {
             Room.databaseBuilder(
                 App.appComponent.context(),

@@ -31,7 +31,6 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.serialization.ExperimentalSerializationApi
 import javax.inject.Inject
 
-@ExperimentalSerializationApi
 class MessageRepositoryImpl @Inject constructor(
     private val _apiService: Lazy<ApiService>,
     private val messageDao: MessageDao,
@@ -39,6 +38,7 @@ class MessageRepositoryImpl @Inject constructor(
     private val userDao: UserDao
 ) : MessageRepository {
 
+    @ExperimentalSerializationApi
     @Inject
     internal lateinit var messageDtoMapper: MessageDtoMapper
 
@@ -56,6 +56,7 @@ class MessageRepositoryImpl @Inject constructor(
 
     private val apiService: ApiService get() = _apiService.get()
 
+    @ExperimentalSerializationApi
     override fun initMessages(
         streamData: StreamData,
         topicData: TopicData,
@@ -67,6 +68,7 @@ class MessageRepositoryImpl @Inject constructor(
         )
     }
 
+    @ExperimentalSerializationApi
     override fun loadMessages(
         streamData: StreamData,
         topicData: TopicData,
@@ -75,6 +77,7 @@ class MessageRepositoryImpl @Inject constructor(
         return loadMoreMessage(streamData, topicData, currUserId)
     }
 
+    @ExperimentalSerializationApi
     override fun addMessages(
         streamData: StreamData,
         topicData: TopicData,
@@ -104,6 +107,7 @@ class MessageRepositoryImpl @Inject constructor(
         }
     }
 
+    @ExperimentalSerializationApi
     private fun getRemoteMessage(
         streamData: StreamData,
         topicData: TopicData,
@@ -123,6 +127,7 @@ class MessageRepositoryImpl @Inject constructor(
             }
     }
 
+    @ExperimentalSerializationApi
     private fun loadMoreMessage(
         streamData: StreamData,
         topicData: TopicData,

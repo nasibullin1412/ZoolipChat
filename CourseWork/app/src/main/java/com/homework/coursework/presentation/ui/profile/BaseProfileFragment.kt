@@ -14,10 +14,8 @@ import com.homework.coursework.presentation.ui.profile.elm.Event
 import com.homework.coursework.presentation.ui.profile.elm.State
 import com.homework.coursework.presentation.utils.off
 import com.homework.coursework.presentation.utils.showToast
-import kotlinx.serialization.ExperimentalSerializationApi
 import vivid.money.elmslie.android.base.ElmFragment
 
-@ExperimentalSerializationApi
 abstract class BaseProfileFragment : ElmFragment<Event, Effect, State>() {
 
     private var _binding: ProfileFragmentBinding? = null

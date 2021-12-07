@@ -8,11 +8,9 @@ import com.homework.coursework.presentation.ui.profile.BaseProfileFragment
 import com.homework.coursework.presentation.ui.profile.elm.Effect
 import com.homework.coursework.presentation.ui.profile.elm.Event
 import com.homework.coursework.presentation.ui.profile.elm.State
-import kotlinx.serialization.ExperimentalSerializationApi
 import vivid.money.elmslie.core.store.Store
 import javax.inject.Inject
 
-@ExperimentalSerializationApi
 class CurrUserProfileFragment : BaseProfileFragment() {
 
     @Inject

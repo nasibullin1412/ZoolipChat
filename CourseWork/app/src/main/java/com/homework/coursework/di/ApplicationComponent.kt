@@ -5,10 +5,8 @@ import com.homework.coursework.di.modules.*
 import com.homework.coursework.di.subcomponents.*
 import dagger.BindsInstance
 import dagger.Component
-import kotlinx.serialization.ExperimentalSerializationApi
 import javax.inject.Singleton
 
-@ExperimentalSerializationApi
 @Singleton
 @Component(
     modules = [NetworkModule::class, DatabaseModule::class, RepositoryModule::class,

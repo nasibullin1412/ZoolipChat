@@ -5,11 +5,9 @@ import com.homework.coursework.data.frameworks.database.dao.*
 import dagger.Lazy
 import dagger.Module
 import dagger.Provides
-import kotlinx.serialization.ExperimentalSerializationApi
 import javax.inject.Singleton
 
 @Module
-@ExperimentalSerializationApi
 class DatabaseModule {
 
     @Singleton
