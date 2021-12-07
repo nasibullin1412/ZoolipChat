@@ -10,11 +10,13 @@ import javax.inject.Inject
 /**
  * Used when user want see messages of topic
  */
-interface GetTopicMessagesUseCase : (StreamData, TopicData, Int) -> Observable<List<MessageData>> {
+interface GetTopicMessagesUseCase :
+        (StreamData, TopicData, Int, Int) -> Observable<List<MessageData>> {
     override fun invoke(
         streamData: StreamData,
         topicData: TopicData,
-        currId: Int
+        currId: Int,
+        numBefore: Int
     ): Observable<List<MessageData>>
 }
 
@@ -25,8 +27,14 @@ class GetTopicMessagesUseCaseImpl @Inject constructor(
     override fun invoke(
         streamData: StreamData,
         topicData: TopicData,
-        currId: Int
+        currId: Int,
+        numBefore: Int
     ): Observable<List<MessageData>> {
-        return messageRepository.loadMessages(streamData, topicData, currId)
+        return messageRepository.loadOrUpdateMessages(
+            streamData = streamData,
+            topicData = topicData,
+            currUserId = currId,
+            numBefore = numBefore
+        )
     }
 }

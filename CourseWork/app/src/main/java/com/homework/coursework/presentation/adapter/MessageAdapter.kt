@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.homework.coursework.R
 import com.homework.coursework.di.ChatFragmentScope
-import com.homework.coursework.presentation.adapter.data.DiscussItem
+import com.homework.coursework.presentation.adapter.data.ChatItem
 import com.homework.coursework.presentation.callbacks.MessageCallback
 import com.homework.coursework.presentation.interfaces.MessageItemCallback
 import com.homework.coursework.presentation.viewholder.DateViewHolder
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @ChatFragmentScope
 class MessageAdapter @Inject constructor() :
-    ListAdapter<DiscussItem, RecyclerView.ViewHolder>(MessageCallback()) {
+    ListAdapter<ChatItem, RecyclerView.ViewHolder>(MessageCallback()) {
 
     private lateinit var listener: MessageItemCallback
 

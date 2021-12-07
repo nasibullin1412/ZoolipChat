@@ -7,7 +7,7 @@ import kotlinx.parcelize.RawValue
 
 @Parcelize
 data class State(
-    val itemList: @RawValue List<DiscussItem> = emptyList(),
+    val itemList: @RawValue List<ChatItem> = emptyList(),
     val error: Throwable? = null,
     val messageId: Int = 0,
     val isLoading: Boolean = false,
@@ -18,114 +18,127 @@ data class State(
 sealed class Event {
 
     sealed class Ui : Event() {
-        data class LoadFirstPage(
+        class LoadFirstPage(
             val streamItem: StreamItem,
             val topicItem: TopicItem,
             val currId: Int
         ) : Ui()
 
-        data class LoadNextPage(
+        class LoadNextPage(
             val streamItem: StreamItem,
             val topicItem: TopicItem,
-            val currId: Int
+            val currId: Int,
+            val numBefore: Int = PAGE_SIZE
+        ) : Ui(){
+            companion object{
+                const val PAGE_SIZE = 20
+            }
+        }
+
+        class UpdateMessage(
+            val streamItem: StreamItem,
+            val topicItem: TopicItem,
+            val currId: Int,
+            val numBefore: Int = 0
         ) : Ui()
 
-        data class SendMessage(
+        class SendMessage(
             val streamItem: StreamItem,
             val topicItem: TopicItem,
             val content: String
         ) : Ui()
 
-        data class AddReaction(val messageItem: MessageItem, val emojiItem: EmojiItem) : Ui()
+        class AddReaction(val messageItem: MessageItem, val emojiItem: EmojiItem) : Ui()
 
-        data class DeleteReaction(val messageItem: MessageItem, val emojiItem: EmojiItem) : Ui()
+        class DeleteReaction(val messageItem: MessageItem, val emojiItem: EmojiItem) : Ui()
 
         object GetCurrentId : Ui()
 
-        data class MergeOldList(
-            val oldList: List<DiscussItem>,
-            val newList: List<DiscussItem>
+        class MergeOldList(
+            val oldList: List<ChatItem>,
+            val newList: List<ChatItem>
         ) : Ui()
 
         data class SaveMessage(
             val streamItem: StreamItem,
             val topicItem: TopicItem,
-            val messages: List<DiscussItem>,
+            val messages: List<ChatItem>,
             val currId: Int
         ) : Ui()
     }
 
     sealed class Internal : Event() {
 
-        data class InitPageLoaded(val itemList: List<DiscussItem>) : Internal()
+        class InitPageLoaded(val itemList: List<ChatItem>) : Internal()
 
-        data class PageLoaded(val itemList: List<DiscussItem>) : Internal()
+        class PageLoaded(val itemList: List<ChatItem>) : Internal()
 
-        data class MessageAdded(val id: Int) : Internal()
+        class MessageAdded(val id: Int) : Internal()
 
-        data class UpdateRecycle(val itemList: List<DiscussItem>) : Internal()
+        class UpdateRecycle(val itemList: List<ChatItem>) : Internal()
 
         object ReactionChanged : Internal()
 
         object MessagesSaved : Internal()
 
-        data class ErrorCommands(val error: Throwable) : Internal()
+        class ErrorCommands(val error: Throwable) : Internal()
 
-        data class ErrorLoading(val error: Throwable) : Internal()
+        class ErrorLoading(val error: Throwable) : Internal()
 
-        data class SuccessGetId(val currId: Int) : Internal()
+        class SuccessGetId(val currId: Int) : Internal()
     }
 }
 
 sealed class Effect {
-    data class NextPageLoadError(val error: Throwable) : Effect()
+    class NextPageLoadError(val error: Throwable) : Effect()
 
-    data class PageLoaded(val itemList: List<DiscussItem>) : Effect()
+    class PageLoaded(val itemList: List<ChatItem>) : Effect()
 
-    data class MessageAdded(val id: Int) : Effect()
+    class MessageAdded(val id: Int) : Effect()
 
     object ReactionChanged : Effect()
 
     object MessagesSaved : Effect()
 
-    data class ErrorCommands(val error: Throwable) : Effect()
+    class ErrorCommands(val error: Throwable) : Effect()
 
-    data class SuccessGetId(val currId: Int) : Effect()
+    class SuccessGetId(val currId: Int) : Effect()
 }
 
 sealed class Command {
 
-    data class LoadFirstPage(
+    class LoadFirstPage(
         val streamItem: StreamItem,
         val topicItem: TopicItem,
         val currId: Int
     ) : Command()
 
-    data class LoadNextPage(
+    class LoadOrUpdate(
         val streamItem: StreamItem,
         val topicItem: TopicItem,
-        val currId: Int
+        val currId: Int,
+        val numBefore:Int
     ) : Command()
 
-    data class SendMessage(
+    class SendMessage(
         val streamItem: StreamItem,
         val topicItem: TopicItem,
         val content: String
     ) : Command()
 
-    data class AddReaction(val messageItem: MessageItem, val emojiItem: EmojiItem) : Command()
+    class AddReaction(val messageItem: MessageItem, val emojiItem: EmojiItem) : Command()
 
-    data class DeleteReaction(val messageItem: MessageItem, val emojiItem: EmojiItem) : Command()
+    class DeleteReaction(val messageItem: MessageItem, val emojiItem: EmojiItem) : Command()
 
-    data class MergeWithNewMessageList(
-        val oldList: List<DiscussItem>,
-        val newList: List<DiscussItem>
+    class MergeWithNewMessageList(
+        val oldList: List<ChatItem>,
+        val newList: List<ChatItem>
     ) : Command()
 
-    data class SaveMessage(
+    class SaveMessage(
         val streamItem: StreamItem,
         val topicItem: TopicItem,
-        val messages: List<DiscussItem>,
+        val messages: List<ChatItem>,
         val currId: Int
     ) : Command()
 

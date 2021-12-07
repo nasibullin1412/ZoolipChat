@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import com.homework.coursework.presentation.App
-import com.homework.coursework.presentation.adapter.data.DiscussItem
+import com.homework.coursework.presentation.adapter.data.ChatItem
 import com.homework.coursework.presentation.adapter.data.EmojiItem
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
@@ -25,6 +25,8 @@ class TopicChatFragment : ChatBaseFragment() {
     internal lateinit var currentTopic: TopicItem
 
     internal lateinit var currentStream: StreamItem
+
+    internal var updateMessage: Int = 0
 
     @Inject
     internal lateinit var topicChatStore: Store<Event, Effect, State>
@@ -57,7 +59,7 @@ class TopicChatFragment : ChatBaseFragment() {
      * update recycler view with new message
      * @param newList is list with new MessageData
      */
-    private fun updateMessage(newList: List<DiscussItem>) {
+    private fun updateMessage(newList: List<ChatItem>) {
         messageAdapter.submitList(newList)
     }
 
@@ -162,9 +164,9 @@ class TopicChatFragment : ChatBaseFragment() {
 
             Effect.ReactionChanged -> {
                 store.accept(
-                    Event.Ui.LoadNextPage(
+                    Event.Ui.UpdateMessage(
                         streamItem = currentStream,
-                        topicItem = currentTopic.copy(numberOfMess = currMessageId),
+                        topicItem = currentTopic.copy(numberOfMess = updateMessage),
                         currId = currId
                     )
                 )

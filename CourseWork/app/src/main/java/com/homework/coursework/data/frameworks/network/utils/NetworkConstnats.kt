@@ -12,4 +12,5 @@ object NetworkConstants {
     const val READ_TIMEOUT = 5L
     const val WRITE_TIMEOUT = 5L
     const val NEWEST = "newest"
+    const val UPDATE_NUMBER = 1
 }

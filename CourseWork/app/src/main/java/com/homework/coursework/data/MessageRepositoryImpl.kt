@@ -69,12 +69,13 @@ class MessageRepositoryImpl @Inject constructor(
     }
 
     @ExperimentalSerializationApi
-    override fun loadMessages(
+    override fun loadOrUpdateMessages(
         streamData: StreamData,
         topicData: TopicData,
-        currUserId: Int
+        currUserId: Int,
+        numBefore: Int
     ): Observable<List<MessageData>> {
-        return loadMoreMessage(streamData, topicData, currUserId)
+        return loadOrUpdateMessage(streamData, topicData, currUserId, numBefore)
     }
 
     @ExperimentalSerializationApi
@@ -128,16 +129,17 @@ class MessageRepositoryImpl @Inject constructor(
     }
 
     @ExperimentalSerializationApi
-    private fun loadMoreMessage(
+    private fun loadOrUpdateMessage(
         streamData: StreamData,
         topicData: TopicData,
-        currUserId: Int
+        currUserId: Int,
+        numBefore: Int
     ): Observable<List<MessageData>> {
         val narrow = Narrow.createNarrowForMessage(streamData, topicData)
         return apiService.loadMoreMessages(
             anchor = topicData.numberOfMess,
             numAfter = NUM_AFTER,
-            numBefore = NUM_BEFORE,
+            numBefore = numBefore,
             narrow = narrow
         ).map { messageDtoMapper(messages = it, currUserId = currUserId) }
     }

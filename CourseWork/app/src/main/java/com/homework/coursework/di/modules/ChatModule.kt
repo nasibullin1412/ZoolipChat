@@ -3,6 +3,7 @@ package com.homework.coursework.di.modules
 import com.homework.coursework.di.ChatFragmentScope
 import com.homework.coursework.domain.usecase.*
 import com.homework.coursework.presentation.adapter.mapper.*
+import com.homework.coursework.presentation.ui.chat.UpdateRecycleList
 import com.homework.coursework.presentation.ui.chat.elm.*
 import dagger.Module
 import dagger.Provides
@@ -35,7 +36,8 @@ class ChatModule {
         discussItemMapper: DiscussItemMapper,
         messageDataMapper: MessageDataMapper,
         messageDataListMapper: MessageListDataMapper,
-        emojiDataMapper: EmojiDataMapper
+        emojiDataMapper: EmojiDataMapper,
+        updateRecycleList: UpdateRecycleList
     ): ChatActor {
         return ChatActor(
             getTopicMessages = getTopicMessages,
@@ -50,7 +52,8 @@ class ChatModule {
             discussToItemMapper = discussItemMapper,
             messageDataMapper = messageDataMapper,
             messageListDataMapper = messageDataListMapper,
-            emojiDataMapper = emojiDataMapper
+            emojiDataMapper = emojiDataMapper,
+            updateRecycleList = updateRecycleList
         )
     }
 }

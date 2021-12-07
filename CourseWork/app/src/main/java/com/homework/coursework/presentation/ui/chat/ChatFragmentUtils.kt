@@ -1,5 +1,6 @@
 package com.homework.coursework.presentation.ui.chat
 
+import android.util.Log
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.res.ResourcesCompat
@@ -9,7 +10,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.homework.coursework.R
 import com.homework.coursework.presentation.adapter.MessageAdapter
-import com.homework.coursework.presentation.adapter.data.DiscussItem
+import com.homework.coursework.presentation.adapter.data.ChatItem
 import com.homework.coursework.presentation.adapter.data.EmojiItem
 import com.homework.coursework.presentation.adapter.data.MessageItem
 import com.homework.coursework.presentation.ui.chat.ChatBaseFragment.Companion.DEFAULT_MESSAGE_ID
@@ -19,7 +20,6 @@ import com.homework.coursework.presentation.customview.CustomFlexboxLayout
 import com.homework.coursework.presentation.utils.Emoji
 import com.homework.coursework.presentation.utils.initEmojiToBottomSheet
 import com.homework.coursework.presentation.utils.toStringDate
-import kotlinx.serialization.ExperimentalSerializationApi
 import okhttp3.internal.toHexString
 import java.util.*
 
@@ -92,7 +92,8 @@ internal fun TopicChatFragment.onEmojiClickedImpl(emojiIdx: Int) {
             emojiName = Emoji.values()[emojiIdx].nameInZulip,
             isCurrUserReacted = false
         )
-        currMessageId = this?.messageId ?: 0
+        updateMessage = this?.messageId ?: 0
+        Log.d("TESTADDEMOJI", updateMessage.toString())
         internalStore.accept(
             event = addOrDelete(
                 isAdd = existedEmoji?.isCurrUserReacted?.not() ?: true,
@@ -111,7 +112,7 @@ internal fun TopicChatFragment.onEmojiClickedImpl(emojiItem: EmojiItem) {
         throw IllegalArgumentException("selectedMessageId required")
     }
     with(messageAdapter.currentList[messageIdx].messageItem) {
-        currMessageId = this?.messageId ?: 0
+        updateMessage = this?.messageId ?: 0
         this?.emojis?.indexOf(emojiItem)
         internalStore.accept(
             event = addOrDelete(
@@ -157,13 +158,13 @@ internal fun selectIcon(text: String): Int = if (text.isEmpty()) {
  * add date to recycler list
  * @param date is string with date
  */
-fun ArrayList<DiscussItem>.addDate(date: String) {
+fun ArrayList<ChatItem>.addDate(date: String) {
     if (lastIndex == -1 || this[lastIndex].messageItem?.date?.toStringDate() == date) {
         return
     }
     val curIdx = lastIndex + 1
     add(
-        DiscussItem(
+        ChatItem(
             id = curIdx,
             messageItem = null,
             date = date
@@ -175,11 +176,11 @@ fun ArrayList<DiscussItem>.addDate(date: String) {
  * add message to recycler list
  * @param messageItemList is list with new messages
  */
-fun ArrayList<DiscussItem>.addMessageItem(messageItemList: List<MessageItem>) {
+fun ArrayList<ChatItem>.addMessageItem(messageItemList: List<MessageItem>) {
     val idx = lastIndex + 1
     addAll(
         messageItemList.mapIndexed { index, messageItem ->
-            DiscussItem(
+            ChatItem(
                 id = idx + index,
                 messageItem = messageItem,
                 date = null
