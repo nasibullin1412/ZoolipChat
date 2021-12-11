@@ -16,5 +16,7 @@ typealias AddMessageResponse = DtoResponse<Int>
 typealias UserResponse = DtoResponse<UserDto>
 @ExperimentalSerializationApi
 typealias UserResponseList = DtoResponse<List<UserDto>>
+@ExperimentalSerializationApi
+typealias SubscribeResponse = DtoResponse<Map<String, List<String>>>
 typealias StreamWithTopics = Pair<StreamDto, List<TopicDto>>
 typealias UserWithStatus = Pair<UserDto, StatusDto>

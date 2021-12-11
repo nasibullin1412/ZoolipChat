@@ -1,6 +1,6 @@
 package com.homework.coursework.domain.entity
 
-data class StreamData(
+class StreamData(
     val id: Int,
     val streamName: String,
     val description: String,

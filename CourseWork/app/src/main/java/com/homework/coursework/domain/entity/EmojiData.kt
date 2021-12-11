@@ -1,6 +1,6 @@
 package com.homework.coursework.domain.entity
 
-data class EmojiData(
+class EmojiData(
     val emojiCode: String,
     val emojiName: String,
     var emojiNumber: Int,

@@ -38,8 +38,20 @@
     <style name="Button.Custom" parent="ThemeOverlay.AppCompat">
         <item name="colorAccent">@color/send_box_color</item>
     </style>
+    <style name="ButtonStyle">
+        <item name="android:layout_width">184dp</item>
+        <item name="android:layout_height">52dp</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:background">@drawable/logout_button_selector</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
+    </style>
     <style name="RoundImage">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">15dp</item>
+    </style>
+    <style name="TextAppearance.App.TextInputLayout" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">14sp</item>
     </style>
 </resources>

@@ -1,6 +1,6 @@
 package com.homework.coursework.domain.entity
 
-data class MessageData(
+class MessageData(
     val messageId: Int,
     val userData: UserData,
     val messageContent: String,

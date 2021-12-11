@@ -11,11 +11,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.serialization.ExperimentalSerializationApi
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
-import retrofit2.http.POST
-import retrofit2.http.DELETE
+import retrofit2.http.*
 
 interface ApiService {
 
@@ -156,6 +152,15 @@ interface ApiService {
     @ExperimentalSerializationApi
     @GET("users")
     fun getAllUsers(): Observable<UserResponseList>
+
+    @ExperimentalSerializationApi
+    @POST("users/me/subscriptions")
+    fun createStream(
+        @Query("invite_only") inviteOnly: Boolean,
+        @Query("is_web_public") isWebPublic: Boolean,
+        @Query("history_public_to_subscribers") historyPublicToSubscribers: Boolean,
+        @Query("subscriptions") create: String
+    ): Observable<SubscribeResponse>
 
     companion object {
         fun create(authDao: AuthDao): ApiService {

@@ -9,6 +9,7 @@
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/drawable/bg_custom_emoji_view_unselected.xml" value="0.22314814814814815" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/drawable/bg_spinner.xml" value="0.1" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/drawable/bottom_nav_view_color.xml" value="0.3769230769230769" />
+        <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/drawable/create_stream_shape.xml" value="0.25076923076923074" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/drawable/ic__.xml" value="0.25" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/drawable/ic_baseline_account_circle.xml" value="0.3769230769230769" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/drawable/ic_channels.xml" value="0.20625" />
@@ -37,6 +38,8 @@
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/channel_item.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/channel_view_page_fragment.xml" value="0.2140625" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/chat_fragment.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/create_new_stream_fragment.xml" value="0.1497584541062802" />
+        <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/create_stream_shape.xml" value="0.23854166666666668" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/custom_message_view_group.xml" value="0.12849162011173185" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/date_item.xml" value="0.23854166666666668" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/error_content.xml" value="0.25416666666666665" />

@@ -4,27 +4,32 @@ import com.homework.coursework.data.*
 import com.homework.coursework.domain.repository.*
 import dagger.Binds
 import dagger.Module
-import javax.inject.Singleton
+import dagger.Reusable
 
 @Module
 interface RepositoryModule {
-    @Singleton
+    @Reusable
     @Binds
     fun bindMessageRepository(messageRepository: MessageRepositoryImpl): MessageRepository
 
-    @Singleton
+    @Reusable
     @Binds
     fun bindReactionRepository(reactionRepository: ReactionRepositoryImpl): ReactionRepository
 
-    @Singleton
+    @Reusable
     @Binds
     fun bindStreamRepository(streamRepository: StreamRepositoryImpl): StreamRepository
 
-    @Singleton
+    @Reusable
     @Binds
     fun bindUserRepository(userRepository: UserRepositoryImpl): UserRepository
 
-    @Singleton
+    @Reusable
     @Binds
     fun bindAuthRepository(authRepository: AuthRepositoryImpl): AuthRepository
+
+    @Reusable
+    @Binds
+    fun bindSubscribeStreamRepository(subscribeStreamRepository: SubscribeStreamRepositoryImpl):
+            SubscribeStreamRepository
 }

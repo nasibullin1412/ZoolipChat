@@ -17,7 +17,8 @@ data class DtoResponse<out T>(
         "presence",
         "id",
         "user",
-        "members"
+        "members",
+        "subscribed"
     )
     val data: T?
 )

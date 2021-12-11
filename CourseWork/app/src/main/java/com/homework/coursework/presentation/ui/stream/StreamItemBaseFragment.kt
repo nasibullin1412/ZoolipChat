@@ -27,17 +27,9 @@ abstract class StreamItemBaseFragment : ElmFragment<Event, Effect, State>(), Top
     internal lateinit var streamAdapter: StreamNameAdapter
     protected var currQuery: String = ""
     private var _binding: StreamViewPageFragmentBinding? = null
-    private var bottomNavigationController: BottomNavigationController? = null
 
     protected val binding
         get() = _binding!!
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is BottomNavigationController) {
-            bottomNavigationController = context
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,7 +47,6 @@ abstract class StreamItemBaseFragment : ElmFragment<Event, Effect, State>(), Top
         initRecycler()
     }
 
-
     override fun render(state: State) {
         if (state.isLoading) {
             showLoadingScreen()
@@ -71,11 +62,6 @@ abstract class StreamItemBaseFragment : ElmFragment<Event, Effect, State>(), Top
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        bottomNavigationController?.visibleBottomNavigation()
-    }
-
     override fun onStop() {
         super.onStop()
         store.accept(Event.Ui.OnStop)
@@ -87,11 +73,6 @@ abstract class StreamItemBaseFragment : ElmFragment<Event, Effect, State>(), Top
             putParcelable(TOPIC_KEY, topic)
         }
         setFragmentResult(REQUEST_KEY_CHOICE, bundle)
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        bottomNavigationController = null
     }
 
     abstract val tabState: Int

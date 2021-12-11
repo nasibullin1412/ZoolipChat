@@ -7,7 +7,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 @Serializable
-data class Narrow(
+data class NarrowStream(
     val operand: String,
     val operator: String
 ) {
@@ -15,11 +15,11 @@ data class Narrow(
         fun createNarrowForMessage(streamData: StreamData, topicData: TopicData): String {
             return Json.encodeToString(
                 listOf(
-                    Narrow(
+                    NarrowStream(
                         operator = "stream",
                         operand = streamData.streamName
                     ),
-                    Narrow(
+                    NarrowStream(
                         operator = "topic",
                         operand = topicData.topicName
                     )

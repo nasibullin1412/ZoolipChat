@@ -3,7 +3,6 @@ package com.homework.coursework.presentation
 import android.app.Application
 import com.homework.coursework.di.ApplicationComponent
 import com.homework.coursework.di.DaggerApplicationComponent
-import kotlinx.serialization.ExperimentalSerializationApi
 
 class App : Application() {
 

@@ -19,8 +19,6 @@ class UserProfileFragment : BaseProfileFragment() {
     @UserStore
     internal lateinit var userProfileStore: Store<Event, Effect, State>
 
-    private var bottomNavigationController: BottomNavigationController? = null
-
     private var userId = 0
 
     override fun onAttach(context: Context) {
@@ -38,8 +36,8 @@ class UserProfileFragment : BaseProfileFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.btnLogout.visibility = View.GONE
+        binding.btnCreateNewChannel.visibility = View.GONE
     }
 
     override val initEvent: Event

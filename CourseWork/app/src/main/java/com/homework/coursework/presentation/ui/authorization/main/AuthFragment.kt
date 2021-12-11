@@ -6,6 +6,8 @@ import com.homework.coursework.presentation.ui.authorization.AuthBaseFragment
 import com.homework.coursework.presentation.ui.authorization.elm.Effect
 import com.homework.coursework.presentation.ui.authorization.elm.Event
 import com.homework.coursework.presentation.ui.authorization.elm.State
+import com.homework.coursework.presentation.utils.CustomFragmentFactory
+import com.homework.coursework.presentation.utils.FragmentTag
 import com.homework.coursework.presentation.utils.showToast
 import vivid.money.elmslie.core.store.Store
 import javax.inject.Inject
@@ -34,7 +36,9 @@ class AuthFragment : AuthBaseFragment() {
             showToast(effect.error.message)
         }
         is Effect.SuccessAuth -> {
-            navigateController?.navigateFragment()
+            navigateController?.navigateFragment(
+                customFragmentFactory = CustomFragmentFactory.create(FragmentTag.CHANNEL_FRAGMENT_TAG)
+            )
         }
         is Effect.SuccessGetApiToken -> {
             store.accept(Event.Ui.GetMe)

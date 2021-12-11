@@ -1,6 +1,6 @@
 package com.homework.coursework.domain.entity
 
-data class UserData(
+class UserData(
     val id: Int,
     val name: String,
     val avatarUrl: String,

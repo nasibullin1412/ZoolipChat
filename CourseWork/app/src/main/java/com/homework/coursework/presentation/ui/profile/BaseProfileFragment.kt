@@ -8,10 +8,13 @@ import android.view.ViewGroup
 import coil.load
 import com.homework.coursework.databinding.ProfileFragmentBinding
 import com.homework.coursework.presentation.adapter.data.UserItem
+import com.homework.coursework.presentation.interfaces.BottomNavigationController
 import com.homework.coursework.presentation.interfaces.NavigateController
 import com.homework.coursework.presentation.ui.profile.elm.Effect
 import com.homework.coursework.presentation.ui.profile.elm.Event
 import com.homework.coursework.presentation.ui.profile.elm.State
+import com.homework.coursework.presentation.utils.CustomFragmentFactory
+import com.homework.coursework.presentation.utils.FragmentTag
 import com.homework.coursework.presentation.utils.off
 import com.homework.coursework.presentation.utils.showToast
 import vivid.money.elmslie.android.base.ElmFragment
@@ -20,12 +23,16 @@ abstract class BaseProfileFragment : ElmFragment<Event, Effect, State>() {
 
     private var _binding: ProfileFragmentBinding? = null
     protected val binding get() = _binding!!
-    private var navigateController: NavigateController? = null
+    protected var navigateController: NavigateController? = null
+    protected var bottomNavigationController: BottomNavigationController? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is NavigateController) {
             navigateController = context
+        }
+        if (context is BottomNavigationController){
+            bottomNavigationController = context
         }
     }
 
@@ -67,7 +74,11 @@ abstract class BaseProfileFragment : ElmFragment<Event, Effect, State>() {
                 showToast("Something went wrong, try again...")
             }
             Effect.SuccessLogout -> {
-                navigateController?.logoutApp()
+                navigateController?.navigateFragment(
+                    customFragmentFactory = CustomFragmentFactory.create(
+                        FragmentTag.AUTH_FRAGMENT_TAG
+                    )
+                )
             }
         }
     }

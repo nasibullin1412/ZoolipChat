@@ -6,11 +6,9 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.homework.coursework.R
-import com.homework.coursework.presentation.adapter.data.StreamItem
-import com.homework.coursework.presentation.adapter.data.TopicItem
 import com.homework.coursework.presentation.interfaces.BottomNavigationController
 import com.homework.coursework.presentation.interfaces.NavigateController
-import com.homework.coursework.presentation.utils.FragmentFactory
+import com.homework.coursework.presentation.utils.CustomFragmentFactory
 import com.homework.coursework.presentation.utils.FragmentTag
 import com.homework.coursework.presentation.utils.MenuItemIdx
 import com.homework.coursework.presentation.utils.addFragment
@@ -23,7 +21,7 @@ class MainActivity : AppCompatActivity(), NavigateController, BottomNavigationCo
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
         if (savedInstanceState == null) {
-            val fragmentFactory = FragmentFactory.create(FragmentTag.AUTH_FRAGMENT_TAG)
+            val fragmentFactory = CustomFragmentFactory.create(FragmentTag.AUTH_FRAGMENT_TAG)
             addFragment(fragmentFactory)
         }
         initNavigationListener()
@@ -47,7 +45,7 @@ class MainActivity : AppCompatActivity(), NavigateController, BottomNavigationCo
             R.id.peopleFragment -> FragmentTag.PEOPLE_FRAGMENT_TAG
             else -> throw IllegalArgumentException("Unexpected tag")
         }
-        val fragmentFactory = FragmentFactory.create(tag)
+        val fragmentFactory = CustomFragmentFactory.create(tag)
         addFragment(fragmentFactory)
         return true
     }
@@ -75,38 +73,15 @@ class MainActivity : AppCompatActivity(), NavigateController, BottomNavigationCo
         bottomNavigationView.menu.getItem(MenuItemIdx.PROFILE_IDX.value).isChecked = true
     }
 
-    override fun navigateFragment(topic: TopicItem, stream: StreamItem) {
-        val fragmentFactory = FragmentFactory.create(
-            fragmentTag = FragmentTag.TOPIC_DISCUSSION_FRAGMENT_TAG,
-            topic = topic,
-            stream = stream
-        )
-        addFragment(fragmentFactory)
-    }
-
-    override fun navigateFragment(userId: Int) {
-        val fragmentFactory = FragmentFactory.create(
-            fragmentTag = FragmentTag.USER_PROFILE_FRAGMENT_TAG,
-            userId = userId
-        )
-        addFragment(fragmentFactory)
-    }
-
-    override fun navigateFragment() {
-        val fragmentFactory = FragmentFactory.create(FragmentTag.CHANNEL_FRAGMENT_TAG)
-        addFragment(fragmentFactory)
-    }
-
-    override fun logoutApp() {
-        val fragmentFactory = FragmentFactory.create(FragmentTag.AUTH_FRAGMENT_TAG)
-        addFragment(fragmentFactory)
-    }
-
     override fun goneBottomNavigation() {
         bottomNavigationView.visibility = View.GONE
     }
 
     override fun visibleBottomNavigation() {
         bottomNavigationView.visibility = View.VISIBLE
+    }
+
+    override fun navigateFragment(customFragmentFactory: CustomFragmentFactory) {
+        addFragment(customFragmentFactory)
     }
 }

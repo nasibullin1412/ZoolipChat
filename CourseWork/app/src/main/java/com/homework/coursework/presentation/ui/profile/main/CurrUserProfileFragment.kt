@@ -8,6 +8,8 @@ import com.homework.coursework.presentation.ui.profile.BaseProfileFragment
 import com.homework.coursework.presentation.ui.profile.elm.Effect
 import com.homework.coursework.presentation.ui.profile.elm.Event
 import com.homework.coursework.presentation.ui.profile.elm.State
+import com.homework.coursework.presentation.utils.CustomFragmentFactory
+import com.homework.coursework.presentation.utils.FragmentTag
 import vivid.money.elmslie.core.store.Store
 import javax.inject.Inject
 
@@ -25,12 +27,28 @@ class CurrUserProfileFragment : BaseProfileFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initLogoutButton()
+        initCreateButton()
+    }
+
+    private fun initCreateButton() {
+        binding.btnCreateNewChannel.setOnClickListener {
+            navigateController?.navigateFragment(
+                customFragmentFactory = CustomFragmentFactory.create(
+                    FragmentTag.CREATE_STREAM_FRAGMENT_TAG
+                )
+            )
+        }
     }
 
     private fun initLogoutButton() {
         binding.btnLogout.setOnClickListener {
             store.accept(Event.Ui.LogoutUser)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        bottomNavigationController?.visibleBottomNavigation()
     }
 
     override val initEvent: Event

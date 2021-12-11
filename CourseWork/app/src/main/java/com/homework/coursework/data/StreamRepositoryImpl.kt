@@ -59,7 +59,6 @@ class StreamRepositoryImpl @Inject constructor(
             .concatMap { streamDto -> zipStreamAndTopics(streamDto) }
             .toList()
             .map(streamDtoMapper)
-            .doAfterSuccess { storeStreamsInDb(streamDataMapper(it, isSubscribed = false)) }
             .toObservable()
             .onErrorReturn { error: Throwable ->
                 listOf(

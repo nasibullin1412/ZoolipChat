@@ -83,4 +83,9 @@ interface UseCaseModule {
     @Reusable
     @Binds
     fun bindSearchUsers(searchUsersUseCase: SearchUsersUseCaseImpl): SearchUsersUseCase
+
+    @Reusable
+    @Binds
+    fun bindSubscribeToStream(subscribeToStreamUseCase: SubscribeToStreamUseCaseImpl):
+            SubscribeToStreamUseCase
 }

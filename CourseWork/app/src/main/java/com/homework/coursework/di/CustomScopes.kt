@@ -19,3 +19,6 @@ annotation class PeopleFragmentScope
 
 @Scope
 annotation class StreamMainFragmentScope
+
+@Scope
+annotation class CreateNewStreamFragmentScope

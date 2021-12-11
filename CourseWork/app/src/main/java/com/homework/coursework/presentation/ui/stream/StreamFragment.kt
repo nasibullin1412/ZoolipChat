@@ -13,14 +13,17 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.homework.coursework.R
 import com.homework.coursework.databinding.StreamFragmentBinding
 import com.homework.coursework.presentation.App
-import com.homework.coursework.presentation.utils.SearchListener
 import com.homework.coursework.presentation.adapter.StreamAdapter
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
+import com.homework.coursework.presentation.interfaces.BottomNavigationController
 import com.homework.coursework.presentation.interfaces.NavigateController
 import com.homework.coursework.presentation.ui.stream.StreamItemBaseFragment.Companion.REQUEST_KEY_CHOICE
 import com.homework.coursework.presentation.ui.stream.StreamItemBaseFragment.Companion.STREAM_KEY
 import com.homework.coursework.presentation.ui.stream.StreamItemBaseFragment.Companion.TOPIC_KEY
+import com.homework.coursework.presentation.utils.CustomFragmentFactory
+import com.homework.coursework.presentation.utils.FragmentTag
+import com.homework.coursework.presentation.utils.SearchListener
 import com.homework.coursework.presentation.utils.showToast
 import javax.inject.Inject
 
@@ -33,12 +36,16 @@ class StreamFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var streamAdapter: StreamAdapter
     private lateinit var viewPager: ViewPager2
-    private var topicItemCallback: NavigateController? = null
+    private var navigateController: NavigateController? = null
+    private var bottomNavigationController: BottomNavigationController? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is NavigateController) {
-            topicItemCallback = context
+            navigateController = context
+        }
+        if (context is BottomNavigationController) {
+            bottomNavigationController = context
         }
     }
 
@@ -52,9 +59,12 @@ class StreamFragment : Fragment() {
                 ?: throw IllegalArgumentException("Stream required")
             val topic = bundle.getParcelable<TopicItem>(TOPIC_KEY)
                 ?: throw IllegalArgumentException("Topic required")
-            topicItemCallback?.navigateFragment(
-                topic = topic,
-                stream = stream
+            navigateController?.navigateFragment(
+                customFragmentFactory = CustomFragmentFactory.create(
+                    FragmentTag.TOPIC_CHAT_FRAGMENT_TAG,
+                    stream = stream,
+                    topic = topic
+                )
             )
         }
         App.appComponent.streamComponent().inject(this)
@@ -96,9 +106,15 @@ class StreamFragment : Fragment() {
         )
     }
 
+    override fun onResume() {
+        super.onResume()
+        bottomNavigationController?.visibleBottomNavigation()
+    }
+
     override fun onDetach() {
         super.onDetach()
-        topicItemCallback = null
+        navigateController = null
+        bottomNavigationController = null
     }
 
     companion object {

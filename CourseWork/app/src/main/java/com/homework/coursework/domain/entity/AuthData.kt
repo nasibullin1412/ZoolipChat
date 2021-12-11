@@ -1,6 +1,6 @@
 package com.homework.coursework.domain.entity
 
-data class AuthData(
+class AuthData(
     val apiKey: String,
     val email: String
 )

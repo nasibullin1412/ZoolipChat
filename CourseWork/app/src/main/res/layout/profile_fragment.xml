@@ -70,20 +70,30 @@
             app:layout_constraintTop_toBottomOf="@+id/tvName"
             tools:text="online" />
 
+
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnLogout"
-            android:layout_width="184dp"
-            android:layout_height="52dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/logout_button_selector"
-            android:text="@string/log_out"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:id="@+id/btnCreateNewChannel"
+            style="@style/ButtonStyle"
+            android:text="@string/create_channel"
             app:backgroundTint="@color/send_box_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvState"
-            app:layout_constraintVertical_bias="0.6" />
+            app:layout_constraintVertical_bias="0.35"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLogout"
+            style="@style/ButtonStyle"
+            android:text="@string/log_out"
+            app:backgroundTint="@color/send_box_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnCreateNewChannel"
+            />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.facebook.shimmer.ShimmerFrameLayout

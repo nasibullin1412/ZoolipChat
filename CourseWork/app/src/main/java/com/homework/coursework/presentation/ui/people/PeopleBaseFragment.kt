@@ -16,6 +16,8 @@ import com.homework.coursework.presentation.interfaces.UserItemCallback
 import com.homework.coursework.presentation.ui.people.elm.Effect
 import com.homework.coursework.presentation.ui.people.elm.Event
 import com.homework.coursework.presentation.ui.people.elm.State
+import com.homework.coursework.presentation.utils.CustomFragmentFactory
+import com.homework.coursework.presentation.utils.FragmentTag
 import com.homework.coursework.presentation.utils.off
 import vivid.money.elmslie.android.base.ElmFragment
 import javax.inject.Inject
@@ -38,7 +40,7 @@ abstract class PeopleBaseFragment : ElmFragment<Event, Effect, State>(), UserIte
         if (context is NavigateController) {
             navigateController = context
         }
-        if (context is BottomNavigationController){
+        if (context is BottomNavigationController) {
             bottomNavigationController = context
         }
     }
@@ -85,7 +87,12 @@ abstract class PeopleBaseFragment : ElmFragment<Event, Effect, State>(), UserIte
     }
 
     override fun onUserItemClick(id: Int) {
-        navigateController?.navigateFragment(id)
+        navigateController?.navigateFragment(
+            customFragmentFactory = CustomFragmentFactory.create(
+                FragmentTag.USER_PROFILE_FRAGMENT_TAG,
+                userId = id
+            )
+        )
     }
 
     override fun onDetach() {

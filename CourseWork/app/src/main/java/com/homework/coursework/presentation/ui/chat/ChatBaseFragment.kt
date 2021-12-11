@@ -34,7 +34,7 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
 
     internal val binding get() = _binding!!
 
-    private var bottomNavigationController: BottomNavigationController? = null
+    protected var bottomNavigationController: BottomNavigationController? = null
 
     private var _binding: ChatFragmentBinding? = null
 
@@ -61,7 +61,7 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bottomNavigationController?.goneBottomNavigation()
+        bottomNavigationController?.visibleBottomNavigation()
         initViews()
     }
 
@@ -150,7 +150,7 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
 
     private fun initBackButton() {
         binding.imgBack.setOnClickListener {
-            activity?.onBackPressed()
+            requireActivity().onBackPressed()
         }
     }
 

@@ -1,11 +1,7 @@
 package com.homework.coursework.presentation.interfaces
 
-import com.homework.coursework.presentation.adapter.data.StreamItem
-import com.homework.coursework.presentation.adapter.data.TopicItem
+import com.homework.coursework.presentation.utils.CustomFragmentFactory
 
 interface NavigateController {
-    fun navigateFragment(topic: TopicItem, stream: StreamItem)
-    fun navigateFragment(userId: Int)
-    fun navigateFragment()
-    fun logoutApp()
+    fun navigateFragment(customFragmentFactory: CustomFragmentFactory)
 }

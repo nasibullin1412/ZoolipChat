@@ -111,6 +111,7 @@ class TopicChatFragment : ChatBaseFragment() {
                 currId = currId
             )
         )
+        bottomNavigationController?.visibleBottomNavigation()
     }
 
     override fun render(state: State) {

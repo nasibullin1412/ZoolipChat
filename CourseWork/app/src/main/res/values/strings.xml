@@ -20,6 +20,15 @@
     <string name="btn_string">LogIn</string>
     <string name="users">Users…</string>
     <string name="admin">admin</string>
+    <string name="create_channel">Create channel</string>
+    <string name="stream_name">Stream name</string>
+    <string name="stream_description">Stream description</string>
+    <string name="who_can_access_stream">Who can access stream?</string>
+    <string name="public_string">Public</string>
+    <string name="private_shared_history">Private, shared history</string>
+    <string name="private_protected_history">Private, protected history</string>
+    <string name="create_stream">Create stream</string>
+    <string name="back_button">Back</string>
     <string-array name="view_pager_items">
         <item>Subscribed</item>
         <item>All streams</item>

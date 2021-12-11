@@ -4,28 +4,28 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import com.homework.coursework.R
 
-fun AppCompatActivity.addFragmentWithoutBackstack(fragmentFactory: FragmentFactory, tag: String) {
+fun AppCompatActivity.addFragmentWithoutBackstack(customFragmentFactory: CustomFragmentFactory, tag: String) {
     if (supportFragmentManager.backStackEntryCount != 0) {
         supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
     supportFragmentManager.beginTransaction()
-        .replace(R.id.nav_host_fragment, fragmentFactory.fragment, tag)
+        .replace(R.id.nav_host_fragment, customFragmentFactory.fragment, tag)
         .commit()
 }
 
-fun AppCompatActivity.addFragment(fragmentFactory: FragmentFactory) {
-    val tag = fragmentFactory.fragmentTag.value
-    if (fragmentFactory.fragmentTag == FragmentTag.CHANNEL_FRAGMENT_TAG) {
-        addFragmentWithoutBackstack(fragmentFactory = fragmentFactory, tag = tag)
+fun AppCompatActivity.addFragment(customFragmentFactory: CustomFragmentFactory) {
+    val tag = customFragmentFactory.fragmentTag.value
+    if (customFragmentFactory.fragmentTag == FragmentTag.CHANNEL_FRAGMENT_TAG) {
+        addFragmentWithoutBackstack(customFragmentFactory = customFragmentFactory, tag = tag)
         return
     }
-    if (fragmentFactory.fragmentTag == FragmentTag.AUTH_FRAGMENT_TAG) {
-        addFragmentWithoutBackstack(fragmentFactory = fragmentFactory, tag = tag)
+    if (customFragmentFactory.fragmentTag == FragmentTag.AUTH_FRAGMENT_TAG) {
+        addFragmentWithoutBackstack(customFragmentFactory = customFragmentFactory, tag = tag)
         return
     }
     supportFragmentManager.popBackStack(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     supportFragmentManager.beginTransaction()
-        .replace(R.id.nav_host_fragment, fragmentFactory.fragment, tag)
+        .replace(R.id.nav_host_fragment, customFragmentFactory.fragment, tag)
         .addToBackStack(tag)
         .commit()
 }
