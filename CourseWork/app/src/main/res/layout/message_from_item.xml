@@ -6,10 +6,13 @@
     android:layout_marginTop="22dp">
 
     <com.homework.coursework.presentation.customview.CustomMessageViewGroup
+        android:id="@+id/cmViewGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/cv_message_margin_start"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+        <include layout="@layout/custom_message_view_group"/>
+    </com.homework.coursework.presentation.customview.CustomMessageViewGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

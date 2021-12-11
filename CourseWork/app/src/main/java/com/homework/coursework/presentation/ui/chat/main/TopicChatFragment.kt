@@ -4,10 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import com.homework.coursework.presentation.App
-import com.homework.coursework.presentation.adapter.data.ChatItem
-import com.homework.coursework.presentation.adapter.data.EmojiItem
-import com.homework.coursework.presentation.adapter.data.StreamItem
-import com.homework.coursework.presentation.adapter.data.TopicItem
+import com.homework.coursework.presentation.adapter.data.*
 import com.homework.coursework.presentation.ui.chat.ChatBaseFragment
 import com.homework.coursework.presentation.ui.chat.elm.Effect
 import com.homework.coursework.presentation.ui.chat.elm.Event
@@ -60,7 +57,7 @@ class TopicChatFragment : ChatBaseFragment() {
      * @param newList is list with new MessageData
      */
     private fun updateMessage(newList: List<ChatItem>) {
-        messageAdapter.submitList(newList)
+        chatAdapter.submitList(newList)
     }
 
     override fun onEmojiClicked(emojiIdx: Int) {
@@ -98,7 +95,7 @@ class TopicChatFragment : ChatBaseFragment() {
 
     override fun onStop() {
         super.onStop()
-        val numberOfMessage = messageAdapter.currentList.filter { it.messageItem != null }.size
+        val numberOfMessage = chatAdapter.currentList.filterIsInstance<MessageItem>().size
         val last = DATABASE_MESSAGE_THRESHOLD.getValueByCondition(
             condition = DATABASE_MESSAGE_THRESHOLD < numberOfMessage,
             second = numberOfMessage
@@ -107,7 +104,7 @@ class TopicChatFragment : ChatBaseFragment() {
             Event.Ui.SaveMessage(
                 streamItem = currentStream,
                 topicItem = currentTopic,
-                messages = messageAdapter.currentList.takeLast(last),
+                messages = chatAdapter.currentList.takeLast(last),
                 currId = currId
             )
         )
@@ -134,9 +131,8 @@ class TopicChatFragment : ChatBaseFragment() {
             is Effect.ErrorCommands -> {
                 showToast(effect.error.message)
             }
-
             is Effect.MessageAdded -> {
-                messageAdapter.submitList(emptyList())
+                chatAdapter.submitList(emptyList())
                 store.accept(
                     Event.Ui.LoadNextPage(
                         streamItem = currentStream,
@@ -145,24 +141,20 @@ class TopicChatFragment : ChatBaseFragment() {
                     )
                 )
             }
-
             Effect.MessagesSaved -> {
                 Log.d("SaveLog", "Success save all messages")
             }
-
             is Effect.NextPageLoadError -> {
                 showToast(effect.error.message)
             }
-
             is Effect.PageLoaded -> {
                 store.accept(
                     Event.Ui.MergeOldList(
-                        oldList = messageAdapter.currentList,
+                        oldList = chatAdapter.currentList,
                         newList = effect.itemList
                     )
                 )
             }
-
             Effect.ReactionChanged -> {
                 store.accept(
                     Event.Ui.UpdateMessage(

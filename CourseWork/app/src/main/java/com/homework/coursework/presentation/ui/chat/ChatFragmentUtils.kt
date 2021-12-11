@@ -1,6 +1,5 @@
 package com.homework.coursework.presentation.ui.chat
 
-import android.util.Log
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.res.ResourcesCompat
@@ -9,14 +8,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.homework.coursework.R
-import com.homework.coursework.presentation.adapter.MessageAdapter
+import com.homework.coursework.presentation.adapter.ChatAdapter
 import com.homework.coursework.presentation.adapter.data.ChatItem
+import com.homework.coursework.presentation.adapter.data.DateItem
 import com.homework.coursework.presentation.adapter.data.EmojiItem
 import com.homework.coursework.presentation.adapter.data.MessageItem
+import com.homework.coursework.presentation.customview.CustomFlexboxLayout
 import com.homework.coursework.presentation.ui.chat.ChatBaseFragment.Companion.DEFAULT_MESSAGE_ID
 import com.homework.coursework.presentation.ui.chat.elm.Event
 import com.homework.coursework.presentation.ui.chat.main.TopicChatFragment
-import com.homework.coursework.presentation.customview.CustomFlexboxLayout
 import com.homework.coursework.presentation.utils.Emoji
 import com.homework.coursework.presentation.utils.initEmojiToBottomSheet
 import com.homework.coursework.presentation.utils.toStringDate
@@ -25,25 +25,26 @@ import java.util.*
 
 internal fun TopicChatFragment.initRecycleViewImpl() {
     with(binding.rvMessage) {
-        messageAdapter = MessageAdapter().apply {
+        chatAdapter = ChatAdapter().apply {
             initListener(this@initRecycleViewImpl)
         }
-        adapter = messageAdapter
+        adapter = chatAdapter
         val currLayoutManager = LinearLayoutManager(context).apply { stackFromEnd = true }
         layoutManager = currLayoutManager
         scrollListener = object : PagingScrollListener(currLayoutManager) {
             override fun onLoadMore(top: Boolean): Boolean {
-                internalStore.accept(
-                    Event.Ui.LoadNextPage(
-                        streamItem = currentStream,
-                        topicItem = currentTopic.copy(
-                            numberOfMess = messageAdapter.currentList
-                                .first { it.messageItem != null }
-                                .messageItem?.messageId
-                                ?: throw IllegalArgumentException("messageItem required")),
-                        currId = currId
+                val firstMessageItem = chatAdapter.currentList.first { it is MessageItem }
+                if (firstMessageItem is MessageItem) {
+                    internalStore.accept(
+                        Event.Ui.LoadNextPage(
+                            streamItem = currentStream,
+                            topicItem = currentTopic.copy(
+                                numberOfMess = firstMessageItem.messageId
+                            ),
+                            currId = currId
+                        )
                     )
-                )
+                }
                 return true
             }
         }
@@ -79,45 +80,44 @@ internal fun ChatBaseFragment.initBottomDialog() {
  * @param emojiIdx is clicked emoji idx
  */
 internal fun TopicChatFragment.onEmojiClickedImpl(emojiIdx: Int) {
-    if (messageIdx == DEFAULT_MESSAGE_ID) {
+    if (messageId == DEFAULT_MESSAGE_ID) {
         throw IllegalArgumentException("selectedMessageId required")
     }
-    with(messageAdapter.currentList[messageIdx].messageItem) {
-        val existedEmoji = this?.emojis?.firstOrNull {
+    val chatItem = chatAdapter.currentList.getMessage(messageId)
+    with(chatItem) {
+        val existedEmoji = emojis.firstOrNull {
             it.emojiCode == Emoji.values()[emojiIdx].unicodeCodePoint.toHexString()
         }
         val emojiForAction = EmojiItem(
             emojiCode = Emoji.values()[emojiIdx].unicodeCodePoint.toHexString(),
-            emojiNumber = this?.emojis?.size ?: 0,
+            emojiNumber = emojis.size,
             emojiName = Emoji.values()[emojiIdx].nameInZulip,
             isCurrUserReacted = false
         )
-        updateMessage = this?.messageId ?: 0
-        Log.d("TESTADDEMOJI", updateMessage.toString())
+        updateMessage = messageId
         internalStore.accept(
             event = addOrDelete(
                 isAdd = existedEmoji?.isCurrUserReacted?.not() ?: true,
-                messageItem = this ?: throw IllegalArgumentException("message required"),
+                messageItem = this,
                 emojiItem = emojiForAction
             )
         )
     }
-    messageAdapter.notifyItemChanged(messageIdx)
-    messageIdx = DEFAULT_MESSAGE_ID
+    messageId = DEFAULT_MESSAGE_ID
     bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_HIDDEN
 }
 
 internal fun TopicChatFragment.onEmojiClickedImpl(emojiItem: EmojiItem) {
-    if (messageIdx == DEFAULT_MESSAGE_ID) {
+    if (messageId == DEFAULT_MESSAGE_ID) {
         throw IllegalArgumentException("selectedMessageId required")
     }
-    with(messageAdapter.currentList[messageIdx].messageItem) {
-        updateMessage = this?.messageId ?: 0
-        this?.emojis?.indexOf(emojiItem)
+    val chatItem = chatAdapter.currentList.getMessage(messageId)
+    with(chatItem) {
+        updateMessage = messageId
         internalStore.accept(
             event = addOrDelete(
                 isAdd = emojiItem.isCurrUserReacted.not(),
-                messageItem = this ?: throw IllegalArgumentException("message required"),
+                messageItem = this,
                 emojiItem = emojiItem
             )
         )
@@ -159,17 +159,17 @@ internal fun selectIcon(text: String): Int = if (text.isEmpty()) {
  * @param date is string with date
  */
 fun ArrayList<ChatItem>.addDate(date: String) {
-    if (lastIndex == -1 || this[lastIndex].messageItem?.date?.toStringDate() == date) {
+    if (lastIndex == -1) {
         return
     }
+    val item = this[lastIndex]
+    if (item is MessageItem) {
+        if (item.date.toStringDate() == date) {
+            return
+        }
+    }
     val curIdx = lastIndex + 1
-    add(
-        ChatItem(
-            id = curIdx,
-            messageItem = null,
-            date = date
-        )
-    )
+    add(DateItem(idItem = curIdx, date = date))
 }
 
 /**
@@ -180,11 +180,27 @@ fun ArrayList<ChatItem>.addMessageItem(messageItemList: List<MessageItem>) {
     val idx = lastIndex + 1
     addAll(
         messageItemList.mapIndexed { index, messageItem ->
-            ChatItem(
-                id = idx + index,
-                messageItem = messageItem,
-                date = null
-            )
+            with(messageItem) {
+                MessageItem(
+                    idItem = idx + index,
+                    messageId = messageId,
+                    userData = userData,
+                    messageContent = messageContent,
+                    emojis = emojis,
+                    date = date,
+                    isCurrentUserMessage = isCurrentUserMessage
+                )
+            }
         }
     )
+}
+
+fun List<ChatItem>.getMessage(messageId: Int): MessageItem {
+    return first {
+        if (it is MessageItem) {
+            it.messageId == messageId
+        } else {
+            false
+        }
+    } as MessageItem
 }

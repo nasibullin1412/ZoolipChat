@@ -5,7 +5,6 @@ import com.homework.coursework.presentation.adapter.mapper.*
 import com.homework.coursework.presentation.ui.chat.UpdateRecycleList
 import io.reactivex.Observable
 import vivid.money.elmslie.core.ActorCompat
-import javax.inject.Inject
 
 class ChatActor(
     private val getTopicMessages: GetTopicMessagesUseCase,
@@ -17,7 +16,7 @@ class ChatActor(
     private val getCurrentId: GetCurrentUserIdUseCase,
     private val streamDataMapper: StreamDataMapper,
     private val topicDataMapper: TopicDataMapper,
-    private val discussToItemMapper: DiscussItemMapper,
+    private val chatToItemMapper: ChatItemMapper,
     private val messageDataMapper: MessageDataMapper,
     private val messageListDataMapper: MessageListDataMapper,
     private val emojiDataMapper: EmojiDataMapper,
@@ -46,7 +45,7 @@ class ChatActor(
                 streamData = streamDataMapper(command.streamItem),
                 topicData = topicDataMapper(command.topicItem),
                 currId = command.currId
-            ).map { discussToItemMapper(messageDataList = it, currId = command.currId) }
+            ).map { chatToItemMapper(messageDataList = it, currId = command.currId) }
                 .mapEvents(
                     { list -> Event.Internal.InitPageLoaded(list) },
                     { error -> Event.Internal.ErrorLoading(error) }
@@ -58,7 +57,7 @@ class ChatActor(
                 topicData = topicDataMapper(command.topicItem),
                 currId = command.currId,
                 numBefore = command.numBefore
-            ).map { discussToItemMapper(messageDataList = it, currId = command.currId) }
+            ).map { chatToItemMapper(messageDataList = it, currId = command.currId) }
                 .mapEvents(
                     { list -> Event.Internal.PageLoaded(list) },
                     { error -> Event.Internal.ErrorCommands(error) }

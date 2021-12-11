@@ -1,13 +1,15 @@
 package com.homework.coursework.presentation.ui.chat
 
 import com.homework.coursework.presentation.adapter.data.ChatItem
+import com.homework.coursework.presentation.adapter.data.MessageItem
 import dagger.Reusable
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 @Reusable
-class UpdateRecycleList @Inject constructor(): (List<ChatItem>, List<ChatItem>) -> Observable<List<ChatItem>> {
+class UpdateRecycleList @Inject constructor() :
+        (List<ChatItem>, List<ChatItem>) -> Observable<List<ChatItem>> {
 
     override fun invoke(
         oldList: List<ChatItem>,
@@ -27,8 +29,16 @@ class UpdateRecycleList @Inject constructor(): (List<ChatItem>, List<ChatItem>) 
         newList: List<ChatItem>
     ): List<ChatItem> {
         val lastElemOfNew = newList.last()
-        val idx =
-            oldList.indexOfFirst { it.messageItem?.messageId == lastElemOfNew.messageItem?.messageId }
+        if (lastElemOfNew !is MessageItem) {
+            return oldList
+        }
+        val idx = if (oldList.isNotEmpty()) {
+            val firstMessageItem = oldList.filterIsInstance<MessageItem>()
+                .first { it.messageId == lastElemOfNew.messageId }
+            oldList.indexOf(firstMessageItem)
+        } else {
+            -1
+        }
         if (idx == -1) {
             return newList + oldList
         }

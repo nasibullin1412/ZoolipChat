@@ -2,7 +2,6 @@ package com.homework.coursework.presentation.adapter.mapper
 
 import com.homework.coursework.domain.entity.MessageData
 import com.homework.coursework.presentation.adapter.data.ChatItem
-import com.homework.coursework.presentation.adapter.data.ErrorHandle
 import com.homework.coursework.presentation.ui.chat.addDate
 import com.homework.coursework.presentation.ui.chat.addMessageItem
 import com.homework.coursework.presentation.utils.toStringDate
@@ -10,7 +9,7 @@ import dagger.Reusable
 import javax.inject.Inject
 
 @Reusable
-class DiscussItemMapper @Inject constructor() : (List<MessageData>, Int) -> (List<ChatItem>) {
+class ChatItemMapper @Inject constructor() : (List<MessageData>, Int) -> (List<ChatItem>) {
 
     @Inject
     internal lateinit var messageItemMapper: MessageItemMapper
@@ -19,14 +18,7 @@ class DiscussItemMapper @Inject constructor() : (List<MessageData>, Int) -> (Lis
         if (messageDataList.size == 1 && messageDataList.first().errorHandle.isError) {
             val erHandle = messageDataList.first().errorHandle
             return listOf(
-                ChatItem(
-                    id = 0,
-                    messageItem = null,
-                    date = null,
-                    errorHandle = ErrorHandle(
-                        isError = erHandle.isError, error = erHandle.error
-                    )
-                )
+                ChatItem.getErrorChatItem(erHandle.error)
             )
         }
         val messageList = arrayListOf<ChatItem>()
@@ -34,10 +26,9 @@ class DiscussItemMapper @Inject constructor() : (List<MessageData>, Int) -> (Lis
         with(groupedMessage) {
             for (date in keys) {
                 messageList.addDate(date)
-                val list =
-                    this[date] ?: throw IllegalArgumentException("message required")
+                val list = this[date] ?: throw IllegalArgumentException("message required")
                 messageList.addMessageItem(
-                    messageItemMapper(list, currId)
+                    messageItemMapper(list, currId, messageDataList.lastIndex+1)
                 )
             }
         }

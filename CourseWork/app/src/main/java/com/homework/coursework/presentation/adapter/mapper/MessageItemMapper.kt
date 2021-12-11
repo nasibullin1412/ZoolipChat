@@ -6,15 +6,21 @@ import dagger.Reusable
 import javax.inject.Inject
 
 @Reusable
-class MessageItemMapper @Inject constructor() : (List<MessageData>, Int) -> (List<MessageItem>) {
+class MessageItemMapper @Inject constructor() :
+        (List<MessageData>, Int, Int) -> (List<MessageItem>) {
 
     @Inject
     internal lateinit var emojiItemMapper: EmojiItemMapper
 
-    override fun invoke(messagesData: List<MessageData>, currId: Int): List<MessageItem> {
-        return messagesData.map { message ->
+    override fun invoke(
+        messagesData: List<MessageData>,
+        currId: Int,
+        chatItemId: Int
+    ): List<MessageItem> {
+        return messagesData.mapIndexed { idx, message ->
             with(message) {
                 MessageItem(
+                    idItem = chatItemId + idx,
                     messageId = messageId,
                     userData = userData,
                     messageContent = messageContent,

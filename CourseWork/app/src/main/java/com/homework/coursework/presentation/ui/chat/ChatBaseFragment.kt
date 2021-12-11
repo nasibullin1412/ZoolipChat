@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.homework.coursework.databinding.ChatFragmentBinding
-import com.homework.coursework.presentation.adapter.MessageAdapter
+import com.homework.coursework.presentation.adapter.ChatAdapter
 import com.homework.coursework.presentation.adapter.data.EmojiItem
 import com.homework.coursework.presentation.ui.chat.elm.Effect
 import com.homework.coursework.presentation.ui.chat.elm.Event
@@ -18,17 +18,15 @@ import vivid.money.elmslie.android.base.ElmFragment
 
 abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageItemCallback {
 
-    internal lateinit var messageAdapter: MessageAdapter
+    internal lateinit var chatAdapter: ChatAdapter
 
     internal lateinit var scrollListener: PagingScrollListener
 
     internal lateinit var bottomSheetDialog: BottomSheetDialog
 
-    internal var messageIdx = DEFAULT_MESSAGE_ID
+    internal var messageId = DEFAULT_MESSAGE_ID
 
     internal var currId: Int = 0
-
-    internal var currMessageId = 0
 
     internal val internalStore get() = store
 
@@ -61,18 +59,18 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bottomNavigationController?.visibleBottomNavigation()
+        bottomNavigationController?.goneBottomNavigation()
         initViews()
     }
 
     override fun getBottomSheet(messageId: Int): Boolean {
-        messageIdx = messageId
+        this.messageId = messageId
         bottomSheetDialog.show()
         return true
     }
 
     override fun onEmojiClick(emojiItem: EmojiItem, idx: Int): Boolean {
-        messageIdx = idx
+        messageId = idx
         onEmojiClicked(emojiItem)
         return true
     }

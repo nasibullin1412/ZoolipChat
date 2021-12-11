@@ -2,6 +2,7 @@ package com.homework.coursework.presentation.adapter.mapper
 
 import com.homework.coursework.domain.entity.MessageData
 import com.homework.coursework.presentation.adapter.data.ChatItem
+import com.homework.coursework.presentation.adapter.data.MessageItem
 import dagger.Reusable
 import javax.inject.Inject
 
@@ -12,7 +13,7 @@ class MessageListDataMapper @Inject constructor() : (List<ChatItem>) -> (List<Me
     internal lateinit var messageDataMapper: MessageDataMapper
 
     override fun invoke(chatItemList: List<ChatItem>): List<MessageData> {
-        return chatItemList.filter { it.messageItem != null }
-            .map { messageDataMapper(it.messageItem!!) }
+        return chatItemList.filterIsInstance<MessageItem>()
+            .map { messageDataMapper(it) }
     }
 }

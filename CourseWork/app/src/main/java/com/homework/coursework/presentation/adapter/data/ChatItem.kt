@@ -1,8 +1,9 @@
 package com.homework.coursework.presentation.adapter.data
 
-data class ChatItem(
-    var id: Int,
-    val date: String?,
-    val messageItem: MessageItem?,
-    var errorHandle: ErrorHandle = ErrorHandle()
-)
+sealed class ChatItem(var id: Int, val errorHandle: ErrorHandle = ErrorHandle()) {
+    companion object {
+        fun getErrorChatItem(error: Throwable): ErrorItem {
+            return ErrorItem(errorHandleItem = ErrorHandle(error = error, isError = true))
+        }
+    }
+}
