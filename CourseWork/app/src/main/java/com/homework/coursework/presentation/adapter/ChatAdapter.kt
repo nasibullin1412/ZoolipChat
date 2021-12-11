@@ -13,10 +13,7 @@ import com.homework.coursework.presentation.adapter.data.ErrorItem
 import com.homework.coursework.presentation.adapter.data.MessageItem
 import com.homework.coursework.presentation.callbacks.MessageCallback
 import com.homework.coursework.presentation.interfaces.MessageItemCallback
-import com.homework.coursework.presentation.viewholder.chat.ChatViewHolder
-import com.homework.coursework.presentation.viewholder.chat.DateViewHolder
-import com.homework.coursework.presentation.viewholder.chat.MessageFromViewHolder
-import com.homework.coursework.presentation.viewholder.chat.MessageToViewHolder
+import com.homework.coursework.presentation.viewholder.chat.*
 import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
@@ -27,20 +24,11 @@ class ChatAdapter @Inject constructor() :
     private lateinit var listener: MessageItemCallback
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
-        val inflater: LayoutInflater = LayoutInflater.from(parent.context)
-        return when (viewType) {
-            MESSAGE_TO -> MessageToViewHolder(
-                listener,
-                MessageToItemBinding.inflate(inflater, parent, false)
-            )
-            MESSAGE_FROM -> MessageFromViewHolder(
-                listener,
-                MessageFromItemBinding.inflate(inflater, parent, false)
-            )
-            else -> DateViewHolder(
-                DateItemBinding.inflate(inflater, parent, false)
-            )
-        }
+        return ChatViewHolderFactory.create(
+            viewType = viewType,
+            listener = listener,
+            parent = parent
+        )
     }
 
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
@@ -74,13 +62,13 @@ class ChatAdapter @Inject constructor() :
     override fun getItemViewType(position: Int): Int {
         return when (val item = getItem(position)) {
             is DateItem -> {
-                DATE
+                ChatViewType.DATE.value
             }
             is MessageItem -> {
                 if (item.isCurrentUserMessage) {
-                    MESSAGE_TO
+                    ChatViewType.MESSAGE_TO.value
                 } else {
-                    MESSAGE_FROM
+                    ChatViewType.MESSAGE_FROM.value
                 }
             }
             is ErrorItem -> {
@@ -91,11 +79,5 @@ class ChatAdapter @Inject constructor() :
 
     fun initListener(listener: MessageItemCallback) {
         this.listener = listener
-    }
-
-    companion object {
-        private const val MESSAGE_TO = 0
-        private const val MESSAGE_FROM = 1
-        private const val DATE = 2
     }
 }
