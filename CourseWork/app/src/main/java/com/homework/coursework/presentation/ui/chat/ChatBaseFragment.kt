@@ -2,18 +2,23 @@ package com.homework.coursework.presentation.ui.chat
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.homework.coursework.databinding.ChatFragmentBinding
 import com.homework.coursework.presentation.adapter.ChatAdapter
+import com.homework.coursework.presentation.adapter.data.ChatItem
 import com.homework.coursework.presentation.adapter.data.EmojiItem
+import com.homework.coursework.presentation.adapter.data.StreamItem
+import com.homework.coursework.presentation.adapter.data.TopicItem
+import com.homework.coursework.presentation.interfaces.BottomNavigationController
+import com.homework.coursework.presentation.interfaces.MessageItemCallback
 import com.homework.coursework.presentation.ui.chat.elm.Effect
 import com.homework.coursework.presentation.ui.chat.elm.Event
 import com.homework.coursework.presentation.ui.chat.elm.State
-import com.homework.coursework.presentation.interfaces.BottomNavigationController
-import com.homework.coursework.presentation.interfaces.MessageItemCallback
+import com.homework.coursework.presentation.utils.showToast
 import vivid.money.elmslie.android.base.ElmFragment
 
 abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageItemCallback {
@@ -28,9 +33,15 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
 
     internal var currId: Int = 0
 
+    internal var updateMessage: Int = 0
+
     internal val internalStore get() = store
 
     internal val binding get() = _binding!!
+
+    internal lateinit var currentTopic: TopicItem
+
+    internal lateinit var currentStream: StreamItem
 
     protected var bottomNavigationController: BottomNavigationController? = null
 
@@ -63,16 +74,14 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
         initViews()
     }
 
-    override fun getBottomSheet(messageId: Int): Boolean {
+    override fun getBottomSheet(messageId: Int) {
         this.messageId = messageId
         bottomSheetDialog.show()
-        return true
     }
 
-    override fun onEmojiClick(emojiItem: EmojiItem, idx: Int): Boolean {
-        messageId = idx
-        onEmojiClicked(emojiItem)
-        return true
+    override fun onEmojiClick(emojiItem: EmojiItem, messageId: Int) {
+        this.messageId = messageId
+        onEmojiClickedImpl(emojiItem)
     }
 
     override fun onDestroyView() {
@@ -88,24 +97,36 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
     override val initEvent: Event
         get() = Event.Ui.GetCurrentId
 
-    abstract fun initErrorRepeat()
-
-    abstract fun onEmojiClicked(emojiIdx: Int)
-
-    abstract fun onEmojiClicked(emojiItem: EmojiItem)
-
-    abstract fun initRecycleView()
-
     abstract fun initArguments()
 
-    abstract fun initButtonListener()
+    abstract fun sendButtonAction()
 
     abstract fun initNames()
+
+    abstract fun configureView()
+
+    private fun initButtonListener() {
+        binding.imgSend.setOnClickListener {
+            sendButtonAction()
+        }
+    }
+
+    private fun initErrorRepeat() {
+        binding.errorContent.tvRepeat.setOnClickListener {
+            store.accept(
+                Event.Ui.LoadFirstPage(
+                    streamItem = currentStream,
+                    topicItem = currentTopic,
+                    currId = currId
+                )
+            )
+        }
+    }
 
     /**
      * show error layout
      */
-    protected fun showErrorScreen() {
+    private fun showErrorScreen() {
         with(binding) {
             rvMessage.visibility = View.GONE
             progressBar.visibility = View.GONE
@@ -116,7 +137,7 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
     /**
      * show loading layout
      */
-    protected fun showLoadingScreen() {
+    private fun showLoadingScreen() {
         with(binding) {
             nsvErrorConnection.visibility = View.GONE
             rvMessage.visibility = View.GONE
@@ -127,7 +148,7 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
     /**
      * show result screen
      */
-    protected fun showResultScreen() {
+    private fun showResultScreen() {
         with(binding) {
             nsvErrorConnection.visibility = View.GONE
             progressBar.visibility = View.GONE
@@ -135,8 +156,83 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
         }
     }
 
+    override fun render(state: State) {
+        if (state.isLoading) {
+            showLoadingScreen()
+            return
+        }
+        if (state.isError) {
+            showErrorScreen()
+            return
+        }
+        if (state.isUpdate) {
+            showResultScreen()
+            updateMessage(state.itemList)
+        }
+    }
+
+    override fun handleEffect(effect: Effect) {
+        when (effect) {
+            is Effect.ErrorCommands -> {
+                showToast(effect.error.message)
+            }
+            is Effect.MessageAdded -> {
+                chatAdapter.submitList(emptyList())
+                store.accept(
+                    Event.Ui.LoadNextPage(
+                        streamItem = currentStream,
+                        topicItem = currentTopic.copy(numberOfMess = effect.id),
+                        currId = currId
+                    )
+                )
+            }
+            Effect.MessagesSaved -> {
+                Log.d("SaveLog", "Success save all messages")
+            }
+            is Effect.NextPageLoadError -> {
+                showToast(effect.error.message)
+            }
+            is Effect.PageLoaded -> {
+                store.accept(
+                    Event.Ui.MergeOldList(
+                        oldList = chatAdapter.currentList,
+                        newList = effect.itemList
+                    )
+                )
+            }
+            Effect.ReactionChanged -> {
+                store.accept(
+                    Event.Ui.UpdateMessage(
+                        streamItem = currentStream,
+                        topicItem = currentTopic.copy(numberOfMess = updateMessage),
+                        currId = currId
+                    )
+                )
+            }
+            is Effect.SuccessGetId -> {
+                currId = effect.currId
+                store.accept(
+                    Event.Ui.LoadFirstPage(
+                        streamItem = currentStream,
+                        topicItem = currentTopic,
+                        currId = currId
+                    )
+                )
+            }
+        }
+    }
+
+    /**
+     * update recycler view with new message
+     * @param newList is list with new MessageData
+     */
+    private fun updateMessage(newList: List<ChatItem>) {
+        chatAdapter.submitList(newList)
+    }
+
     private fun initViews() {
-        initRecycleView()
+        configureView()
+        initRecycleViewImpl()
         initErrorRepeat()
         initBottomDialog()
         initButtonListener()
@@ -144,7 +240,6 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
         initNames()
         initBackButton()
     }
-
 
     private fun initBackButton() {
         binding.imgBack.setOnClickListener {
@@ -155,5 +250,6 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
     companion object {
         const val DEFAULT_MESSAGE_ID = -1
         const val DATABASE_MESSAGE_THRESHOLD = 50
+        const val STREAM_KEY = "stream"
     }
 }

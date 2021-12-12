@@ -32,6 +32,8 @@ interface ApplicationComponent {
 
     fun createNewStreamComponent(): CreateNewStreamComponent
 
+    fun streamChatComponent(): StreamChatComponent
+
     @Component.Factory
     interface Factory {
         fun create(

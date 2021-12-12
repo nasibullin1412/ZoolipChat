@@ -16,14 +16,13 @@ import com.homework.coursework.presentation.adapter.data.MessageItem
 import com.homework.coursework.presentation.customview.CustomFlexboxLayout
 import com.homework.coursework.presentation.ui.chat.ChatBaseFragment.Companion.DEFAULT_MESSAGE_ID
 import com.homework.coursework.presentation.ui.chat.elm.Event
-import com.homework.coursework.presentation.ui.chat.main.TopicChatFragment
 import com.homework.coursework.presentation.utils.Emoji
 import com.homework.coursework.presentation.utils.initEmojiToBottomSheet
 import com.homework.coursework.presentation.utils.toStringDate
 import okhttp3.internal.toHexString
 import java.util.*
 
-internal fun TopicChatFragment.initRecycleViewImpl() {
+internal fun ChatBaseFragment.initRecycleViewImpl() {
     with(binding.rvMessage) {
         chatAdapter = ChatAdapter().apply {
             initListener(this@initRecycleViewImpl)
@@ -68,7 +67,7 @@ internal fun ChatBaseFragment.initBottomDialog() {
         flbLayout?.addView(
             TextView(context).apply {
                 initEmojiToBottomSheet(Emoji.toEmoji(emoji.unicodeCodePoint))
-                setOnClickListener { onEmojiClicked(idx) }
+                setOnClickListener { onEmojiClickedImpl(idx) }
             }
         )
     }
@@ -79,7 +78,7 @@ internal fun ChatBaseFragment.initBottomDialog() {
  * emoji number
  * @param emojiIdx is clicked emoji idx
  */
-internal fun TopicChatFragment.onEmojiClickedImpl(emojiIdx: Int) {
+internal fun ChatBaseFragment.onEmojiClickedImpl(emojiIdx: Int) {
     if (messageId == DEFAULT_MESSAGE_ID) {
         throw IllegalArgumentException("selectedMessageId required")
     }
@@ -107,7 +106,7 @@ internal fun TopicChatFragment.onEmojiClickedImpl(emojiIdx: Int) {
     bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_HIDDEN
 }
 
-internal fun TopicChatFragment.onEmojiClickedImpl(emojiItem: EmojiItem) {
+internal fun ChatBaseFragment.onEmojiClickedImpl(emojiItem: EmojiItem) {
     if (messageId == DEFAULT_MESSAGE_ID) {
         throw IllegalArgumentException("selectedMessageId required")
     }

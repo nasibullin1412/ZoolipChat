@@ -5,7 +5,11 @@ import android.os.Bundle
 import android.view.View
 import com.homework.coursework.di.UserStore
 import com.homework.coursework.presentation.App
+import com.homework.coursework.presentation.adapter.data.StreamItem
+import com.homework.coursework.presentation.adapter.data.TopicItem
 import com.homework.coursework.presentation.interfaces.BottomNavigationController
+import com.homework.coursework.presentation.ui.chat.ChatBaseFragment
+import com.homework.coursework.presentation.ui.chat.main.TopicChatFragment
 import com.homework.coursework.presentation.ui.profile.BaseProfileFragment
 import com.homework.coursework.presentation.ui.profile.elm.Effect
 import com.homework.coursework.presentation.ui.profile.elm.Event
@@ -58,8 +62,12 @@ class UserProfileFragment : BaseProfileFragment() {
 
     companion object {
         const val USER_ID_KEY = "UserId"
-        fun newInstance(userId: Int): UserProfileFragment {
-            val args = Bundle().apply { putInt(USER_ID_KEY, userId) }
+
+        fun createBundle(userId: Int): Bundle{
+            return Bundle().apply { putInt(USER_ID_KEY, userId) }
+        }
+
+        fun newInstance(args: Bundle): UserProfileFragment {
             val fragment = UserProfileFragment()
             fragment.arguments = args
             return fragment

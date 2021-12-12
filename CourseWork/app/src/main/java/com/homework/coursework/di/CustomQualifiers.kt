@@ -19,3 +19,9 @@ annotation class SearchStreamSubject
 
 @Qualifier
 annotation class SearchPeopleSubject
+
+@Qualifier
+annotation class TopicChatStore
+
+@Qualifier
+annotation class StreamChatStore

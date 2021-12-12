@@ -1,6 +1,8 @@
 package com.homework.coursework.di.modules
 
 import com.homework.coursework.di.ChatFragmentScope
+import com.homework.coursework.di.StreamChatStore
+import com.homework.coursework.di.TopicChatStore
 import com.homework.coursework.domain.usecase.*
 import com.homework.coursework.presentation.adapter.mapper.*
 import com.homework.coursework.presentation.ui.chat.UpdateRecycleList
@@ -14,7 +16,8 @@ class ChatModule {
 
     @ChatFragmentScope
     @Provides
-    fun provideChatStore(
+    @TopicChatStore
+    fun provideTopicChatStore(
         chatActor: ChatActor,
         chatProfileReducer: ChatReducer
     ): Store<Event, Effect, State> {
@@ -55,5 +58,15 @@ class ChatModule {
             emojiDataMapper = emojiDataMapper,
             updateRecycleList = updateRecycleList
         )
+    }
+
+    @ChatFragmentScope
+    @Provides
+    @StreamChatStore
+    fun provideStreamChatStore(
+        chatActor: ChatActor,
+        chatProfileReducer: ChatReducer
+    ): Store<Event, Effect, State> {
+        return ChatStoreFactory(chatActor, chatProfileReducer).provide()
     }
 }

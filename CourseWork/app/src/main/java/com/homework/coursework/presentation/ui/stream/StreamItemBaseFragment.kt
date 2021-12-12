@@ -1,6 +1,5 @@
 package com.homework.coursework.presentation.ui.stream
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,8 +11,10 @@ import com.homework.coursework.databinding.StreamViewPageFragmentBinding
 import com.homework.coursework.presentation.adapter.StreamNameAdapter
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
-import com.homework.coursework.presentation.interfaces.BottomNavigationController
+import com.homework.coursework.presentation.interfaces.StreamItemCallback
 import com.homework.coursework.presentation.interfaces.TopicItemCallback
+import com.homework.coursework.presentation.ui.chat.ChatBaseFragment.Companion.STREAM_KEY
+import com.homework.coursework.presentation.ui.chat.main.TopicChatFragment.Companion.TOPIC_KEY
 import com.homework.coursework.presentation.ui.stream.elm.Effect
 import com.homework.coursework.presentation.ui.stream.elm.Event
 import com.homework.coursework.presentation.ui.stream.elm.State
@@ -21,7 +22,8 @@ import com.homework.coursework.presentation.utils.off
 import vivid.money.elmslie.android.base.ElmFragment
 import javax.inject.Inject
 
-abstract class StreamItemBaseFragment : ElmFragment<Event, Effect, State>(), TopicItemCallback {
+abstract class StreamItemBaseFragment : ElmFragment<Event, Effect, State>(), TopicItemCallback,
+    StreamItemCallback {
 
     @Inject
     internal lateinit var streamAdapter: StreamNameAdapter
@@ -68,6 +70,10 @@ abstract class StreamItemBaseFragment : ElmFragment<Event, Effect, State>(), Top
     }
 
     override fun onTopicItemClick(topic: TopicItem, stream: StreamItem) {
+        clickAction(topic, stream)
+    }
+
+    protected fun clickAction(topic: TopicItem, stream: StreamItem) {
         val bundle = Bundle().apply {
             putParcelable(STREAM_KEY, stream)
             putParcelable(TOPIC_KEY, topic)
@@ -123,7 +129,10 @@ abstract class StreamItemBaseFragment : ElmFragment<Event, Effect, State>(), Top
     }
 
     private fun initRecycler() {
-        streamAdapter.setTopicListener(this@StreamItemBaseFragment)
+        streamAdapter.apply {
+            setTopicListener(this@StreamItemBaseFragment)
+            setStreamListener(this@StreamItemBaseFragment)
+        }
         with(binding.rvStreams) {
             val itemDecorator = getDividerItemDecoration()
             addItemDecoration(itemDecorator)
@@ -134,7 +143,5 @@ abstract class StreamItemBaseFragment : ElmFragment<Event, Effect, State>(), Top
 
     companion object {
         const val REQUEST_KEY_CHOICE = "requestKeyChoice"
-        const val STREAM_KEY = "stream"
-        const val TOPIC_KEY = "topic"
     }
 }

@@ -7,24 +7,29 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 @Serializable
-data class NarrowStream(
+data class Narrow(
     val operand: String,
     val operator: String
 ) {
     companion object {
+        private const val UNKNOWN_TOPIC_ID = -1
+
         fun createNarrowForMessage(streamData: StreamData, topicData: TopicData): String {
-            return Json.encodeToString(
-                listOf(
-                    NarrowStream(
-                        operator = "stream",
-                        operand = streamData.streamName
-                    ),
-                    NarrowStream(
+            val narrow: ArrayList<Narrow> = arrayListOf(
+                Narrow(
+                    operator = "stream",
+                    operand = streamData.streamName
+                )
+            )
+            if (topicData.id != UNKNOWN_TOPIC_ID) {
+                narrow.add(
+                    Narrow(
                         operator = "topic",
                         operand = topicData.topicName
                     )
                 )
-            )
+            }
+            return Json.encodeToString(narrow)
         }
     }
 }

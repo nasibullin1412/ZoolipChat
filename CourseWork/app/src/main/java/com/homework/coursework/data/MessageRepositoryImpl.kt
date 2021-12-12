@@ -2,7 +2,7 @@ package com.homework.coursework.data
 
 import android.util.Log
 import androidx.room.EmptyResultSetException
-import com.homework.coursework.data.dto.NarrowStream
+import com.homework.coursework.data.dto.Narrow
 import com.homework.coursework.data.frameworks.database.crossref.MessageToUserCrossRef
 import com.homework.coursework.data.frameworks.database.dao.MessageDao
 import com.homework.coursework.data.frameworks.database.dao.MessageToUserCrossRefDao
@@ -114,7 +114,7 @@ class MessageRepositoryImpl @Inject constructor(
         topicData: TopicData,
         currUserId: Int
     ): Observable<List<MessageData>> {
-        val narrow = NarrowStream.createNarrowForMessage(streamData, topicData)
+        val narrow = Narrow.createNarrowForMessage(streamData, topicData)
         return apiService.getFirstMessages(
             anchor = NEWEST,
             numAfter = NUM_AFTER,
@@ -135,7 +135,7 @@ class MessageRepositoryImpl @Inject constructor(
         currUserId: Int,
         numBefore: Int
     ): Observable<List<MessageData>> {
-        val narrow = NarrowStream.createNarrowForMessage(streamData, topicData)
+        val narrow = Narrow.createNarrowForMessage(streamData, topicData)
         return apiService.loadMoreMessages(
             anchor = topicData.numberOfMess,
             numAfter = NUM_AFTER,

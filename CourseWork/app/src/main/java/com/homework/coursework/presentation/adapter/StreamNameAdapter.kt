@@ -9,6 +9,7 @@ import com.homework.coursework.databinding.StreamItemBinding
 import com.homework.coursework.di.StreamFragmentScope
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.callbacks.StreamCallback
+import com.homework.coursework.presentation.interfaces.StreamItemCallback
 import com.homework.coursework.presentation.interfaces.TopicItemCallback
 import com.homework.coursework.presentation.viewholder.StreamNameViewHolder
 import javax.inject.Inject
@@ -20,8 +21,14 @@ class StreamNameAdapter @Inject constructor(
 
     private lateinit var listenerTopic: TopicItemCallback
 
+    private lateinit var listenerStream: StreamItemCallback
+
     fun setTopicListener(listener: TopicItemCallback) {
         this.listenerTopic = listener
+    }
+
+    fun setStreamListener(listener: StreamItemCallback) {
+        this.listenerStream = listener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StreamNameViewHolder {
@@ -33,10 +40,16 @@ class StreamNameAdapter @Inject constructor(
 
     override fun onBindViewHolder(holder: StreamNameViewHolder, position: Int) {
         initChildRecycle(holder, position)
-        holder.itemView.setOnClickListener {
-            changeState(position)
+        holder.apply {
+            itemView.setOnClickListener {
+                changeState(position)
+            }
+            itemView.setOnLongClickListener {
+                listenerStream.onStreamItemLongClick(getItem(position))
+                true
+            }
+            bind(getItem(position))
         }
-        holder.bind(getItem(position))
     }
 
     private fun changeState(position: Int) {

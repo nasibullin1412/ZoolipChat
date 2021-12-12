@@ -61,4 +61,8 @@ class CurrUserProfileFragment : BaseProfileFragment() {
             store.accept(Event.Ui.LoadMe)
         }
     }
+
+    companion object{
+
+    }
 }

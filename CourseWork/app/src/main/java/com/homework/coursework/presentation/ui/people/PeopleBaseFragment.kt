@@ -16,6 +16,7 @@ import com.homework.coursework.presentation.interfaces.UserItemCallback
 import com.homework.coursework.presentation.ui.people.elm.Effect
 import com.homework.coursework.presentation.ui.people.elm.Event
 import com.homework.coursework.presentation.ui.people.elm.State
+import com.homework.coursework.presentation.ui.profile.main.UserProfileFragment
 import com.homework.coursework.presentation.utils.CustomFragmentFactory
 import com.homework.coursework.presentation.utils.FragmentTag
 import com.homework.coursework.presentation.utils.off
@@ -90,7 +91,7 @@ abstract class PeopleBaseFragment : ElmFragment<Event, Effect, State>(), UserIte
         navigateController?.navigateFragment(
             customFragmentFactory = CustomFragmentFactory.create(
                 FragmentTag.USER_PROFILE_FRAGMENT_TAG,
-                userId = id
+                bundle = UserProfileFragment.createBundle(id)
             )
         )
     }

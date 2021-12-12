@@ -53,6 +53,7 @@
         android:id="@+id/tvTopicName"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:visibility="gone"
         android:background="@color/send_box_color"
         android:fontFamily="@font/inter_regular"
         android:gravity="center"
@@ -87,7 +88,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/send_box_color"
-        android:maxHeight="@dimen/cl_send_box_max_height"
         android:minHeight="@dimen/cl_send_box_min_height"
         android:padding="@dimen/cl_send_padding"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -95,11 +95,33 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <EditText
+            android:id="@+id/etTopicName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/message_margin_start"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/sh_message"
+            android:fontFamily="@font/inter_regular"
+            android:hint="@string/topic_name"
+            android:importantForAutofill="no"
+            android:visibility="gone"
+            android:inputType="text"
+            android:maxHeight="40dp"
+            android:minHeight="40dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/hint_color"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <EditText
             android:id="@+id/etMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/message_margin_start"
             android:layout_marginEnd="@dimen/message_margin_end"
+            android:layout_marginTop="12dp"
             android:background="@drawable/sh_message"
             android:fontFamily="@font/inter_regular"
             android:hint="@string/write_hint"
@@ -112,16 +134,17 @@
             android:textColorHint="@color/hint_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/etTopicName" />
 
         <ImageView
             android:id="@+id/imgSend"
             android:layout_width="@dimen/send_img_width"
             android:layout_height="@dimen/send_img_height"
             android:layout_marginStart="@dimen/send_margin_start"
+            android:layout_marginBottom="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/etMessage"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             tools:ignore="ContentDescription" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

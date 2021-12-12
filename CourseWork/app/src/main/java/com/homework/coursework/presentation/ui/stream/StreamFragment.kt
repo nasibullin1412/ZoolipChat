@@ -18,9 +18,11 @@ import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
 import com.homework.coursework.presentation.interfaces.BottomNavigationController
 import com.homework.coursework.presentation.interfaces.NavigateController
+import com.homework.coursework.presentation.ui.chat.ChatBaseFragment.Companion.STREAM_KEY
+import com.homework.coursework.presentation.ui.chat.main.StreamChatFragment
+import com.homework.coursework.presentation.ui.chat.main.TopicChatFragment
+import com.homework.coursework.presentation.ui.chat.main.TopicChatFragment.Companion.TOPIC_KEY
 import com.homework.coursework.presentation.ui.stream.StreamItemBaseFragment.Companion.REQUEST_KEY_CHOICE
-import com.homework.coursework.presentation.ui.stream.StreamItemBaseFragment.Companion.STREAM_KEY
-import com.homework.coursework.presentation.ui.stream.StreamItemBaseFragment.Companion.TOPIC_KEY
 import com.homework.coursework.presentation.utils.CustomFragmentFactory
 import com.homework.coursework.presentation.utils.FragmentTag
 import com.homework.coursework.presentation.utils.SearchListener
@@ -59,16 +61,28 @@ class StreamFragment : Fragment() {
                 ?: throw IllegalArgumentException("Stream required")
             val topic = bundle.getParcelable<TopicItem>(TOPIC_KEY)
                 ?: throw IllegalArgumentException("Topic required")
-            navigateController?.navigateFragment(
-                customFragmentFactory = CustomFragmentFactory.create(
-                    FragmentTag.TOPIC_CHAT_FRAGMENT_TAG,
-                    stream = stream,
-                    topic = topic
-                )
-            )
+            navigateToChatFragment(stream, topic)
         }
         App.appComponent.streamComponent().inject(this)
         searchListener.subscribeToSearchSubject({ setQuery(it) }, { showToast(it) })
+    }
+
+    private fun navigateToChatFragment(stream: StreamItem, topic: TopicItem) {
+        if (topic.id == TopicItem.TOPIC_UNKNOWN_ID) {
+            navigateController?.navigateFragment(
+                customFragmentFactory = CustomFragmentFactory.create(
+                    FragmentTag.STREAM_CHAT_FRAGMENT_TAG,
+                    bundle = StreamChatFragment.createBundle(stream = stream)
+                )
+            )
+            return
+        }
+        navigateController?.navigateFragment(
+            customFragmentFactory = CustomFragmentFactory.create(
+                FragmentTag.TOPIC_CHAT_FRAGMENT_TAG,
+                bundle = TopicChatFragment.createBundle(topic = topic, stream = stream)
+            )
+        )
     }
 
     override fun onCreateView(

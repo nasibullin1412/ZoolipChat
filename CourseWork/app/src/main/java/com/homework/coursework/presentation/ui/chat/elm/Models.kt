@@ -29,8 +29,8 @@ sealed class Event {
             val topicItem: TopicItem,
             val currId: Int,
             val numBefore: Int = PAGE_SIZE
-        ) : Ui(){
-            companion object{
+        ) : Ui() {
+            companion object {
                 const val PAGE_SIZE = 20
             }
         }
@@ -117,7 +117,7 @@ sealed class Command {
         val streamItem: StreamItem,
         val topicItem: TopicItem,
         val currId: Int,
-        val numBefore:Int
+        val numBefore: Int
     ) : Command()
 
     class SendMessage(

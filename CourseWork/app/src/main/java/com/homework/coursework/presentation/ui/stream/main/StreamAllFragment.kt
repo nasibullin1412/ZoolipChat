@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.fragment.app.setFragmentResultListener
 import com.homework.coursework.di.AllStreams
 import com.homework.coursework.presentation.App
+import com.homework.coursework.presentation.adapter.data.StreamItem
+import com.homework.coursework.presentation.adapter.data.TopicItem
 import com.homework.coursework.presentation.ui.stream.StreamFragment
 import com.homework.coursework.presentation.ui.stream.StreamItemBaseFragment
 import com.homework.coursework.presentation.ui.stream.elm.Effect
@@ -24,6 +26,11 @@ class StreamAllFragment : StreamItemBaseFragment() {
         super.onCreate(savedInstanceState)
         App.appComponent.allStreamsComponent().inject(this)
     }
+
+    override fun onStreamItemLongClick(streamItem: StreamItem) {
+        clickAction(topic = TopicItem.createEmptyTopicItem(), stream = streamItem)
+    }
+
 
     override fun initErrorRepeat() {
         binding.errorContent.tvRepeat.setOnClickListener {

@@ -37,7 +37,7 @@ class AuthFragment : AuthBaseFragment() {
         }
         is Effect.SuccessAuth -> {
             navigateController?.navigateFragment(
-                customFragmentFactory = CustomFragmentFactory.create(FragmentTag.CHANNEL_FRAGMENT_TAG)
+                customFragmentFactory = CustomFragmentFactory.create(FragmentTag.STREAM_FRAGMENT_TAG)
             )
         }
         is Effect.SuccessGetApiToken -> {
@@ -52,4 +52,8 @@ class AuthFragment : AuthBaseFragment() {
     }
 
     override fun createStore(): Store<Event, Effect, State> = authStore
+
+    companion object{
+        const val AUTH_FRAGMENT_TAG = "authFragmentTag"
+    }
 }

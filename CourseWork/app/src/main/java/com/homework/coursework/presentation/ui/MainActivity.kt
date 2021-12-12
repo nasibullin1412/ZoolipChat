@@ -1,4 +1,4 @@
-package com.homework.coursework.presentation
+package com.homework.coursework.presentation.ui
 
 import android.os.Bundle
 import android.view.MenuItem
@@ -40,13 +40,12 @@ class MainActivity : AppCompatActivity(), NavigateController, BottomNavigationCo
      */
     private fun actionBottom(item: MenuItem): Boolean {
         val tag = when (item.itemId) {
-            R.id.channelFragment -> FragmentTag.CHANNEL_FRAGMENT_TAG
+            R.id.streamFragment -> FragmentTag.STREAM_FRAGMENT_TAG
             R.id.profileFragment -> FragmentTag.PROFILE_FRAGMENT_TAG
             R.id.peopleFragment -> FragmentTag.PEOPLE_FRAGMENT_TAG
             else -> throw IllegalArgumentException("Unexpected tag")
         }
-        val fragmentFactory = CustomFragmentFactory.create(tag)
-        addFragment(fragmentFactory)
+        navigateFragment(CustomFragmentFactory.create(tag))
         return true
     }
 
