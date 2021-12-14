@@ -1,6 +1,12 @@
 package com.homework.coursework.di.modules
 
-import com.homework.coursework.domain.usecase.*
+import com.homework.coursework.domain.usecase.auth.AuthUserUseCase
+import com.homework.coursework.domain.usecase.auth.AuthUserUseCaseImpl
+import com.homework.coursework.domain.usecase.auth.CheckAuthUseCase
+import com.homework.coursework.domain.usecase.auth.CheckAuthUseCaseImpl
+import com.homework.coursework.domain.usecase.message.*
+import com.homework.coursework.domain.usecase.streams.*
+import com.homework.coursework.domain.usecase.users.*
 import dagger.Binds
 import dagger.Module
 import dagger.Reusable
@@ -36,8 +42,8 @@ interface UseCaseModule {
 
     @Reusable
     @Binds
-    fun bindGetTopicMessages(getTopicMessages: GetTopicMessagesUseCaseImpl):
-            GetTopicMessagesUseCase
+    fun bindGetTopicMessages(getMessages: GetMessagesUseCaseImpl):
+            GetMessagesUseCase
 
     @Reusable
     @Binds
@@ -88,4 +94,8 @@ interface UseCaseModule {
     @Binds
     fun bindSubscribeToStream(subscribeToStreamUseCase: SubscribeToStreamUseCaseImpl):
             SubscribeToStreamUseCase
+
+    @Reusable
+    @Binds
+    fun bindUpdateMessage(updateMessageUseCase: UpdateMessageUseCaseImpl): UpdateMessageUseCase
 }

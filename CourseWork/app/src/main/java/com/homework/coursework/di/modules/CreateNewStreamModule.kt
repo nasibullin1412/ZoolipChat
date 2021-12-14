@@ -1,7 +1,7 @@
 package com.homework.coursework.di.modules
 
 import com.homework.coursework.di.CreateNewStreamFragmentScope
-import com.homework.coursework.domain.usecase.SubscribeToStreamUseCase
+import com.homework.coursework.domain.usecase.streams.SubscribeToStreamUseCase
 import com.homework.coursework.presentation.ui.createstream.elm.*
 import dagger.Module
 import dagger.Provides

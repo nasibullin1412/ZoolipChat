@@ -2,8 +2,8 @@ package com.homework.coursework.di.modules
 
 import com.homework.coursework.di.PeopleFragmentScope
 import com.homework.coursework.di.SearchPeopleSubject
-import com.homework.coursework.domain.usecase.GetAllUsersUseCase
-import com.homework.coursework.domain.usecase.SearchUsersUseCase
+import com.homework.coursework.domain.usecase.users.GetAllUsersUseCase
+import com.homework.coursework.domain.usecase.users.SearchUsersUseCase
 import com.homework.coursework.presentation.utils.SearchListener
 import com.homework.coursework.presentation.adapter.mapper.UserListMapper
 import com.homework.coursework.presentation.ui.people.elm.*

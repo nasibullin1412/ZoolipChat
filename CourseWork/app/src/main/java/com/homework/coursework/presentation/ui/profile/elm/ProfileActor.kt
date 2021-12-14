@@ -1,8 +1,8 @@
 package com.homework.coursework.presentation.ui.profile.elm
 
-import com.homework.coursework.domain.usecase.GetMeUseCase
-import com.homework.coursework.domain.usecase.GetUserProfileUseCase
-import com.homework.coursework.domain.usecase.LogoutUserUseCase
+import com.homework.coursework.domain.usecase.users.GetMeUseCase
+import com.homework.coursework.domain.usecase.users.GetUserProfileUseCase
+import com.homework.coursework.domain.usecase.users.LogoutUserUseCase
 import com.homework.coursework.presentation.adapter.mapper.UserItemMapper
 import io.reactivex.Observable
 import vivid.money.elmslie.core.ActorCompat

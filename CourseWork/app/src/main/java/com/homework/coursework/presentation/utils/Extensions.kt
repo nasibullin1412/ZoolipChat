@@ -17,7 +17,7 @@ import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.imageview.ShapeableImageView
 import com.homework.coursework.R
 import com.homework.coursework.presentation.adapter.data.EmojiItem
-import com.homework.coursework.presentation.adapter.data.MessageItem
+import com.homework.coursework.presentation.adapter.data.chat.MessageItem
 import com.homework.coursework.presentation.customview.CustomEmojiView
 import com.homework.coursework.presentation.customview.CustomFlexboxLayout
 import com.homework.coursework.presentation.interfaces.MessageItemCallback

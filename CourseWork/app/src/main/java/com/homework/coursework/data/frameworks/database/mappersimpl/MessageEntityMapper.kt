@@ -24,7 +24,8 @@ class MessageEntityMapper @Inject constructor() :
                     messageContent = messageEntity.messageContent,
                     emojis = emojiEntityMapper(emojiEntity),
                     date = messageEntity.date,
-                    isCurrentUserMessage = messageEntity.isCurrentUserMessage
+                    isCurrentUserMessage = messageEntity.isCurrentUserMessage,
+                    topicName = messageEntity.topicName
                 )
             }
         }

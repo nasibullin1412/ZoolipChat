@@ -1,6 +1,6 @@
 package com.homework.coursework.presentation.ui.createstream.elm
 
-import com.homework.coursework.domain.usecase.SubscribeToStreamUseCase
+import com.homework.coursework.domain.usecase.streams.SubscribeToStreamUseCase
 import io.reactivex.Observable
 import vivid.money.elmslie.core.ActorCompat
 

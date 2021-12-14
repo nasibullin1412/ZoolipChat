@@ -14,11 +14,16 @@ interface MessageRepository {
         currUserId: Int
     ): Observable<List<MessageData>>
 
-    fun loadOrUpdateMessages(
+    fun loadMessages(
         streamData: StreamData,
         topicData: TopicData,
-        currUserId: Int,
-        numBefore: Int
+        currUserId: Int
+    ): Observable<List<MessageData>>
+
+    fun updateMessage(
+        streamData: StreamData,
+        topicData: TopicData,
+        currUserId: Int
     ): Observable<List<MessageData>>
 
     fun addMessages(streamData: StreamData, topicData: TopicData, content: String): Observable<Int>

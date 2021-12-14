@@ -2,6 +2,8 @@ package com.homework.coursework.presentation.ui.chat.elm
 
 import android.os.Parcelable
 import com.homework.coursework.presentation.adapter.data.*
+import com.homework.coursework.presentation.adapter.data.chat.ChatItem
+import com.homework.coursework.presentation.adapter.data.chat.MessageItem
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 
@@ -27,19 +29,13 @@ sealed class Event {
         class LoadNextPage(
             val streamItem: StreamItem,
             val topicItem: TopicItem,
-            val currId: Int,
-            val numBefore: Int = PAGE_SIZE
-        ) : Ui() {
-            companion object {
-                const val PAGE_SIZE = 20
-            }
-        }
+            val currId: Int
+        ) : Ui()
 
         class UpdateMessage(
             val streamItem: StreamItem,
             val topicItem: TopicItem,
-            val currId: Int,
-            val numBefore: Int = 0
+            val currId: Int
         ) : Ui()
 
         class SendMessage(
@@ -113,11 +109,16 @@ sealed class Command {
         val currId: Int
     ) : Command()
 
-    class LoadOrUpdate(
+    class LoadMessages(
         val streamItem: StreamItem,
         val topicItem: TopicItem,
-        val currId: Int,
-        val numBefore: Int
+        val currId: Int
+    ) : Command()
+
+    class UpdateMessage(
+        val streamItem: StreamItem,
+        val topicItem: TopicItem,
+        val currId: Int
     ) : Command()
 
     class SendMessage(

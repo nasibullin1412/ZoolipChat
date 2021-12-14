@@ -1,4 +1,4 @@
-package com.homework.coursework.domain.usecase
+package com.homework.coursework.domain.usecase.message
 
 import com.homework.coursework.domain.entity.MessageData
 import com.homework.coursework.domain.entity.StreamData
@@ -10,31 +10,23 @@ import javax.inject.Inject
 /**
  * Used when user want see messages of topic
  */
-interface GetTopicMessagesUseCase :
-        (StreamData, TopicData, Int, Int) -> Observable<List<MessageData>> {
+interface InitMessageUseCase : (StreamData, TopicData, Int) -> Observable<List<MessageData>> {
     override fun invoke(
         streamData: StreamData,
         topicData: TopicData,
-        currId: Int,
-        numBefore: Int
+        currId: Int
     ): Observable<List<MessageData>>
 }
 
-class GetTopicMessagesUseCaseImpl @Inject constructor(
+class InitMessageUseCaseImpl @Inject constructor(
     private val messageRepository: MessageRepository
-) : GetTopicMessagesUseCase {
+) : InitMessageUseCase {
 
     override fun invoke(
         streamData: StreamData,
         topicData: TopicData,
-        currId: Int,
-        numBefore: Int
+        currId: Int
     ): Observable<List<MessageData>> {
-        return messageRepository.loadOrUpdateMessages(
-            streamData = streamData,
-            topicData = topicData,
-            currUserId = currId,
-            numBefore = numBefore
-        )
+        return messageRepository.initMessages(streamData, topicData, currId)
     }
 }

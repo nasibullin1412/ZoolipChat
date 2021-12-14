@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.homework.coursework.databinding.ChatFragmentBinding
 import com.homework.coursework.presentation.adapter.ChatAdapter
-import com.homework.coursework.presentation.adapter.data.ChatItem
+import com.homework.coursework.presentation.adapter.data.chat.ChatItem
 import com.homework.coursework.presentation.adapter.data.EmojiItem
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
@@ -74,9 +74,10 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
         initViews()
     }
 
-    override fun getBottomSheet(messageId: Int) {
+    override fun getBottomSheet(messageId: Int): Boolean {
         this.messageId = messageId
         bottomSheetDialog.show()
+        return true
     }
 
     override fun onEmojiClick(emojiItem: EmojiItem, messageId: Int) {
@@ -94,8 +95,7 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
         bottomNavigationController = null
     }
 
-    override val initEvent: Event
-        get() = Event.Ui.GetCurrentId
+    override val initEvent: Event get() = Event.Ui.GetCurrentId
 
     abstract fun initArguments()
 

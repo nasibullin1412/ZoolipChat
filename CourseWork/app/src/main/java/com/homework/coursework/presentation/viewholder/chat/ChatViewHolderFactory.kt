@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import com.homework.coursework.databinding.DateItemBinding
 import com.homework.coursework.databinding.MessageFromItemBinding
 import com.homework.coursework.databinding.MessageToItemBinding
+import com.homework.coursework.databinding.TopicChatItemBinding
 import com.homework.coursework.presentation.interfaces.MessageItemCallback
 
 class ChatViewHolderFactory(var viewHolder: ChatViewHolder) {
@@ -24,8 +25,11 @@ class ChatViewHolderFactory(var viewHolder: ChatViewHolder) {
                     listener,
                     MessageFromItemBinding.inflate(inflater, parent, false)
                 )
-                else -> DateViewHolder(
+                ChatViewType.DATE -> DateViewHolder(
                     DateItemBinding.inflate(inflater, parent, false)
+                )
+                ChatViewType.TOPIC_NAME -> TopicNameViewHolder(
+                    TopicChatItemBinding.inflate(inflater, parent, false)
                 )
             }
         }

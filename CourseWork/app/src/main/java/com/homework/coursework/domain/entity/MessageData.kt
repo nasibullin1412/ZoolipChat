@@ -7,6 +7,7 @@ class MessageData(
     val emojis: List<EmojiData>,
     val date: Long,
     val isCurrentUserMessage: Boolean,
+    val topicName: String,
     val errorHandle: ErrorHandle = ErrorHandle()
 ) {
     companion object {
@@ -17,6 +18,7 @@ class MessageData(
             emojis = emptyList(),
             date = 0,
             isCurrentUserMessage = false,
+            topicName = "",
             errorHandle = ErrorHandle(isError = true, error = throwable)
         )
     }

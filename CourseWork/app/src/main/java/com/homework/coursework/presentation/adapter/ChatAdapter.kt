@@ -1,20 +1,16 @@
 package com.homework.coursework.presentation.adapter
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import com.homework.coursework.databinding.DateItemBinding
-import com.homework.coursework.databinding.MessageFromItemBinding
-import com.homework.coursework.databinding.MessageToItemBinding
 import com.homework.coursework.di.ChatFragmentScope
-import com.homework.coursework.presentation.adapter.data.ChatItem
-import com.homework.coursework.presentation.adapter.data.DateItem
-import com.homework.coursework.presentation.adapter.data.ErrorItem
-import com.homework.coursework.presentation.adapter.data.MessageItem
+import com.homework.coursework.presentation.adapter.data.chat.ErrorItem
+import com.homework.coursework.presentation.adapter.data.chat.ChatItem
+import com.homework.coursework.presentation.adapter.data.chat.DateItem
+import com.homework.coursework.presentation.adapter.data.chat.MessageItem
+import com.homework.coursework.presentation.adapter.data.chat.TopicNameItem
 import com.homework.coursework.presentation.callbacks.MessageCallback
 import com.homework.coursework.presentation.interfaces.MessageItemCallback
 import com.homework.coursework.presentation.viewholder.chat.*
-import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
 @ChatFragmentScope
@@ -37,16 +33,16 @@ class ChatAdapter @Inject constructor() :
             is MessageToViewHolder -> {
                 if (item is MessageItem) {
                     holder.apply {
+                        itemView.setOnLongClickListener { listener.getBottomSheet(item.messageId) }
                         bind(messageItem = item)
-                        itemView.setOnClickListener { listener.getBottomSheet(item.messageId) }
                     }
                 }
             }
             is MessageFromViewHolder -> {
                 if (item is MessageItem) {
                     holder.apply {
+                        itemView.setOnLongClickListener { listener.getBottomSheet(item.messageId) }
                         bind(messageItem = item)
-                        itemView.setOnClickListener { listener.getBottomSheet(item.messageId) }
                     }
                 }
             }
@@ -55,6 +51,11 @@ class ChatAdapter @Inject constructor() :
                     holder.bind(date = item.date)
                 }
                 return
+            }
+            is TopicNameViewHolder -> {
+                if (item is TopicNameItem) {
+                    holder.bind(topicName = item.topicName)
+                }
             }
         }
     }
@@ -70,6 +71,9 @@ class ChatAdapter @Inject constructor() :
                 } else {
                     ChatViewType.MESSAGE_FROM.value
                 }
+            }
+            is TopicNameItem -> {
+                ChatViewType.TOPIC_NAME.value
             }
             is ErrorItem -> {
                 throw IllegalArgumentException("Unexpected item type")

@@ -32,4 +32,6 @@ interface RepositoryModule {
     @Binds
     fun bindSubscribeStreamRepository(subscribeStreamRepository: SubscribeStreamRepositoryImpl):
             SubscribeStreamRepository
+
+
 }

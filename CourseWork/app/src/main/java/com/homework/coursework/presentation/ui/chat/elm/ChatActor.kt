@@ -1,19 +1,21 @@
 package com.homework.coursework.presentation.ui.chat.elm
 
-import com.homework.coursework.domain.usecase.*
+import com.homework.coursework.domain.usecase.message.*
+import com.homework.coursework.domain.usecase.users.GetCurrentUserIdUseCase
 import com.homework.coursework.presentation.adapter.mapper.*
 import com.homework.coursework.presentation.ui.chat.UpdateRecycleList
 import io.reactivex.Observable
 import vivid.money.elmslie.core.ActorCompat
 
 class ChatActor(
-    private val getTopicMessages: GetTopicMessagesUseCase,
+    private val getMessages: GetMessagesUseCase,
     private val addReactionToMessage: AddReactionToMessageUseCase,
     private val deleteReactionToMessage: DeleteReactionToMessageUseCase,
     private val addMessages: AddMessageUseCase,
     private val initMessages: InitMessageUseCase,
     private val saveMessage: SaveMessageUseCase,
     private val getCurrentId: GetCurrentUserIdUseCase,
+    private val updateMessage: UpdateMessageUseCase,
     private val streamDataMapper: StreamDataMapper,
     private val topicDataMapper: TopicDataMapper,
     private val chatToItemMapper: ChatItemMapper,
@@ -45,20 +47,29 @@ class ChatActor(
                 streamData = streamDataMapper(command.streamItem),
                 topicData = topicDataMapper(command.topicItem),
                 currId = command.currId
-            ).map { chatToItemMapper(messageDataList = it, currId = command.currId) }
-                .mapEvents(
+            ).map {
+                chatToItemMapper(
+                    messageDataList = it,
+                    currId = command.currId,
+                    isUpdate = false
+                )
+            }.mapEvents(
                     { list -> Event.Internal.InitPageLoaded(list) },
                     { error -> Event.Internal.ErrorLoading(error) }
                 )
         }
-        is Command.LoadOrUpdate -> {
-            getTopicMessages(
+        is Command.LoadMessages -> {
+            getMessages(
                 streamData = streamDataMapper(command.streamItem),
                 topicData = topicDataMapper(command.topicItem),
-                currId = command.currId,
-                numBefore = command.numBefore
-            ).map { chatToItemMapper(messageDataList = it, currId = command.currId) }
-                .mapEvents(
+                currId = command.currId
+            ).map {
+                chatToItemMapper(
+                    messageDataList = it,
+                    currId = command.currId,
+                    isUpdate = false
+                )
+            }.mapEvents(
                     { list -> Event.Internal.PageLoaded(list) },
                     { error -> Event.Internal.ErrorCommands(error) }
                 )
@@ -96,6 +107,22 @@ class ChatActor(
                     { item -> Event.Internal.SuccessGetId(item) },
                     { error -> Event.Internal.ErrorLoading(error) }
                 )
+        }
+        is Command.UpdateMessage -> {
+            updateMessage(
+                streamData = streamDataMapper(command.streamItem),
+                topicData = topicDataMapper(command.topicItem),
+                currId = command.currId
+            ).map {
+                chatToItemMapper(
+                    messageDataList = it,
+                    currId = command.currId,
+                    isUpdate = true
+                )
+            }.mapEvents(
+                { item -> Event.Internal.PageLoaded(item) },
+                { error -> Event.Internal.ErrorLoading(error) }
+            )
         }
     }
 }

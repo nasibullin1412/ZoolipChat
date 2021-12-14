@@ -1,4 +1,4 @@
-package com.homework.coursework.domain.usecase
+package com.homework.coursework.domain.usecase.message
 
 import com.homework.coursework.domain.entity.EmojiData
 import com.homework.coursework.domain.entity.MessageData

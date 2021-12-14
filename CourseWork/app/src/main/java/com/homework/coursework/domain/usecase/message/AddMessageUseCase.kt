@@ -1,4 +1,4 @@
-package com.homework.coursework.domain.usecase
+package com.homework.coursework.domain.usecase.message
 
 import com.homework.coursework.domain.entity.StreamData
 import com.homework.coursework.domain.entity.TopicData

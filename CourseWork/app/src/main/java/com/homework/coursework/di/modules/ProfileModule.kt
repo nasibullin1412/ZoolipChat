@@ -3,9 +3,9 @@ package com.homework.coursework.di.modules
 import com.homework.coursework.di.CurrUserStore
 import com.homework.coursework.di.ProfileFragmentScope
 import com.homework.coursework.di.UserStore
-import com.homework.coursework.domain.usecase.GetMeUseCase
-import com.homework.coursework.domain.usecase.GetUserProfileUseCase
-import com.homework.coursework.domain.usecase.LogoutUserUseCase
+import com.homework.coursework.domain.usecase.users.GetMeUseCase
+import com.homework.coursework.domain.usecase.users.GetUserProfileUseCase
+import com.homework.coursework.domain.usecase.users.LogoutUserUseCase
 import com.homework.coursework.presentation.adapter.mapper.UserItemMapper
 import com.homework.coursework.presentation.ui.profile.elm.*
 import dagger.Module

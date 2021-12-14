@@ -1,9 +1,9 @@
 package com.homework.coursework.presentation.ui.stream.elm
 
-import com.homework.coursework.domain.usecase.GetAllStreamsUseCase
-import com.homework.coursework.domain.usecase.GetSubscribedStreamsUseCase
-import com.homework.coursework.domain.usecase.SearchAllStreamsUseCase
-import com.homework.coursework.domain.usecase.SearchSubscribeStreamsUseCase
+import com.homework.coursework.domain.usecase.streams.GetAllStreamsUseCase
+import com.homework.coursework.domain.usecase.streams.GetSubscribedStreamsUseCase
+import com.homework.coursework.domain.usecase.streams.SearchAllStreamsUseCase
+import com.homework.coursework.domain.usecase.streams.SearchSubscribeStreamsUseCase
 import com.homework.coursework.presentation.adapter.mapper.StreamItemMapper
 import io.reactivex.Observable
 import vivid.money.elmslie.core.ActorCompat

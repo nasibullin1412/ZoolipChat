@@ -1,35 +1,36 @@
-package com.homework.coursework.domain.usecase
+package com.homework.coursework.domain.usecase.message
 
 import com.homework.coursework.domain.entity.MessageData
 import com.homework.coursework.domain.entity.StreamData
 import com.homework.coursework.domain.entity.TopicData
 import com.homework.coursework.domain.repository.MessageRepository
-import io.reactivex.Completable
+import io.reactivex.Observable
 import javax.inject.Inject
 
-interface SaveMessageUseCase : (StreamData, TopicData, List<MessageData>, Int) -> Completable {
+/**
+ * Used when user want see messages of topic
+ */
+interface GetMessagesUseCase :
+        (StreamData, TopicData, Int) -> Observable<List<MessageData>> {
     override fun invoke(
         streamData: StreamData,
         topicData: TopicData,
-        messageDataList: List<MessageData>,
         currId: Int
-    ): Completable
+    ): Observable<List<MessageData>>
 }
 
-class SaveMessageUseCaseImpl @Inject constructor(
-    private val repositoryMessage: MessageRepository
-) : SaveMessageUseCase {
+class GetMessagesUseCaseImpl @Inject constructor(
+    private val messageRepository: MessageRepository
+) : GetMessagesUseCase {
 
     override fun invoke(
         streamData: StreamData,
         topicData: TopicData,
-        messageDataList: List<MessageData>,
         currId: Int
-    ): Completable {
-        return repositoryMessage.saveMessages(
+    ): Observable<List<MessageData>> {
+        return messageRepository.loadMessages(
             streamData = streamData,
             topicData = topicData,
-            messages = messageDataList,
             currUserId = currId
         )
     }

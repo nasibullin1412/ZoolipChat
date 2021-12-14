@@ -1,4 +1,4 @@
-package com.homework.coursework.domain.usecase
+package com.homework.coursework.domain.usecase.auth
 
 import com.homework.coursework.domain.entity.AuthData
 import com.homework.coursework.domain.repository.AuthRepository

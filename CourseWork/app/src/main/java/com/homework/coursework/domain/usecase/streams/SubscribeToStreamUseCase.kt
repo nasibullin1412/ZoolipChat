@@ -1,4 +1,4 @@
-package com.homework.coursework.domain.usecase
+package com.homework.coursework.domain.usecase.streams
 
 import com.homework.coursework.domain.entity.SubscribeData
 import com.homework.coursework.domain.repository.SubscribeStreamRepository

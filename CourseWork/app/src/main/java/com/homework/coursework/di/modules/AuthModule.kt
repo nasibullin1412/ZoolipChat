@@ -1,9 +1,9 @@
 package com.homework.coursework.di.modules
 
 import com.homework.coursework.di.AuthScope
-import com.homework.coursework.domain.usecase.AuthUserUseCase
-import com.homework.coursework.domain.usecase.CheckAuthUseCase
-import com.homework.coursework.domain.usecase.GetMeUseCase
+import com.homework.coursework.domain.usecase.auth.AuthUserUseCase
+import com.homework.coursework.domain.usecase.auth.CheckAuthUseCase
+import com.homework.coursework.domain.usecase.users.GetMeUseCase
 import com.homework.coursework.presentation.ui.authorization.elm.*
 import dagger.Module
 import dagger.Provides

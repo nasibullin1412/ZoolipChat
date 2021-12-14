@@ -4,6 +4,8 @@ import com.homework.coursework.di.ChatFragmentScope
 import com.homework.coursework.di.StreamChatStore
 import com.homework.coursework.di.TopicChatStore
 import com.homework.coursework.domain.usecase.*
+import com.homework.coursework.domain.usecase.message.*
+import com.homework.coursework.domain.usecase.users.GetCurrentUserIdUseCase
 import com.homework.coursework.presentation.adapter.mapper.*
 import com.homework.coursework.presentation.ui.chat.UpdateRecycleList
 import com.homework.coursework.presentation.ui.chat.elm.*
@@ -27,13 +29,14 @@ class ChatModule {
     @ChatFragmentScope
     @Provides
     fun provideChatActor(
-        getTopicMessages: GetTopicMessagesUseCase,
+        getMessages: GetMessagesUseCase,
         addReaction: AddReactionToMessageUseCase,
         deleteReactionToMessage: DeleteReactionToMessageUseCase,
         addMessage: AddMessageUseCase,
         initMessage: InitMessageUseCase,
         saveMessage: SaveMessageUseCase,
         getCurrentUserId: GetCurrentUserIdUseCase,
+        updateMessageUseCase: UpdateMessageUseCase,
         streamDataMapper: StreamDataMapper,
         topicDataMapper: TopicDataMapper,
         chatItemMapper: ChatItemMapper,
@@ -43,13 +46,14 @@ class ChatModule {
         updateRecycleList: UpdateRecycleList
     ): ChatActor {
         return ChatActor(
-            getTopicMessages = getTopicMessages,
+            getMessages = getMessages,
             addReactionToMessage = addReaction,
             deleteReactionToMessage = deleteReactionToMessage,
             addMessages = addMessage,
             initMessages = initMessage,
             saveMessage = saveMessage,
             getCurrentId = getCurrentUserId,
+            updateMessage = updateMessageUseCase,
             streamDataMapper = streamDataMapper,
             topicDataMapper = topicDataMapper,
             chatToItemMapper = chatItemMapper,

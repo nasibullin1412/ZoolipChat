@@ -1,7 +1,6 @@
 package com.homework.coursework.presentation.ui.chat
 
-import com.homework.coursework.presentation.adapter.data.ChatItem
-import com.homework.coursework.presentation.adapter.data.MessageItem
+import com.homework.coursework.presentation.adapter.data.chat.*
 import dagger.Reusable
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
@@ -16,7 +15,7 @@ class UpdateRecycleList @Inject constructor() :
         newList: List<ChatItem>
     ): Observable<List<ChatItem>> {
         return Observable.fromCallable {
-            getNewRecycleList(oldList = oldList, newList = newList)
+            getNewRecycleList(oldList = oldList, newListUnchecked = newList)
         }.subscribeOn(Schedulers.computation())
             .map { chatList ->
                 chatList.forEachIndexed { i, element -> element.id = i }
@@ -26,16 +25,15 @@ class UpdateRecycleList @Inject constructor() :
 
     private fun getNewRecycleList(
         oldList: List<ChatItem>,
-        newList: List<ChatItem>
+        newListUnchecked: List<ChatItem>
     ): List<ChatItem> {
+        val newList = deleteSameTopicName(oldList, newListUnchecked)
         val lastElemOfNew = newList.last()
         if (lastElemOfNew !is MessageItem) {
             return oldList
         }
         val idx = if (oldList.isNotEmpty()) {
-            val firstMessageItem = oldList.filterIsInstance<MessageItem>()
-                .first { it.messageId == lastElemOfNew.messageId }
-            oldList.indexOf(firstMessageItem)
+            oldList.run { indexOf(firstWithMessageItem { it == lastElemOfNew.messageId }) }
         } else {
             -1
         }
@@ -55,6 +53,21 @@ class UpdateRecycleList @Inject constructor() :
             resultList.add(0, newList[i])
         }
         return resultList
+    }
+
+    private fun deleteSameTopicName(
+        oldList: List<ChatItem>,
+        newListUnchecked: List<ChatItem>
+    ): List<ChatItem> {
+        val oldFirstTopicName = oldList.firstWithInstance<TopicNameItem>() ?: return newListUnchecked
+        val newLastTopicName = newListUnchecked.lastWithInstance<TopicNameItem>() ?: return newListUnchecked
+        return if (oldFirstTopicName == newLastTopicName) {
+            ArrayList(newListUnchecked).run {
+                toList()
+            }
+        } else {
+            newListUnchecked
+        }
     }
 
     private fun getUntilIdx(idx: Int, newSize: Int): Pair<Int, Int> {

@@ -32,6 +32,7 @@ class MessageDtoMapper @Inject constructor() : (MessagesResponse, Int) -> (List<
                     messageContent = content.parseHtmlContent(),
                     emojis = emojiDtoMapper(reactions),
                     date = timestamp,
+                    topicName = topicName,
                     isCurrentUserMessage = senderId == currUserId
                 )
             }

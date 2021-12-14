@@ -1,37 +1,93 @@
 package com.homework.coursework.presentation.adapter.mapper
 
 import com.homework.coursework.domain.entity.MessageData
-import com.homework.coursework.presentation.adapter.data.ChatItem
-import com.homework.coursework.presentation.ui.chat.addDate
-import com.homework.coursework.presentation.ui.chat.addMessageItem
+import com.homework.coursework.presentation.adapter.data.chat.*
 import com.homework.coursework.presentation.utils.toStringDate
 import dagger.Reusable
+import java.util.*
 import javax.inject.Inject
 
 @Reusable
-class ChatItemMapper @Inject constructor() : (List<MessageData>, Int) -> (List<ChatItem>) {
+class ChatItemMapper @Inject constructor() : (List<MessageData>, Int, Boolean) -> (List<ChatItem>) {
 
     @Inject
     internal lateinit var messageItemMapper: MessageItemMapper
 
-    override fun invoke(messageDataList: List<MessageData>, currId: Int): List<ChatItem> {
+    @Inject
+    internal lateinit var chatAddTopicNames: ChatAddTopicNames
+
+    override fun invoke(
+        messageDataList: List<MessageData>,
+        currId: Int,
+        isUpdate: Boolean
+    ): List<ChatItem> {
         if (messageDataList.size == 1 && messageDataList.first().errorHandle.isError) {
-            val erHandle = messageDataList.first().errorHandle
-            return listOf(
-                ChatItem.getErrorChatItem(erHandle.error)
-            )
+            return messageDataList.first().errorHandle.run {
+                listOf(ChatItem.getErrorChatItem(error))
+            }
         }
-        val messageList = arrayListOf<ChatItem>()
-        val groupedMessage = messageDataList.groupBy { it.date.toStringDate() }
-        with(groupedMessage) {
+        val messageDataIds = chatAddTopicNames(messageDataList)
+        return messageDataList.groupBy { it.date.toStringDate() }.run {
+            val messageList = arrayListOf<ChatItem>()
             for (date in keys) {
                 messageList.addDate(date)
                 val list = this[date] ?: throw IllegalArgumentException("message required")
                 messageList.addMessageItem(
-                    messageItemMapper(list, currId, messageDataList.lastIndex+1)
+                    messageItemMapper(list, currId, messageDataList.lastIndex + 1)
+                )
+            }
+            messageList.apply { if (!isUpdate) addTopicNames(messageDataIds) }
+        }
+    }
+}
+
+/**
+ * add date to recycler list
+ * @param date is string with date
+ */
+fun ArrayList<ChatItem>.addDate(date: String) {
+    if (lastIndex == -1) {
+        return
+    }
+    val item = this[lastIndex]
+    if (item is MessageItem) {
+        if (item.date.toStringDate() == date) {
+            return
+        }
+    }
+    val curIdx = lastIndex + 1
+    add(DateItem(idItem = curIdx, date = date))
+}
+
+/**
+ * add message to recycler list
+ * @param messageItemList is list with new messages
+ */
+fun ArrayList<ChatItem>.addMessageItem(messageItemList: List<MessageItem>) {
+    val idx = lastIndex + 1
+    addAll(
+        messageItemList.mapIndexed { index, messageItem ->
+            with(messageItem) {
+                MessageItem(
+                    idItem = idx + index,
+                    messageId = messageId,
+                    userData = userData,
+                    messageContent = messageContent,
+                    emojis = emojis,
+                    date = date,
+                    isCurrentUserMessage = isCurrentUserMessage,
+                    topicName = topicName
                 )
             }
         }
-        return messageList
+    )
+}
+
+fun ArrayList<ChatItem>.addTopicNames(messageIdList: ArrayList<Int>) {
+    for (messageId in messageIdList) {
+        val messageItem = firstWithMessageItem { it == messageId }
+        val idx = indexOf(messageItem)
+        add(index = idx, element = TopicNameItem(topicName = messageItem.topicName, idItem = 0))
     }
+    forEachIndexed { index, item -> item.id = index }
 }

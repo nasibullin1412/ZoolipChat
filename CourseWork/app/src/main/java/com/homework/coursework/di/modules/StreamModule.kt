@@ -3,10 +3,10 @@ package com.homework.coursework.di.modules
 import com.homework.coursework.di.AllStreams
 import com.homework.coursework.di.StreamFragmentScope
 import com.homework.coursework.di.SubscribedStreams
-import com.homework.coursework.domain.usecase.GetAllStreamsUseCase
-import com.homework.coursework.domain.usecase.GetSubscribedStreamsUseCase
-import com.homework.coursework.domain.usecase.SearchAllStreamsUseCase
-import com.homework.coursework.domain.usecase.SearchSubscribeStreamsUseCase
+import com.homework.coursework.domain.usecase.streams.GetAllStreamsUseCase
+import com.homework.coursework.domain.usecase.streams.GetSubscribedStreamsUseCase
+import com.homework.coursework.domain.usecase.streams.SearchAllStreamsUseCase
+import com.homework.coursework.domain.usecase.streams.SearchSubscribeStreamsUseCase
 import com.homework.coursework.presentation.adapter.mapper.StreamItemMapper
 import com.homework.coursework.presentation.ui.stream.elm.*
 import dagger.Module

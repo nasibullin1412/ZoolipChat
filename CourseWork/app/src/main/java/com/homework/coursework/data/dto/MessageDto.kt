@@ -18,5 +18,7 @@ data class MessageDto(
     @SerialName("is_me_message")
     val isCurrentUserMessage: Boolean,
     @SerialName("sender_email")
-    val senderEmail: String
+    val senderEmail: String,
+    @SerialName("subject")
+    val topicName: String
 )

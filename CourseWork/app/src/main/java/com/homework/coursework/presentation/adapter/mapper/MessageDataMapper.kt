@@ -1,7 +1,7 @@
 package com.homework.coursework.presentation.adapter.mapper
 
 import com.homework.coursework.domain.entity.MessageData
-import com.homework.coursework.presentation.adapter.data.MessageItem
+import com.homework.coursework.presentation.adapter.data.chat.MessageItem
 import dagger.Reusable
 import javax.inject.Inject
 
@@ -19,7 +19,8 @@ class MessageDataMapper @Inject constructor() : (MessageItem) -> (MessageData) {
                 messageContent = messageContent,
                 emojis = emojiDataListMapper(emojis),
                 isCurrentUserMessage = isCurrentUserMessage,
-                date = date
+                date = date,
+                topicName = topicName
             )
         }
     }

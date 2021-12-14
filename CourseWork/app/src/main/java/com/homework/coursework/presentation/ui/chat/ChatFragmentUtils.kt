@@ -9,16 +9,14 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.homework.coursework.R
 import com.homework.coursework.presentation.adapter.ChatAdapter
-import com.homework.coursework.presentation.adapter.data.ChatItem
-import com.homework.coursework.presentation.adapter.data.DateItem
 import com.homework.coursework.presentation.adapter.data.EmojiItem
-import com.homework.coursework.presentation.adapter.data.MessageItem
+import com.homework.coursework.presentation.adapter.data.chat.MessageItem
+import com.homework.coursework.presentation.adapter.data.chat.firstWithMessageItem
 import com.homework.coursework.presentation.customview.CustomFlexboxLayout
 import com.homework.coursework.presentation.ui.chat.ChatBaseFragment.Companion.DEFAULT_MESSAGE_ID
 import com.homework.coursework.presentation.ui.chat.elm.Event
 import com.homework.coursework.presentation.utils.Emoji
 import com.homework.coursework.presentation.utils.initEmojiToBottomSheet
-import com.homework.coursework.presentation.utils.toStringDate
 import okhttp3.internal.toHexString
 import java.util.*
 
@@ -82,7 +80,7 @@ internal fun ChatBaseFragment.onEmojiClickedImpl(emojiIdx: Int) {
     if (messageId == DEFAULT_MESSAGE_ID) {
         throw IllegalArgumentException("selectedMessageId required")
     }
-    val chatItem = chatAdapter.currentList.getMessage(messageId)
+    val chatItem = chatAdapter.currentList.firstWithMessageItem { it == messageId }
     with(chatItem) {
         val existedEmoji = emojis.firstOrNull {
             it.emojiCode == Emoji.values()[emojiIdx].unicodeCodePoint.toHexString()
@@ -110,7 +108,7 @@ internal fun ChatBaseFragment.onEmojiClickedImpl(emojiItem: EmojiItem) {
     if (messageId == DEFAULT_MESSAGE_ID) {
         throw IllegalArgumentException("selectedMessageId required")
     }
-    val chatItem = chatAdapter.currentList.getMessage(messageId)
+    val chatItem = chatAdapter.currentList.firstWithMessageItem { messageId == it }
     with(chatItem) {
         updateMessage = messageId
         internalStore.accept(
@@ -151,55 +149,4 @@ internal fun selectIcon(text: String): Int = if (text.isEmpty()) {
     R.drawable.ic_vector
 } else {
     R.drawable.ic_vector_send
-}
-
-/**
- * add date to recycler list
- * @param date is string with date
- */
-fun ArrayList<ChatItem>.addDate(date: String) {
-    if (lastIndex == -1) {
-        return
-    }
-    val item = this[lastIndex]
-    if (item is MessageItem) {
-        if (item.date.toStringDate() == date) {
-            return
-        }
-    }
-    val curIdx = lastIndex + 1
-    add(DateItem(idItem = curIdx, date = date))
-}
-
-/**
- * add message to recycler list
- * @param messageItemList is list with new messages
- */
-fun ArrayList<ChatItem>.addMessageItem(messageItemList: List<MessageItem>) {
-    val idx = lastIndex + 1
-    addAll(
-        messageItemList.mapIndexed { index, messageItem ->
-            with(messageItem) {
-                MessageItem(
-                    idItem = idx + index,
-                    messageId = messageId,
-                    userData = userData,
-                    messageContent = messageContent,
-                    emojis = emojis,
-                    date = date,
-                    isCurrentUserMessage = isCurrentUserMessage
-                )
-            }
-        }
-    )
-}
-
-fun List<ChatItem>.getMessage(messageId: Int): MessageItem {
-    return first {
-        if (it is MessageItem) {
-            it.messageId == messageId
-        } else {
-            false
-        }
-    } as MessageItem
 }

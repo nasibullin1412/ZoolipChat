@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import com.homework.coursework.di.TopicChatStore
 import com.homework.coursework.presentation.App
-import com.homework.coursework.presentation.adapter.data.MessageItem
+import com.homework.coursework.presentation.adapter.data.chat.MessageItem
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
 import com.homework.coursework.presentation.ui.chat.ChatBaseFragment

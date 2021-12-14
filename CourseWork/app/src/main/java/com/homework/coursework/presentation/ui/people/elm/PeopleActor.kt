@@ -1,7 +1,7 @@
 package com.homework.coursework.presentation.ui.people.elm
 
-import com.homework.coursework.domain.usecase.GetAllUsersUseCase
-import com.homework.coursework.domain.usecase.SearchUsersUseCase
+import com.homework.coursework.domain.usecase.users.GetAllUsersUseCase
+import com.homework.coursework.domain.usecase.users.SearchUsersUseCase
 import com.homework.coursework.presentation.adapter.mapper.UserListMapper
 import io.reactivex.Observable
 import vivid.money.elmslie.core.ActorCompat

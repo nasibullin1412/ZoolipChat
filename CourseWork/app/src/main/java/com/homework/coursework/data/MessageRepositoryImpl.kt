@@ -69,13 +69,21 @@ class MessageRepositoryImpl @Inject constructor(
     }
 
     @ExperimentalSerializationApi
-    override fun loadOrUpdateMessages(
+    override fun loadMessages(
         streamData: StreamData,
         topicData: TopicData,
-        currUserId: Int,
-        numBefore: Int
+        currUserId: Int
     ): Observable<List<MessageData>> {
-        return loadOrUpdateMessage(streamData, topicData, currUserId, numBefore)
+        return loadOrUpdateMessage(streamData, topicData, currUserId, NUM_BEFORE)
+    }
+
+    @ExperimentalSerializationApi
+    override fun updateMessage(
+        streamData: StreamData,
+        topicData: TopicData,
+        currUserId: Int
+    ): Observable<List<MessageData>> {
+        return loadOrUpdateMessage(streamData, topicData, currUserId, NUM_AFTER)
     }
 
     @ExperimentalSerializationApi

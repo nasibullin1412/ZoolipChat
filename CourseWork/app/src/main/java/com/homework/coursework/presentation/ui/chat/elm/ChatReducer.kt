@@ -106,11 +106,10 @@ class ChatReducer @Inject constructor() : DslReducer<Event, State, Effect, Comma
         }
         is Event.Ui.LoadNextPage -> {
             commands {
-                +Command.LoadOrUpdate(
+                +Command.LoadMessages(
                     streamItem = event.streamItem,
                     topicItem = event.topicItem,
-                    currId = event.currId,
-                    numBefore = event.numBefore
+                    currId = event.currId
                 )
             }
         }
@@ -147,11 +146,10 @@ class ChatReducer @Inject constructor() : DslReducer<Event, State, Effect, Comma
         }
         is Event.Ui.UpdateMessage -> {
             commands {
-                +Command.LoadOrUpdate(
+                +Command.UpdateMessage(
                     streamItem = event.streamItem,
                     topicItem = event.topicItem,
-                    currId = event.currId,
-                    numBefore = event.numBefore
+                    currId = event.currId
                 )
             }
         }

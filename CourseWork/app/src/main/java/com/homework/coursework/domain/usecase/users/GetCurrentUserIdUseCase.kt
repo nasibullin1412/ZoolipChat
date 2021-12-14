@@ -1,4 +1,4 @@
-package com.homework.coursework.domain.usecase
+package com.homework.coursework.domain.usecase.users
 
 import com.homework.coursework.domain.repository.UserRepository
 import io.reactivex.Observable
