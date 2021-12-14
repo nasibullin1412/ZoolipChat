@@ -6,6 +6,7 @@ import com.homework.coursework.di.StreamChatStore
 import com.homework.coursework.presentation.App
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
+import com.homework.coursework.presentation.adapter.data.chat.ChatItem
 import com.homework.coursework.presentation.ui.chat.ChatBaseFragment
 import com.homework.coursework.presentation.ui.chat.elm.Effect
 import com.homework.coursework.presentation.ui.chat.elm.Event
@@ -50,6 +51,14 @@ class StreamChatFragment : ChatBaseFragment() {
     }
 
     override fun createStore(): Store<Event, Effect, State> = streamChatStore
+
+    /**
+     * update recycler view with new message
+     * @param newList is list with new MessageData
+     */
+    override fun updateMessage(newList: List<ChatItem>) {
+        chatAdapter.submitList(newList)
+    }
 
     companion object {
 

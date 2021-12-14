@@ -105,6 +105,8 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
 
     abstract fun configureView()
 
+    abstract fun updateMessage(newList: List<ChatItem>)
+
     private fun initButtonListener() {
         binding.imgSend.setOnClickListener {
             sendButtonAction()
@@ -220,14 +222,6 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
                 )
             }
         }
-    }
-
-    /**
-     * update recycler view with new message
-     * @param newList is list with new MessageData
-     */
-    private fun updateMessage(newList: List<ChatItem>) {
-        chatAdapter.submitList(newList)
     }
 
     private fun initViews() {

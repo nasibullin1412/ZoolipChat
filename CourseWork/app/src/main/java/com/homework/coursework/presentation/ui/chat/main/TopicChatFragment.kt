@@ -8,6 +8,7 @@ import com.homework.coursework.presentation.App
 import com.homework.coursework.presentation.adapter.data.chat.MessageItem
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
+import com.homework.coursework.presentation.adapter.data.chat.ChatItem
 import com.homework.coursework.presentation.ui.chat.ChatBaseFragment
 import com.homework.coursework.presentation.ui.chat.elm.Effect
 import com.homework.coursework.presentation.ui.chat.elm.Event
@@ -58,6 +59,14 @@ class TopicChatFragment : ChatBaseFragment() {
     }
 
     override fun createStore(): Store<Event, Effect, State> = topicChatStore
+
+    /**
+     * update recycler view with new message. Drop first item without
+     * @param newList is list with new MessageData
+     */
+    override fun updateMessage(newList: List<ChatItem>) {
+        chatAdapter.submitList(newList.drop(1))
+    }
 
     override fun onStop() {
         super.onStop()
