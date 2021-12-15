@@ -1,5 +1,6 @@
 package com.homework.coursework.presentation.ui.chat.main
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import com.homework.coursework.di.StreamChatStore
@@ -7,18 +8,32 @@ import com.homework.coursework.presentation.App
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
 import com.homework.coursework.presentation.adapter.data.chat.ChatItem
+import com.homework.coursework.presentation.interfaces.NavigateController
+import com.homework.coursework.presentation.interfaces.TopicItemCallback
+import com.homework.coursework.presentation.interfaces.TopicNameItemCallback
 import com.homework.coursework.presentation.ui.chat.ChatBaseFragment
 import com.homework.coursework.presentation.ui.chat.elm.Effect
 import com.homework.coursework.presentation.ui.chat.elm.Event
 import com.homework.coursework.presentation.ui.chat.elm.State
+import com.homework.coursework.presentation.utils.CustomFragmentFactory
+import com.homework.coursework.presentation.utils.FragmentTag
 import vivid.money.elmslie.core.store.Store
 import javax.inject.Inject
 
-class StreamChatFragment : ChatBaseFragment() {
+class StreamChatFragment : ChatBaseFragment(), TopicNameItemCallback {
 
     @Inject
     @StreamChatStore
     internal lateinit var streamChatStore: Store<Event, Effect, State>
+
+    private var navigateController: NavigateController? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is NavigateController){
+            navigateController = context
+        }
+    }
 
     override fun initArguments() {
         currentStream = requireArguments().getParcelable(STREAM_KEY)
@@ -48,6 +63,7 @@ class StreamChatFragment : ChatBaseFragment() {
 
     override fun configureView() {
         binding.etTopicName.visibility = View.VISIBLE
+        chatAdapter.initTopicListener(this)
     }
 
     override fun createStore(): Store<Event, Effect, State> = streamChatStore
@@ -60,9 +76,14 @@ class StreamChatFragment : ChatBaseFragment() {
         chatAdapter.submitList(newList)
     }
 
+    override fun onDetach() {
+        super.onDetach()
+        navigateController = null
+    }
+
     companion object {
 
-        fun createBundle(stream: StreamItem): Bundle{
+        fun createBundle(stream: StreamItem): Bundle {
             return Bundle().apply {
                 putParcelable(STREAM_KEY, stream)
             }
@@ -73,5 +94,17 @@ class StreamChatFragment : ChatBaseFragment() {
             fragment.arguments = args
             return fragment
         }
+    }
+
+    override fun onTopicItemCallback(topicName: String) {
+        navigateController?.navigateFragment(
+            CustomFragmentFactory.create(
+                FragmentTag.TOPIC_CHAT_FRAGMENT_TAG,
+                bundle = TopicChatFragment.createBundle(
+                    topic = currentTopic.copy(id = 0, topicName=topicName),
+                    stream = currentStream
+                )
+            )
+        )
     }
 }

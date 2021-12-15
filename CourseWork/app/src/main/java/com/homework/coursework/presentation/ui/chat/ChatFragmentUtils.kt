@@ -23,7 +23,7 @@ import java.util.*
 internal fun ChatBaseFragment.initRecycleViewImpl() {
     with(binding.rvMessage) {
         chatAdapter = ChatAdapter().apply {
-            initListener(this@initRecycleViewImpl)
+            initMessageListener(this@initRecycleViewImpl)
         }
         adapter = chatAdapter
         val currLayoutManager = LinearLayoutManager(context).apply { stackFromEnd = true }

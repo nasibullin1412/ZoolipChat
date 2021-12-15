@@ -27,7 +27,7 @@ abstract class PagingScrollListener(
             loading = false
             previousTotalItemCount = totalItemCount
         }
-        if (!loading && firstVisibleItemPosition < VISIBLE_THRESHOLD) {
+        if (!loading && firstVisibleItemPosition < VISIBLE_THRESHOLD && totalItemCount >= PAGE_SIZE) {
             onLoadMore(true)
             loading = true
         }
@@ -37,5 +37,6 @@ abstract class PagingScrollListener(
 
     companion object {
         const val VISIBLE_THRESHOLD = 5
+        const val PAGE_SIZE = 20
     }
 }

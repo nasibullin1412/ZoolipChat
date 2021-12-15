@@ -85,11 +85,6 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
         onEmojiClickedImpl(emojiItem)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        bottomNavigationController?.visibleBottomNavigation()
-    }
-
     override fun onDetach() {
         super.onDetach()
         bottomNavigationController = null
@@ -225,8 +220,8 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
     }
 
     private fun initViews() {
-        configureView()
         initRecycleViewImpl()
+        configureView()
         initErrorRepeat()
         initBottomDialog()
         initButtonListener()

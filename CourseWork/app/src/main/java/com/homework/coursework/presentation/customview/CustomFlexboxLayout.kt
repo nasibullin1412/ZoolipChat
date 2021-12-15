@@ -24,11 +24,11 @@ class CustomFlexboxLayout @JvmOverloads constructor(
                 0, heightMeasureSpec, totalHeight
             )
             val widthNeed = getWidth(child.minimumWidth, child.measuredWidth)
-            tempWidth += widthNeed + child.marginRight
             if (tempWidth > widthSizeMax) {
                 tempWidth = widthNeed
                 totalHeight += child.measuredHeight + child.marginTop
             }
+            tempWidth += widthNeed + child.marginRight
             totalHeight = maxOf(totalHeight, child.measuredHeight)
         }
         val resultWidth = resolveSize(widthSizeMax, widthMeasureSpec)

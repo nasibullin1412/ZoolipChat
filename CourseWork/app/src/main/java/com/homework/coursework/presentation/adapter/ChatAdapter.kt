@@ -3,13 +3,11 @@ package com.homework.coursework.presentation.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.homework.coursework.di.ChatFragmentScope
-import com.homework.coursework.presentation.adapter.data.chat.ErrorItem
-import com.homework.coursework.presentation.adapter.data.chat.ChatItem
-import com.homework.coursework.presentation.adapter.data.chat.DateItem
-import com.homework.coursework.presentation.adapter.data.chat.MessageItem
-import com.homework.coursework.presentation.adapter.data.chat.TopicNameItem
+import com.homework.coursework.presentation.adapter.data.chat.*
 import com.homework.coursework.presentation.callbacks.MessageCallback
 import com.homework.coursework.presentation.interfaces.MessageItemCallback
+import com.homework.coursework.presentation.interfaces.TopicItemCallback
+import com.homework.coursework.presentation.interfaces.TopicNameItemCallback
 import com.homework.coursework.presentation.viewholder.chat.*
 import javax.inject.Inject
 
@@ -17,12 +15,13 @@ import javax.inject.Inject
 class ChatAdapter @Inject constructor() :
     ListAdapter<ChatItem, ChatViewHolder>(MessageCallback()) {
 
-    private lateinit var listener: MessageItemCallback
+    private lateinit var listenerMessage: MessageItemCallback
+    private lateinit var listenerTopicName: TopicNameItemCallback
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
         return ChatViewHolderFactory.create(
             viewType = viewType,
-            listener = listener,
+            listener = listenerMessage,
             parent = parent
         )
     }
@@ -32,16 +31,16 @@ class ChatAdapter @Inject constructor() :
         when (holder) {
             is MessageToViewHolder -> {
                 if (item is MessageItem) {
-                    holder.apply {
-                        itemView.setOnLongClickListener { listener.getBottomSheet(item.messageId) }
+                    with(holder) {
+                        itemView.setOnLongClickListener { listenerMessage.getBottomSheet(item.messageId) }
                         bind(messageItem = item)
                     }
                 }
             }
             is MessageFromViewHolder -> {
                 if (item is MessageItem) {
-                    holder.apply {
-                        itemView.setOnLongClickListener { listener.getBottomSheet(item.messageId) }
+                    with(holder) {
+                        itemView.setOnLongClickListener { listenerMessage.getBottomSheet(item.messageId) }
                         bind(messageItem = item)
                     }
                 }
@@ -54,7 +53,12 @@ class ChatAdapter @Inject constructor() :
             }
             is TopicNameViewHolder -> {
                 if (item is TopicNameItem) {
-                    holder.bind(topicName = item.topicName)
+                    with(holder) {
+                        itemView.setOnClickListener {
+                            listenerTopicName.onTopicItemCallback(item.topicName)
+                        }
+                        bind(topicName = item.topicName)
+                    }
                 }
             }
         }
@@ -81,7 +85,11 @@ class ChatAdapter @Inject constructor() :
         }
     }
 
-    fun initListener(listener: MessageItemCallback) {
-        this.listener = listener
+    fun initMessageListener(listener: MessageItemCallback) {
+        this.listenerMessage = listener
+    }
+
+    fun initTopicListener(listener: TopicNameItemCallback) {
+        this.listenerTopicName = listener
     }
 }

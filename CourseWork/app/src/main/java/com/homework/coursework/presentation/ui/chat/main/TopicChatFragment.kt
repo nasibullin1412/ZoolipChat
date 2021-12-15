@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.view.View
 import com.homework.coursework.di.TopicChatStore
 import com.homework.coursework.presentation.App
-import com.homework.coursework.presentation.adapter.data.chat.MessageItem
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
 import com.homework.coursework.presentation.adapter.data.chat.ChatItem
+import com.homework.coursework.presentation.adapter.data.chat.MessageItem
+import com.homework.coursework.presentation.adapter.data.chat.TopicNameItem
+import com.homework.coursework.presentation.adapter.data.chat.dropIfFirst
 import com.homework.coursework.presentation.ui.chat.ChatBaseFragment
 import com.homework.coursework.presentation.ui.chat.elm.Effect
 import com.homework.coursework.presentation.ui.chat.elm.Event
@@ -65,7 +67,7 @@ class TopicChatFragment : ChatBaseFragment() {
      * @param newList is list with new MessageData
      */
     override fun updateMessage(newList: List<ChatItem>) {
-        chatAdapter.submitList(newList.drop(1))
+        chatAdapter.submitList(newList.dropIfFirst<TopicNameItem>())
     }
 
     override fun onStop() {
@@ -89,7 +91,7 @@ class TopicChatFragment : ChatBaseFragment() {
     companion object {
         const val TOPIC_KEY = "topic"
 
-        fun createBundle(topic: TopicItem, stream: StreamItem): Bundle{
+        fun createBundle(topic: TopicItem, stream: StreamItem): Bundle {
             return Bundle().apply {
                 putParcelable(TOPIC_KEY, topic)
                 putParcelable(STREAM_KEY, stream)
