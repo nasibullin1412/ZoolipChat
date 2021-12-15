@@ -17,10 +17,9 @@ class MessageItemMapper @Inject constructor() :
         currId: Int,
         chatItemId: Int
     ): List<MessageItem> {
-        return messagesData.mapIndexed { idx, message ->
+        return messagesData.map { message ->
             with(message) {
                 MessageItem(
-                    idItem = chatItemId + idx,
                     messageId = messageId,
                     userData = userData,
                     messageContent = messageContent,

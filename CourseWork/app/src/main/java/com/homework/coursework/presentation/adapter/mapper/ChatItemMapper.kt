@@ -36,7 +36,10 @@ class ChatItemMapper @Inject constructor() : (List<MessageData>, Int, Boolean) -
                     messageItemMapper(list, currId, messageDataList.lastIndex + 1)
                 )
             }
-            messageList.apply { if (!isUpdate) addTopicNames(messageDataIds) }
+            messageList.apply {
+                if (!isUpdate) addTopicNames(messageDataIds)
+                forEachIndexed { index, item -> item.id = index }
+            }
         }
     }
 }
@@ -55,8 +58,7 @@ fun ArrayList<ChatItem>.addDate(date: String) {
             return
         }
     }
-    val curIdx = lastIndex + 1
-    add(DateItem(idItem = curIdx, date = date))
+    add(DateItem(date = date))
 }
 
 /**
@@ -64,12 +66,10 @@ fun ArrayList<ChatItem>.addDate(date: String) {
  * @param messageItemList is list with new messages
  */
 fun ArrayList<ChatItem>.addMessageItem(messageItemList: List<MessageItem>) {
-    val idx = lastIndex + 1
     addAll(
-        messageItemList.mapIndexed { index, messageItem ->
+        messageItemList.map { messageItem ->
             with(messageItem) {
                 MessageItem(
-                    idItem = idx + index,
                     messageId = messageId,
                     userData = userData,
                     messageContent = messageContent,
@@ -87,7 +87,6 @@ fun ArrayList<ChatItem>.addTopicNames(messageIdList: ArrayList<Int>) {
     for (messageId in messageIdList) {
         val messageItem = firstWithMessageItem { it == messageId }
         val idx = indexOf(messageItem)
-        add(index = idx, element = TopicNameItem(topicName = messageItem.topicName, idItem = 0))
+        add(index = idx, element = TopicNameItem(topicName = messageItem.topicName))
     }
-    forEachIndexed { index, item -> item.id = index }
 }

@@ -17,6 +17,7 @@ import com.homework.coursework.presentation.ui.chat.elm.Event
 import com.homework.coursework.presentation.ui.chat.elm.State
 import com.homework.coursework.presentation.utils.CustomFragmentFactory
 import com.homework.coursework.presentation.utils.FragmentTag
+import com.homework.coursework.presentation.utils.showToast
 import vivid.money.elmslie.core.store.Store
 import javax.inject.Inject
 
@@ -42,10 +43,15 @@ class StreamChatFragment : ChatBaseFragment(), TopicNameItemCallback {
     }
 
     override fun sendButtonAction() {
+        val topicName = binding.etTopicName.text.toString()
+        if (topicName.isEmpty()){
+            showToast(EMPTY_TOPIC_NAME)
+            return
+        }
         store.accept(
             Event.Ui.SendMessage(
                 streamItem = currentStream,
-                topicItem = currentTopic.copy(topicName = binding.etTopicName.text.toString()),
+                topicItem = currentTopic.copy(topicName = topicName),
                 content = binding.etMessage.text.toString()
             )
         )
@@ -81,7 +87,20 @@ class StreamChatFragment : ChatBaseFragment(), TopicNameItemCallback {
         navigateController = null
     }
 
+    override fun onTopicItemCallback(topicName: String) {
+        navigateController?.navigateFragment(
+            CustomFragmentFactory.create(
+                FragmentTag.TOPIC_CHAT_FRAGMENT_TAG,
+                bundle = TopicChatFragment.createBundle(
+                    topic = currentTopic.copy(id = 0, topicName=topicName),
+                    stream = currentStream
+                )
+            )
+        )
+    }
+
     companion object {
+        const val EMPTY_TOPIC_NAME = "Добавьте название топика..."
 
         fun createBundle(stream: StreamItem): Bundle {
             return Bundle().apply {
@@ -94,17 +113,5 @@ class StreamChatFragment : ChatBaseFragment(), TopicNameItemCallback {
             fragment.arguments = args
             return fragment
         }
-    }
-
-    override fun onTopicItemCallback(topicName: String) {
-        navigateController?.navigateFragment(
-            CustomFragmentFactory.create(
-                FragmentTag.TOPIC_CHAT_FRAGMENT_TAG,
-                bundle = TopicChatFragment.createBundle(
-                    topic = currentTopic.copy(id = 0, topicName=topicName),
-                    stream = currentStream
-                )
-            )
-        )
     }
 }
