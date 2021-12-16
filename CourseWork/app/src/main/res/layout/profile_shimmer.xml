@@ -62,22 +62,12 @@
         app:layout_constraintTop_toBottomOf="@+id/tvName" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnCreateNewChannel"
-        style="@style/ButtonStyle"
-        app:backgroundTint="@color/shimmer_color"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvState"
-        app:layout_constraintVertical_bias="0.35"
-        />
-
-    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnLogout"
         style="@style/ButtonStyle"
         app:backgroundTint="@color/shimmer_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnCreateNewChannel"
+        app:layout_constraintTop_toBottomOf="@id/tvState"
+        app:layout_constraintBottom_toBottomOf="parent"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

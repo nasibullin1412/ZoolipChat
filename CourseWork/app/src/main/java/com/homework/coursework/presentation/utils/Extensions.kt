@@ -145,10 +145,10 @@ fun String.toIntWithValid(): Int {
 
 /**
  * Add PlusImgView to CustomFlexboxLayout
- * @param idx is idx of plus, need to listener
+ * @param messageItem is idx of plus, need to listener
  * @param listener is listener for callback
  */
-fun CustomFlexboxLayout.addPlusImgView(idx: Int, listener: MessageItemCallback) {
+fun CustomFlexboxLayout.addPlusImgView(messageItem: MessageItem, listener: MessageItemCallback) {
     val plusImgView = ShapeableImageView(context).apply {
         layoutParams = ViewGroup.MarginLayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -177,7 +177,7 @@ fun CustomFlexboxLayout.addPlusImgView(idx: Int, listener: MessageItemCallback) 
             )
         }
         setOnClickListener {
-            listener.getBottomSheet(idx)
+            listener.getBottomSheet(messageItem)
         }
     }
     addView(
@@ -201,7 +201,7 @@ fun CustomFlexboxLayout.emojiLogic(
         return
     }
     if (childCount == 0) {
-        addPlusImgView(idx, listener)
+        addPlusImgView(messageItem, listener)
     }
     val delta = messageItem.emojis.size - childCount + 1
     when (delta) {
@@ -212,7 +212,7 @@ fun CustomFlexboxLayout.emojiLogic(
         )
         else -> {
             removeAllViews()
-            addPlusImgView(idx, listener)
+            addPlusImgView(messageItem, listener)
             for (emoji in messageItem.emojis) {
                 addEmoji(emoji, idx = idx, listener = listener)
             }

@@ -104,6 +104,7 @@ class StreamFragment : Fragment() {
             tab.text = itemTextList[position]
         }.attach()
         initSearchEditText()
+        initCreateButton()
     }
 
     private fun initSearchEditText() {
@@ -118,6 +119,16 @@ class StreamFragment : Fragment() {
             "$KEY_QUERY_REQUEST$position",
             bundleOf(KEY_QUERY_DATA to query)
         )
+    }
+
+    private fun initCreateButton() {
+        binding.fabNewStream.setOnClickListener {
+            navigateController?.navigateFragment(
+                customFragmentFactory = CustomFragmentFactory.create(
+                    FragmentTag.CREATE_STREAM_FRAGMENT_TAG
+                )
+            )
+        }
     }
 
     override fun onResume() {

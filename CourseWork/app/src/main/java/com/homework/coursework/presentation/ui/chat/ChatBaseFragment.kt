@@ -13,6 +13,7 @@ import com.homework.coursework.presentation.adapter.data.chat.ChatItem
 import com.homework.coursework.presentation.adapter.data.EmojiItem
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
+import com.homework.coursework.presentation.adapter.data.chat.MessageItem
 import com.homework.coursework.presentation.interfaces.BottomNavigationController
 import com.homework.coursework.presentation.interfaces.MessageItemCallback
 import com.homework.coursework.presentation.ui.chat.elm.Effect
@@ -27,7 +28,7 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
 
     internal lateinit var scrollListener: PagingScrollListener
 
-    internal lateinit var bottomSheetDialog: BottomSheetDialog
+    internal lateinit var emojiBottomSheetDialog: BottomSheetDialog
 
     internal var messageId = DEFAULT_MESSAGE_ID
 
@@ -74,9 +75,8 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
         initViews()
     }
 
-    override fun getBottomSheet(messageId: Int): Boolean {
-        this.messageId = messageId
-        bottomSheetDialog.show()
+    override fun getBottomSheet(messageItem: MessageItem): Boolean {
+        showMessageActions(messageItem)
         return true
     }
 
@@ -223,7 +223,7 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
         initRecycleViewImpl()
         configureView()
         initErrorRepeat()
-        initBottomDialog()
+        initEmojiBottomDialog()
         initButtonListener()
         initEditText()
         initNames()

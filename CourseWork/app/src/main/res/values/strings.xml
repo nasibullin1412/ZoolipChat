@@ -27,9 +27,13 @@
     <string name="public_string">Public</string>
     <string name="private_shared_history">Private, shared history</string>
     <string name="private_protected_history">Private, protected history</string>
-    <string name="create_stream">Create stream</string>
     <string name="back_button">Back</string>
     <string name="topic_name">Topic name</string>
+    <string name="create_stream">Create stream</string>
+    <string name="add_reaction">Add reaction</string>
+    <string name="edit_message">Edit message</string>
+    <string name="copy_to_click_board">Copy to click board</string>
+    <string name="delete_message">Delete message</string>
     <string-array name="view_pager_items">
         <item>Subscribed</item>
         <item>All streams</item>

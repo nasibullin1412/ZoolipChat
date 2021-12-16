@@ -41,80 +41,40 @@ interface ApiService {
 
     /**
      * get messages of selected topic
-     * @param anchor supports special string values for when the client wants the server to
-     * compute the anchor to use
-     * @param numBefore the number of messages with IDs less than the anchor to retrieve.
-     * @param numAfter the number of messages with IDs greater than the anchor to retrieve.
      */
     @ExperimentalSerializationApi
     @GET("messages")
-    fun getFirstMessages(
-        @Query("anchor") anchor: String,
-        @Query("num_after") numAfter: Int,
-        @Query("num_before") numBefore: Int,
-        @Query("narrow") narrow: String,
-    ): Observable<MessagesResponse>
-
-    /**
-     * get messages of selected topic
-     * @param anchor supports special string values for when the client wants the server to
-     * compute the anchor to use
-     * @param numBefore the number of messages with IDs less than the anchor to retrieve.
-     * @param numAfter the number of messages with IDs greater than the anchor to retrieve.
-     */
-    @ExperimentalSerializationApi
-    @GET("messages")
-    fun loadMoreMessages(
-        @Query("anchor") anchor: Int,
-        @Query("num_after") numAfter: Int,
-        @Query("num_before") numBefore: Int,
-        @Query("narrow") narrow: String,
+    fun loadMessages(
+        @QueryMap queryMap: Map<String, String>
     ): Observable<MessagesResponse>
 
     /**
      * Add emoji to message
-     * @param messageId the target message's ID.
-     * @param emojiName target emoji's human-readable name
-     * @param emojiCode a unique identifier, defining the specific emoji codepoint requested
-     * @param reactionType type of emoji unique identifier
+     * @param messageId the target message's ID.=
      */
     @POST("messages/{message_id}/reactions")
     fun addReaction(
         @Path("message_id") messageId: Int,
-        @Query("emoji_name") emojiName: String,
-        @Query("emoji_code") emojiCode: String,
-        @Query("reaction_type") reactionType: String
+        @QueryMap queryMap: Map<String, String>
     ): Completable
 
     /**
      * Delete emoji from message
-     * @param messageId the target message's ID.
-     * @param emojiName target emoji's human-readable name
-     * @param emojiCode a unique identifier, defining the specific emoji codepoint requested
-     * @param reactionType type of emoji unique identifier
+     * @param messageId the target message's ID.=
      */
     @DELETE("messages/{message_id}/reactions")
     fun deleteReaction(
         @Path("message_id") messageId: Int,
-        @Query("emoji_name") emojiName: String,
-        @Query("emoji_code") emojiCode: String,
-        @Query("reaction_type") reactionType: String
+        @QueryMap queryMap: Map<String, String>
     ): Completable
 
     /**
      * Add new message to topic
-     * @param type of message to be sent. private for a private message and stream
-     * for a stream message.
-     * @param to for stream messages, either the name or integer ID of the stream.
-     * @param content the content of the message
      */
     @ExperimentalSerializationApi
     @POST("messages")
     fun addMessage(
-        @Query("type") type: String,
-        @Query("to") to: String,
-        @Query("content") content: String,
-        @Query("topic") topic: String
+        @QueryMap queryMap: Map<String, String>
     ): Observable<AddMessageResponse>
 
     /**
@@ -156,10 +116,7 @@ interface ApiService {
     @ExperimentalSerializationApi
     @POST("users/me/subscriptions")
     fun createStream(
-        @Query("invite_only") inviteOnly: Boolean,
-        @Query("is_web_public") isWebPublic: Boolean,
-        @Query("history_public_to_subscribers") historyPublicToSubscribers: Boolean,
-        @Query("subscriptions") create: String
+        @QueryMap queryMap: Map<String, String>
     ): Observable<SubscribeResponse>
 
     companion object {

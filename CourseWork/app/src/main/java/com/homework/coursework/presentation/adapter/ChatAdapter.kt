@@ -30,35 +30,30 @@ class ChatAdapter @Inject constructor() :
         val item = getItem(position)
         when (holder) {
             is MessageToViewHolder -> {
-                if (item is MessageItem) {
-                    with(holder) {
-                        itemView.setOnLongClickListener { listenerMessage.getBottomSheet(item.messageId) }
-                        bind(messageItem = item)
-                    }
+                if (item !is MessageItem) return
+                with(holder) {
+                    itemView.setOnLongClickListener { listenerMessage.getBottomSheet(item) }
+                    bind(messageItem = item)
                 }
             }
             is MessageFromViewHolder -> {
-                if (item is MessageItem) {
-                    with(holder) {
-                        itemView.setOnLongClickListener { listenerMessage.getBottomSheet(item.messageId) }
-                        bind(messageItem = item)
-                    }
+                if (item !is MessageItem) return
+                with(holder) {
+                    itemView.setOnLongClickListener { listenerMessage.getBottomSheet(item) }
+                    bind(messageItem = item)
                 }
             }
             is DateViewHolder -> {
-                if (item is DateItem) {
-                    holder.bind(date = item.date)
-                }
-                return
+                if (item !is DateItem) return
+                holder.bind(date = item.date)
             }
             is TopicNameViewHolder -> {
-                if (item is TopicNameItem) {
-                    with(holder) {
-                        itemView.setOnClickListener {
-                            listenerTopicName.onTopicItemCallback(item.topicName)
-                        }
-                        bind(topicName = item.topicName)
+                if (item !is TopicNameItem) return
+                with(holder) {
+                    itemView.setOnClickListener {
+                        listenerTopicName.onTopicItemCallback(item.topicName)
                     }
+                    bind(topicName = item.topicName)
                 }
             }
         }
@@ -86,10 +81,10 @@ class ChatAdapter @Inject constructor() :
     }
 
     fun initMessageListener(listener: MessageItemCallback) {
-        this.listenerMessage = listener
+        listenerMessage = listener
     }
 
     fun initTopicListener(listener: TopicNameItemCallback) {
-        this.listenerTopicName = listener
+        listenerTopicName = listener
     }
 }

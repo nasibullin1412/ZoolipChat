@@ -27,17 +27,6 @@ class CurrUserProfileFragment : BaseProfileFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initLogoutButton()
-        initCreateButton()
-    }
-
-    private fun initCreateButton() {
-        binding.btnCreateNewChannel.setOnClickListener {
-            navigateController?.navigateFragment(
-                customFragmentFactory = CustomFragmentFactory.create(
-                    FragmentTag.CREATE_STREAM_FRAGMENT_TAG
-                )
-            )
-        }
     }
 
     private fun initLogoutButton() {

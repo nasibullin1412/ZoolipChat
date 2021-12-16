@@ -1,7 +1,7 @@
 package com.homework.coursework.data
 
 import com.homework.coursework.data.frameworks.network.ApiService
-import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.REACTION_TYPE
+import com.homework.coursework.data.frameworks.network.utils.MessageQuery
 import com.homework.coursework.domain.entity.EmojiData
 import com.homework.coursework.domain.entity.MessageData
 import com.homework.coursework.domain.repository.ReactionRepository
@@ -15,21 +15,26 @@ class ReactionRepositoryImpl @Inject constructor(
 
     private val apiService: ApiService get() = _apiService.get()
 
+    @Inject
+    internal lateinit var messageQuery: MessageQuery
+
     override fun addReaction(messageData: MessageData, emojiData: EmojiData): Completable {
         return apiService.addReaction(
             messageId = messageData.messageId,
-            emojiName = emojiData.emojiName,
-            emojiCode = emojiData.emojiCode,
-            reactionType = REACTION_TYPE
+            queryMap = messageQuery.reactionQuery(
+                emojiName = emojiData.emojiName,
+                emojiCode = emojiData.emojiCode
+            )
         )
     }
 
     override fun deleteReaction(messageData: MessageData, emojiData: EmojiData): Completable {
         return apiService.deleteReaction(
             messageId = messageData.messageId,
-            emojiName = emojiData.emojiName,
-            emojiCode = emojiData.emojiCode,
-            reactionType = REACTION_TYPE
+            queryMap = messageQuery.reactionQuery(
+                emojiName = emojiData.emojiName,
+                emojiCode = emojiData.emojiCode
+            )
         )
     }
 }

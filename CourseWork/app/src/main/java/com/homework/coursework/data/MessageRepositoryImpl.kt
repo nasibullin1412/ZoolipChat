@@ -13,6 +13,8 @@ import com.homework.coursework.data.frameworks.database.mappersimpl.MessageEntit
 import com.homework.coursework.data.frameworks.database.mappersimpl.UserDataListMapper
 import com.homework.coursework.data.frameworks.network.ApiService
 import com.homework.coursework.data.frameworks.network.mappersimpl.MessageDtoMapper
+import com.homework.coursework.data.frameworks.network.utils.MessageQuery
+import com.homework.coursework.data.frameworks.network.utils.NetworkConstants
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.NEWEST
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.NUM_AFTER
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.NUM_BEFORE
@@ -54,6 +56,9 @@ class MessageRepositoryImpl @Inject constructor(
     @Inject
     internal lateinit var messageEntityMapper: MessageEntityMapper
 
+    @Inject
+    internal lateinit var messageQuery: MessageQuery
+
     private val apiService: ApiService get() = _apiService.get()
 
     @ExperimentalSerializationApi
@@ -93,10 +98,11 @@ class MessageRepositoryImpl @Inject constructor(
         content: String
     ): Observable<Int> {
         return apiService.addMessage(
-            type = STREAM,
-            to = streamData.streamName,
-            content = content,
-            topic = topicData.topicName
+            queryMap = messageQuery.addMessage(
+                streamData = streamData,
+                topicData = topicData,
+                content = content
+            )
         ).map { it.data }
     }
 
@@ -122,12 +128,11 @@ class MessageRepositoryImpl @Inject constructor(
         topicData: TopicData,
         currUserId: Int
     ): Observable<List<MessageData>> {
-        val narrow = Narrow.createNarrowForMessage(streamData, topicData)
-        return apiService.getFirstMessages(
-            anchor = NEWEST,
-            numAfter = NUM_AFTER,
-            numBefore = NUM_BEFORE,
-            narrow = narrow
+        return apiService.loadMessages(
+            queryMap = messageQuery.getFirstMessages(
+                streamData = streamData,
+                topicData = topicData
+            )
         ).map { messageDtoMapper(messages = it, currUserId = currUserId) }
             .onErrorReturn { error: Throwable ->
                 listOf(
@@ -143,12 +148,12 @@ class MessageRepositoryImpl @Inject constructor(
         currUserId: Int,
         numBefore: Int
     ): Observable<List<MessageData>> {
-        val narrow = Narrow.createNarrowForMessage(streamData, topicData)
-        return apiService.loadMoreMessages(
-            anchor = topicData.numberOfMess,
-            numAfter = NUM_AFTER,
-            numBefore = numBefore,
-            narrow = narrow
+        return apiService.loadMessages(
+            queryMap = messageQuery.loadMoreMessages(
+                streamData = streamData,
+                topicData = topicData,
+                numBefore = numBefore
+            )
         ).map { messageDtoMapper(messages = it, currUserId = currUserId) }
     }
 

@@ -5,11 +5,7 @@ import android.os.Bundle
 import android.view.View
 import com.homework.coursework.di.UserStore
 import com.homework.coursework.presentation.App
-import com.homework.coursework.presentation.adapter.data.StreamItem
-import com.homework.coursework.presentation.adapter.data.TopicItem
 import com.homework.coursework.presentation.interfaces.BottomNavigationController
-import com.homework.coursework.presentation.ui.chat.ChatBaseFragment
-import com.homework.coursework.presentation.ui.chat.main.TopicChatFragment
 import com.homework.coursework.presentation.ui.profile.BaseProfileFragment
 import com.homework.coursework.presentation.ui.profile.elm.Effect
 import com.homework.coursework.presentation.ui.profile.elm.Event
@@ -41,7 +37,6 @@ class UserProfileFragment : BaseProfileFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.btnLogout.visibility = View.GONE
-        binding.btnCreateNewChannel.visibility = View.GONE
     }
 
     override val initEvent: Event
@@ -63,7 +58,7 @@ class UserProfileFragment : BaseProfileFragment() {
     companion object {
         const val USER_ID_KEY = "UserId"
 
-        fun createBundle(userId: Int): Bundle{
+        fun createBundle(userId: Int): Bundle {
             return Bundle().apply { putInt(USER_ID_KEY, userId) }
         }
 
