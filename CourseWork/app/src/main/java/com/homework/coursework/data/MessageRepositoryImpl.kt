@@ -2,7 +2,6 @@ package com.homework.coursework.data
 
 import android.util.Log
 import androidx.room.EmptyResultSetException
-import com.homework.coursework.data.dto.Narrow
 import com.homework.coursework.data.frameworks.database.crossref.MessageToUserCrossRef
 import com.homework.coursework.data.frameworks.database.dao.MessageDao
 import com.homework.coursework.data.frameworks.database.dao.MessageToUserCrossRefDao
@@ -14,11 +13,8 @@ import com.homework.coursework.data.frameworks.database.mappersimpl.UserDataList
 import com.homework.coursework.data.frameworks.network.ApiService
 import com.homework.coursework.data.frameworks.network.mappersimpl.MessageDtoMapper
 import com.homework.coursework.data.frameworks.network.utils.MessageQuery
-import com.homework.coursework.data.frameworks.network.utils.NetworkConstants
-import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.NEWEST
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.NUM_AFTER
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.NUM_BEFORE
-import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.STREAM
 import com.homework.coursework.domain.entity.MessageData
 import com.homework.coursework.domain.entity.StreamData
 import com.homework.coursework.domain.entity.TopicData
@@ -104,6 +100,11 @@ class MessageRepositoryImpl @Inject constructor(
                 content = content
             )
         ).map { it.data }
+    }
+
+    @ExperimentalSerializationApi
+    override fun deleteMessage(messageData: MessageData): Completable {
+        return apiService.deleteMessage(messageData.messageId)
     }
 
     override fun saveMessages(

@@ -221,6 +221,11 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
                     )
                 )
             }
+            Effect.DeleteMessage -> {
+                store.accept(
+                    Event.Ui.DeleteMessageFromRecycle(chatAdapter.currentList, updateMessage)
+                )
+            }
         }
     }
 

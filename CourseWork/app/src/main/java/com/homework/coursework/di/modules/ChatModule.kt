@@ -7,6 +7,7 @@ import com.homework.coursework.domain.usecase.*
 import com.homework.coursework.domain.usecase.message.*
 import com.homework.coursework.domain.usecase.users.GetCurrentUserIdUseCase
 import com.homework.coursework.presentation.adapter.mapper.*
+import com.homework.coursework.presentation.ui.chat.DeleteRecycleListMessage
 import com.homework.coursework.presentation.ui.chat.UpdateRecycleList
 import com.homework.coursework.presentation.ui.chat.elm.*
 import dagger.Module
@@ -37,13 +38,15 @@ class ChatModule {
         saveMessage: SaveMessageUseCase,
         getCurrentUserId: GetCurrentUserIdUseCase,
         updateMessageUseCase: UpdateMessageUseCase,
+        deleteMessageUseCase: DeleteMessageUseCase,
         streamDataMapper: StreamDataMapper,
         topicDataMapper: TopicDataMapper,
         chatItemMapper: ChatItemMapper,
         messageDataMapper: MessageDataMapper,
         messageDataListMapper: MessageListDataMapper,
         emojiDataMapper: EmojiDataMapper,
-        updateRecycleList: UpdateRecycleList
+        updateRecycleList: UpdateRecycleList,
+        deleteRecycleListMessage: DeleteRecycleListMessage
     ): ChatActor {
         return ChatActor(
             getMessages = getMessages,
@@ -60,7 +63,9 @@ class ChatModule {
             messageDataMapper = messageDataMapper,
             messageListDataMapper = messageDataListMapper,
             emojiDataMapper = emojiDataMapper,
-            updateRecycleList = updateRecycleList
+            updateRecycleList = updateRecycleList,
+            deleteMessage = deleteMessageUseCase,
+            deleteRecycleListMessage = deleteRecycleListMessage
         )
     }
 

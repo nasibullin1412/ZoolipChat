@@ -63,15 +63,15 @@ class ChatReducer @Inject constructor() : DslReducer<Event, State, Effect, Comma
                 )
             }
         }
-
         Event.Internal.MessagesSaved -> {
             effects { +Effect.MessagesSaved }
         }
-
         is Event.Internal.SuccessGetId -> {
             effects { +Effect.SuccessGetId(event.currId) }
         }
-
+        Event.Internal.MessageDeleted -> {
+            effects { +Effect.DeleteMessage }
+        }
         is Event.Ui.AddReaction -> {
             commands {
                 +Command.AddReaction(
@@ -150,6 +150,17 @@ class ChatReducer @Inject constructor() : DslReducer<Event, State, Effect, Comma
                     streamItem = event.streamItem,
                     topicItem = event.topicItem,
                     currId = event.currId
+                )
+            }
+        }
+        is Event.Ui.DeleteMessage -> {
+            commands { +Command.DeleteMessage(event.messageItem) }
+        }
+        is Event.Ui.DeleteMessageFromRecycle -> {
+            commands {
+                +Command.DeleteMessageFromRecycle(
+                    oldList = event.oldList,
+                    deleteId = event.messageId
                 )
             }
         }

@@ -20,5 +20,5 @@ data class DtoResponse<out T>(
         "members",
         "subscribed"
     )
-    val data: T?
+    val data: T? = null
 )

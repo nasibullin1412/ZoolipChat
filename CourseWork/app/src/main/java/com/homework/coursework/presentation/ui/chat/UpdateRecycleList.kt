@@ -35,9 +35,6 @@ class UpdateRecycleList @Inject constructor() :
         val idx = if (oldList.isNotEmpty()) {
             oldList.run { indexOf(firstWithMessageItem { it == lastElemOfNew.messageId }) }
         } else {
-            -1
-        }
-        if (idx == -1) {
             return newList + oldList
         }
         val resultList: MutableList<ChatItem> = oldList.toMutableList()

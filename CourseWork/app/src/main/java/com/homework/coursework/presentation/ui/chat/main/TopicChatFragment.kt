@@ -67,6 +67,10 @@ class TopicChatFragment : ChatBaseFragment() {
      * @param newList is list with new MessageData
      */
     override fun updateMessage(newList: List<ChatItem>) {
+        if (newList.isEmpty()) {
+            chatAdapter.submitList(emptyList())
+            return
+        }
         chatAdapter.submitList(newList.dropIfFirst<TopicNameItem>())
     }
 

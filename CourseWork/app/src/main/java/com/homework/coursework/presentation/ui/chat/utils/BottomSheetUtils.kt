@@ -13,6 +13,7 @@ import com.homework.coursework.databinding.BottomSheetBinding
 import com.homework.coursework.presentation.adapter.data.chat.MessageItem
 import com.homework.coursework.presentation.ui.chat.ChatBaseFragment
 import com.homework.coursework.presentation.ui.chat.ChatBaseFragment.Companion.MESSAGE_CONTENT
+import com.homework.coursework.presentation.ui.chat.elm.Event
 import com.homework.coursework.presentation.utils.Emoji
 import com.homework.coursework.presentation.utils.initEmojiToBottomSheet
 
@@ -36,12 +37,17 @@ internal fun ChatBaseFragment.showMessageActions(message: MessageItem) {
     }
     sheetBinding.tvDeleteMessage.setOnClickListener {
         bottomSheetDialog.dismiss()
-        //deleteMessage(message)
+        deleteMessage(message)
     }
     with(bottomSheetDialog) {
         setContentView(sheetBinding.root)
         show()
     }
+}
+
+internal fun ChatBaseFragment.deleteMessage(message: MessageItem) {
+    updateMessage = message.messageId
+    internalStore.accept(Event.Ui.DeleteMessage(message))
 }
 
 internal fun ChatBaseFragment.copyToClipboard(message: MessageItem) {

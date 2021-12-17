@@ -28,6 +28,8 @@ interface MessageRepository {
 
     fun addMessages(streamData: StreamData, topicData: TopicData, content: String): Observable<Int>
 
+    fun deleteMessage(messageData: MessageData): Completable
+
     fun saveMessages(
         streamData: StreamData,
         topicData: TopicData,

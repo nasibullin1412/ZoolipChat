@@ -78,6 +78,15 @@ interface ApiService {
     ): Observable<AddMessageResponse>
 
     /**
+     * Delete message
+     */
+    @ExperimentalSerializationApi
+    @DELETE("messages/{id}")
+    fun deleteMessage(
+        @Path("id") messageId: Int
+    ): Completable
+
+    /**
      * Get actual user data
      * @return Observable of user data
      */

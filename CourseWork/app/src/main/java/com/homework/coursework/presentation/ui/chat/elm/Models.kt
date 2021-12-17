@@ -44,7 +44,14 @@ sealed class Event {
             val content: String
         ) : Ui()
 
+        class DeleteMessageFromRecycle(
+            val oldList: List<ChatItem>,
+            val messageId: Int
+        ) : Ui()
+
         class AddReaction(val messageItem: MessageItem, val emojiItem: EmojiItem) : Ui()
+
+        class DeleteMessage(val messageItem: MessageItem) : Ui()
 
         class DeleteReaction(val messageItem: MessageItem, val emojiItem: EmojiItem) : Ui()
 
@@ -55,7 +62,7 @@ sealed class Event {
             val newList: List<ChatItem>
         ) : Ui()
 
-        data class SaveMessage(
+        class SaveMessage(
             val streamItem: StreamItem,
             val topicItem: TopicItem,
             val messages: List<ChatItem>,
@@ -70,6 +77,8 @@ sealed class Event {
         class PageLoaded(val itemList: List<ChatItem>) : Internal()
 
         class MessageAdded(val id: Int) : Internal()
+
+        object MessageDeleted : Internal()
 
         class UpdateRecycle(val itemList: List<ChatItem>) : Internal()
 
@@ -91,6 +100,8 @@ sealed class Effect {
     class PageLoaded(val itemList: List<ChatItem>) : Effect()
 
     class MessageAdded(val id: Int) : Effect()
+
+    object DeleteMessage : Effect()
 
     object ReactionChanged : Effect()
 
@@ -142,6 +153,10 @@ sealed class Command {
         val messages: List<ChatItem>,
         val currId: Int
     ) : Command()
+
+    class DeleteMessage(val messageItem: MessageItem) : Command()
+
+    class DeleteMessageFromRecycle(val oldList: List<ChatItem>, val deleteId: Int) : Command()
 
     object GetCurrentId : Command()
 }
