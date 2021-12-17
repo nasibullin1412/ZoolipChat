@@ -60,7 +60,8 @@ class ChatAdapter @Inject constructor() :
     }
 
     override fun getItemViewType(position: Int): Int {
-        return when (val item = getItem(position)) {
+        val item = getItem(position)
+        return when (item) {
             is DateItem -> {
                 ChatViewType.DATE.value
             }

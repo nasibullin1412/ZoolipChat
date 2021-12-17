@@ -28,10 +28,10 @@ inline fun <reified T : ChatItem> List<ChatItem>.lastWithInstance(): T? {
     return lastOrNull { it is T } as T?
 }
 
-inline fun <reified T: ChatItem> List<ChatItem>.dropIfFirst(): List<ChatItem>{
-    return if (this.first() is T){
+inline fun <reified T : ChatItem> List<ChatItem>.dropIfFirst(): List<ChatItem> {
+    return if (this.first() is T) {
         drop(1)
-    } else{
+    } else {
         this
     }
 }

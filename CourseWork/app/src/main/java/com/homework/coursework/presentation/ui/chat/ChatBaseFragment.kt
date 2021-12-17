@@ -9,16 +9,21 @@ import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.homework.coursework.databinding.ChatFragmentBinding
 import com.homework.coursework.presentation.adapter.ChatAdapter
-import com.homework.coursework.presentation.adapter.data.chat.ChatItem
 import com.homework.coursework.presentation.adapter.data.EmojiItem
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
+import com.homework.coursework.presentation.adapter.data.chat.ChatItem
 import com.homework.coursework.presentation.adapter.data.chat.MessageItem
 import com.homework.coursework.presentation.interfaces.BottomNavigationController
 import com.homework.coursework.presentation.interfaces.MessageItemCallback
 import com.homework.coursework.presentation.ui.chat.elm.Effect
 import com.homework.coursework.presentation.ui.chat.elm.Event
 import com.homework.coursework.presentation.ui.chat.elm.State
+import com.homework.coursework.presentation.ui.chat.utils.*
+import com.homework.coursework.presentation.ui.chat.utils.initEditText
+import com.homework.coursework.presentation.ui.chat.utils.initEmojiBottomDialog
+import com.homework.coursework.presentation.ui.chat.utils.initRecycleViewImpl
+import com.homework.coursework.presentation.ui.chat.utils.showMessageActions
 import com.homework.coursework.presentation.utils.showToast
 import vivid.money.elmslie.android.base.ElmFragment
 
