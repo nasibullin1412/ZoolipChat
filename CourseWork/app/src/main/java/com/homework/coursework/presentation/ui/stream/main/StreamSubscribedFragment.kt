@@ -39,7 +39,7 @@ class StreamSubscribedFragment : StreamItemBaseFragment() {
         }
     }
 
-    override fun setFragmentResultListener(savedInstanceState: Bundle?) {
+    override fun setFragmentResultListener() {
         setFragmentResultListener(
             "$KEY_QUERY_REQUEST$tabState"
         ) { _, bundle ->
@@ -51,6 +51,13 @@ class StreamSubscribedFragment : StreamItemBaseFragment() {
     override val initEvent: Event
         get() = Event.Ui.LoadSubscribedStreams
 
+    override fun onResume() {
+        super.onResume()
+        if (isStreamCreated){
+            isStreamCreated = false
+            store.accept(Event.Ui.LoadSubscribedStreams)
+        }
+    }
 
     private fun getNeedEvent(query: String? = null) = if (query != null) {
         Event.Ui.SearchSubscribedStreams(query)

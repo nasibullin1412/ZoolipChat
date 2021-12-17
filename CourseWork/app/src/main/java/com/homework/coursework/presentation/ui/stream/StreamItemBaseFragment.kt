@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.homework.coursework.databinding.StreamViewPageFragmentBinding
 import com.homework.coursework.presentation.adapter.StreamNameAdapter
@@ -15,6 +16,7 @@ import com.homework.coursework.presentation.interfaces.StreamItemCallback
 import com.homework.coursework.presentation.interfaces.TopicItemCallback
 import com.homework.coursework.presentation.ui.chat.ChatBaseFragment.Companion.STREAM_KEY
 import com.homework.coursework.presentation.ui.chat.main.TopicChatFragment.Companion.TOPIC_KEY
+import com.homework.coursework.presentation.ui.stream.StreamFragment.Companion.CREATE_STREAM_REQUEST
 import com.homework.coursework.presentation.ui.stream.elm.Effect
 import com.homework.coursework.presentation.ui.stream.elm.Event
 import com.homework.coursework.presentation.ui.stream.elm.State
@@ -28,6 +30,7 @@ abstract class StreamItemBaseFragment : ElmFragment<Event, Effect, State>(), Top
     @Inject
     internal lateinit var streamAdapter: StreamNameAdapter
     protected var currQuery: String = ""
+    protected var isStreamCreated = false
     private var _binding: StreamViewPageFragmentBinding? = null
 
     protected val binding
@@ -44,7 +47,8 @@ abstract class StreamItemBaseFragment : ElmFragment<Event, Effect, State>(), Top
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setFragmentResultListener(savedInstanceState)
+        setFragmentResultListener()
+        setCreateStreamListener()
         initErrorRepeat()
         initRecycler()
     }
@@ -85,7 +89,11 @@ abstract class StreamItemBaseFragment : ElmFragment<Event, Effect, State>(), Top
 
     abstract fun initErrorRepeat()
 
-    abstract fun setFragmentResultListener(savedInstanceState: Bundle?)
+    abstract fun setFragmentResultListener()
+
+    private fun setCreateStreamListener() {
+        setFragmentResultListener(CREATE_STREAM_REQUEST) { _, _ -> isStreamCreated = true }
+    }
 
     /**
      * show error layout

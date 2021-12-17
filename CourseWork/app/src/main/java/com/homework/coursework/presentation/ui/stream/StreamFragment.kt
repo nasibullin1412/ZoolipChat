@@ -128,6 +128,10 @@ class StreamFragment : Fragment() {
                     FragmentTag.CREATE_STREAM_FRAGMENT_TAG
                 )
             )
+            childFragmentManager.setFragmentResult(
+                CREATE_STREAM_REQUEST,
+                bundleOf("" to true)
+            )
         }
     }
 
@@ -145,5 +149,6 @@ class StreamFragment : Fragment() {
     companion object {
         const val KEY_QUERY_REQUEST = "queryRequest"
         const val KEY_QUERY_DATA = "queryData"
+        const val CREATE_STREAM_REQUEST = "requestCreateStream"
     }
 }
