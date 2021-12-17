@@ -1,5 +1,8 @@
 package com.homework.coursework.presentation.ui.chat.utils
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.view.View
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
@@ -9,6 +12,7 @@ import com.homework.coursework.databinding.BottomSheetActionBinding
 import com.homework.coursework.databinding.BottomSheetBinding
 import com.homework.coursework.presentation.adapter.data.chat.MessageItem
 import com.homework.coursework.presentation.ui.chat.ChatBaseFragment
+import com.homework.coursework.presentation.ui.chat.ChatBaseFragment.Companion.MESSAGE_CONTENT
 import com.homework.coursework.presentation.utils.Emoji
 import com.homework.coursework.presentation.utils.initEmojiToBottomSheet
 
@@ -28,7 +32,7 @@ internal fun ChatBaseFragment.showMessageActions(message: MessageItem) {
     }
     sheetBinding.tvCopyToClipboard.setOnClickListener {
         bottomSheetDialog.dismiss()
-        //copyToClipboard(message)
+        copyToClipboard(message)
     }
     sheetBinding.tvDeleteMessage.setOnClickListener {
         bottomSheetDialog.dismiss()
@@ -38,6 +42,12 @@ internal fun ChatBaseFragment.showMessageActions(message: MessageItem) {
         setContentView(sheetBinding.root)
         show()
     }
+}
+
+internal fun ChatBaseFragment.copyToClipboard(message: MessageItem) {
+    val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    val clip: ClipData = ClipData.newPlainText(MESSAGE_CONTENT, message.messageContent)
+    clipboard.setPrimaryClip(clip)
 }
 
 internal fun ChatBaseFragment.showReactionBottomSheet(message: MessageItem) {
