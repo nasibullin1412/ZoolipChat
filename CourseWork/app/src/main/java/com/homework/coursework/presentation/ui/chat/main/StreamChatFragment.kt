@@ -83,7 +83,7 @@ class StreamChatFragment : ChatBaseFragment(), TopicNameItemCallback {
             CustomFragmentFactory.create(
                 FragmentTag.TOPIC_CHAT_FRAGMENT_TAG,
                 bundle = TopicChatFragment.createBundle(
-                    topic = currentTopic.copy(id = 0, topicName = topicName),
+                    topic = currentTopic.copy(id = 0, topicName = topicName, numberOfMess = 0),
                     stream = currentStream
                 )
             )

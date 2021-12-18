@@ -230,8 +230,7 @@ class MessageRepositoryImpl @Inject constructor(
         streamData: StreamData,
         topicData: TopicData
     ): Observable<List<MessageData>> {
-        return messageDao
-            .getMessages(streamId = streamData.id, topicName = topicData.topicName)
+        return getNeedDao(streamId = streamData.id, topic = topicData)
             .map { if (it.isEmpty()) throw EmptyResultSetException("empty db") else it }
             .map(messageEntityMapper)
             .toObservable()
@@ -242,6 +241,13 @@ class MessageRepositoryImpl @Inject constructor(
             }
     }
 
+    private fun getNeedDao(streamId: Int, topic: TopicData) =
+        if (topic.numberOfMess != UNKNOWN_TOPIC_ID) {
+            messageDao.getTopicMessages(streamId = streamId, topicName = topic.topicName)
+        } else {
+            messageDao.getStreamMessage(streamId = streamId)
+        }
+
     private fun positiveOrZero(value: Int) = if (value > 0) {
         value
     } else {
@@ -249,6 +255,7 @@ class MessageRepositoryImpl @Inject constructor(
     }
 
     companion object {
+        private const val UNKNOWN_TOPIC_ID = -1
         const val DATABASE_MESSAGE_THRESHOLD = 50
     }
 }
