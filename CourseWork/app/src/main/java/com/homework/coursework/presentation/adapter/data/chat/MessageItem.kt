@@ -1,14 +1,18 @@
 package com.homework.coursework.presentation.adapter.data.chat
 
+import android.os.Parcelable
 import com.homework.coursework.domain.entity.UserData
 import com.homework.coursework.presentation.adapter.data.EmojiItem
+import com.homework.coursework.presentation.adapter.data.UserItem
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class MessageItem(
     val messageId: Int,
-    val userData: UserData,
-    val messageContent: String,
+    val userItem: UserItem,
+    var messageContent: String,
     val emojis: ArrayList<EmojiItem>,
     val date: Long,
     val isCurrentUserMessage: Boolean,
-    val topicName: String
-) : ChatItem()
+    var topicName: String
+) : ChatItem(), Parcelable

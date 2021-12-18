@@ -1,21 +1,19 @@
-package com.homework.coursework.presentation.ui.createstream
+package com.homework.coursework.presentation.ui.editmessage
 
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.homework.coursework.databinding.CreateNewStreamFragmentBinding
+import com.homework.coursework.databinding.EditMessageFragmentBinding
 import com.homework.coursework.presentation.interfaces.BottomNavigationController
-import com.homework.coursework.presentation.interfaces.NavigateController
-import com.homework.coursework.presentation.ui.createstream.elm.Effect
-import com.homework.coursework.presentation.ui.createstream.elm.Event
-import com.homework.coursework.presentation.ui.createstream.elm.State
+import com.homework.coursework.presentation.ui.editmessage.elm.Effect
+import com.homework.coursework.presentation.ui.editmessage.elm.Event
+import com.homework.coursework.presentation.ui.editmessage.elm.State
 import vivid.money.elmslie.android.base.ElmFragment
 
-abstract class BaseCreateStreamFragment : ElmFragment<Event, Effect, State>() {
-
-    private var _binding: CreateNewStreamFragmentBinding? = null
+abstract class BaseEditMessage : ElmFragment<Event, Effect, State>() {
+    private var _binding: EditMessageFragmentBinding? = null
     protected val binding get() = _binding!!
     private var bottomNavigationController: BottomNavigationController? = null
 
@@ -26,25 +24,32 @@ abstract class BaseCreateStreamFragment : ElmFragment<Event, Effect, State>() {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initArguments()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = CreateNewStreamFragmentBinding.inflate(inflater, container, false)
+        _binding = EditMessageFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initErrorRepeat()
-        initCreateStreamButton()
+        initEditMessageButton()
         initBackButton()
     }
 
+    abstract fun initArguments()
+
     abstract fun initBackButton()
-    abstract fun initErrorRepeat()
-    abstract fun initCreateStreamButton()
+
+    abstract fun initEditMessageButton()
+
 
     override fun onDetach() {
         super.onDetach()

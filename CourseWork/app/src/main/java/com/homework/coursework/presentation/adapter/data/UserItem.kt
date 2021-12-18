@@ -1,7 +1,10 @@
 package com.homework.coursework.presentation.adapter.data
 
+import android.os.Parcelable
 import com.homework.coursework.domain.entity.UserStatus
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class UserItem(
     val id: Int,
     val userId: Int,
@@ -12,4 +15,4 @@ data class UserItem(
     val lastStatusDate: Long?,
     val isAdmin: Boolean,
     val errorHandle: ErrorHandle = ErrorHandle()
-)
+): Parcelable

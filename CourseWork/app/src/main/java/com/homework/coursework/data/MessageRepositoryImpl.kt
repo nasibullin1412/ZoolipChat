@@ -123,6 +123,13 @@ class MessageRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun editMessage(messageData: MessageData): Completable {
+        return apiService.editMessage(
+            messageId = messageData.messageId,
+            queryMap = messageQuery.editMessage(messageData = messageData)
+        )
+    }
+
     @ExperimentalSerializationApi
     private fun getRemoteMessage(
         streamData: StreamData,

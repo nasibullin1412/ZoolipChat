@@ -102,4 +102,8 @@ interface UseCaseModule {
     @Reusable
     @Binds
     fun bindDeleteMessage(deleteMessageUseCase: DeleteMessageUseCaseImpl): DeleteMessageUseCase
+
+    @Reusable
+    @Binds
+    fun bindEditMessageUseCase(editMessageUseCase: EditMessageUseCaseImpl): EditMessageUseCase
 }

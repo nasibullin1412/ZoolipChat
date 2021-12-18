@@ -92,6 +92,5 @@ class CreateStreamFragment : BaseCreateStreamFragment() {
 
     companion object {
         const val SUCCESS_SUBSCRIBE = "Subscribe result: "
-        const val connectionError = "no "
     }
 }

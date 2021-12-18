@@ -19,12 +19,12 @@ class MessageFromViewHolder(
     fun bind(messageItem: MessageItem) {
         with(customMessageViewGroupBinding) {
             imgUserAvatar
-                .load(messageItem.userData.avatarUrl) {
+                .load(messageItem.userItem.avatarUrl) {
                     crossfade(true)
                     transformations(CircleCropTransformation())
                 }
             cvMessageFrom.setBackgroundResource(R.drawable.bg_custom_message)
-            tvUserName.text = messageItem.userData.name
+            tvUserName.text = messageItem.userItem.name
             tvMessageContent.text = messageItem.messageContent.dropLast(2)
             with(fblEmoji) {
                 removeAllViews()

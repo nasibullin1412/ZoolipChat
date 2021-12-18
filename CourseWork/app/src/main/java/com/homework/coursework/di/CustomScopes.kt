@@ -22,3 +22,6 @@ annotation class StreamMainFragmentScope
 
 @Scope
 annotation class CreateNewStreamFragmentScope
+
+@Scope
+annotation class EditMessageFragmentScope

@@ -80,10 +80,18 @@ interface ApiService {
     /**
      * Delete message
      */
-    @ExperimentalSerializationApi
     @DELETE("messages/{id}")
     fun deleteMessage(
         @Path("id") messageId: Int
+    ): Completable
+
+    /**
+     * Edit message
+     */
+    @PATCH("messages/{id}")
+    fun editMessage(
+        @Path("id") messageId: Int,
+        @QueryMap queryMap: Map<String, String>
     ): Completable
 
     /**

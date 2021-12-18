@@ -34,6 +34,8 @@ interface ApplicationComponent {
 
     fun streamChatComponent(): StreamChatComponent
 
+    fun editMessageComponent(): EditMessageComponent
+
     @Component.Factory
     interface Factory {
         fun create(

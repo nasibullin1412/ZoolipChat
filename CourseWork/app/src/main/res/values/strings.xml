@@ -34,6 +34,7 @@
     <string name="edit_message">Edit message</string>
     <string name="copy_to_click_board">Copy to click board</string>
     <string name="delete_message">Delete message</string>
+    <string name="change_message">Change message</string>
     <string-array name="view_pager_items">
         <item>Subscribed</item>
         <item>All streams</item>

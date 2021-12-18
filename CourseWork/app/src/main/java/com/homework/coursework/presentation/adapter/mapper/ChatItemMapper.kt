@@ -71,7 +71,7 @@ fun ArrayList<ChatItem>.addMessageItem(messageItemList: List<MessageItem>) {
             with(messageItem) {
                 MessageItem(
                     messageId = messageId,
-                    userData = userData,
+                    userItem = userItem,
                     messageContent = messageContent,
                     emojis = emojis,
                     date = date,

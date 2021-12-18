@@ -36,4 +36,6 @@ interface MessageRepository {
         messages: List<MessageData>,
         currUserId: Int
     ): Completable
+
+    fun editMessage(messageData: MessageData): Completable
 }

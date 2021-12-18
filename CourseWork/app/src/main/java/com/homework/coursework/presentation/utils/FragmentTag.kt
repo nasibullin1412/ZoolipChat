@@ -8,5 +8,6 @@ enum class FragmentTag(val value: String) {
     TOPIC_CHAT_FRAGMENT_TAG("messageFragment"),
     AUTH_FRAGMENT_TAG("authFragment"),
     CREATE_STREAM_FRAGMENT_TAG("createStreamFragment"),
-    STREAM_CHAT_FRAGMENT_TAG("streamChatFragment")
+    STREAM_CHAT_FRAGMENT_TAG("streamChatFragment"),
+    EDIT_MESSAGE_FRAGMENT_TAG("editMessageFragment")
 }

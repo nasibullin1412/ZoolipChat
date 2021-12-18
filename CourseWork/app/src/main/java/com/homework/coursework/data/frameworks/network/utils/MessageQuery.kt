@@ -1,6 +1,7 @@
 package com.homework.coursework.data.frameworks.network.utils
 
 import com.homework.coursework.data.dto.Narrow
+import com.homework.coursework.domain.entity.MessageData
 import com.homework.coursework.domain.entity.StreamData
 import com.homework.coursework.domain.entity.TopicData
 import dagger.Reusable
@@ -26,7 +27,7 @@ class MessageQuery @Inject constructor() {
         streamData: StreamData,
         topicData: TopicData,
         numBefore: Int
-    ): Map<String, String>{
+    ): Map<String, String> {
         val narrow = Narrow.createNarrowForMessage(streamData, topicData)
         return mapOf(
             "anchor" to topicData.numberOfMess.toString(),
@@ -39,7 +40,7 @@ class MessageQuery @Inject constructor() {
     fun reactionQuery(
         emojiName: String,
         emojiCode: String
-    ): Map<String, String>{
+    ): Map<String, String> {
         return mapOf(
             "emoji_name" to emojiName,
             "emoji_code" to emojiCode,
@@ -51,12 +52,19 @@ class MessageQuery @Inject constructor() {
         streamData: StreamData,
         content: String,
         topicData: TopicData
-    ) :Map<String, String>{
+    ): Map<String, String> {
         return mapOf(
             "type" to NetworkConstants.STREAM,
             "to" to streamData.streamName,
             "content" to content,
             "topic" to topicData.topicName
+        )
+    }
+
+    fun editMessage(messageData: MessageData): Map<String, String> = messageData.run {
+        mapOf(
+            "topic" to messageData.topicName,
+            "content" to messageData.messageContent,
         )
     }
 }

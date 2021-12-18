@@ -12,6 +12,9 @@ class MessageItemMapper @Inject constructor() :
     @Inject
     internal lateinit var emojiItemMapper: EmojiItemMapper
 
+    @Inject
+    internal lateinit var userItemMapper: UserItemMapper
+
     override fun invoke(
         messagesData: List<MessageData>,
         currId: Int,
@@ -21,7 +24,7 @@ class MessageItemMapper @Inject constructor() :
             with(message) {
                 MessageItem(
                     messageId = messageId,
-                    userData = userData,
+                    userItem = userItemMapper(userData, 0),
                     messageContent = messageContent,
                     emojis = emojiItemMapper(emojis, currId),
                     date = date,

@@ -6,6 +6,7 @@ import com.homework.coursework.presentation.ui.authorization.main.AuthFragment
 import com.homework.coursework.presentation.ui.chat.main.StreamChatFragment
 import com.homework.coursework.presentation.ui.chat.main.TopicChatFragment
 import com.homework.coursework.presentation.ui.createstream.main.CreateStreamFragment
+import com.homework.coursework.presentation.ui.editmessage.main.EditMessageFragment
 import com.homework.coursework.presentation.ui.people.PeopleFragment
 import com.homework.coursework.presentation.ui.profile.main.CurrUserProfileFragment
 import com.homework.coursework.presentation.ui.profile.main.UserProfileFragment
@@ -23,6 +24,7 @@ class CustomFragmentFactory(var fragment: Fragment, var fragmentTag: FragmentTag
                 FragmentTag.USER_PROFILE_FRAGMENT_TAG -> UserProfileFragment.newInstance(bundle)
                 FragmentTag.TOPIC_CHAT_FRAGMENT_TAG -> TopicChatFragment.newInstance(bundle)
                 FragmentTag.STREAM_CHAT_FRAGMENT_TAG -> StreamChatFragment.newInstance(bundle)
+                FragmentTag.EDIT_MESSAGE_FRAGMENT_TAG -> EditMessageFragment.newInstance(bundle)
             }
             return CustomFragmentFactory(fragment, fragmentTag)
         }

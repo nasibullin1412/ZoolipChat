@@ -89,6 +89,7 @@ class ChatReducer @Inject constructor() : DslReducer<Event, State, Effect, Comma
             }
         }
         is Event.Ui.LoadFirstPage -> {
+            isSecondError = false
             state {
                 copy(
                     isLoading = true,

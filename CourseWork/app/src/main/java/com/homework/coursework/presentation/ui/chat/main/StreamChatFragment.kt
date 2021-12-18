@@ -1,6 +1,5 @@
 package com.homework.coursework.presentation.ui.chat.main
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import com.homework.coursework.di.StreamChatStore
@@ -8,8 +7,6 @@ import com.homework.coursework.presentation.App
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
 import com.homework.coursework.presentation.adapter.data.chat.ChatItem
-import com.homework.coursework.presentation.interfaces.NavigateController
-import com.homework.coursework.presentation.interfaces.TopicItemCallback
 import com.homework.coursework.presentation.interfaces.TopicNameItemCallback
 import com.homework.coursework.presentation.ui.chat.ChatBaseFragment
 import com.homework.coursework.presentation.ui.chat.elm.Effect
@@ -27,14 +24,7 @@ class StreamChatFragment : ChatBaseFragment(), TopicNameItemCallback {
     @StreamChatStore
     internal lateinit var streamChatStore: Store<Event, Effect, State>
 
-    private var navigateController: NavigateController? = null
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is NavigateController){
-            navigateController = context
-        }
-    }
+    private var isNeedForUpdate = false
 
     override fun initArguments() {
         currentStream = requireArguments().getParcelable(STREAM_KEY)
@@ -44,7 +34,7 @@ class StreamChatFragment : ChatBaseFragment(), TopicNameItemCallback {
 
     override fun sendButtonAction() {
         val topicName = binding.etTopicName.text.toString()
-        if (topicName.isEmpty()){
+        if (topicName.isEmpty()) {
             showToast(EMPTY_TOPIC_NAME)
             return
         }
@@ -61,6 +51,11 @@ class StreamChatFragment : ChatBaseFragment(), TopicNameItemCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         App.appComponent.streamChatComponent().inject(this)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        isNeedLoadFirstPage()
     }
 
     override fun initNames() {
@@ -82,19 +77,27 @@ class StreamChatFragment : ChatBaseFragment(), TopicNameItemCallback {
         chatAdapter.submitList(newList)
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        navigateController = null
-    }
-
     override fun onTopicItemCallback(topicName: String) {
+        isNeedForUpdate = true
         navigateController?.navigateFragment(
             CustomFragmentFactory.create(
                 FragmentTag.TOPIC_CHAT_FRAGMENT_TAG,
                 bundle = TopicChatFragment.createBundle(
-                    topic = currentTopic.copy(id = 0, topicName=topicName),
+                    topic = currentTopic.copy(id = 0, topicName = topicName),
                     stream = currentStream
                 )
+            )
+        )
+    }
+
+    private fun isNeedLoadFirstPage() {
+        if (!isNeedForUpdate) return
+        isNeedForUpdate = false
+        store.accept(
+            Event.Ui.LoadFirstPage(
+                streamItem = currentStream,
+                topicItem = currentTopic,
+                currId = currId
             )
         )
     }

@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.setFragmentResultListener
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.homework.coursework.databinding.ChatFragmentBinding
 import com.homework.coursework.presentation.adapter.ChatAdapter
@@ -16,14 +17,12 @@ import com.homework.coursework.presentation.adapter.data.chat.ChatItem
 import com.homework.coursework.presentation.adapter.data.chat.MessageItem
 import com.homework.coursework.presentation.interfaces.BottomNavigationController
 import com.homework.coursework.presentation.interfaces.MessageItemCallback
+import com.homework.coursework.presentation.interfaces.NavigateController
 import com.homework.coursework.presentation.ui.chat.elm.Effect
 import com.homework.coursework.presentation.ui.chat.elm.Event
 import com.homework.coursework.presentation.ui.chat.elm.State
 import com.homework.coursework.presentation.ui.chat.utils.*
-import com.homework.coursework.presentation.ui.chat.utils.initEditText
-import com.homework.coursework.presentation.ui.chat.utils.initEmojiBottomDialog
-import com.homework.coursework.presentation.ui.chat.utils.initRecycleViewImpl
-import com.homework.coursework.presentation.ui.chat.utils.showMessageActions
+import com.homework.coursework.presentation.ui.editmessage.main.EditMessageFragment.Companion.EDIT_MESSAGE_REQUEST_KEY
 import com.homework.coursework.presentation.utils.showToast
 import vivid.money.elmslie.android.base.ElmFragment
 
@@ -51,12 +50,17 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
 
     protected var bottomNavigationController: BottomNavigationController? = null
 
+    internal var navigateController: NavigateController? = null
+
     private var _binding: ChatFragmentBinding? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is BottomNavigationController) {
             bottomNavigationController = context
+        }
+        if (context is NavigateController) {
+            navigateController = context
         }
     }
 
@@ -78,6 +82,7 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
         super.onViewCreated(view, savedInstanceState)
         bottomNavigationController?.goneBottomNavigation()
         initViews()
+        initFragmentResult()
     }
 
     override fun getBottomSheet(messageItem: MessageItem): Boolean {
@@ -93,6 +98,7 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
     override fun onDetach() {
         super.onDetach()
         bottomNavigationController = null
+        navigateController = null
     }
 
     override val initEvent: Event get() = Event.Ui.GetCurrentId
@@ -106,6 +112,18 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
     abstract fun configureView()
 
     abstract fun updateMessage(newList: List<ChatItem>)
+
+    private fun initFragmentResult() {
+        setFragmentResultListener(EDIT_MESSAGE_REQUEST_KEY) { _, _ ->
+            store.accept(
+                Event.Ui.LoadFirstPage(
+                    streamItem = currentStream,
+                    topicItem = currentTopic,
+                    currId = currId
+                )
+            )
+        }
+    }
 
     private fun initButtonListener() {
         binding.imgSend.setOnClickListener {
