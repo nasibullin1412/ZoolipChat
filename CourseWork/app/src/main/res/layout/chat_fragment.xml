@@ -29,8 +29,8 @@
 
             <ImageView
                 android:id="@+id/imgBack"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/img_size"
+                android:layout_height="@dimen/img_size"
                 android:layout_marginStart="4dp"
                 android:src="@drawable/ic_back"
                 tools:ignore="ContentDescription" />
@@ -39,33 +39,31 @@
                 android:id="@+id/tv_stream_name_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="44dp"
+                android:layout_marginStart="@dimen/stream_name_margin_start"
                 android:fontFamily="@font/inter_regular"
                 android:textColor="@color/white"
-                android:textSize="24sp"
+                android:textSize="@dimen/stream_name_text_size"
                 tools:text="#general" />
-
-
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
     <TextView
         android:id="@+id/tvTopicName"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/topic_name_view_height"
         android:visibility="gone"
         android:background="@color/send_box_color"
         android:fontFamily="@font/inter_regular"
         android:gravity="center"
         android:textColor="@color/topic_name_color"
-        android:textSize="18sp"
+        android:textSize="@dimen/topic_name_text_size"
         app:layout_constraintTop_toBottomOf="@+id/appBar"
         tools:text="Topic: #testing" />
 
     <ProgressBar
         android:id="@+id/progressBar"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/progress_bar_size"
+        android:layout_height="@dimen/progress_bar_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -107,7 +105,9 @@
             android:visibility="gone"
             android:inputType="text"
             android:maxHeight="40dp"
+            android:maxLength="100"
             android:minHeight="40dp"
+            android:maxLines="1"
             android:textColor="@color/white"
             android:textColorHint="@color/hint_color"
             app:layout_constraintStart_toStartOf="parent"
@@ -127,7 +127,6 @@
             android:hint="@string/write_hint"
             android:importantForAutofill="no"
             android:inputType="text"
-            android:maxHeight="@dimen/message_max_height"
             android:minWidth="@dimen/message_min_width"
             android:minHeight="@dimen/message_min_height"
             android:textColor="@color/white"

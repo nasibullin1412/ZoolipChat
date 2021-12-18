@@ -1,7 +1,6 @@
 package com.homework.coursework.di.modules
 
-import com.homework.coursework.di.PeopleFragmentScope
-import com.homework.coursework.di.SearchPeopleSubject
+import com.homework.coursework.di.*
 import com.homework.coursework.domain.usecase.users.GetAllUsersUseCase
 import com.homework.coursework.domain.usecase.users.SearchUsersUseCase
 import com.homework.coursework.presentation.utils.SearchListener
@@ -46,11 +45,20 @@ class PeopleModule {
         return PublishSubject.create()
     }
 
+
+    @PeopleFragmentScope
+    @PeopleSearch
+    @Provides
+    fun provideComposite(): CompositeDisposable{
+        return CompositeDisposable()
+    }
+
     @PeopleFragmentScope
     @Provides
     fun provideSearchLogic(
         @SearchPeopleSubject
         searchSubject: PublishSubject<String>,
+        @PeopleSearch
         compositeDisposable: CompositeDisposable
     ): SearchListener {
         return SearchListener(searchSubject, compositeDisposable)

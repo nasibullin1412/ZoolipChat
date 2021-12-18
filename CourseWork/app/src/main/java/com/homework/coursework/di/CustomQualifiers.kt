@@ -25,3 +25,9 @@ annotation class TopicChatStore
 
 @Qualifier
 annotation class StreamChatStore
+
+@Qualifier
+annotation class StreamSearch
+
+@Qualifier
+annotation class PeopleSearch

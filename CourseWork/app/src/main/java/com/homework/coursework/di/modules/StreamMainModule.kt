@@ -2,6 +2,7 @@ package com.homework.coursework.di.modules
 
 import com.homework.coursework.di.SearchStreamSubject
 import com.homework.coursework.di.StreamMainFragmentScope
+import com.homework.coursework.di.StreamSearch
 import com.homework.coursework.presentation.utils.SearchListener
 import dagger.Module
 import dagger.Provides
@@ -19,10 +20,18 @@ class StreamMainModule {
     }
 
     @StreamMainFragmentScope
+    @StreamSearch
+    @Provides
+    fun provideComposite(): CompositeDisposable{
+        return CompositeDisposable()
+    }
+
+    @StreamMainFragmentScope
     @Provides
     fun provideSearchLogic(
         @SearchStreamSubject
         searchSubject: PublishSubject<String>,
+        @StreamSearch
         compositeDisposable: CompositeDisposable
     ): SearchListener {
         return SearchListener(searchSubject, compositeDisposable)

@@ -15,9 +15,9 @@ import javax.inject.Inject
 class PeopleAdapter @Inject constructor() :
     ListAdapter<UserItem, PeopleViewHolder>(PeopleCallback()) {
 
-    private lateinit var userItemCallback: UserItemCallback
+    private var userItemCallback: UserItemCallback? = null
 
-    fun setUserListener(userItemCallback: UserItemCallback) {
+    fun setUserListener(userItemCallback: UserItemCallback?) {
         this.userItemCallback = userItemCallback
     }
 
@@ -30,7 +30,7 @@ class PeopleAdapter @Inject constructor() :
 
     override fun onBindViewHolder(holder: PeopleViewHolder, position: Int) {
         holder.itemView.setOnClickListener {
-            userItemCallback.onUserItemClick(getItem(position).userId)
+            userItemCallback?.onUserItemClick(getItem(position).userId)
         }
         holder.bind(getItem(position))
     }
