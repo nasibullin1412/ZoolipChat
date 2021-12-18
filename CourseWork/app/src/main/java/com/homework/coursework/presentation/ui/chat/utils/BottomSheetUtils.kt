@@ -13,6 +13,7 @@ import com.homework.coursework.databinding.BottomSheetBinding
 import com.homework.coursework.presentation.adapter.data.chat.MessageItem
 import com.homework.coursework.presentation.ui.chat.ChatBaseFragment
 import com.homework.coursework.presentation.ui.chat.ChatBaseFragment.Companion.MESSAGE_CONTENT
+import com.homework.coursework.presentation.ui.chat.ChatBaseFragment.Companion.NUMBER_OF_HYPHENATIONS
 import com.homework.coursework.presentation.ui.chat.elm.Event
 import com.homework.coursework.presentation.ui.editmessage.main.EditMessageFragment
 import com.homework.coursework.presentation.utils.CustomFragmentFactory
@@ -49,7 +50,9 @@ internal fun ChatBaseFragment.showMessageActions(message: MessageItem) {
 }
 
 internal fun ChatBaseFragment.editMessage(messageItem: MessageItem) {
-    val message = messageItem.apply { messageContent.dropLast(1) }
+    val message = messageItem.apply {
+        messageContent = messageContent.dropLast(NUMBER_OF_HYPHENATIONS)
+    }
     navigateController?.navigateFragment(
         CustomFragmentFactory.create(
             FragmentTag.EDIT_MESSAGE_FRAGMENT_TAG,

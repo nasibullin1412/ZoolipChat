@@ -8,40 +8,23 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:background="@color/send_box_color"
-        android:clipToPadding="false"
-        android:elevation="10dp"
-        android:outlineProvider="paddedBounds"
+        style="@style/SearchAppBarStyle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="68dp"
-            android:contentInsetStart="20dp"
-            app:contentInsetEnd="20dp">
+            style="@style/SearchToolbarStyle"
+            app:contentInsetEnd="@dimen/toolbar_content_margin">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etSearch"
-                style="@style/HelperTextAppearance"
-                android:layout_width="300dp"
-                android:layout_height="66dp"
-                android:backgroundTint="@color/search_border_color"
-                android:hint="@string/users"
-                android:paddingStart="25dp"
-                android:paddingEnd="25dp"
-                android:saveEnabled="false"
-                android:textColorHint="@color/white" />
+                style="@style/SearchTextInputEditTextStyle"
+                android:hint="@string/users" />
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginStart="40dp"
-                android:src="@drawable/ic_search"
+                android:id="@+id/imgSearchButton"
+                style="@style/ImgSearchStyle"
                 tools:ignore="ContentDescription" />
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
@@ -50,13 +33,11 @@
         android:id="@+id/rvUsers"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="62dp"
+        android:layout_marginBottom="@dimen/bottom_navigation_height"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBar"
-        tools:listitem="@layout/people_item"
-        />
+        tools:listitem="@layout/people_item" />
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shPeople"
@@ -71,9 +52,7 @@
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nsvErrorConnection"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
+        style="@style/NestedScrollError"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">

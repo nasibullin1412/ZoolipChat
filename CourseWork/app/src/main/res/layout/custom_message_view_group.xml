@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/cv_message_margin_start"
-        android:minWidth="144dp"
+        android:minWidth="@dimen/min_message_width"
         app:contentPaddingBottom="@dimen/cv_message_padding_bottom"
         app:contentPaddingLeft="@dimen/cv_message_padding_left"
         app:contentPaddingRight="@dimen/cv_message_padding_right"
@@ -25,23 +25,15 @@
 
         <TextView
             android:id="@+id/tvUserName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/inter_regular"
-            android:maxWidth="@dimen/tv_user_name_max_width"
+            style="@style/MessageTextStyle"
             android:textAlignment="center"
-            android:textColor="@color/custom_bar_color"
             android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tvMessageContent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/MessageTextStyle"
             android:layout_marginTop="@dimen/tv_message_content_margin_top"
-            android:fontFamily="@font/inter_regular"
-            android:maxWidth="@dimen/tv_message_content_max_width"
             android:textAlignment="textStart"
-            android:textColor="@color/white"
             android:textSize="16sp" />
 
     </androidx.cardview.widget.CardView>
@@ -53,7 +45,5 @@
         android:layout_marginStart="@dimen/flb_emoji_margin_start"
         android:layout_marginTop="@dimen/flb_emoji_margin_top"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </com.homework.coursework.presentation.customview.CustomFlexboxLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 </merge>

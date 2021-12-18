@@ -20,18 +20,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Testing" />
-
-    <TextView
-        android:id="@+id/tvNumberOfMess"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginStart="25dp"
-        android:fontFamily="@font/inter_light"
-        android:gravity="center"
-        android:textColor="@color/tab_selected_color"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tvTopicName"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="1240 mes" />
 </androidx.constraintlayout.widget.ConstraintLayout>

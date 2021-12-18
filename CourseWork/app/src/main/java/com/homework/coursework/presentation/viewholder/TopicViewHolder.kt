@@ -29,7 +29,6 @@ class TopicViewHolder(private val viewBinding: TopicItemBinding) :
         with(viewBinding) {
             clTopicName.setBackgroundColor(getNeedColor(topicItem.isEven))
             tvTopicName.text = topicItem.topicName
-            tvNumberOfMess.text = "${topicItem.numberOfMess} mes"
         }
     }
 

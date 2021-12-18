@@ -7,7 +7,6 @@
     android:paddingStart="20dp"
     android:paddingEnd="20dp">
 
-
     <ScrollView
         android:id="@+id/svCreateNewStream"
         android:layout_width="match_parent"
@@ -21,64 +20,46 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilStreamName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/TextInputLayoutStyle"
                 android:layout_marginTop="20dp"
                 android:hint="@string/stream_name"
-                android:textColorHint="@color/white"
-                app:hintTextColor="@color/white"
                 app:expandedHintEnabled="false"
+                app:hintTextColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etStreamName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/create_stream_shape"
-                    android:hint="@string/stream_name"
-                    android:paddingStart="5dp"
-                    android:paddingEnd="5dp"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/hint_color" />
+                    style="@style/TextInputEditTextStyle"
+                    android:hint="@string/stream_name" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilStreamDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                style="@style/TextInputLayoutStyle"
                 android:hint="@string/stream_description"
                 android:inputType="text"
-                android:textColorHint="@color/white"
-                app:hintTextColor="@color/white"
                 app:expandedHintEnabled="false"
+                app:hintTextColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tilStreamName">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etStreamDescription"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/create_stream_shape"
-                    android:hint="@string/stream_description"
-                    android:inputType="text"
-                    android:paddingStart="5dp"
-                    android:paddingEnd="5dp"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/hint_color" />
+                    style="@style/TextInputEditTextStyle"
+                    android:hint="@string/stream_description" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/tvAccessStream"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="@dimen/stream_type_title"
                 android:text="@string/who_can_access_stream"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                android:textSize="@dimen/stream_type_text_size"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tilStreamDescription" />
@@ -93,41 +74,25 @@
 
                 <RadioButton
                     android:id="@+id/radioPublic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/public_string"
-                    android:textColor="@color/white"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/etDateBirth" />
+                    style="@style/RadioButtonStyle"
+                    android:text="@string/public_string" />
 
                 <RadioButton
                     android:id="@+id/radioPrivateShared"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/private_shared_history"
-                    android:textColor="@color/white"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toEndOf="@+id/radioFemale"
-                    app:layout_constraintTop_toBottomOf="@+id/etDateBirth" />
+                    style="@style/RadioButtonStyle"
+                    android:text="@string/private_shared_history" />
 
                 <RadioButton
                     android:id="@+id/radioPrivateProtected"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/private_protected_history"
-                    android:textColor="@color/white"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toEndOf="@+id/radioFemale"
-                    app:layout_constraintTop_toBottomOf="@+id/etDateBirth" />
+                    style="@style/RadioButtonStyle"
+                    android:text="@string/private_protected_history" />
             </RadioGroup>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnCreate"
                 style="@style/ButtonStyle"
+                android:layout_marginTop="@dimen/create_stream_margin_top"
                 android:text="@string/create_stream"
-                android:layout_marginTop="100dp"
                 app:backgroundTint="@color/send_box_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -148,9 +113,7 @@
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nsvErrorConnection"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
+        style="@style/NestedScrollError"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">

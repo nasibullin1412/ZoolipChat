@@ -47,10 +47,8 @@
 
             <EditText
                 android:id="@+id/etUsername"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/LoginEditTextStyle"
                 android:layout_marginTop="@dimen/login_welcome_username_margin_top"
-                android:ems="10"
                 android:hint="@string/hint_login_username"
                 android:importantForAutofill="no"
                 android:inputType="textPersonName"
@@ -61,10 +59,8 @@
 
             <EditText
                 android:id="@+id/etPassword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/LoginEditTextStyle"
                 android:layout_marginTop="@dimen/login_welcome_password_margin_top"
-                android:ems="10"
                 android:hint="@string/hint_login_password"
                 android:importantForAutofill="no"
                 android:inputType="textPassword"

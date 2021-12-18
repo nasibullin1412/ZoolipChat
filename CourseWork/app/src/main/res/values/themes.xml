@@ -1,4 +1,3 @@
-
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.CourseWork" parent="Theme.MaterialComponents.DayNight.NoActionBar">
@@ -20,10 +19,24 @@
         <item name="fontFamily">@font/roboto</item>
     </style>
 
-    <style name="HelperTextAppearance" parent="TextAppearance.AppCompat">
+    <style name="SearchTextInputEditTextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">24sp</item>
         <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:layout_width">300dp</item>
+        <item name="android:layout_height">66dp</item>
+        <item name="android:backgroundTint">@color/search_border_color</item>
+        <item name="android:paddingStart">25dp</item>
+        <item name="android:paddingEnd">25dp</item>
+        <item name="android:saveEnabled">false</item>
+        <item name="android:textColorHint">@color/white</item>
+    </style>
+
+    <style name="ImgSearchStyle">
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:layout_marginStart">40dp</item>
+        <item name="android:src">@drawable/ic_search</item>
     </style>
 
     <style name="BottomNavigationView" parent="@style/TextAppearance.AppCompat.Caption">
@@ -35,9 +48,11 @@
         <item name="android:fontFamily">@font/inter_regular</item>
         <item name="android:textSize">22sp</item>
     </style>
+
     <style name="Button.Custom" parent="ThemeOverlay.AppCompat">
         <item name="colorAccent">@color/send_box_color</item>
     </style>
+
     <style name="ButtonStyle">
         <item name="android:layout_width">184dp</item>
         <item name="android:layout_height">52dp</item>
@@ -46,20 +61,91 @@
         <item name="android:textSize">18sp</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
     </style>
+
     <style name="RoundImage">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">15dp</item>
     </style>
+
     <style name="TextAppearance.App.TextInputLayout" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">14sp</item>
     </style>
-    <style name="MessageAction">
+
+    <style name="MessageActionStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:padding">16dp</item>
+        <item name="android:padding">14dp</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="MessageEditTextStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/sh_message</item>
+        <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorHint">@color/hint_color</item>
+    </style>
+
+    <style name="TextInputLayoutStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColorHint">@color/white</item>
+        <item name="android:layout_marginTop">20dp</item>
+    </style>
+
+    <style name="TextInputEditTextStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/create_stream_shape</item>
+        <item name="android:paddingStart">5dp</item>
+        <item name="android:paddingEnd">5dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorHint">@color/hint_color</item>
+    </style>
+
+    <style name="RadioButtonStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="NestedScrollError">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
+    <style name="MessageTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:maxWidth">@dimen/tv_user_name_max_width</item>
+    </style>
+
+    <style name="LoginEditTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:ems">10</item>
+    </style>
+
+    <style name="SearchAppBarStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/appbar_margin_bottom</item>
+        <item name="android:background">@color/send_box_color</item>
+        <item name="android:clipToPadding">false</item>
+        <item name="android:elevation">@dimen/appbar_elevation</item>
+        <item name="android:outlineProvider">paddedBounds</item>
+    </style>
+
+    <style name="SearchToolbarStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/user_search_height</item>
+        <item name="android:contentInsetStart">@dimen/toolbar_content_margin</item>
     </style>
 </resources>

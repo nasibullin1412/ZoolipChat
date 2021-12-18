@@ -265,6 +265,7 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
     }
 
     companion object {
+        const val NUMBER_OF_HYPHENATIONS = 2
         const val DEFAULT_MESSAGE_ID = -1
         const val DATABASE_MESSAGE_THRESHOLD = 50
         const val STREAM_KEY = "stream"

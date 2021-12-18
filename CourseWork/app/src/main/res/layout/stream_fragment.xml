@@ -9,41 +9,23 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:background="@color/send_box_color"
-        android:clipToPadding="false"
-        android:elevation="10dp"
-        android:outlineProvider="paddedBounds"
+        style="@style/SearchAppBarStyle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="68dp"
-            android:background="@color/send_box_color"
-            android:contentInsetStart="20dp"
+            style="@style/SearchToolbarStyle"
             app:contentInsetEnd="20dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etSearch"
-                style="@style/HelperTextAppearance"
-                android:layout_width="300dp"
-                android:layout_height="66dp"
-                android:backgroundTint="@color/search_border_color"
-                android:hint="@string/search_hint"
-                android:paddingStart="25dp"
-                android:paddingEnd="25dp"
-                android:saveEnabled="false"
-                android:textColorHint="@color/white" />
+                style="@style/SearchTextInputEditTextStyle"
+                android:hint="@string/search_hint" />
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginStart="40dp"
-                android:src="@drawable/ic_search"
+                android:id="@+id/imgSearchButton"
+                style="@style/ImgSearchStyle"
                 tools:ignore="ContentDescription" />
         </androidx.appcompat.widget.Toolbar>
 
@@ -72,10 +54,10 @@
         android:layout_marginBottom="80dp"
         android:contentDescription="@string/create_stream"
         android:src="@drawable/ic_add_stream"
-        app:tint="@android:color/white"
         app:backgroundTint="@color/send_box_color"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@android:color/white" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/pager"

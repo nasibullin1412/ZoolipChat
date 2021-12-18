@@ -16,7 +16,7 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation_bar"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="@dimen/bottom_navigation_height"
         android:background="@color/send_box_color"
         app:itemIconTint="@drawable/bottom_nav_view_color"
         app:itemTextAppearanceActive="@style/BottomNavigationView.Active"

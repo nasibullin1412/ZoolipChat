@@ -7,23 +7,23 @@
 
     <TextView
         android:id="@+id/tv_add_reaction"
-        style="@style/MessageAction"
+        style="@style/MessageActionStyle"
         android:layout_marginTop="20dp"
         android:text="@string/add_reaction" />
 
     <TextView
         android:id="@+id/tv_edit_message"
-        style="@style/MessageAction"
+        style="@style/MessageActionStyle"
         android:text="@string/edit_message" />
 
     <TextView
         android:id="@+id/tv_copy_to_clipboard"
-        style="@style/MessageAction"
+        style="@style/MessageActionStyle"
         android:text="@string/copy_to_click_board" />
 
     <TextView
         android:id="@+id/tv_delete_message"
-        style="@style/MessageAction"
+        style="@style/MessageActionStyle"
         android:layout_marginBottom="20dp"
         android:text="@string/delete_message" />
 

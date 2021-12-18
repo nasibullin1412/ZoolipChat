@@ -35,7 +35,6 @@
 
     <dimen name="scv_message_padding">12dp</dimen>
 
-    <dimen name="rv_margin_bottom">10dp</dimen>
     <dimen name="rv_margin_top">60dp</dimen>
 
     <dimen name="cl_send_box_min_height">62dp</dimen>
@@ -86,5 +85,18 @@
     <dimen name="topic_name_text_size">18sp</dimen>
     <dimen name="topic_name_view_height">40dp</dimen>
     <dimen name="progress_bar_size">50dp</dimen>
+    <dimen name="appbar_margin_bottom">10dp</dimen>
+    <dimen name="appbar_elevation">10dp</dimen>
+    <dimen name="toolbar_content_margin">20dp</dimen>
+    <dimen name="topic_name_margin_end">16dp</dimen>
+    <dimen name="topic_name_min_height">40dp</dimen>
+    <dimen name="stream_type_title">40dp</dimen>
+    <dimen name="stream_type_text_size">16sp</dimen>
+    <dimen name="create_stream_margin_top">100dp</dimen>
+    <dimen name="min_message_width">144dp</dimen>
+    <dimen name="padding_edit_message">16dp</dimen>
+    <dimen name="error_min_height">700dp</dimen>
+    <dimen name="bottom_navigation_height">60dp</dimen>
+    <dimen name="user_search_height">68dp</dimen>
 
 </resources>

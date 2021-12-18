@@ -20,12 +20,8 @@
 
         <TextView
             android:id="@+id/tvMessageContentTo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/inter_regular"
-            android:maxWidth="@dimen/tv_message_content_max_width"
+            style="@style/MessageTextStyle"
             android:textAlignment="textStart"
-            android:textColor="@color/white"
             android:textSize="16sp"
             tools:text="lol" />
 
@@ -38,18 +34,5 @@
         android:layout_marginStart="@dimen/flb_emoji_margin_start"
         android:layout_marginTop="@dimen/flb_emoji_margin_top"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cvMessageTo">
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/imgPlus"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/emoji_height"
-            android:layout_marginTop="@dimen/img_margin_top"
-            android:background="@drawable/bg_custom_emoji_view"
-            android:minWidth="@dimen/img_min_width"
-            android:src="@drawable/ic_plus"
-            android:visibility="gone"
-            app:contentPadding="@dimen/img_min_content_padding" />
-
-    </com.homework.coursework.presentation.customview.CustomFlexboxLayout>
+        app:layout_constraintTop_toBottomOf="@+id/cvMessageTo"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
