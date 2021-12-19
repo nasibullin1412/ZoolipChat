@@ -18,6 +18,7 @@ class ChatActor(
     private val getCurrentId: GetCurrentUserIdUseCase,
     private val updateMessage: UpdateMessageUseCase,
     private val deleteMessage: DeleteMessageUseCase,
+    private val addFile: AddFileUseCase,
     private val streamDataMapper: StreamDataMapper,
     private val topicDataMapper: TopicDataMapper,
     private val chatToItemMapper: ChatItemMapper,
@@ -139,6 +140,17 @@ class ChatActor(
                     { list -> Event.Internal.UpdateRecycle(list) },
                     { error -> Event.Internal.ErrorLoading(error) }
                 )
+        }
+        is Command.AddFile -> {
+            addFile(
+                stream = streamDataMapper(command.streamItem),
+                topic = topicDataMapper(command.topicItem),
+                input = command.input,
+                fileName = command.fileName
+            ).mapEvents(
+                { messageId -> Event.Internal.MessageAdded(messageId) },
+                { error -> Event.Internal.ErrorLoading(error) }
+            )
         }
     }
 }

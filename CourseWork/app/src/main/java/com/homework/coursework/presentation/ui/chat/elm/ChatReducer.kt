@@ -165,6 +165,16 @@ class ChatReducer @Inject constructor() : DslReducer<Event, State, Effect, Comma
                 )
             }
         }
+        is Event.Ui.AddFile -> {
+            commands {
+                +Command.AddFile(
+                    streamItem = event.streamItem,
+                    topicItem = event.topicItem,
+                    input = event.input,
+                    fileName = event.fileName
+                )
+            }
+        }
     }
 
     override var isSecondError: Boolean = false

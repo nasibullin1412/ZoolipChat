@@ -6,6 +6,7 @@ import com.homework.coursework.presentation.adapter.data.chat.ChatItem
 import com.homework.coursework.presentation.adapter.data.chat.MessageItem
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
+import java.io.InputStream
 
 @Parcelize
 data class State(
@@ -56,6 +57,13 @@ sealed class Event {
         class DeleteReaction(val messageItem: MessageItem, val emojiItem: EmojiItem) : Ui()
 
         object GetCurrentId : Ui()
+
+        class AddFile(
+            val streamItem: StreamItem,
+            val topicItem: TopicItem,
+            val input: InputStream,
+            val fileName: String
+        ): Ui()
 
         class MergeOldList(
             val oldList: List<ChatItem>,
@@ -159,4 +167,11 @@ sealed class Command {
     class DeleteMessageFromRecycle(val oldList: List<ChatItem>, val deleteId: Int) : Command()
 
     object GetCurrentId : Command()
+
+    class AddFile(
+        val streamItem: StreamItem,
+        val topicItem: TopicItem,
+        val input: InputStream,
+        val fileName: String
+    ) : Command()
 }

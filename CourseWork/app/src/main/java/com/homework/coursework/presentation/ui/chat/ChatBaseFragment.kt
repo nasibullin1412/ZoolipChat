@@ -1,13 +1,19 @@
 package com.homework.coursework.presentation.ui.chat
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.setFragmentResultListener
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.homework.coursework.R
 import com.homework.coursework.databinding.ChatFragmentBinding
 import com.homework.coursework.presentation.adapter.ChatAdapter
 import com.homework.coursework.presentation.adapter.data.EmojiItem
@@ -25,6 +31,7 @@ import com.homework.coursework.presentation.ui.chat.utils.*
 import com.homework.coursework.presentation.ui.editmessage.main.EditMessageFragment.Companion.EDIT_MESSAGE_REQUEST_KEY
 import com.homework.coursework.presentation.utils.showToast
 import vivid.money.elmslie.android.base.ElmFragment
+import java.io.FileNotFoundException
 
 abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageItemCallback {
 
@@ -53,6 +60,14 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
     internal var navigateController: NavigateController? = null
 
     private var _binding: ChatFragmentBinding? = null
+
+    private val startForResultSendFile = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result: ActivityResult ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            addFileAction(result.data?.data)
+        }
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -111,6 +126,8 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
 
     abstract fun configureView()
 
+    abstract fun getTopicName(): String
+
     abstract fun updateMessage(newList: List<ChatItem>)
 
     private fun initFragmentResult() {
@@ -127,8 +144,51 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
 
     private fun initButtonListener() {
         binding.imgSend.setOnClickListener {
-            sendButtonAction()
+            if (binding.etMessage.text.isEmpty()) {
+                showFileChooser()
+            } else {
+                sendButtonAction()
+            }
         }
+    }
+
+
+    private fun showFileChooser() {
+        val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
+            type = "*/*"
+            addCategory(Intent.CATEGORY_OPENABLE)
+        }
+        startForResultSendFile.launch(
+            Intent.createChooser(
+                intent,
+                getString(R.string.title_select_file)
+            )
+        )
+    }
+
+    private fun addFileAction(uri: Uri?) {
+        if (uri == null) return
+        val topicName = getTopicName()
+        if (topicName.isEmpty()) return
+        with(requireActivity().contentResolver) {
+            try {
+                val input = openInputStream(uri) ?: return
+                store.accept(
+                    Event.Ui.AddFile(
+                        streamItem = currentStream,
+                        topicItem = currentTopic.copy(topicName = topicName),
+                        input = input,
+                        fileName = getFileName(uri)
+                    )
+                )
+            } catch (ex: FileNotFoundException) {
+                showToast(ex.message)
+            }
+        }
+    }
+
+    private fun getFileName(uri: Uri): String {
+        return uri.lastPathSegment ?: DEFAULT_FILE_NAME
     }
 
     private fun initErrorRepeat() {
@@ -270,5 +330,6 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
         const val DATABASE_MESSAGE_THRESHOLD = 50
         const val STREAM_KEY = "stream"
         const val MESSAGE_CONTENT = "messageContent"
+        const val DEFAULT_FILE_NAME = "not_found"
     }
 }

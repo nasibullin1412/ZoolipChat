@@ -1,7 +1,8 @@
 package com.homework.coursework.data.frameworks.network.utils
 
 object NetworkConstants {
-    const val BASE_URL = "https://tinkoff-android-fall21.zulipchat.com/api/v1/"
+    const val BASE_URL = "https://tinkoff-android-fall21.zulipchat.com"
+    const val BASE_URL_API = "$BASE_URL/api/v1/"
     const val AUTHORIZATION = "Authorization"
     const val APPLICATION_JSON_TYPE = "application/json"
     const val REACTION_TYPE = "unicode_emoji"

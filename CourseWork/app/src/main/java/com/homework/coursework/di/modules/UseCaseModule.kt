@@ -106,4 +106,8 @@ interface UseCaseModule {
     @Reusable
     @Binds
     fun bindEditMessageUseCase(editMessageUseCase: EditMessageUseCaseImpl): EditMessageUseCase
+
+    @Reusable
+    @Binds
+    fun bindAddFileUseCase(addFileUseCase: AddFileUseCaseImpl): AddFileUseCase
 }

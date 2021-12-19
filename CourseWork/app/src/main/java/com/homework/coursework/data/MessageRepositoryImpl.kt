@@ -13,6 +13,8 @@ import com.homework.coursework.data.frameworks.database.mappersimpl.UserDataList
 import com.homework.coursework.data.frameworks.network.ApiService
 import com.homework.coursework.data.frameworks.network.mappersimpl.MessageDtoMapper
 import com.homework.coursework.data.frameworks.network.utils.MessageQuery
+import com.homework.coursework.data.frameworks.network.utils.NetworkConstants
+import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.BASE_URL
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.NUM_AFTER
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.NUM_BEFORE
 import com.homework.coursework.domain.entity.MessageData
@@ -27,6 +29,10 @@ import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import kotlinx.serialization.ExperimentalSerializationApi
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.InputStream
 import javax.inject.Inject
 
 class MessageRepositoryImpl @Inject constructor(
@@ -128,6 +134,27 @@ class MessageRepositoryImpl @Inject constructor(
             messageId = messageData.messageId,
             queryMap = messageQuery.editMessage(messageData = messageData)
         )
+    }
+
+    @ExperimentalSerializationApi
+    override fun addFile(
+        streamData: StreamData,
+        topicData: TopicData,
+        inputStream: InputStream,
+        file: String
+    ): Observable<Int> {
+        val bytes = inputStream.readBytes()
+        val fileName = file.dropWhile { it != '/' }.drop(1)
+        val requestBody: RequestBody = RequestBody.create("*/*".toMediaTypeOrNull(), bytes)
+        val fileToUpload = MultipartBody.Part.createFormData("file", fileName, requestBody)
+        return apiService.addFile(fileToUpload).flatMap {
+            val content = "[$fileName]($BASE_URL${it.data})"
+            addMessages(
+                streamData = streamData,
+                topicData = topicData,
+                content = content
+            )
+        }
     }
 
     @ExperimentalSerializationApi

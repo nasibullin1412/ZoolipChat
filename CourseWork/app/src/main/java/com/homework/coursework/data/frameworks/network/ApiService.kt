@@ -3,12 +3,15 @@ package com.homework.coursework.data.frameworks.network
 import com.homework.coursework.data.dto.*
 import com.homework.coursework.data.frameworks.database.dao.AuthDao
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.BASE_URL
+import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.BASE_URL_API
 import com.homework.coursework.data.frameworks.network.utils.addJsonConverter
 import com.homework.coursework.data.frameworks.network.utils.setClient
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import kotlinx.serialization.ExperimentalSerializationApi
+import okhttp3.MultipartBody
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.http.*
@@ -136,10 +139,15 @@ interface ApiService {
         @QueryMap queryMap: Map<String, String>
     ): Observable<SubscribeResponse>
 
+    @ExperimentalSerializationApi
+    @Multipart
+    @POST("user_uploads")
+    fun addFile(@Part file: MultipartBody.Part): Observable<AddFileResponse>
+
     companion object {
         fun create(authDao: AuthDao): ApiService {
             return Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(BASE_URL_API)
                 .setClient(authDao)
                 .addJsonConverter()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))

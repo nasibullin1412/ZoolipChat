@@ -49,6 +49,10 @@ class TopicChatFragment : ChatBaseFragment() {
         binding.tvTopicName.visibility = View.VISIBLE
     }
 
+    override fun getTopicName(): String {
+        return currentTopic.topicName
+    }
+
     override fun sendButtonAction() {
         store.accept(
             Event.Ui.SendMessage(
@@ -89,7 +93,6 @@ class TopicChatFragment : ChatBaseFragment() {
                 currId = currId
             )
         )
-        bottomNavigationController?.visibleBottomNavigation()
     }
 
     companion object {

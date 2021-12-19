@@ -67,6 +67,14 @@ class StreamChatFragment : ChatBaseFragment(), TopicNameItemCallback {
         chatAdapter.initTopicListener(this)
     }
 
+    override fun getTopicName(): String {
+        val topicName = binding.etTopicName.text.toString()
+        if (topicName.isEmpty()){
+            showToast(EMPTY_TOPIC_NAME)
+        }
+        return topicName
+    }
+
     override fun createStore(): Store<Event, Effect, State> = streamChatStore
 
     /**

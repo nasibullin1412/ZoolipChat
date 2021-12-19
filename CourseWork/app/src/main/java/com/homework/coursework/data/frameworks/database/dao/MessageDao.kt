@@ -33,7 +33,7 @@ interface MessageDao {
     fun getTopicMessages(streamId: Int, topicName: String): Single<List<MessageWithEmojiEntity>>
 
     @Transaction
-    @Query("SELECT * FROM message_table WHERE stream_id = :streamId")
+    @Query("SELECT * FROM message_table WHERE stream_id = :streamId ORDER BY LOWER(message_id) ASC")
     fun getStreamMessage(streamId: Int): Single<List<MessageWithEmojiEntity>>
 
     @Transaction

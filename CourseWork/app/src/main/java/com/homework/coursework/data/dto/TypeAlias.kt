@@ -18,5 +18,7 @@ typealias UserResponse = DtoResponse<UserDto>
 typealias UserResponseList = DtoResponse<List<UserDto>>
 @ExperimentalSerializationApi
 typealias SubscribeResponse = DtoResponse<Map<String, List<String>>>
+@ExperimentalSerializationApi
+typealias AddFileResponse = DtoResponse<String>
 typealias StreamWithTopics = Pair<StreamDto, List<TopicDto>>
 typealias UserWithStatus = Pair<UserDto, StatusDto>

@@ -18,7 +18,8 @@ data class DtoResponse<out T>(
         "id",
         "user",
         "members",
-        "subscribed"
+        "subscribed",
+        "uri"
     )
     val data: T? = null
 )
