@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CourseWork</string>
+    <string name="app_name">Zulip chat</string>
     <string name="default_emoji">😄</string>
     <string name="emoji_number">2</string>
     <string name="write_hint">Write…</string>

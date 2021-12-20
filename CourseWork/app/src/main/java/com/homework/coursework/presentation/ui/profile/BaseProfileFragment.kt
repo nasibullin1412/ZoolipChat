@@ -13,10 +13,7 @@ import com.homework.coursework.presentation.interfaces.NavigateController
 import com.homework.coursework.presentation.ui.profile.elm.Effect
 import com.homework.coursework.presentation.ui.profile.elm.Event
 import com.homework.coursework.presentation.ui.profile.elm.State
-import com.homework.coursework.presentation.utils.CustomFragmentFactory
-import com.homework.coursework.presentation.utils.FragmentTag
-import com.homework.coursework.presentation.utils.off
-import com.homework.coursework.presentation.utils.showToast
+import com.homework.coursework.presentation.utils.*
 import vivid.money.elmslie.android.base.ElmFragment
 
 abstract class BaseProfileFragment : ElmFragment<Event, Effect, State>() {
@@ -31,7 +28,7 @@ abstract class BaseProfileFragment : ElmFragment<Event, Effect, State>() {
         if (context is NavigateController) {
             navigateController = context
         }
-        if (context is BottomNavigationController){
+        if (context is BottomNavigationController) {
             bottomNavigationController = context
         }
     }
@@ -59,11 +56,9 @@ abstract class BaseProfileFragment : ElmFragment<Event, Effect, State>() {
             showErrorScreen()
             return
         }
-        if (state.isUpdate) {
-            if (state.item is UserItem) {
-                showResultScreen()
-                updateView(state.item)
-            }
+        if (state.isUpdate && state.item is UserItem) {
+            showResultScreen()
+            updateView(state.item)
         }
     }
 
@@ -131,10 +126,15 @@ abstract class BaseProfileFragment : ElmFragment<Event, Effect, State>() {
     private fun updateView(userItem: UserItem) {
         with(binding) {
             with(userItem) {
-                imgProfile.load(userItem.avatarUrl)
+                imgProfile.load(avatarUrl)
                 tvName.text = name
-                tvState.text = getStatusString(userItem.userStatus?.status)
-                tvState.setTextColor(getColor(getStatusColor(userItem.userStatus?.status)))
+                tvState.text = getStatusString(userStatus?.status)
+                tvState.setTextColor(
+                    resources.getColorWrapper(
+                        getStatusColor(userStatus?.status),
+                        requireContext()
+                    )
+                )
             }
         }
     }

@@ -5,7 +5,9 @@ import com.homework.coursework.domain.repository.AuthRepository
 import io.reactivex.Observable
 import javax.inject.Inject
 
-interface AuthUserUseCase : (String, String) -> (Observable<AuthData>)
+interface AuthUserUseCase : (String, String) -> (Observable<AuthData>){
+    override fun invoke(username: String, password: String): Observable<AuthData>
+}
 
 class AuthUserUseCaseImpl @Inject constructor(
     private val authRepository: AuthRepository

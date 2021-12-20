@@ -44,8 +44,8 @@ class AuthRepositoryImpl @Inject constructor(
             .doOnNext { storeUsersInDb(authDataMapper(it)) }
     }
 
-    override fun checkIsAuth(): Single<AuthData> {
-        return Single.fromCallable {
+    override fun checkIsAuth(): Single<AuthData> = run{
+        Single.fromCallable {
             authDao.getApiKey()
         }.map(authEntityMapper)
     }

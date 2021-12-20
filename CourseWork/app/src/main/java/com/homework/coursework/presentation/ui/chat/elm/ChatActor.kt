@@ -30,31 +30,31 @@ class ChatActor(
 ) : ActorCompat<Command, Event> {
 
     override fun execute(command: Command): Observable<Event> = when (command) {
-        is Command.AddReaction -> {
+        is Command.AddReaction -> with(command) {
             addReactionToMessage(
-                messageData = messageDataMapper(command.messageItem),
-                emojiData = emojiDataMapper(command.emojiItem),
+                messageData = messageDataMapper(messageItem),
+                emojiData = emojiDataMapper(emojiItem),
             ).mapEvents(Event.Internal.ReactionChanged) { error ->
                 Event.Internal.ErrorCommands(error)
             }
         }
-        is Command.DeleteReaction -> {
+        is Command.DeleteReaction -> with(command) {
             deleteReactionToMessage(
-                messageData = messageDataMapper(command.messageItem),
-                emojiData = emojiDataMapper(command.emojiItem),
+                messageData = messageDataMapper(messageItem),
+                emojiData = emojiDataMapper(emojiItem),
             ).mapEvents(Event.Internal.ReactionChanged) { error ->
                 Event.Internal.ErrorCommands(error)
             }
         }
-        is Command.LoadFirstPage -> {
+        is Command.LoadFirstPage -> with(command) {
             initMessages(
-                streamData = streamDataMapper(command.streamItem),
-                topicData = topicDataMapper(command.topicItem),
-                currId = command.currId
+                streamData = streamDataMapper(streamItem),
+                topicData = topicDataMapper(topicItem),
+                currId = currId
             ).map {
                 chatToItemMapper(
                     messageDataList = it,
-                    currId = command.currId,
+                    currId = currId,
                     isUpdate = false
                 )
             }.mapEvents(
@@ -62,15 +62,15 @@ class ChatActor(
                 { error -> Event.Internal.ErrorLoading(error) }
             )
         }
-        is Command.LoadMessages -> {
+        is Command.LoadMessages -> with(command) {
             getMessages(
-                streamData = streamDataMapper(command.streamItem),
-                topicData = topicDataMapper(command.topicItem),
-                currId = command.currId
+                streamData = streamDataMapper(streamItem),
+                topicData = topicDataMapper(topicItem),
+                currId = currId
             ).map {
                 chatToItemMapper(
                     messageDataList = it,
-                    currId = command.currId,
+                    currId = currId,
                     isUpdate = false
                 )
             }.mapEvents(
@@ -78,29 +78,29 @@ class ChatActor(
                 { error -> Event.Internal.ErrorCommands(error) }
             )
         }
-        is Command.SendMessage -> {
+        is Command.SendMessage -> with(command) {
             addMessages(
-                streamData = streamDataMapper(command.streamItem),
-                topicData = topicDataMapper(command.topicItem),
-                content = command.content
+                streamData = streamDataMapper(streamItem),
+                topicData = topicDataMapper(topicItem),
+                content = content
             ).mapEvents(
                 { messageId -> Event.Internal.MessageAdded(messageId) },
                 { error -> Event.Internal.ErrorLoading(error) }
             )
         }
-        is Command.MergeWithNewMessageList -> {
-            updateRecycleList(oldList = command.oldList, newList = command.newList)
+        is Command.MergeWithNewMessageList -> with(command) {
+            updateRecycleList(oldList = oldList, newList = newList)
                 .mapEvents(
                     { list -> Event.Internal.UpdateRecycle(list) },
                     { error -> Event.Internal.ErrorLoading(error) }
                 )
         }
-        is Command.SaveMessage -> {
+        is Command.SaveMessage -> with(command) {
             saveMessage(
-                streamData = streamDataMapper(command.streamItem),
-                topicData = topicDataMapper(command.topicItem),
-                messageDataList = messageListDataMapper(command.messages),
-                currId = command.currId
+                streamData = streamDataMapper(streamItem),
+                topicData = topicDataMapper(topicItem),
+                messageDataList = messageListDataMapper(messages),
+                currId = currId
             ).mapEvents(Event.Internal.MessagesSaved) {
                 Event.Internal.ErrorCommands(it)
             }
@@ -112,15 +112,15 @@ class ChatActor(
                     { error -> Event.Internal.ErrorLoading(error) }
                 )
         }
-        is Command.UpdateMessage -> {
+        is Command.UpdateMessage -> with(command) {
             updateMessage(
-                streamData = streamDataMapper(command.streamItem),
-                topicData = topicDataMapper(command.topicItem),
-                currId = command.currId
+                streamData = streamDataMapper(streamItem),
+                topicData = topicDataMapper(topicItem),
+                currId = currId
             ).map {
                 chatToItemMapper(
                     messageDataList = it,
-                    currId = command.currId,
+                    currId = currId,
                     isUpdate = true
                 )
             }.mapEvents(
@@ -134,19 +134,19 @@ class ChatActor(
                     Event.Internal.ErrorLoading(error)
                 }
         }
-        is Command.DeleteMessageFromRecycle -> {
-            deleteRecycleListMessage(command.oldList, command.deleteId)
+        is Command.DeleteMessageFromRecycle -> with(command) {
+            deleteRecycleListMessage(oldList, deleteId)
                 .mapEvents(
                     { list -> Event.Internal.UpdateRecycle(list) },
                     { error -> Event.Internal.ErrorLoading(error) }
                 )
         }
-        is Command.AddFile -> {
+        is Command.AddFile -> with(command) {
             addFile(
-                stream = streamDataMapper(command.streamItem),
-                topic = topicDataMapper(command.topicItem),
-                input = command.input,
-                fileName = command.fileName
+                stream = streamDataMapper(streamItem),
+                topic = topicDataMapper(topicItem),
+                input = input,
+                fileName = fileName
             ).mapEvents(
                 { messageId -> Event.Internal.MessageAdded(messageId) },
                 { error -> Event.Internal.ErrorLoading(error) }

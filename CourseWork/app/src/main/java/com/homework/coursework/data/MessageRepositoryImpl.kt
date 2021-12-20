@@ -15,6 +15,7 @@ import com.homework.coursework.data.frameworks.network.mappersimpl.MessageDtoMap
 import com.homework.coursework.data.frameworks.network.utils.MessageQuery
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.BASE_URL
+import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.FILE
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.NUM_AFTER
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.NUM_BEFORE
 import com.homework.coursework.domain.entity.MessageData
@@ -146,7 +147,7 @@ class MessageRepositoryImpl @Inject constructor(
         val bytes = inputStream.readBytes()
         val fileName = file.dropWhile { it != '/' }.drop(1)
         val requestBody: RequestBody = RequestBody.create("*/*".toMediaTypeOrNull(), bytes)
-        val fileToUpload = MultipartBody.Part.createFormData("file", fileName, requestBody)
+        val fileToUpload = MultipartBody.Part.createFormData(FILE, fileName, requestBody)
         return apiService.addFile(fileToUpload).flatMap {
             val content = "[$fileName]($BASE_URL${it.data})"
             addMessages(

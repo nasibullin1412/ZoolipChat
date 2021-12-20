@@ -11,16 +11,14 @@ class UserEntityMapper @Inject constructor() : (UserEntity) -> (UserData) {
     @Inject
     internal lateinit var statusEntityMapper: StatusEntityMapper
 
-    override fun invoke(user: UserEntity): UserData {
-        return with(user) {
-            UserData(
-                id = userId,
-                name = fullName,
-                avatarUrl = avatarUrl,
-                userMail = email,
-                isAdmin = isAdmin,
-                userStatus = statusEntityMapper(userStatus, userTimestamp)
-            )
-        }
+    override fun invoke(user: UserEntity) = user.run {
+        UserData(
+            id = userId,
+            name = fullName,
+            avatarUrl = avatarUrl,
+            userMail = email,
+            isAdmin = isAdmin,
+            userStatus = statusEntityMapper(userStatus, userTimestamp)
+        )
     }
 }

@@ -4,63 +4,77 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/custom_back"
-    android:paddingStart="@dimen/padding_edit_message"
-    android:paddingEnd="@dimen/padding_edit_message">
+    >
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilStreamName"
-        style="@style/TextInputLayoutStyle"
-        android:hint="@string/topic_name"
-        app:expandedHintEnabled="false"
-        app:hintTextColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
+    <ScrollView
+        android:id="@+id/svCreateNewStream"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etTopicName"
-            style="@style/TextInputEditTextStyle"
-            android:hint="@string/topic_name" />
-    </com.google.android.material.textfield.TextInputLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clEditMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/padding_edit_message"
+            android:paddingEnd="@dimen/padding_edit_message">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilStreamDescription"
-        style="@style/TextInputLayoutStyle"
-        android:hint="@string/change_message"
-        android:inputType="text"
-        android:textColorHint="@color/white"
-        app:expandedHintEnabled="false"
-        app:hintTextColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tilStreamName">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilStreamName"
+                style="@style/TextInputLayoutStyle"
+                android:hint="@string/topic_name"
+                app:expandedHintEnabled="false"
+                app:hintTextColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etMessageContent"
-            style="@style/TextInputEditTextStyle"
-            android:hint="@string/change_message"
-            />
-    </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etTopicName"
+                    style="@style/TextInputEditTextStyle"
+                    android:hint="@string/topic_name" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnChange"
-        style="@style/ButtonStyle"
-        android:layout_marginTop="100dp"
-        android:text="@string/change_message"
-        app:backgroundTint="@color/send_box_color"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tilStreamDescription"
-        app:layout_constraintVertical_bias="0.6" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilStreamDescription"
+                style="@style/TextInputLayoutStyle"
+                android:hint="@string/change_message"
+                android:inputType="text"
+                android:textColorHint="@color/white"
+                app:expandedHintEnabled="false"
+                app:hintTextColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tilStreamName">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnBack"
-        style="@style/ButtonStyle"
-        android:text="@string/back_button"
-        app:backgroundTint="@color/send_box_color"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnChange"
-        app:layout_constraintVertical_bias="0.6" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etMessageContent"
+                    style="@style/TextInputEditTextStyle"
+                    android:hint="@string/change_message" />
+            </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnChange"
+                style="@style/ButtonStyle"
+                android:layout_marginTop="100dp"
+                android:text="@string/change_message"
+                app:backgroundTint="@color/send_box_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tilStreamDescription"
+                app:layout_constraintVertical_bias="0.6" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnBack"
+                style="@style/ButtonStyle"
+                android:text="@string/back_button"
+                app:backgroundTint="@color/send_box_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnChange"
+                app:layout_constraintVertical_bias="0.6" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

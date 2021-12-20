@@ -13,16 +13,14 @@ class UserDtoMapper @Inject constructor() : (UserWithStatus) -> (UserData) {
     @Inject
     internal lateinit var statusDtoMapper: StatusDtoMapper
 
-    override fun invoke(user: UserWithStatus): UserData {
-        return with(user) {
-            UserData(
-                id = first.id,
-                name = first.fullName,
-                avatarUrl = first.avatarUrl,
-                userMail = first.email,
-                isAdmin = first.isAdmin,
-                userStatus = statusDtoMapper(second)
-            )
-        }
+    override fun invoke(user: UserWithStatus) = user.run {
+        UserData(
+            id = first.id,
+            name = first.fullName,
+            avatarUrl = first.avatarUrl,
+            userMail = first.email,
+            isAdmin = first.isAdmin,
+            userStatus = statusDtoMapper(second)
+        )
     }
 }

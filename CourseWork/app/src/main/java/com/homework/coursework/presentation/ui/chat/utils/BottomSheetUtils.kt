@@ -13,13 +13,9 @@ import com.homework.coursework.databinding.BottomSheetBinding
 import com.homework.coursework.presentation.adapter.data.chat.MessageItem
 import com.homework.coursework.presentation.ui.chat.ChatBaseFragment
 import com.homework.coursework.presentation.ui.chat.ChatBaseFragment.Companion.MESSAGE_CONTENT
-import com.homework.coursework.presentation.ui.chat.ChatBaseFragment.Companion.NUMBER_OF_HYPHENATIONS
 import com.homework.coursework.presentation.ui.chat.elm.Event
 import com.homework.coursework.presentation.ui.editmessage.main.EditMessageFragment
-import com.homework.coursework.presentation.utils.CustomFragmentFactory
-import com.homework.coursework.presentation.utils.Emoji
-import com.homework.coursework.presentation.utils.FragmentTag
-import com.homework.coursework.presentation.utils.initEmojiToBottomSheet
+import com.homework.coursework.presentation.utils.*
 
 internal fun ChatBaseFragment.showMessageActions(message: MessageItem) {
     val bottomSheetDialog = BottomSheetDialog(requireContext())

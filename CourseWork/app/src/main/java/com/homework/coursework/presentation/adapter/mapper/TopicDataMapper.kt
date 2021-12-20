@@ -7,13 +7,11 @@ import javax.inject.Inject
 
 @Reusable
 class TopicDataMapper @Inject constructor() : (TopicItem) -> (TopicData) {
-    override fun invoke(topicItem: TopicItem): TopicData {
-        return with(topicItem) {
-            TopicData(
-                id = id,
-                topicName = topicName,
-                numberOfMess = numberOfMess
-            )
-        }
+    override fun invoke(topicItem: TopicItem) = topicItem.run {
+        TopicData(
+            id = id,
+            topicName = topicName,
+            numberOfMess = numberOfMess
+        )
     }
 }

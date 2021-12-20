@@ -10,7 +10,7 @@ class TopicItemMapper @Inject constructor() : (List<TopicData>) -> (List<TopicIt
 
     override fun invoke(topics: List<TopicData>): List<TopicItem> {
         return topics.mapIndexed { idx, topic ->
-            with(topic) {
+            topic.run {
                 TopicItem(
                     id = id,
                     topicName = topicName,

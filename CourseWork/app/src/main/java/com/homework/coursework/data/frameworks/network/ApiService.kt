@@ -2,13 +2,11 @@ package com.homework.coursework.data.frameworks.network
 
 import com.homework.coursework.data.dto.*
 import com.homework.coursework.data.frameworks.database.dao.AuthDao
-import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.BASE_URL
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.BASE_URL_API
 import com.homework.coursework.data.frameworks.network.utils.addJsonConverter
 import com.homework.coursework.data.frameworks.network.utils.setClient
 import io.reactivex.Completable
 import io.reactivex.Observable
-import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import kotlinx.serialization.ExperimentalSerializationApi
 import okhttp3.MultipartBody
@@ -122,6 +120,8 @@ interface ApiService {
 
     /**
      * Authorization
+     * @param username is username of auth user
+     * @param password is password of auth user
      */
     @POST("fetch_api_key")
     fun authUser(
@@ -129,10 +129,16 @@ interface ApiService {
         @Query("password") password: String
     ): Observable<AuthDto>
 
+    /**
+     * get list of all users
+     */
     @ExperimentalSerializationApi
     @GET("users")
     fun getAllUsers(): Observable<UserResponseList>
 
+    /**
+     * create new stream or subscribed to stream if it existed
+     */
     @ExperimentalSerializationApi
     @POST("users/me/subscriptions")
     fun createStream(

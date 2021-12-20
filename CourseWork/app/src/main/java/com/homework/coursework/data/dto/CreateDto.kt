@@ -11,15 +11,13 @@ data class CreateDto(
     val description: String
 ) {
     companion object {
-        fun createNarrowForMessage(subscribeData: SubscribeData): String {
-            return Json.encodeToString(
-                listOf(
-                    CreateDto(
-                        name = subscribeData.name,
-                        description = subscribeData.description
-                    )
+        fun createNarrowForMessage(subscribeData: SubscribeData) = Json.encodeToString(
+            listOf(
+                CreateDto(
+                    name = subscribeData.name,
+                    description = subscribeData.description
                 )
             )
-        }
+        )
     }
 }

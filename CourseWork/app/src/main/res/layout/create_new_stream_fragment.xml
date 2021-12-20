@@ -3,9 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/custom_back"
-    android:paddingStart="20dp"
-    android:paddingEnd="20dp">
+    android:background="@color/custom_back">
 
     <ScrollView
         android:id="@+id/svCreateNewStream"
@@ -15,8 +13,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clCreateStream"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/padding_edit_message"
+            android:paddingEnd="@dimen/padding_edit_message">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilStreamName"

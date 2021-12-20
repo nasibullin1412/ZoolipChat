@@ -83,9 +83,13 @@ fun ArrayList<ChatItem>.addMessageItem(messageItemList: List<MessageItem>) {
     )
 }
 
+/**
+ * add topic names
+ * @param messageIdList is list with messageId of messages, which from new topic name
+ */
 fun ArrayList<ChatItem>.addTopicNames(messageIdList: ArrayList<Int>) {
     for (messageId in messageIdList) {
-        val messageItem = firstWithMessageItem { it == messageId } ?: return
+        val messageItem = firstWithMessageItem { it == messageId }
         val idx = indexOf(messageItem)
         add(index = idx, element = TopicNameItem(topicName = messageItem.topicName))
     }

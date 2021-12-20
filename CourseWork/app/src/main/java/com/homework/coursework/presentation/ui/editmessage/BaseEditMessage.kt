@@ -20,7 +20,7 @@ abstract class BaseEditMessage : ElmFragment<Event, Effect, State>() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is BottomNavigationController) {
-            bottomNavigationController = context.apply { goneBottomNavigation() }
+            bottomNavigationController = context
         }
     }
 
@@ -42,6 +42,7 @@ abstract class BaseEditMessage : ElmFragment<Event, Effect, State>() {
         super.onViewCreated(view, savedInstanceState)
         initEditMessageButton()
         initBackButton()
+        bottomNavigationController?.goneBottomNavigation()
     }
 
     abstract fun initArguments()
@@ -49,7 +50,6 @@ abstract class BaseEditMessage : ElmFragment<Event, Effect, State>() {
     abstract fun initBackButton()
 
     abstract fun initEditMessageButton()
-
 
     override fun onDetach() {
         super.onDetach()

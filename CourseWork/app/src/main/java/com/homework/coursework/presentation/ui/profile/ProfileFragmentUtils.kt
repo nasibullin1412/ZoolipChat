@@ -1,9 +1,7 @@
 package com.homework.coursework.presentation.ui.profile
 
-import android.os.Build
 import com.homework.coursework.R
 import com.homework.coursework.domain.entity.StatusEnum
-import kotlinx.serialization.ExperimentalSerializationApi
 
 internal fun getStatusColor(status: StatusEnum?) = when (status) {
     StatusEnum.ACTIVE -> R.color.state_active_color
@@ -20,10 +18,3 @@ internal fun getStatusString(status: StatusEnum?) = when (status) {
     StatusEnum.UNKNOWN -> "unknown"
     null -> throw IllegalArgumentException("status null")
 }
-
-internal fun BaseProfileFragment.getColor(colorId: Int) =
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        resources.getColor(colorId, requireContext().theme)
-    } else {
-        resources.getColor(colorId)
-    }

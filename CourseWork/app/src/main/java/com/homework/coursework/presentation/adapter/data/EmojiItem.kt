@@ -9,4 +9,4 @@ data class EmojiItem(
     var emojiNumber: Int,
     val emojiName: String,
     var isCurrUserReacted: Boolean
-): Parcelable
+) : Parcelable

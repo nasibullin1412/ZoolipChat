@@ -12,10 +12,9 @@ class AuthActor(
     private val getMe: GetMeUseCase
 ) : ActorCompat<Command, Event> {
 
-
     override fun execute(command: Command): Observable<Event> = when (command) {
-        is Command.AuthUser -> {
-            authUserUseCase(command.login, command.password)
+        is Command.AuthUser -> with(command){
+            authUserUseCase(login, password)
                 .mapEvents(
                     { item -> Event.Internal.SuccessAuth(item.apiKey) },
                     { error -> Event.Internal.ErrorAuth(error) }

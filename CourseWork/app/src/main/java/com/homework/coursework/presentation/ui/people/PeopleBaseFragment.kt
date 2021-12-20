@@ -102,7 +102,6 @@ abstract class PeopleBaseFragment : ElmFragment<Event, Effect, State>(), UserIte
         bottomNavigationController = null
     }
 
-
     abstract fun initErrorRepeat()
 
     abstract fun initSearch()

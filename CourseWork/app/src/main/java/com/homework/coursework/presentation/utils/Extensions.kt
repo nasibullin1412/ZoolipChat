@@ -1,5 +1,7 @@
 package com.homework.coursework.presentation.utils
 
+import android.content.Context
+import android.content.res.Resources
 import android.icu.text.CompactDecimalFormat
 import android.os.Build
 import android.util.Log
@@ -104,11 +106,7 @@ fun TextView.initEmojiToBottomSheet(emojiCode: String) {
         bottom = 0
     )
     textSize = resources.getDimension(R.dimen.emoji_text_size)
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        setTextColor(resources.getColor(R.color.white, context.theme))
-    } else {
-        setTextColor(resources.getColor(R.color.white))
-    }
+    setTextColor(resources.getColorWrapper(R.color.white, context))
     textAlignment = View.TEXT_ALIGNMENT_CENTER
 }
 
@@ -247,3 +245,13 @@ fun Int.getValueByCondition(condition: Boolean, second: Int) = if (condition) {
 } else {
     second
 }
+
+
+internal fun Resources.getColorWrapper(colorId: Int, context: Context) =
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        getColor(colorId, context.theme)
+    } else {
+        getColor(colorId)
+    }
+
+const val NUMBER_OF_HYPHENATIONS = 2

@@ -8,7 +8,8 @@ import javax.inject.Inject
 @Reusable
 class EmojiDataMapper @Inject constructor() : (EmojiItem?) -> (EmojiData) {
     override fun invoke(emojiItem: EmojiItem?): EmojiData {
-        return with(emojiItem ?: throw IllegalArgumentException("Emoji required")) {
+        if (emojiItem == null) throw IllegalArgumentException("emojiItem required")
+        return with(emojiItem) {
             EmojiData(
                 emojiCode = emojiCode,
                 emojiName = emojiName,

@@ -6,7 +6,6 @@ class CreateStreamStoreFactory(
     private val createStreamActor: CreateStreamActor,
     private val createStreamReducer: CreateStreamReducer
 ) {
-
     private val store by lazy {
         ElmStoreCompat(
             initialState = State(),

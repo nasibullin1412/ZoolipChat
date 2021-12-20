@@ -11,16 +11,14 @@ class ProfileEntityMapper @Inject constructor() : (CurrentProfileEntity) -> (Use
     @Inject
     internal lateinit var statusEntityMapper: StatusEntityMapper
 
-    override fun invoke(user: CurrentProfileEntity): UserData {
-        return with(user) {
-            UserData(
-                id = userId,
-                name = fullName,
-                avatarUrl = avatarUrl,
-                userMail = email,
-                isAdmin = user.isAdmin,
-                userStatus = statusEntityMapper(userStatus, userTimestamp)
-            )
-        }
+    override fun invoke(user: CurrentProfileEntity) = user.run {
+        UserData(
+            id = userId,
+            name = fullName,
+            avatarUrl = avatarUrl,
+            userMail = email,
+            isAdmin = user.isAdmin,
+            userStatus = statusEntityMapper(userStatus, userTimestamp)
+        )
     }
 }

@@ -8,16 +8,14 @@ import javax.inject.Inject
 @Reusable
 class StreamDataMapper @Inject constructor() : (StreamItem) -> (StreamData) {
 
-    override fun invoke(streamItem: StreamItem): StreamData {
-        return with(streamItem) {
-            StreamData(
-                id = id,
-                streamName = streamName.substring(IDX_NAME_START),
-                description = description,
-                dateCreated = dateCreated,
-                topics = listOf()
-            )
-        }
+    override fun invoke(streamItem: StreamItem) = streamItem.run {
+        StreamData(
+            id = id,
+            streamName = streamName.substring(IDX_NAME_START),
+            description = description,
+            dateCreated = dateCreated,
+            topics = listOf()
+        )
     }
 
     companion object {

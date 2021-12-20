@@ -24,7 +24,7 @@ class UserProfileFragment : BaseProfileFragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is BottomNavigationController) {
-            bottomNavigationController = context.apply { goneBottomNavigation() }
+            bottomNavigationController = context
         }
     }
 
@@ -37,6 +37,7 @@ class UserProfileFragment : BaseProfileFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.btnLogout.visibility = View.GONE
+        bottomNavigationController?.goneBottomNavigation()
     }
 
     override val initEvent: Event

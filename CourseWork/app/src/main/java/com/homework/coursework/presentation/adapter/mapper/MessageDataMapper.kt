@@ -14,17 +14,15 @@ class MessageDataMapper @Inject constructor() : (MessageItem) -> (MessageData) {
     @Inject
     internal lateinit var userDataMapper: UserDataMapper
 
-    override fun invoke(messageItem: MessageItem): MessageData {
-        return with(messageItem) {
-            MessageData(
-                messageId = messageId,
-                userData = userDataMapper(userItem),
-                messageContent = messageContent,
-                emojis = emojiDataListMapper(emojis),
-                isCurrentUserMessage = isCurrentUserMessage,
-                date = date,
-                topicName = topicName
-            )
-        }
+    override fun invoke(messageItem: MessageItem) = messageItem.run {
+        MessageData(
+            messageId = messageId,
+            userData = userDataMapper(userItem),
+            messageContent = messageContent,
+            emojis = emojiDataListMapper(emojis),
+            isCurrentUserMessage = isCurrentUserMessage,
+            date = date,
+            topicName = topicName
+        )
     }
 }

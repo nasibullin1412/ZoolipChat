@@ -10,7 +10,7 @@
     <TextView
         android:id="@+id/tvTopicName"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/topic_name_item_height"
         android:background="@color/black"
         android:padding="10dp"
         android:textSize="18sp"

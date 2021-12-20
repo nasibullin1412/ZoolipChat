@@ -1,30 +1,21 @@
 package com.homework.coursework.presentation.viewholder
 
-import android.annotation.SuppressLint
-import android.os.Build
 import androidx.recyclerview.widget.RecyclerView
 import com.homework.coursework.R
 import com.homework.coursework.databinding.TopicItemBinding
 import com.homework.coursework.presentation.adapter.data.TopicItem
+import com.homework.coursework.presentation.utils.getColorWrapper
 
 class TopicViewHolder(private val viewBinding: TopicItemBinding) :
     RecyclerView.ViewHolder(viewBinding.root) {
 
-    private val evenColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        viewBinding.root.resources.getColor(
-            R.color.custom_bar_color,
-            viewBinding.root.context.theme
-        )
-    } else {
-        viewBinding.root.resources.getColor(R.color.custom_bar_color)
+    private val evenColor = viewBinding.root.run {
+        resources.getColorWrapper(R.color.custom_toolbar_color, context)
     }
-    private val oddColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        viewBinding.root.resources.getColor(R.color.odd_color, viewBinding.root.context.theme)
-    } else {
-        viewBinding.root.resources.getColor(R.color.odd_color)
+    private val oddColor = viewBinding.root.run {
+        resources.getColorWrapper(R.color.odd_color, context)
     }
 
-    @SuppressLint("SetTextI18n")
     fun bind(topicItem: TopicItem) {
         with(viewBinding) {
             clTopicName.setBackgroundColor(getNeedColor(topicItem.isEven))

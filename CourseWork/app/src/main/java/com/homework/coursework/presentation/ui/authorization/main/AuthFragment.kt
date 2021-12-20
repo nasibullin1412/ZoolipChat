@@ -45,15 +45,7 @@ class AuthFragment : AuthBaseFragment() {
         }
     }
 
-    /**
-     * Будет добавленно позже, наверно
-     */
-    override fun render(state: State) {
-    }
+    override fun render(state: State) {}
 
     override fun createStore(): Store<Event, Effect, State> = authStore
-
-    companion object{
-        const val AUTH_FRAGMENT_TAG = "authFragmentTag"
-    }
 }

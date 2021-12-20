@@ -56,8 +56,10 @@ class UpdateRecycleList @Inject constructor() :
         oldList: List<ChatItem>,
         newListUnchecked: List<ChatItem>
     ): List<ChatItem> {
-        val oldFirstTopicName = oldList.firstWithInstance<TopicNameItem>() ?: return newListUnchecked
-        val newLastTopicName = newListUnchecked.lastWithInstance<TopicNameItem>() ?: return newListUnchecked
+        val oldFirstTopicName =
+            oldList.firstWithInstance<TopicNameItem>() ?: return newListUnchecked
+        val newLastTopicName =
+            newListUnchecked.lastWithInstance<TopicNameItem>() ?: return newListUnchecked
         return if (oldFirstTopicName == newLastTopicName) {
             ArrayList(newListUnchecked).run {
                 toList()

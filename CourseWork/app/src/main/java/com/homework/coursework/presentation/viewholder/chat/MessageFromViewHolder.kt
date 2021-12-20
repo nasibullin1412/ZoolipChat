@@ -7,6 +7,7 @@ import com.homework.coursework.databinding.CustomMessageViewGroupBinding
 import com.homework.coursework.databinding.MessageFromItemBinding
 import com.homework.coursework.presentation.adapter.data.chat.MessageItem
 import com.homework.coursework.presentation.interfaces.MessageItemCallback
+import com.homework.coursework.presentation.utils.NUMBER_OF_HYPHENATIONS
 import com.homework.coursework.presentation.utils.emojiLogic
 
 class MessageFromViewHolder(
@@ -25,7 +26,7 @@ class MessageFromViewHolder(
                 }
             cvMessageFrom.setBackgroundResource(R.drawable.bg_custom_message)
             tvUserName.text = messageItem.userItem.name
-            tvMessageContent.text = messageItem.messageContent.dropLast(2)
+            tvMessageContent.text = messageItem.messageContent.dropLast(NUMBER_OF_HYPHENATIONS)
             with(fblEmoji) {
                 removeAllViews()
                 emojiLogic(

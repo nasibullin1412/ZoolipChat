@@ -23,7 +23,7 @@ class MessageDataMapper @Inject constructor() :
         currUserId: Int
     ): List<MessageWithEmojiEntity> {
         return messageDataList.map { messageData ->
-            with(messageData) {
+            messageData.run {
                 MessageWithEmojiEntity(
                     messageEntity = MessageEntity(
                         id = 0,

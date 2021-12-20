@@ -8,28 +8,12 @@ class AuthReducer @Inject constructor() : DslReducer<Event, State, Effect, Comma
     TwoSourceHandleReducer<Event.Internal.SuccessGetMe, State> {
 
     override fun Result.reduce(event: Event) = when (event) {
-        is Event.Internal.SuccessAuth -> {
-            if (event.apiToken.isNotEmpty()) {
-                effects { +Effect.SuccessGetApiToken }
-            } else {
-                state { copy(isSuccess = false, isError = true, error = UnknownError()) }
-            }
-        }
-        is Event.Internal.ErrorAuth -> {
-            effects { +Effect.ErrorAuth(event.throwable) }
-        }
-        is Event.Internal.SuccessGetMe -> {
-            if (isWithError(event)) {
-                handleResult(event)?.let { state { it } }
-            } else {
-                effects { +Effect.SuccessAuth }
-            }
-        }
-        Event.Ui.CheckDatabase -> {
-            commands { +Command.CheckIsAuth }
-        }
-        is Event.Ui.PressButton -> {
-            commands { +Command.AuthUser(login = event.login, password = event.password) }
+        is Event.Internal.SuccessAuth -> successAuth(event.apiToken)
+        is Event.Internal.ErrorAuth -> effects { +Effect.ErrorAuth(event.throwable) }
+        is Event.Internal.SuccessGetMe -> successGetMe(event)
+        Event.Ui.CheckDatabase -> commands { +Command.CheckIsAuth }
+        is Event.Ui.PressButton -> with(event) {
+            commands { +Command.AuthUser(login = login, password = password) }
         }
         Event.Ui.GetMe -> {
             commands { +Command.GetMe }
@@ -52,5 +36,21 @@ class AuthReducer @Inject constructor() : DslReducer<Event, State, Effect, Comma
 
     override fun isWithError(event: Event.Internal.SuccessGetMe): Boolean {
         return event.user.errorHandle.isError
+    }
+
+    private fun Result.successAuth(apiToken: String) {
+        if (apiToken.isNotEmpty()) {
+            effects { +Effect.SuccessGetApiToken }
+        } else {
+            state { copy(isSuccess = false, isError = true, error = UnknownError()) }
+        }
+    }
+
+    private fun Result.successGetMe(event: Event.Internal.SuccessGetMe) {
+        if (isWithError(event)) {
+            handleResult(event)?.let { state { it } }
+        } else {
+            effects { +Effect.SuccessAuth }
+        }
     }
 }

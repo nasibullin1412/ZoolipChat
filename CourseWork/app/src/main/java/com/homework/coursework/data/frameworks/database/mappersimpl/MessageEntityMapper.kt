@@ -17,7 +17,7 @@ class MessageEntityMapper @Inject constructor() :
 
     override fun invoke(messages: List<MessageWithEmojiEntity>): List<MessageData> {
         return messages.map { messageWithEmojiEntity ->
-            with(messageWithEmojiEntity) {
+            messageWithEmojiEntity.run {
                 MessageData(
                     messageId = messageEntity.messageId,
                     userData = userEntityMapper(userEntity),

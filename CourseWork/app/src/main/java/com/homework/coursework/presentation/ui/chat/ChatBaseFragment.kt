@@ -132,6 +132,17 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
 
     abstract fun initMessage(newList: List<ChatItem>)
 
+    private fun initViews() {
+        initRecycleViewImpl()
+        configureView()
+        initErrorRepeat()
+        initEmojiBottomDialog()
+        initButtonListener()
+        initEditText()
+        initNames()
+        initBackButton()
+    }
+
     private fun initFragmentResult() {
         setFragmentResultListener(EDIT_MESSAGE_REQUEST_KEY) { _, _ ->
             store.accept(
@@ -259,69 +270,62 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
 
     override fun handleEffect(effect: Effect) {
         when (effect) {
-            is Effect.ErrorCommands -> {
-                showToast(effect.error.message)
-            }
-            is Effect.MessageAdded -> {
-                chatAdapter.submitList(emptyList())
-                store.accept(
-                    Event.Ui.LoadNextPage(
-                        streamItem = currentStream,
-                        topicItem = currentTopic.copy(numberOfMess = effect.id),
-                        currId = currId
-                    )
-                )
-            }
-            Effect.MessagesSaved -> {
-                Log.d("SaveLog", "Success save all messages")
-            }
-            is Effect.NextPageLoadError -> {
-                showToast(effect.error.message)
-            }
-            is Effect.PageLoaded -> {
-                store.accept(
-                    Event.Ui.MergeOldList(
-                        oldList = chatAdapter.currentList,
-                        newList = effect.itemList
-                    )
-                )
-            }
-            Effect.ReactionChanged -> {
-                store.accept(
-                    Event.Ui.UpdateMessage(
-                        streamItem = currentStream,
-                        topicItem = currentTopic.copy(numberOfMess = updateMessage),
-                        currId = currId
-                    )
-                )
-            }
-            is Effect.SuccessGetId -> {
-                currId = effect.currId
-                store.accept(
-                    Event.Ui.LoadFirstPage(
-                        streamItem = currentStream,
-                        topicItem = currentTopic,
-                        currId = currId
-                    )
-                )
-            }
-            Effect.DeleteMessage -> {
-                store.accept(
-                    Event.Ui.DeleteMessageFromRecycle(chatAdapter.currentList, updateMessage)
-                )
-            }
+            is Effect.ErrorCommands -> showToast(effect.error.message)
+            is Effect.NextPageLoadError -> showToast(effect.error.message)
+            is Effect.MessageAdded -> messageAddedAction(effect.id)
+            is Effect.SuccessGetId -> successGetIdAction(effect.currId)
+            Effect.MessagesSaved -> Log.d("SaveLog", "Success save all messages")
+            is Effect.PageLoaded -> pageLoadedAction(effect.itemList)
+            Effect.ReactionChanged -> reactionChangedAction()
+            Effect.DeleteMessage -> deleteMessageAction()
         }
     }
 
-    private fun initViews() {
-        initRecycleViewImpl()
-        configureView()
-        initErrorRepeat()
-        initEmojiBottomDialog()
-        initButtonListener()
-        initEditText()
-        initNames()
-        initBackButton()
+    private fun messageAddedAction(id: Int) {
+        chatAdapter.submitList(emptyList())
+        store.accept(
+            Event.Ui.LoadNextPage(
+                streamItem = currentStream,
+                topicItem = currentTopic.copy(numberOfMess = id),
+                currId = currId
+            )
+        )
+    }
+
+    private fun successGetIdAction(currIdValue: Int) {
+        currId = currIdValue
+        store.accept(
+            Event.Ui.LoadFirstPage(
+                streamItem = currentStream,
+                topicItem = currentTopic,
+                currId = currIdValue
+            )
+        )
+    }
+
+    private fun pageLoadedAction(chatList: List<ChatItem>) {
+        store.accept(
+            Event.Ui.MergeOldList(
+                oldList = chatAdapter.currentList,
+                newList = chatList
+            )
+        )
+    }
+
+    private fun reactionChangedAction() {
+        store.accept(
+            Event.Ui.UpdateMessage(
+                streamItem = currentStream,
+                topicItem = currentTopic.copy(numberOfMess = updateMessage),
+                currId = currId
+            )
+        )
+    }
+
+    private fun deleteMessageAction() {
+        store.accept(
+            Event.Ui.DeleteMessageFromRecycle(chatAdapter.currentList, updateMessage)
+        )
     }
 
     private fun initBackButton() {
@@ -331,7 +335,6 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
     }
 
     companion object {
-        const val NUMBER_OF_HYPHENATIONS = 2
         const val DEFAULT_MESSAGE_ID = -1
         const val DATABASE_MESSAGE_THRESHOLD = 50
         const val STREAM_KEY = "stream"

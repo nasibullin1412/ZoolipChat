@@ -6,20 +6,18 @@ import dagger.Reusable
 import javax.inject.Inject
 
 @Reusable
-class ProfileDataMapper @Inject constructor(): (UserData) -> (CurrentProfileEntity) {
+class ProfileDataMapper @Inject constructor() : (UserData) -> (CurrentProfileEntity) {
 
-    override fun invoke(userData: UserData): CurrentProfileEntity {
-        return with(userData) {
-            CurrentProfileEntity(
-                id = 0,
-                userId = id,
-                email = userMail,
-                fullName = name,
-                avatarUrl = avatarUrl,
-                isAdmin = isAdmin,
-                userStatus = userStatus.status.value,
-                userTimestamp = userStatus.timestamp
-            )
-        }
+    override fun invoke(userData: UserData) = userData.run {
+        CurrentProfileEntity(
+            id = 0,
+            userId = id,
+            email = userMail,
+            fullName = name,
+            avatarUrl = avatarUrl,
+            isAdmin = isAdmin,
+            userStatus = userStatus.status.value,
+            userTimestamp = userStatus.timestamp
+        )
     }
 }

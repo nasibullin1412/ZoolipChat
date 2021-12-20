@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.homework.coursework.databinding.CreateNewStreamFragmentBinding
 import com.homework.coursework.presentation.interfaces.BottomNavigationController
-import com.homework.coursework.presentation.interfaces.NavigateController
 import com.homework.coursework.presentation.ui.createstream.elm.Effect
 import com.homework.coursework.presentation.ui.createstream.elm.Event
 import com.homework.coursework.presentation.ui.createstream.elm.State
@@ -22,7 +21,7 @@ abstract class BaseCreateStreamFragment : ElmFragment<Event, Effect, State>() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is BottomNavigationController) {
-            bottomNavigationController = context.apply { goneBottomNavigation() }
+            bottomNavigationController = context
         }
     }
 
@@ -37,17 +36,18 @@ abstract class BaseCreateStreamFragment : ElmFragment<Event, Effect, State>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        bottomNavigationController?.goneBottomNavigation()
         initErrorRepeat()
         initCreateStreamButton()
         initBackButton()
     }
 
-    abstract fun initBackButton()
-    abstract fun initErrorRepeat()
-    abstract fun initCreateStreamButton()
-
     override fun onDetach() {
         super.onDetach()
         bottomNavigationController = null
     }
+
+    abstract fun initBackButton()
+    abstract fun initErrorRepeat()
+    abstract fun initCreateStreamButton()
 }

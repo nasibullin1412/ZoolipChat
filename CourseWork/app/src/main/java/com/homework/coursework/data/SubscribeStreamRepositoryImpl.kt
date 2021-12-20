@@ -23,7 +23,7 @@ class SubscribeStreamRepositoryImpl @Inject constructor(
         return subscribeData.run {
             apiService.createStream(
                 queryMap = streamQueryMap.createStream(subscribeData = subscribeData)
-            )
-        }.map { it.result }
+            ).map { it.result }
+        }
     }
 }

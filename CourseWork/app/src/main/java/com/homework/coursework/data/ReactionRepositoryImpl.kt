@@ -21,20 +21,14 @@ class ReactionRepositoryImpl @Inject constructor(
     override fun addReaction(messageData: MessageData, emojiData: EmojiData): Completable {
         return apiService.addReaction(
             messageId = messageData.messageId,
-            queryMap = messageQuery.reactionQuery(
-                emojiName = emojiData.emojiName,
-                emojiCode = emojiData.emojiCode
-            )
+            queryMap = messageQuery.reactionQuery(emojiData = emojiData)
         )
     }
 
     override fun deleteReaction(messageData: MessageData, emojiData: EmojiData): Completable {
         return apiService.deleteReaction(
             messageId = messageData.messageId,
-            queryMap = messageQuery.reactionQuery(
-                emojiName = emojiData.emojiName,
-                emojiCode = emojiData.emojiCode
-            )
+            queryMap = messageQuery.reactionQuery(emojiData = emojiData)
         )
     }
 }

@@ -125,11 +125,8 @@ class StreamRepositoryImpl @Inject constructor(
     private fun storeStreamsInDb(streamWithTopics: List<StreamWithTopicsEntity>) {
         Observable.fromCallable {
             streamDao.insertStreams(streamWithTopics)
-                .doOnError {
-                    Log.d("FromRoom", it.message.toString())
-                }
-        }
-            .subscribeOn(Schedulers.io())
+                .doOnError { Log.d("FromRoom", it.message.toString()) }
+        }.subscribeOn(Schedulers.io())
             .subscribeBy(
                 onNext = { Log.d("FromRoom", it.toString()) },
                 onError = { Log.d("FromRoom", it.message.toString()) }

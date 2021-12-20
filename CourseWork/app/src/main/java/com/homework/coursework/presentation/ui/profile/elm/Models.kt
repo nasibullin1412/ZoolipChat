@@ -20,29 +20,25 @@ sealed class Event {
         object LoadMe : Ui()
         object OnStop : Ui()
         object LogoutUser : Ui()
-        data class LoadUser(val userId: Int) : Ui()
+        class LoadUser(val userId: Int) : Ui()
     }
 
     sealed class Internal : Event() {
-
-        data class UserLoaded(val item: UserItem) : Internal()
-
+        class UserLoaded(val item: UserItem) : Internal()
         object ErrorLogout : Internal()
-
         object SuccessLogout : Internal()
-
-        data class ErrorLoading(val error: Throwable) : Internal()
+        class ErrorLoading(val error: Throwable) : Internal()
     }
 }
 
 sealed class Effect {
-    data class UserLoadError(val error: Throwable) : Effect()
+    class UserLoadError(val error: Throwable) : Effect()
     object SuccessLogout : Effect()
     object ErrorLogout : Effect()
 }
 
 sealed class Command {
     object LoadMe : Command()
-    data class LoadUser(val id: Int) : Command()
+    class LoadUser(val id: Int) : Command()
     object LogoutUser : Command()
 }

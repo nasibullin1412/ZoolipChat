@@ -27,18 +27,22 @@ class DeleteRecycleListMessage @Inject constructor() :
         return oldList.run {
             val positionItem = indexOf(item)
             if (positionItem == 0) {
-                return -1
+                return NOT_FOUND_IDX
             }
             if (positionItem == lastIndex) {
                 if (get(positionItem - 1) is TopicNameItem) {
                     return positionItem - 1
                 }
-                return -1
+                return NOT_FOUND_IDX
             }
             if (get(positionItem - 1) is TopicNameItem && get(positionItem + 1) is TopicNameItem) {
                 return positionItem - 1
             }
-            -1
+            NOT_FOUND_IDX
         }
+    }
+
+    companion object{
+        const val NOT_FOUND_IDX = -1
     }
 }

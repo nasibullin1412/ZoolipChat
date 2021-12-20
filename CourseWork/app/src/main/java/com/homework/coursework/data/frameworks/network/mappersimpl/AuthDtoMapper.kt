@@ -7,9 +7,7 @@ import javax.inject.Inject
 
 @Reusable
 class AuthDtoMapper @Inject constructor() : (AuthDto) -> (AuthData) {
-    override fun invoke(authDto: AuthDto): AuthData {
-        return with(authDto) {
-            AuthData(apiKey = apiKey, email = email)
-        }
+    override fun invoke(authDto: AuthDto) = authDto.run {
+        AuthData(apiKey = apiKey, email = email)
     }
 }

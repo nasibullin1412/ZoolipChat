@@ -10,15 +10,17 @@ class EmojiEntityMapper @Inject constructor() : (List<EmojiEntity>) -> (List<Emo
     override fun invoke(emojis: List<EmojiEntity>): List<EmojiData> {
         val emojisData: ArrayList<EmojiData> = arrayListOf()
         for (emoji in emojis) {
-            val emojiReactedId = List(emoji.emojiNumber) { it + 1 }
-            emojisData.add(
-                EmojiData(
-                    emojiCode = emoji.emojiCode,
-                    emojiNumber = emoji.emojiNumber,
-                    emojiReactedId = emojiReactedId,
-                    emojiName = emoji.emojiName
+            with(emoji) {
+                val emojiReactedId = List(emojiNumber) { it + 1 }
+                emojisData.add(
+                    EmojiData(
+                        emojiCode = emojiCode,
+                        emojiNumber = emojiNumber,
+                        emojiReactedId = emojiReactedId,
+                        emojiName = emojiName
+                    )
                 )
-            )
+            }
         }
         return emojisData
     }

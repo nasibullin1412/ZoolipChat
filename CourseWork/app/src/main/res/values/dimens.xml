@@ -98,5 +98,33 @@
     <dimen name="error_min_height">700dp</dimen>
     <dimen name="bottom_navigation_height">60dp</dimen>
     <dimen name="user_search_height">68dp</dimen>
+    <dimen name="profile_img_size">52dp</dimen>
+    <dimen name="profile_img_margin_start">10dp</dimen>
+    <dimen name="username_height">32dp</dimen>
+    <dimen name="username_text_size">22sp</dimen>
+    <dimen name="tv_email_height">24dp</dimen>
+    <dimen name="tv_email_text_size">12sp</dimen>
+    <dimen name="tv_email_margin_top">2dp</dimen>
+    <dimen name="status_size">18dp</dimen>
+    <dimen name="status_margin_start">36dp</dimen>
+    <dimen name="status_margin_top">34dp</dimen>
+    <dimen name="tv_admin_height">24dp</dimen>
+    <dimen name="img_profile_size">185dp</dimen>
+    <dimen name="img_profile_margin_top">126dp</dimen>
+    <dimen name="tv_name_margin_top">16dp</dimen>
+    <dimen name="tv_name_max_width">300dp</dimen>
+    <dimen name="tv_name_text_size">32sp</dimen>
+    <dimen name="tv_status_title_max_width">200dp</dimen>
+    <dimen name="tv_status_text_size">20sp</dimen>
+    <dimen name="floating_button_margin_end">16dp</dimen>
+    <dimen name="floating_button_margin_bottom">80dp</dimen>
+    <dimen name="view_pager_margin_top">140dp</dimen>
+    <dimen name="stream_item_margin_start">22dp</dimen>
+    <dimen name="stream_text_size">18sp</dimen>
+    <dimen name="img_drop_down_width">24dp</dimen>
+    <dimen name="img_drop_down_height">16dp</dimen>
+    <dimen name="drop_down_margin_end">42dp</dimen>
+    <dimen name="topic_name_item_height">50dp</dimen>
+    <dimen name="stream_name_max_width">280dp</dimen>
 
 </resources>

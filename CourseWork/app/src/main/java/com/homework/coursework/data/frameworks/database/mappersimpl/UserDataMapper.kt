@@ -7,18 +7,16 @@ import javax.inject.Inject
 
 @Reusable
 class UserDataMapper @Inject constructor() : (UserData) -> (UserEntity) {
-    override fun invoke(userData: UserData): UserEntity {
-        return with(userData) {
-            UserEntity(
-                id = 0,
-                userId = id,
-                email = userMail,
-                fullName = name,
-                avatarUrl = avatarUrl,
-                userStatus = userStatus.status.value,
-                isAdmin = isAdmin,
-                userTimestamp = userStatus.timestamp
-            )
-        }
+    override fun invoke(userData: UserData) = userData.run {
+        UserEntity(
+            id = 0,
+            userId = id,
+            email = userMail,
+            fullName = name,
+            avatarUrl = avatarUrl,
+            userStatus = userStatus.status.value,
+            isAdmin = isAdmin,
+            userTimestamp = userStatus.timestamp
+        )
     }
 }

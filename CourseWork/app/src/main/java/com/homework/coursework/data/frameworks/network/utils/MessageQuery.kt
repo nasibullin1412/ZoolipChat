@@ -1,6 +1,7 @@
 package com.homework.coursework.data.frameworks.network.utils
 
 import com.homework.coursework.data.dto.Narrow
+import com.homework.coursework.domain.entity.EmojiData
 import com.homework.coursework.domain.entity.MessageData
 import com.homework.coursework.domain.entity.StreamData
 import com.homework.coursework.domain.entity.TopicData
@@ -38,14 +39,15 @@ class MessageQuery @Inject constructor() {
     }
 
     fun reactionQuery(
-        emojiName: String,
-        emojiCode: String
+        emojiData: EmojiData
     ): Map<String, String> {
-        return mapOf(
-            "emoji_name" to emojiName,
-            "emoji_code" to emojiCode,
-            "reaction_type" to NetworkConstants.REACTION_TYPE
-        )
+        return emojiData.run {
+            mapOf(
+                "emoji_name" to emojiName,
+                "emoji_code" to emojiCode,
+                "reaction_type" to NetworkConstants.REACTION_TYPE
+            )
+        }
     }
 
     fun addMessage(
@@ -63,8 +65,8 @@ class MessageQuery @Inject constructor() {
 
     fun editMessage(messageData: MessageData): Map<String, String> = messageData.run {
         mapOf(
-            "topic" to messageData.topicName,
-            "content" to messageData.messageContent,
+            "topic" to topicName,
+            "content" to messageContent,
         )
     }
 }
