@@ -78,6 +78,10 @@ class TopicChatFragment : ChatBaseFragment() {
         chatAdapter.submitList(newList.dropIfFirst<TopicNameItem>())
     }
 
+    override fun initMessage(newList: List<ChatItem>) {
+        updateMessage(newList)
+    }
+
     override fun onStop() {
         super.onStop()
         val numberOfMessage = chatAdapter.currentList.filterIsInstance<MessageItem>().size

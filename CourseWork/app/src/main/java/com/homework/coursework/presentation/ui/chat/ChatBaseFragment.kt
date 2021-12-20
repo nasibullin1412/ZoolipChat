@@ -130,6 +130,8 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
 
     abstract fun updateMessage(newList: List<ChatItem>)
 
+    abstract fun initMessage(newList: List<ChatItem>)
+
     private fun initFragmentResult() {
         setFragmentResultListener(EDIT_MESSAGE_REQUEST_KEY) { _, _ ->
             store.accept(
@@ -248,6 +250,10 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
         if (state.isUpdate) {
             showResultScreen()
             updateMessage(state.itemList)
+        }
+        if (state.isFirstLoad) {
+            showResultScreen()
+            initMessage(state.itemList)
         }
     }
 

@@ -16,7 +16,8 @@ class ChatReducer @Inject constructor() : DslReducer<Event, State, Effect, Comma
                     error = event.error,
                     isLoading = false,
                     isError = true,
-                    isUpdate = false
+                    isUpdate = false,
+                    isFirstLoad = false
                 )
             }
             effects { +Effect.NextPageLoadError(event.error) }
@@ -35,7 +36,8 @@ class ChatReducer @Inject constructor() : DslReducer<Event, State, Effect, Comma
                         itemList = event.itemList,
                         isLoading = false,
                         isError = false,
-                        isUpdate = true
+                        isUpdate = false,
+                        isFirstLoad = true
                     )
                 }
             }
@@ -59,7 +61,8 @@ class ChatReducer @Inject constructor() : DslReducer<Event, State, Effect, Comma
                     itemList = event.itemList,
                     isLoading = false,
                     isError = false,
-                    isUpdate = true
+                    isUpdate = true,
+                    isFirstLoad = false
                 )
             }
         }
@@ -94,7 +97,8 @@ class ChatReducer @Inject constructor() : DslReducer<Event, State, Effect, Comma
                 copy(
                     isLoading = true,
                     isError = false,
-                    isUpdate = false
+                    isUpdate = false,
+                    isFirstLoad = false
                 )
             }
             commands {

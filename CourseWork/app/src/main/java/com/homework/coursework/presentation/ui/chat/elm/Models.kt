@@ -15,7 +15,8 @@ data class State(
     val messageId: Int = 0,
     val isLoading: Boolean = false,
     val isError: Boolean = false,
-    val isUpdate: Boolean = false
+    val isUpdate: Boolean = false,
+    val isFirstLoad: Boolean = false
 ) : Parcelable
 
 sealed class Event {

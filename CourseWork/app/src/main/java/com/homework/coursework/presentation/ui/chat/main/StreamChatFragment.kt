@@ -69,7 +69,7 @@ class StreamChatFragment : ChatBaseFragment(), TopicNameItemCallback {
 
     override fun getTopicName(): String {
         val topicName = binding.etTopicName.text.toString()
-        if (topicName.isEmpty()){
+        if (topicName.isEmpty()) {
             showToast(EMPTY_TOPIC_NAME)
         }
         return topicName
@@ -83,6 +83,14 @@ class StreamChatFragment : ChatBaseFragment(), TopicNameItemCallback {
      */
     override fun updateMessage(newList: List<ChatItem>) {
         chatAdapter.submitList(newList)
+    }
+
+    override fun initMessage(newList: List<ChatItem>) {
+        with(chatAdapter) {
+            submitList(newList) {
+                binding.rvMessage.scrollToPosition(currentList.lastIndex)
+            }
+        }
     }
 
     override fun onTopicItemCallback(topicName: String) {
