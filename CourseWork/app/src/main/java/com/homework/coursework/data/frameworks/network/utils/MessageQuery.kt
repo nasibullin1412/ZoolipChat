@@ -1,6 +1,6 @@
 package com.homework.coursework.data.frameworks.network.utils
 
-import com.homework.coursework.data.dto.Narrow
+import com.homework.coursework.data.frameworks.network.dto.Narrow
 import com.homework.coursework.domain.entity.EmojiData
 import com.homework.coursework.domain.entity.MessageData
 import com.homework.coursework.domain.entity.StreamData

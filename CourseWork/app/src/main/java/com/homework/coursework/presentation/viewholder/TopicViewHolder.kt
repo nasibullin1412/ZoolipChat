@@ -2,11 +2,11 @@ package com.homework.coursework.presentation.viewholder
 
 import androidx.recyclerview.widget.RecyclerView
 import com.homework.coursework.R
-import com.homework.coursework.databinding.TopicItemBinding
+import com.homework.coursework.databinding.ItemTopicBinding
 import com.homework.coursework.presentation.adapter.data.TopicItem
 import com.homework.coursework.presentation.utils.getColorWrapper
 
-class TopicViewHolder(private val viewBinding: TopicItemBinding) :
+class TopicViewHolder(private val viewBinding: ItemTopicBinding) :
     RecyclerView.ViewHolder(viewBinding.root) {
 
     private val evenColor = viewBinding.root.run {

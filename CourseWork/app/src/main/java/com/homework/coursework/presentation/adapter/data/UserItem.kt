@@ -11,7 +11,7 @@ data class UserItem(
     val name: String,
     val avatarUrl: String,
     val userMail: String,
-    var userStatus: UserStatus?,
+    var userStatus: Int,
     val lastStatusDate: Long?,
     val isAdmin: Boolean,
     val errorHandle: ErrorHandle = ErrorHandle()

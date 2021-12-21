@@ -23,14 +23,14 @@ sealed class Event {
     }
 
     sealed class Internal : Event() {
-        data class UserLoaded(val itemList: List<UserItem>) : Internal()
+        class UserLoaded(val itemList: List<UserItem>) : Internal()
 
-        data class ErrorLoading(val error: Throwable) : Internal()
+        class ErrorLoading(val error: Throwable) : Internal()
     }
 }
 
 sealed class Effect {
-    data class UserLoadedError(val error: Throwable) : Effect()
+    class UserLoadedError(val error: Throwable) : Effect()
 }
 
 sealed class Command {

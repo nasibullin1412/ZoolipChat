@@ -4,10 +4,10 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
-import com.homework.coursework.databinding.PeopleItemBinding
+import com.homework.coursework.databinding.ItemPeopleBinding
 import com.homework.coursework.presentation.adapter.data.UserItem
 
-class PeopleViewHolder(private val viewBinding: PeopleItemBinding) :
+class PeopleViewHolder(private val viewBinding: ItemPeopleBinding) :
     RecyclerView.ViewHolder(viewBinding.root) {
 
     fun bind(userItem: UserItem) {

@@ -8,7 +8,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.homework.coursework.databinding.StreamViewPageFragmentBinding
+import com.homework.coursework.databinding.FragmentStreamViewPageBinding
 import com.homework.coursework.presentation.adapter.StreamNameAdapter
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
@@ -31,7 +31,7 @@ abstract class StreamItemBaseFragment : ElmFragment<Event, Effect, State>(), Top
     internal lateinit var streamAdapter: StreamNameAdapter
     protected var currQuery: String = ""
     protected var isStreamCreated = false
-    private var _binding: StreamViewPageFragmentBinding? = null
+    private var _binding: FragmentStreamViewPageBinding? = null
 
     protected val binding
         get() = _binding!!
@@ -41,7 +41,7 @@ abstract class StreamItemBaseFragment : ElmFragment<Event, Effect, State>(), Top
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = StreamViewPageFragmentBinding.inflate(inflater, container, false)
+        _binding = FragmentStreamViewPageBinding.inflate(inflater, container, false)
         return binding.root
     }
 

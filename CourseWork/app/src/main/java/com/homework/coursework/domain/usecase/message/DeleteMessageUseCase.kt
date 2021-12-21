@@ -5,13 +5,13 @@ import com.homework.coursework.domain.repository.MessageRepository
 import io.reactivex.Completable
 import javax.inject.Inject
 
-interface DeleteMessageUseCase: (MessageData) -> (Completable){
+interface DeleteMessageUseCase : (MessageData) -> (Completable) {
     override fun invoke(messageData: MessageData): Completable
 }
 
 class DeleteMessageUseCaseImpl @Inject constructor(
     private val messageRepository: MessageRepository
-): DeleteMessageUseCase {
+) : DeleteMessageUseCase {
     override fun invoke(messageData: MessageData): Completable {
         return messageRepository.deleteMessage(messageData)
     }

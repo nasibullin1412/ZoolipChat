@@ -60,7 +60,7 @@ class EditMessageFragment : BaseEditMessage() {
         }
     }
 
-    override fun handleEffect(effect: Effect) = when(effect){
+    override fun handleEffect(effect: Effect) = when (effect) {
         is Effect.ErrorEdit -> showToast(effect.error.message)
         Effect.SuccessEdit -> showToast(SUCCESS_EDIT)
     }
@@ -69,6 +69,7 @@ class EditMessageFragment : BaseEditMessage() {
         const val SUCCESS_EDIT = "Success edit"
         const val EDIT_MESSAGE_REQUEST_KEY = "editRequestKey"
         private const val MESSAGE_KEY = "MESSAGE_KEY"
+
         fun createBundle(messageItem: MessageItem): Bundle {
             return Bundle().apply { putParcelable(MESSAGE_KEY, messageItem) }
         }

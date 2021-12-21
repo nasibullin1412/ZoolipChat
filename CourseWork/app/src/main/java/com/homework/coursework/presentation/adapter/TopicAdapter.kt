@@ -3,7 +3,7 @@ package com.homework.coursework.presentation.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import com.homework.coursework.databinding.TopicItemBinding
+import com.homework.coursework.databinding.ItemTopicBinding
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.adapter.data.TopicItem
 import com.homework.coursework.presentation.callbacks.TopicCallback
@@ -21,7 +21,7 @@ class TopicAdapter(private val streamItem: StreamItem) : ListAdapter<TopicItem,
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopicViewHolder {
         return TopicViewHolder(
-            TopicItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemTopicBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 

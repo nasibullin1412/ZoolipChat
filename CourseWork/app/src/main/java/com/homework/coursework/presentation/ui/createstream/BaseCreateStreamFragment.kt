@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.homework.coursework.databinding.CreateNewStreamFragmentBinding
+import com.homework.coursework.databinding.FragmentCreateNewStreamBinding
 import com.homework.coursework.presentation.interfaces.BottomNavigationController
 import com.homework.coursework.presentation.ui.createstream.elm.Effect
 import com.homework.coursework.presentation.ui.createstream.elm.Event
@@ -14,7 +14,7 @@ import vivid.money.elmslie.android.base.ElmFragment
 
 abstract class BaseCreateStreamFragment : ElmFragment<Event, Effect, State>() {
 
-    private var _binding: CreateNewStreamFragmentBinding? = null
+    private var _binding: FragmentCreateNewStreamBinding? = null
     protected val binding get() = _binding!!
     private var bottomNavigationController: BottomNavigationController? = null
 
@@ -30,7 +30,7 @@ abstract class BaseCreateStreamFragment : ElmFragment<Event, Effect, State>() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = CreateNewStreamFragmentBinding.inflate(inflater, container, false)
+        _binding = FragmentCreateNewStreamBinding.inflate(inflater, container, false)
         return binding.root
     }
 

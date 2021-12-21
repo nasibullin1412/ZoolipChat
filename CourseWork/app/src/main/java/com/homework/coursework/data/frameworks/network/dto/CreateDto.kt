@@ -1,4 +1,4 @@
-package com.homework.coursework.data.dto
+package com.homework.coursework.data.frameworks.network.dto
 
 import com.homework.coursework.domain.entity.SubscribeData
 import kotlinx.serialization.Serializable

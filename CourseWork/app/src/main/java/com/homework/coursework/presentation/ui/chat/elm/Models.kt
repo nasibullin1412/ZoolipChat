@@ -1,7 +1,9 @@
 package com.homework.coursework.presentation.ui.chat.elm
 
 import android.os.Parcelable
-import com.homework.coursework.presentation.adapter.data.*
+import com.homework.coursework.presentation.adapter.data.EmojiItem
+import com.homework.coursework.presentation.adapter.data.StreamItem
+import com.homework.coursework.presentation.adapter.data.TopicItem
 import com.homework.coursework.presentation.adapter.data.chat.ChatItem
 import com.homework.coursework.presentation.adapter.data.chat.MessageItem
 import kotlinx.parcelize.Parcelize
@@ -64,7 +66,7 @@ sealed class Event {
             val topicItem: TopicItem,
             val input: InputStream,
             val fileName: String
-        ): Ui()
+        ) : Ui()
 
         class MergeOldList(
             val oldList: List<ChatItem>,

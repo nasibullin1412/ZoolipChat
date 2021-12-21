@@ -1,6 +1,6 @@
 package com.homework.coursework.data.frameworks.network.mappersimpl
 
-import com.homework.coursework.data.dto.TopicDto
+import com.homework.coursework.data.frameworks.network.dto.TopicDto
 import com.homework.coursework.domain.entity.TopicData
 import dagger.Reusable
 import kotlinx.serialization.ExperimentalSerializationApi

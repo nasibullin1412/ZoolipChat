@@ -2,7 +2,7 @@ package com.homework.coursework.presentation.interfaces
 
 
 /**
- * Костыль, так как Reducer не хочет пропускать два значения подряд
+ * Two data source reducer handler
  */
 interface TwoSourceHandleReducer<in I, out O> {
 

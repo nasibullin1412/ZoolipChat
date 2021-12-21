@@ -1,4 +1,4 @@
-package com.homework.coursework.data.dto
+package com.homework.coursework.data.frameworks.network.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

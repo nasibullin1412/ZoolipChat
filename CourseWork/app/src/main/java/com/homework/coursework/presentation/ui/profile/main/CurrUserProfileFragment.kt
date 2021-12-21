@@ -8,8 +8,6 @@ import com.homework.coursework.presentation.ui.profile.BaseProfileFragment
 import com.homework.coursework.presentation.ui.profile.elm.Effect
 import com.homework.coursework.presentation.ui.profile.elm.Event
 import com.homework.coursework.presentation.ui.profile.elm.State
-import com.homework.coursework.presentation.utils.CustomFragmentFactory
-import com.homework.coursework.presentation.utils.FragmentTag
 import vivid.money.elmslie.core.store.Store
 import javax.inject.Inject
 

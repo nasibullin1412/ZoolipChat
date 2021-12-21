@@ -140,7 +140,7 @@ enum class Emoji(val unicodeCodePoint: Int, val nameInZulip: String) {
     PLAY(0x25b6, "play");
 
     companion object {
-        fun toEmoji(keyInt: Int): String{
+        fun toEmoji(keyInt: Int): String {
             return String(Character.toChars(keyInt))
         }
     }

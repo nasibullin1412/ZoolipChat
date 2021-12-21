@@ -33,5 +33,4 @@ interface RepositoryModule {
     fun bindSubscribeStreamRepository(subscribeStreamRepository: SubscribeStreamRepositoryImpl):
             SubscribeStreamRepository
 
-
 }

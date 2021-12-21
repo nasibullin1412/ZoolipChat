@@ -9,11 +9,11 @@ data class TopicItem(
     val topicName: String,
     val numberOfMess: Int,
     val isEven: Boolean
-) : Parcelable{
-    companion object{
+) : Parcelable {
+    companion object {
         const val TOPIC_UNKNOWN_ID = -1
 
-        fun createEmptyTopicItem(): TopicItem{
+        fun createEmptyTopicItem(): TopicItem {
             return TopicItem(
                 id = TOPIC_UNKNOWN_ID,
                 topicName = "",

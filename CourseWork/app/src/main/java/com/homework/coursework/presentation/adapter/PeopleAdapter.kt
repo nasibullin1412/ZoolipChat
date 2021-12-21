@@ -3,7 +3,7 @@ package com.homework.coursework.presentation.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import com.homework.coursework.databinding.PeopleItemBinding
+import com.homework.coursework.databinding.ItemPeopleBinding
 import com.homework.coursework.presentation.adapter.data.UserItem
 import com.homework.coursework.presentation.callbacks.PeopleCallback
 import com.homework.coursework.presentation.interfaces.UserItemCallback
@@ -24,7 +24,7 @@ class PeopleAdapter @Inject constructor() :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PeopleViewHolder {
         val inflater: LayoutInflater = LayoutInflater.from(parent.context)
         return PeopleViewHolder(
-            PeopleItemBinding.inflate(inflater, parent, false)
+            ItemPeopleBinding.inflate(inflater, parent, false)
         )
     }
 

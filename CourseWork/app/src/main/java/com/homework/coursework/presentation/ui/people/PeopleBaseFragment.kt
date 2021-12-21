@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.homework.coursework.databinding.PeopleFragmentBinding
+import com.homework.coursework.databinding.FragmentPeopleBinding
 import com.homework.coursework.presentation.adapter.PeopleAdapter
 import com.homework.coursework.presentation.adapter.data.UserItem
 import com.homework.coursework.presentation.interfaces.BottomNavigationController
@@ -31,7 +31,7 @@ abstract class PeopleBaseFragment : ElmFragment<Event, Effect, State>(), UserIte
     private var bottomNavigationController: BottomNavigationController? = null
 
     private var navigateController: NavigateController? = null
-    private var _binding: PeopleFragmentBinding? = null
+    private var _binding: FragmentPeopleBinding? = null
 
     protected val binding
         get() = _binding!!
@@ -51,7 +51,7 @@ abstract class PeopleBaseFragment : ElmFragment<Event, Effect, State>(), UserIte
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = PeopleFragmentBinding.inflate(inflater, container, false)
+        _binding = FragmentPeopleBinding.inflate(inflater, container, false)
         return binding.root
     }
 

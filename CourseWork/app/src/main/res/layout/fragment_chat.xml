@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/appbar_margin_bottom"
-        android:background="@color/send_box_color"
         android:clipToPadding="false"
         android:elevation="@dimen/appbar_elevation"
         android:outlineProvider="paddedBounds"
@@ -22,7 +21,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="68dp"
+            android:layout_height="@dimen/chat_toolbar_height"
             android:background="@color/custom_toolbar_color"
             android:contentInsetStart="@dimen/toolbar_content_margin"
             app:contentInsetEnd="@dimen/toolbar_content_margin">
@@ -74,6 +73,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
+        android:layout_marginBottom="@dimen/chat_rv_margin_bottom"
         app:layout_constraintBottom_toTopOf="@id/clSendBox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -139,9 +139,7 @@
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nsvErrorConnection"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
+        style="@style/NestedScrollError"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBar">

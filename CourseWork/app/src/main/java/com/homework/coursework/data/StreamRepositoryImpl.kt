@@ -2,9 +2,9 @@ package com.homework.coursework.data
 
 import android.util.Log
 import androidx.room.EmptyResultSetException
-import com.homework.coursework.data.dto.StreamDto
-import com.homework.coursework.data.dto.StreamWithTopics
-import com.homework.coursework.data.dto.TopicDto
+import com.homework.coursework.data.frameworks.network.dto.StreamDto
+import com.homework.coursework.data.frameworks.network.dto.StreamWithTopics
+import com.homework.coursework.data.frameworks.network.dto.TopicDto
 import com.homework.coursework.data.frameworks.database.dao.StreamDao
 import com.homework.coursework.data.frameworks.database.entities.StreamWithTopicsEntity
 import com.homework.coursework.data.frameworks.database.mappersimpl.StreamDataMapper

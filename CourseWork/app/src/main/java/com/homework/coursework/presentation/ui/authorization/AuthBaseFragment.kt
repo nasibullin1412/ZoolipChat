@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.homework.coursework.databinding.LoginFragmentBinding
+import com.homework.coursework.databinding.FragmentLoginBinding
 import com.homework.coursework.presentation.interfaces.BottomNavigationController
 import com.homework.coursework.presentation.interfaces.NavigateController
 import com.homework.coursework.presentation.ui.authorization.elm.Effect
@@ -15,10 +15,10 @@ import vivid.money.elmslie.android.base.ElmFragment
 
 abstract class AuthBaseFragment : ElmFragment<Event, Effect, State>() {
 
-    private var _binding: LoginFragmentBinding? = null
+    internal var navigateController: NavigateController? = null
     protected val binding get() = _binding!!
     private var bottomNavigationController: BottomNavigationController? = null
-    internal var navigateController: NavigateController? = null
+    private var _binding: FragmentLoginBinding? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -36,7 +36,7 @@ abstract class AuthBaseFragment : ElmFragment<Event, Effect, State>() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = LoginFragmentBinding.inflate(inflater, container, false)
+        _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
     }
 

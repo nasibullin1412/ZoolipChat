@@ -86,7 +86,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include layout="@layout/profile_shimmer" />
+        <include layout="@layout/shimmer_profile" />
     </com.facebook.shimmer.ShimmerFrameLayout>
 
     <androidx.core.widget.NestedScrollView

@@ -14,7 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.setFragmentResultListener
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.homework.coursework.R
-import com.homework.coursework.databinding.ChatFragmentBinding
+import com.homework.coursework.databinding.FragmentChatBinding
 import com.homework.coursework.presentation.adapter.ChatAdapter
 import com.homework.coursework.presentation.adapter.data.EmojiItem
 import com.homework.coursework.presentation.adapter.data.StreamItem
@@ -59,7 +59,7 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
 
     internal var navigateController: NavigateController? = null
 
-    private var _binding: ChatFragmentBinding? = null
+    private var _binding: FragmentChatBinding? = null
 
     private val startForResultSendFile = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -89,7 +89,7 @@ abstract class ChatBaseFragment : ElmFragment<Event, Effect, State>(), MessageIt
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = ChatFragmentBinding.inflate(inflater, container, false)
+        _binding = FragmentChatBinding.inflate(inflater, container, false)
         return binding.root
     }
 

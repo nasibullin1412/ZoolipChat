@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.homework.coursework.R
-import com.homework.coursework.databinding.StreamFragmentBinding
+import com.homework.coursework.databinding.FragmentStreamBinding
 import com.homework.coursework.presentation.App
 import com.homework.coursework.presentation.adapter.StreamAdapter
 import com.homework.coursework.presentation.adapter.data.StreamItem
@@ -34,7 +34,7 @@ class StreamFragment : Fragment() {
     @Inject
     internal lateinit var searchListener: SearchListener
 
-    private var _binding: StreamFragmentBinding? = null
+    private var _binding: FragmentStreamBinding? = null
     private val binding get() = _binding!!
     private lateinit var streamAdapter: StreamAdapter
     private lateinit var viewPager: ViewPager2
@@ -53,6 +53,45 @@ class StreamFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initFragmentListener()
+        App.appComponent.streamComponent().inject(this)
+        searchListener.subscribeToSearchSubject({ setQuery(it) }, { showToast(it) })
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentStreamBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        streamAdapter = StreamAdapter(this)
+        viewPager = view.findViewById(R.id.pager)
+        viewPager.adapter = streamAdapter
+        val itemTextList = resources.getStringArray(R.array.view_pager_items)
+        TabLayoutMediator(binding.tabLayout, viewPager) { tab, position ->
+            tab.text = itemTextList[position]
+        }.attach()
+        initSearchEditText()
+        initCreateButton()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        bottomNavigationController?.visibleBottomNavigation()
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        navigateController = null
+        bottomNavigationController = null
+    }
+
+    private fun initFragmentListener() {
         childFragmentManager.setFragmentResultListener(
             REQUEST_KEY_CHOICE,
             this
@@ -63,8 +102,6 @@ class StreamFragment : Fragment() {
                 ?: throw IllegalArgumentException("Topic required")
             navigateToChatFragment(stream, topic)
         }
-        App.appComponent.streamComponent().inject(this)
-        searchListener.subscribeToSearchSubject({ setQuery(it) }, { showToast(it) })
     }
 
     private fun navigateToChatFragment(stream: StreamItem, topic: TopicItem) {
@@ -83,28 +120,6 @@ class StreamFragment : Fragment() {
                 bundle = TopicChatFragment.createBundle(topic = topic, stream = stream)
             )
         )
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = StreamFragmentBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        streamAdapter = StreamAdapter(this)
-        viewPager = view.findViewById(R.id.pager)
-        viewPager.adapter = streamAdapter
-        val itemTextList = resources.getStringArray(R.array.view_pager_items)
-        TabLayoutMediator(binding.tabLayout, viewPager) { tab, position ->
-            tab.text = itemTextList[position]
-        }.attach()
-        initSearchEditText()
-        initCreateButton()
     }
 
     private fun initSearchEditText() {
@@ -133,17 +148,6 @@ class StreamFragment : Fragment() {
                 bundleOf("" to true)
             )
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        bottomNavigationController?.visibleBottomNavigation()
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        navigateController = null
-        bottomNavigationController = null
     }
 
     companion object {

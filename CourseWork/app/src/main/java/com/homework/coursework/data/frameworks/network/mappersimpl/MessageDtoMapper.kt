@@ -1,6 +1,6 @@
 package com.homework.coursework.data.frameworks.network.mappersimpl
 
-import com.homework.coursework.data.dto.MessagesResponse
+import com.homework.coursework.data.frameworks.network.dto.MessagesResponse
 import com.homework.coursework.domain.entity.MessageData
 import com.homework.coursework.domain.entity.StatusEnum
 import com.homework.coursework.domain.entity.UserData

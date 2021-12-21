@@ -25,19 +25,18 @@ sealed class Event {
     }
 
     sealed class Internal : Event() {
-        data class StreamLoaded(val itemList: List<StreamItem>) : Internal()
-
-        data class ErrorLoading(val error: Throwable) : Internal()
+        class StreamLoaded(val itemList: List<StreamItem>) : Internal()
+        class ErrorLoading(val error: Throwable) : Internal()
     }
 }
 
 sealed class Effect {
-    data class StreamLoadError(val error: Throwable) : Effect()
+    class StreamLoadError(val error: Throwable) : Effect()
 }
 
 sealed class Command {
     object LoadAllStreams : Command()
     object LoadSubscribedStreams : Command()
-    data class SearchStreams(val query: String) : Command()
-    data class SearchSubscribedStreams(val query: String) : Command()
+    class SearchStreams(val query: String) : Command()
+    class SearchSubscribedStreams(val query: String) : Command()
 }

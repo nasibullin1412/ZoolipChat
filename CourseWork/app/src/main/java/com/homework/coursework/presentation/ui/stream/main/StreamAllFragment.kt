@@ -31,7 +31,6 @@ class StreamAllFragment : StreamItemBaseFragment() {
         clickAction(topic = TopicItem.createEmptyTopicItem(), stream = streamItem)
     }
 
-
     override fun initErrorRepeat() {
         binding.errorContent.tvRepeat.setOnClickListener {
             store.accept(Event.Ui.LoadAllStreams)
@@ -52,7 +51,7 @@ class StreamAllFragment : StreamItemBaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        if (isStreamCreated){
+        if (isStreamCreated) {
             isStreamCreated = false
             store.accept(Event.Ui.LoadAllStreams)
         }

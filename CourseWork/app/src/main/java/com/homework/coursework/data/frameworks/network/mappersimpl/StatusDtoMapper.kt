@@ -1,6 +1,6 @@
 package com.homework.coursework.data.frameworks.network.mappersimpl
 
-import com.homework.coursework.data.dto.StatusDto
+import com.homework.coursework.data.frameworks.network.dto.StatusDto
 import com.homework.coursework.domain.entity.StatusEnum
 import com.homework.coursework.domain.entity.UserStatus
 import dagger.Reusable

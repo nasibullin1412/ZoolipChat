@@ -37,7 +37,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBar"
-        tools:listitem="@layout/people_item" />
+        tools:listitem="@layout/item_people" />
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shPeople"
@@ -47,7 +47,7 @@
         app:layout_constraintTop_toBottomOf="@+id/appBar"
         tools:visibility="gone">
 
-        <include layout="@layout/shimmer_user_item" />
+        <include layout="@layout/item_shimmer_user" />
     </com.facebook.shimmer.ShimmerFrameLayout>
 
     <androidx.core.widget.NestedScrollView

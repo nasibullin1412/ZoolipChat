@@ -1,6 +1,6 @@
 package com.homework.coursework.data.frameworks.network.mappersimpl
 
-import com.homework.coursework.data.dto.StreamWithTopics
+import com.homework.coursework.data.frameworks.network.dto.StreamWithTopics
 import com.homework.coursework.domain.entity.StreamData
 import dagger.Reusable
 import kotlinx.serialization.ExperimentalSerializationApi

@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.homework.coursework.databinding.StreamItemBinding
+import com.homework.coursework.databinding.ItemStreamBinding
 import com.homework.coursework.di.StreamFragmentScope
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.callbacks.StreamCallback
@@ -34,7 +34,7 @@ class StreamNameAdapter @Inject constructor(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StreamNameViewHolder {
         val inflater: LayoutInflater = LayoutInflater.from(parent.context)
         return StreamNameViewHolder(
-            StreamItemBinding.inflate(inflater, parent, false)
+            ItemStreamBinding.inflate(inflater, parent, false)
         )
     }
 
@@ -65,8 +65,9 @@ class StreamNameAdapter @Inject constructor(
      * @param position is position need for listener onTopicClick
      */
     private fun initChildRecycle(holder: StreamNameViewHolder, position: Int) {
-        holder.adapterTopicName =
-            TopicAdapter(getItem(position)).apply { setListener(listenerTopic) }
+        holder.adapterTopicName = TopicAdapter(getItem(position)).apply {
+            setListener(listenerTopic)
+        }
         with(holder.viewBinding.rvTopic) {
             layoutManager = LinearLayoutManager(context)
             adapter = holder.adapterTopicName

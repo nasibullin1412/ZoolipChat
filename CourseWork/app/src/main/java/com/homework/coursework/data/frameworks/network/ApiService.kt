@@ -1,6 +1,6 @@
 package com.homework.coursework.data.frameworks.network
 
-import com.homework.coursework.data.dto.*
+import com.homework.coursework.data.frameworks.network.dto.*
 import com.homework.coursework.data.frameworks.database.dao.AuthDao
 import com.homework.coursework.data.frameworks.network.utils.NetworkConstants.BASE_URL_API
 import com.homework.coursework.data.frameworks.network.utils.addJsonConverter

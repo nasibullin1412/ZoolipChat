@@ -48,6 +48,8 @@
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/date_item.xml" value="0.23854166666666668" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/edit_message_fragment.xml" value="0.3240223463687151" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/error_content.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/fragment_chat.xml" value="0.1160081053698075" />
+        <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/fragment_profile.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/login_fragment.xml" value="0.23854166666666668" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/main_activity.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/message_from_item.xml" value="0.25416666666666665" />
@@ -59,6 +61,7 @@
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/profile_shimmer.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/shimmer_item.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/shimmer_layout.xml" value="0.146875" />
+        <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/shimmer_profile.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/shimmer_user_item.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/spinner.xml" value="0.2140625" />
         <entry key="..\:/Users/nasib/tfs-android-fall-2021/CourseWork/app/src/main/res/layout/spinner_item.xml" value="0.264" />

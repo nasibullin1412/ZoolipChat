@@ -1,9 +1,9 @@
 package com.homework.coursework.data
 
 import android.util.Log
-import com.homework.coursework.data.dto.StatusDto
-import com.homework.coursework.data.dto.UserDto
-import com.homework.coursework.data.dto.UserWithStatus
+import com.homework.coursework.data.frameworks.network.dto.StatusDto
+import com.homework.coursework.data.frameworks.network.dto.UserDto
+import com.homework.coursework.data.frameworks.network.dto.UserWithStatus
 import com.homework.coursework.data.frameworks.database.dao.CurrentProfileDao
 import com.homework.coursework.data.frameworks.database.dao.UserDao
 import com.homework.coursework.data.frameworks.database.entities.CurrentProfileEntity

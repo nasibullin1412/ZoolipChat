@@ -53,7 +53,7 @@ class StreamSubscribedFragment : StreamItemBaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        if (isStreamCreated){
+        if (isStreamCreated) {
             isStreamCreated = false
             store.accept(Event.Ui.LoadSubscribedStreams)
         }

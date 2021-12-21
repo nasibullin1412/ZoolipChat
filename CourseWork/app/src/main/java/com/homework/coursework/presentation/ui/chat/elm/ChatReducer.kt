@@ -38,81 +38,17 @@ class ChatReducer @Inject constructor() : DslReducer<Event, State, Effect, Comma
         Event.Ui.GetCurrentId -> {
             commands { +Command.GetCurrentId }
         }
-        is Event.Ui.DeleteReaction -> with(event) {
-            commands {
-                +Command.DeleteReaction(
-                    messageItem = messageItem,
-                    emojiItem = emojiItem
-                )
-            }
-        }
-        is Event.Ui.LoadNextPage -> with(event) {
-            commands {
-                +Command.LoadMessages(
-                    streamItem = streamItem,
-                    topicItem = topicItem,
-                    currId = currId
-                )
-            }
-        }
-        is Event.Ui.SendMessage -> with(event) {
-            commands {
-                +Command.SendMessage(
-                    streamItem = streamItem,
-                    topicItem = topicItem,
-                    content = content
-                )
-            }
-        }
-        is Event.Ui.MergeOldList -> with(event) {
-            commands {
-                +Command.MergeWithNewMessageList(
-                    oldList = oldList,
-                    newList = newList
-                )
-            }
-        }
-        is Event.Ui.SaveMessage -> with(event) {
-            isSecondError = false
-            commands {
-                +Command.SaveMessage(
-                    streamItem = streamItem,
-                    topicItem = topicItem,
-                    messages = messages,
-                    currId = currId
-                )
-            }
-        }
-        is Event.Ui.UpdateMessage -> with(event) {
-            commands {
-                +Command.UpdateMessage(
-                    streamItem = streamItem,
-                    topicItem = topicItem,
-                    currId = currId
-                )
-            }
-        }
+        is Event.Ui.DeleteReaction -> deleteReaction(event)
+        is Event.Ui.LoadNextPage -> loadNextPage(event)
+        is Event.Ui.SendMessage -> sendMessage(event)
+        is Event.Ui.MergeOldList -> mergeOldList(event)
+        is Event.Ui.SaveMessage -> saveMessage(event)
+        is Event.Ui.UpdateMessage -> updateMessage(event)
         is Event.Ui.DeleteMessage -> {
             commands { +Command.DeleteMessage(event.messageItem) }
         }
-        is Event.Ui.DeleteMessageFromRecycle -> with(event) {
-            commands {
-                +Command.DeleteMessageFromRecycle(
-                    oldList = oldList,
-                    deleteId = messageId
-                )
-            }
-        }
-        is Event.Ui.AddFile -> with(event) {
-            commands {
-                +Command.AddFile(
-                    streamItem = streamItem,
-                    topicItem = topicItem,
-                    input = input,
-                    fileName = fileName
-                )
-            }
-        }
+        is Event.Ui.DeleteMessageFromRecycle -> deleteMessageFromRecycle(event)
+        is Event.Ui.AddFile -> addFile(event)
     }
 
     override var isSecondError: Boolean = false
@@ -197,6 +133,87 @@ class ChatReducer @Inject constructor() : DslReducer<Event, State, Effect, Comma
             +Command.AddReaction(
                 messageItem = messageItem,
                 emojiItem = emojiItem
+            )
+        }
+    }
+
+    private fun Result.deleteReaction(event: Event.Ui.DeleteReaction) = with(event) {
+        commands {
+            +Command.DeleteReaction(
+                messageItem = messageItem,
+                emojiItem = emojiItem
+            )
+        }
+    }
+
+    private fun Result.loadNextPage(event: Event.Ui.LoadNextPage) = with(event) {
+        commands {
+            +Command.LoadMessages(
+                streamItem = streamItem,
+                topicItem = topicItem,
+                currId = currId
+            )
+        }
+    }
+
+    private fun Result.sendMessage(event: Event.Ui.SendMessage) = with(event) {
+        commands {
+            +Command.SendMessage(
+                streamItem = streamItem,
+                topicItem = topicItem,
+                content = content
+            )
+        }
+    }
+
+    private fun Result.mergeOldList(event: Event.Ui.MergeOldList) = with(event) {
+        commands {
+            +Command.MergeWithNewMessageList(
+                oldList = oldList,
+                newList = newList
+            )
+        }
+    }
+
+    private fun Result.saveMessage(event: Event.Ui.SaveMessage) = with(event) {
+        isSecondError = false
+        commands {
+            +Command.SaveMessage(
+                streamItem = streamItem,
+                topicItem = topicItem,
+                messages = messages,
+                currId = currId
+            )
+        }
+    }
+
+    private fun Result.updateMessage(event: Event.Ui.UpdateMessage) = with(event) {
+        commands {
+            +Command.UpdateMessage(
+                streamItem = streamItem,
+                topicItem = topicItem,
+                currId = currId
+            )
+        }
+    }
+
+    private fun Result.deleteMessageFromRecycle(event: Event.Ui.DeleteMessageFromRecycle) =
+        with(event) {
+            commands {
+                +Command.DeleteMessageFromRecycle(
+                    oldList = oldList,
+                    deleteId = messageId
+                )
+            }
+        }
+
+    private fun Result.addFile(event: Event.Ui.AddFile) = with(event) {
+        commands {
+            +Command.AddFile(
+                streamItem = streamItem,
+                topicItem = topicItem,
+                input = input,
+                fileName = fileName
             )
         }
     }

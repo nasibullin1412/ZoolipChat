@@ -10,7 +10,9 @@ class DeleteRecycleListMessage @Inject constructor() :
         (List<ChatItem>, Int) -> (Observable<List<ChatItem>>) {
     override fun invoke(oldList: List<ChatItem>, deleteId: Int): Observable<List<ChatItem>> {
         return Observable.fromCallable {
-            if (oldList.isEmpty()){ return@fromCallable oldList }
+            if (oldList.isEmpty()) {
+                return@fromCallable oldList
+            }
             val item = oldList.firstWithMessageItem { it == deleteId }
             val deleteTopicIdx = checkToDeleteTopicName(oldList, item)
             ArrayList(oldList).run {
@@ -42,7 +44,7 @@ class DeleteRecycleListMessage @Inject constructor() :
         }
     }
 
-    companion object{
+    companion object {
         const val NOT_FOUND_IDX = -1
     }
 }

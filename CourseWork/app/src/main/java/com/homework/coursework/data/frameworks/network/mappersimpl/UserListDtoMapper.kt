@@ -1,8 +1,8 @@
 package com.homework.coursework.data.frameworks.network.mappersimpl
 
-import com.homework.coursework.data.dto.StatusDto
-import com.homework.coursework.data.dto.UserResponseList
-import com.homework.coursework.data.dto.UserWithStatus
+import com.homework.coursework.data.frameworks.network.dto.StatusDto
+import com.homework.coursework.data.frameworks.network.dto.UserResponseList
+import com.homework.coursework.data.frameworks.network.dto.UserWithStatus
 import com.homework.coursework.domain.entity.UserData
 import dagger.Reusable
 import kotlinx.serialization.ExperimentalSerializationApi

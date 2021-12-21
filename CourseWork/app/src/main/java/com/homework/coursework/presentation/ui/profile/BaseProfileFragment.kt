@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import coil.load
-import com.homework.coursework.databinding.ProfileFragmentBinding
+import com.homework.coursework.databinding.FragmentProfileBinding
 import com.homework.coursework.presentation.adapter.data.UserItem
 import com.homework.coursework.presentation.interfaces.BottomNavigationController
 import com.homework.coursework.presentation.interfaces.NavigateController
@@ -18,7 +18,7 @@ import vivid.money.elmslie.android.base.ElmFragment
 
 abstract class BaseProfileFragment : ElmFragment<Event, Effect, State>() {
 
-    private var _binding: ProfileFragmentBinding? = null
+    private var _binding: FragmentProfileBinding? = null
     protected val binding get() = _binding!!
     protected var navigateController: NavigateController? = null
     protected var bottomNavigationController: BottomNavigationController? = null
@@ -38,7 +38,7 @@ abstract class BaseProfileFragment : ElmFragment<Event, Effect, State>() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = ProfileFragmentBinding.inflate(inflater, container, false)
+        _binding = FragmentProfileBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -128,10 +128,10 @@ abstract class BaseProfileFragment : ElmFragment<Event, Effect, State>() {
             with(userItem) {
                 imgProfile.load(avatarUrl)
                 tvName.text = name
-                tvState.text = getStatusString(userStatus?.status)
+                tvState.text = getStatusString(userStatus)
                 tvState.setTextColor(
                     resources.getColorWrapper(
-                        getStatusColor(userStatus?.status),
+                        getStatusColor(userStatus),
                         requireContext()
                     )
                 )

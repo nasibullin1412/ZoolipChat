@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.homework.coursework.databinding.EditMessageFragmentBinding
+import com.homework.coursework.databinding.FragmentEditMessageBinding
 import com.homework.coursework.presentation.interfaces.BottomNavigationController
 import com.homework.coursework.presentation.ui.editmessage.elm.Effect
 import com.homework.coursework.presentation.ui.editmessage.elm.Event
@@ -13,7 +13,7 @@ import com.homework.coursework.presentation.ui.editmessage.elm.State
 import vivid.money.elmslie.android.base.ElmFragment
 
 abstract class BaseEditMessage : ElmFragment<Event, Effect, State>() {
-    private var _binding: EditMessageFragmentBinding? = null
+    private var _binding: FragmentEditMessageBinding? = null
     protected val binding get() = _binding!!
     private var bottomNavigationController: BottomNavigationController? = null
 
@@ -34,7 +34,7 @@ abstract class BaseEditMessage : ElmFragment<Event, Effect, State>() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = EditMessageFragmentBinding.inflate(inflater, container, false)
+        _binding = FragmentEditMessageBinding.inflate(inflater, container, false)
         return binding.root
     }
 

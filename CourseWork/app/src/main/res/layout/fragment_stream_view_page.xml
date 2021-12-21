@@ -16,7 +16,7 @@
         android:id="@+id/shStreams"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <include layout="@layout/shimmer_item" />
+        <include layout="@layout/item_shimmer" />
     </com.facebook.shimmer.ShimmerFrameLayout>
 
     <androidx.core.widget.NestedScrollView

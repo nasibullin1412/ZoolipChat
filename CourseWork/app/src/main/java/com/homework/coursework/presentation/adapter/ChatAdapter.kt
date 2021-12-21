@@ -6,7 +6,6 @@ import com.homework.coursework.di.ChatFragmentScope
 import com.homework.coursework.presentation.adapter.data.chat.*
 import com.homework.coursework.presentation.callbacks.MessageCallback
 import com.homework.coursework.presentation.interfaces.MessageItemCallback
-import com.homework.coursework.presentation.interfaces.TopicItemCallback
 import com.homework.coursework.presentation.interfaces.TopicNameItemCallback
 import com.homework.coursework.presentation.viewholder.chat.*
 import javax.inject.Inject

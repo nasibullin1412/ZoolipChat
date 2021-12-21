@@ -1,7 +1,6 @@
 package com.homework.coursework.presentation.adapter.data.chat
 
 import android.os.Parcelable
-import com.homework.coursework.domain.entity.UserData
 import com.homework.coursework.presentation.adapter.data.EmojiItem
 import com.homework.coursework.presentation.adapter.data.UserItem
 import kotlinx.parcelize.Parcelize

@@ -2,12 +2,12 @@ package com.homework.coursework.presentation.viewholder
 
 import androidx.recyclerview.widget.RecyclerView
 import com.homework.coursework.R
-import com.homework.coursework.databinding.StreamItemBinding
+import com.homework.coursework.databinding.ItemStreamBinding
 import com.homework.coursework.presentation.adapter.TopicAdapter
 import com.homework.coursework.presentation.adapter.data.StreamItem
 import com.homework.coursework.presentation.utils.getColorWrapper
 
-class StreamNameViewHolder(val viewBinding: StreamItemBinding) :
+class StreamNameViewHolder(val viewBinding: ItemStreamBinding) :
     RecyclerView.ViewHolder(viewBinding.root) {
 
     lateinit var adapterTopicName: TopicAdapter

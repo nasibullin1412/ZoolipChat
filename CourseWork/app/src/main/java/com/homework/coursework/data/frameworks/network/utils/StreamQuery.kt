@@ -1,6 +1,6 @@
 package com.homework.coursework.data.frameworks.network.utils
 
-import com.homework.coursework.data.dto.CreateDto
+import com.homework.coursework.data.frameworks.network.dto.CreateDto
 import com.homework.coursework.domain.entity.SubscribeData
 import dagger.Reusable
 import javax.inject.Inject

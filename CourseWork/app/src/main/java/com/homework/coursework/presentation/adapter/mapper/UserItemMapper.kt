@@ -15,7 +15,7 @@ class UserItemMapper @Inject constructor() : (UserData, Int) -> (UserItem) {
             name = name,
             avatarUrl = avatarUrl,
             userMail = userMail,
-            userStatus = userStatus,
+            userStatus = userStatus.status.value,
             lastStatusDate = userStatus.timestamp,
             isAdmin = isAdmin,
             errorHandle = ErrorHandle(isError = errorHandle.isError, error = errorHandle.error)

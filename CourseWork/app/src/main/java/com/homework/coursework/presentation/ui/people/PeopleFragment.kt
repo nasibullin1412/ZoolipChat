@@ -3,10 +3,10 @@ package com.homework.coursework.presentation.ui.people
 import android.os.Bundle
 import androidx.core.widget.doAfterTextChanged
 import com.homework.coursework.presentation.App
-import com.homework.coursework.presentation.utils.SearchListener
 import com.homework.coursework.presentation.ui.people.elm.Effect
 import com.homework.coursework.presentation.ui.people.elm.Event
 import com.homework.coursework.presentation.ui.people.elm.State
+import com.homework.coursework.presentation.utils.SearchListener
 import com.homework.coursework.presentation.utils.showToast
 import vivid.money.elmslie.core.store.Store
 import javax.inject.Inject

@@ -1,6 +1,6 @@
 package com.homework.coursework.data.frameworks.network.mappersimpl
 
-import com.homework.coursework.data.dto.EmojiDto
+import com.homework.coursework.data.frameworks.network.dto.EmojiDto
 import com.homework.coursework.domain.entity.EmojiData
 import dagger.Reusable
 import javax.inject.Inject

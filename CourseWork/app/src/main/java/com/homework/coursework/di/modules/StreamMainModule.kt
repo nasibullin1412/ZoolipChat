@@ -22,7 +22,7 @@ class StreamMainModule {
     @StreamMainFragmentScope
     @StreamSearch
     @Provides
-    fun provideComposite(): CompositeDisposable{
+    fun provideComposite(): CompositeDisposable {
         return CompositeDisposable()
     }
 
