@@ -14,6 +14,7 @@ class DeleteRecycleListMessage @Inject constructor() :
                 return@fromCallable oldList
             }
             val item = oldList.firstWithMessageItem { it == deleteId }
+                ?: return@fromCallable oldList
             val deleteTopicIdx = checkToDeleteTopicName(oldList, item)
             ArrayList(oldList).run {
                 if (deleteTopicIdx != -1) removeAt(deleteTopicIdx)

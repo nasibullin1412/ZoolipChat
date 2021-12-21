@@ -89,7 +89,7 @@ fun ArrayList<ChatItem>.addMessageItem(messageItemList: List<MessageItem>) {
  */
 fun ArrayList<ChatItem>.addTopicNames(messageIdList: ArrayList<Int>) {
     for (messageId in messageIdList) {
-        val messageItem = firstWithMessageItem { it == messageId }
+        val messageItem = firstWithMessageItem { it == messageId }?: return
         val idx = indexOf(messageItem)
         add(index = idx, element = TopicNameItem(topicName = messageItem.topicName))
     }

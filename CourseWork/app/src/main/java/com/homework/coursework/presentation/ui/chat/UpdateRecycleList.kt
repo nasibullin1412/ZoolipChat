@@ -27,16 +27,16 @@ class UpdateRecycleList @Inject constructor() :
         oldList: List<ChatItem>,
         newListUnchecked: List<ChatItem>
     ): List<ChatItem> {
+        if (newListUnchecked.isEmpty()) return oldList
         val newList = deleteSameTopicName(oldList, newListUnchecked)
         val lastElemOfNew = newList.last()
         if (lastElemOfNew !is MessageItem) {
             return oldList
         }
-        val idx = if (oldList.isNotEmpty()) {
-            oldList.run { indexOf(firstWithMessageItem { it == lastElemOfNew.messageId }) }
-        } else {
-            return newList + oldList
-        }
+        if (oldList.isEmpty()) return newList + oldList
+        val item = oldList.firstWithMessageItem { it == lastElemOfNew.messageId }
+            ?: return newList + oldList
+        val idx = oldList.indexOf(item)
         val resultList: MutableList<ChatItem> = oldList.toMutableList()
         val (untilIdx, remain) = getUntilIdx(
             idx = idx,

@@ -10,14 +10,14 @@ sealed class ChatItem(var id: Int = 0, val errorHandle: ErrorHandle = ErrorHandl
     }
 }
 
-inline fun List<ChatItem>.firstWithMessageItem(condition: (Int) -> (Boolean)): MessageItem {
-    return first {
+inline fun List<ChatItem>.firstWithMessageItem(condition: (Int) -> (Boolean)): MessageItem? {
+    return firstOrNull {
         if (it is MessageItem) {
             condition(it.messageId)
         } else {
             false
         }
-    } as MessageItem
+    } as MessageItem?
 }
 
 inline fun <reified T : ChatItem> List<ChatItem>.firstWithInstance(): T? {

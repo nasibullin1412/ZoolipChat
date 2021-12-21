@@ -18,7 +18,8 @@ internal fun ChatBaseFragment.onEmojiClickedImpl(emojiIdx: Int) {
     if (messageId == ChatBaseFragment.DEFAULT_MESSAGE_ID) {
         throw IllegalArgumentException("selectedMessageId required")
     }
-    with(chatAdapter.currentList.firstWithMessageItem { it == messageId }) {
+    val message = chatAdapter.currentList.firstWithMessageItem { it == messageId } ?: return
+    with(message) {
         val isExistedEmoji = emojis.firstOrNull {
             it.emojiCode == Emoji.values()[emojiIdx].unicodeCodePoint.toHexString()
         }?.isCurrUserReacted?.not() ?: true
@@ -45,7 +46,8 @@ internal fun ChatBaseFragment.onEmojiClickedImpl(emojiItem: EmojiItem) {
     if (messageId == ChatBaseFragment.DEFAULT_MESSAGE_ID) {
         throw IllegalArgumentException("selectedMessageId required")
     }
-    with(chatAdapter.currentList.firstWithMessageItem { messageId == it }) {
+    val message = chatAdapter.currentList.firstWithMessageItem { messageId == it } ?: return
+    with(message) {
         updateMessage = messageId
         internalStore.accept(
             event = addOrDelete(

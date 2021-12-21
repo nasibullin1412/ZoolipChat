@@ -54,4 +54,6 @@ ext {
     desugarJDKVersion = '1.1.5'
     elmsilieVersion = '1.2.0'
     daggerVersion = '2.37'
+    junitVersion = '4.13.2'
+    mockitoVersion = '3.0.0'
 }
